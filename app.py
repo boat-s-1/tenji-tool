@@ -6,17 +6,17 @@ import os
 
 st.set_page_config(page_title="BOAT STRIKE - Overlay Pro", layout="wide")
 
-# --- 色設定（艇カラー）---
+# --- 艇カラー（視認性重視で少し強めに調整）---
 BOAT_COLORS = [
     (255, 255, 255),  # 1号艇 白
-    (0, 0, 0),        # 2号艇 黒
+    (50, 50, 50),     # 2号艇 黒（真っ黒だと見えないので少し明るく）
     (0, 0, 255),      # 3号艇 赤
     (255, 0, 0),      # 4号艇 青
     (0, 255, 255),    # 5号艇 黄
     (0, 255, 0)       # 6号艇 緑
 ]
 
-def create_overlay_pro(video_path, start_times, duration_sec, alpha=0.4, ghost_decay=0.85):
+def create_overlay_pro(video_path, start_times, duration_sec, alpha=0.5, ghost_decay=0.85):
     cap = cv2.VideoCapture(video_path)
     fps = cap.get(cv2.CAP_PROP_FPS)
     if fps == 0 or fps is None:
@@ -30,7 +30,7 @@ def create_overlay_pro(video_path, start_times, duration_sec, alpha=0.4, ghost_d
     fourcc = cv2.VideoWriter_fourcc(*'mp4v')
     out = cv2.VideoWriter(output_path, fourcc, fps, (width, height))
 
-    # 各艇のキャプチャを別で持つ（←これ重要）
+    # 各艇ごとに独立したキャプチャ
     caps = []
     for t in start_times:
         c = cv2.VideoCapture(video_path)
@@ -41,7 +41,7 @@ def create_overlay_pro(video_path, start_times, duration_sec, alpha=0.4, ghost_d
     # ゴースト用フレーム
     ghost_frame = np.zeros((height, width, 3), dtype=np.float32)
 
-    for frame_idx in range(total_frames):
+    for _ in range(total_frames):
         overlay = np.zeros((height, width, 3), dtype=np.float32)
 
         for boat_idx, c in enumerate(caps):
@@ -51,9 +51,13 @@ def create_overlay_pro(video_path, start_times, duration_sec, alpha=0.4, ghost_d
 
             frame = cv2.resize(frame, (width, height))
 
-            # --- グレースケール化（輝度ベースにする）---
+            # --- グレースケール ---
             gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-            norm = gray / 255.0
+
+            # --- 白背景除去（ここが重要）---
+            mask = gray < 200  # ← 調整可能（180〜220くらいで調整）
+            norm = np.zeros_like(gray, dtype=np.float32)
+            norm[mask] = gray[mask] / 255.0
 
             # --- 色付け ---
             color = BOAT_COLORS[boat_idx]
@@ -61,12 +65,13 @@ def create_overlay_pro(video_path, start_times, duration_sec, alpha=0.4, ghost_d
             for i in range(3):
                 colored[:, :, i] = norm * color[i]
 
-            overlay += colored * alpha
+            # --- 合成（加算じゃなく最大値）---
+            overlay = np.maximum(overlay, colored * alpha)
 
-        # --- ゴースト合成 ---
-        ghost_frame = ghost_frame * ghost_decay + overlay
+        # --- ゴースト（暴走防止版）---
+        ghost_frame = ghost_frame * ghost_decay + overlay * (1 - ghost_decay)
 
-        # クリッピングしてuint8へ
+        # --- 安全クリップ ---
         final_frame = np.clip(ghost_frame, 0, 255).astype(np.uint8)
         out.write(final_frame)
 
@@ -77,9 +82,10 @@ def create_overlay_pro(video_path, start_times, duration_sec, alpha=0.4, ghost_d
 
     return output_path
 
+
 # --- UI ---
-st.title("🚤 BOAT STRIKE - Overlay Pro（色分け＋残像）")
-st.markdown("6艇の動きを色付き＋軌跡で可視化します")
+st.title("🚤 BOAT STRIKE - Overlay Pro（完成版）")
+st.markdown("色分け＋残像で6艇の機力を可視化")
 
 uploaded_file = st.sidebar.file_uploader("動画アップロード", type=["mov", "mp4"])
 
@@ -107,8 +113,8 @@ if uploaded_file:
             times.append(st.number_input(f"{i+1}号艇", 0.0, 1000.0, 0.0, step=0.1))
 
     duration = st.slider("合成秒数", 1.0, 10.0, 5.0)
-    alpha = st.slider("色の濃さ", 0.1, 1.0, 0.4)
-    ghost = st.slider("残像の長さ", 0.7, 0.99, 0.85)
+    alpha = st.slider("色の強さ", 0.2, 1.0, 0.5)
+    ghost = st.slider("残像の長さ", 0.7, 0.95, 0.85)
 
     if st.button("🚀 生成"):
         if sum(times) == 0:
