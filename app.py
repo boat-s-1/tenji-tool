@@ -1,68 +1,88 @@
+import streamlit as st
 import cv2
 import numpy as np
+import tempfile
+import os
 
-BOAT_COLORS = [
-    (255,255,255),
-    (80,80,80),
-    (0,0,255),
-    (255,0,0),
-    (0,255,255),
-    (0,255,0)
-]
+st.set_page_config(page_title="BOAT STRIKE - 軽量版", layout="centered")
 
-def create_trajectory_image(video_path, start_times, duration_sec, threshold=25):
-    cap = cv2.VideoCapture(video_path)
-    fps = cap.get(cv2.CAP_PROP_FPS) or 30
+st.title("🚤 軽量 軌跡ツール")
+st.write("動画から軌跡を1枚の画像で表示します（軽量版）")
 
-    scale = 0.4
-    width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH) * scale)
-    height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT) * scale)
-    total_frames = int(duration_sec * fps)
+uploaded_file = st.file_uploader("動画をアップロード", type=["mp4", "mov"])
 
-    # 軌跡キャンバス
-    canvas = np.zeros((height, width, 3), dtype=np.uint8)
+if uploaded_file:
+    # 保存
+    tfile = tempfile.NamedTemporaryFile(delete=False)
+    tfile.write(uploaded_file.read())
+    video_path = tfile.name
 
-    caps = []
-    prev_frames = []
-    positions = [[] for _ in range(6)]
+    st.video(video_path)
 
-    for t in start_times:
-        c = cv2.VideoCapture(video_path)
-        if t > 0:
-            c.set(cv2.CAP_PROP_POS_FRAMES, int(t * fps))
-        caps.append(c)
+    st.write("設定")
 
-        ret, frame = c.read()
-        if ret:
-            prev_frames.append(cv2.resize(frame, (width, height)))
-        else:
-            prev_frames.append(None)
+    duration = st.slider("解析秒数（短くするほど安定）", 1, 5, 3)
+    sample_rate = st.slider("フレーム間引き（大きいほど軽い）", 2, 10, 5)
+    threshold = st.slider("検出感度", 5, 50, 15)
 
-    for _ in range(total_frames):
-        for i, c in enumerate(caps):
-            ret, frame = c.read()
-            if not ret or prev_frames[i] is None:
-                continue
+    if st.button("🚀 軌跡生成"):
+        with st.spinner("処理中（数秒）"):
 
-            frame = cv2.resize(frame, (width, height))
+            cap = cv2.VideoCapture(video_path)
+            fps = cap.get(cv2.CAP_PROP_FPS) or 30
 
-            diff = cv2.absdiff(prev_frames[i], frame)
-            gray = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
+            scale = 0.3  # 軽量化
+            width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH) * scale)
+            height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT) * scale)
 
-            _, mask = cv2.threshold(gray, threshold, 255, cv2.THRESH_BINARY)
+            total_frames = int(duration * fps)
 
-            # 重心取得
-            ys, xs = np.where(mask > 0)
-            if len(xs) > 50:
-                cx = int(np.mean(xs))
-                cy = int(np.mean(ys))
-                positions[i].append((cx, cy))
+            canvas = np.zeros((height, width, 3), dtype=np.uint8)
 
-            prev_frames[i] = frame
+            ret, prev = cap.read()
+            if not ret:
+                st.error("動画が読み込めません")
+            else:
+                prev = cv2.resize(prev, (width, height))
 
-    # 線を描画
-    for i in range(6):
-        for j in range(1, len(positions[i])):
-            cv2.line(canvas, positions[i][j-1], positions[i][j], BOAT_COLORS[i], 2)
+                for i in range(total_frames):
 
-    return canvas
+                    # フレーム間引き（超重要）
+                    for _ in range(sample_rate):
+                        ret, frame = cap.read()
+
+                    if not ret:
+                        break
+
+                    frame = cv2.resize(frame, (width, height))
+
+                    # 差分
+                    diff = cv2.absdiff(prev, frame)
+                    gray = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
+
+                    _, mask = cv2.threshold(gray, threshold, 255, cv2.THRESH_BINARY)
+
+                    # ノイズ除去
+                    mask = cv2.GaussianBlur(mask, (5,5), 0)
+
+                    # 重心
+                    ys, xs = np.where(mask > 0)
+
+                    if len(xs) > 20:
+                        cx = int(np.mean(xs))
+                        cy = int(np.mean(ys))
+
+                        # 軌跡描画（白）
+                        cv2.circle(canvas, (cx, cy), 2, (255,255,255), -1)
+
+                    prev = frame
+
+                cap.release()
+
+                st.success("完成！")
+
+                st.image(canvas, caption="軌跡")
+
+    # クリーンアップ
+    if os.path.exists(video_path):
+        os.remove(video_path)
