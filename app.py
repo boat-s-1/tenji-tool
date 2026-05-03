@@ -5,9 +5,8 @@ import tempfile
 import os
 import gc
 
-st.set_page_config(page_title="BOAT STRIKE - 完成版", layout="wide")
+st.set_page_config(page_title="BOAT STRIKE", layout="wide")
 
-# 艇カラー
 COLORS = [
     (255,255,255),
     (80,80,80),
@@ -68,35 +67,10 @@ def create_overlay(video_path, start_times, use_flags, duration_sec, ghost_decay
 # -------------------------
 # UI
 # -------------------------
-st.title("🚤 BOAT STRIKE - 旋回比較ツール")
+st.title("🚤 旋回比較ツール")
 
-# 使い方ガイド
-with st.expander("📖 使い方（クリックで開く）", expanded=True):
-    st.markdown("""
-### ① 動画をアップロード
-周回展示のリプレイ動画をアップしてください
-
-### ② フレームを合わせる
-各艇ごとに「ターンマーク横を通過した瞬間」を合わせます  
-スライダーを動かしてタイミングを揃えてください
-
-### ③ 微調整
-±0.1ボタンで細かく調整できます
-
-### ④ 生成
-6艇の動きが重なって表示されます
-
----
-
-### 🔍 見方
-・前に色が出る → 行き足が良い  
-・内側に残る → ターンが良い  
-・外に広がる → 流れている  
-""")
-
-st.info("💡 まず1号艇を合わせてから他の艇を揃えると簡単です")
-
-uploaded_file = st.sidebar.file_uploader("動画アップロード", type=["mp4","mov"])
+st.markdown("### ① 動画をアップロード")
+uploaded_file = st.file_uploader("周回展示の動画を選択", type=["mp4","mov"])
 
 if uploaded_file:
     tfile = tempfile.NamedTemporaryFile(delete=False)
@@ -110,74 +84,67 @@ if uploaded_file:
 
     st.video(video_path)
 
-    st.subheader("🎯 フレーム指定")
+    st.markdown("### ② ターン位置を合わせる")
+    st.info("👉 再生位置スライダーを動かして『ターンマーク横の瞬間』を合わせてください")
+
+    # 共通プレビュー
+    frame_global = st.slider("再生位置（全体）", 0, total_frames, 0)
+    
+    cap = cv2.VideoCapture(video_path)
+    cap.set(cv2.CAP_PROP_POS_FRAMES, frame_global)
+    ret, frame = cap.read()
+    cap.release()
+
+    if ret:
+        st.image(frame, caption=f"{frame_global/fps:.2f}秒")
+
+    # 全艇コピー
+    if st.button("👉 この位置を全艇にコピー"):
+        for i in range(6):
+            st.session_state[f"slider_{i}"] = frame_global
 
     times = []
     use_flags = []
 
-    # 1号艇 → 6号艇の順番
-    for i in range(6):
-        st.markdown(f"### {i+1}号艇")
-        st.caption("👉 ターンマーク横を通過した瞬間に合わせてください")
+    st.markdown("### ③ 各艇を微調整")
 
-        col1, col2, col3, col4 = st.columns([4,2,1,1])
+    for i in range(6):
+        st.markdown(f"#### {i+1}号艇")
+
+        col1, col2, col3 = st.columns([5,2,2])
 
         with col1:
             frame_idx = st.slider(
-                f"{i+1}号艇 フレーム",
-                0, total_frames, 0,
+                f"{i+1}号艇 再生位置",
+                0, total_frames,
+                st.session_state.get(f"slider_{i}", frame_global),
                 key=f"slider_{i}"
             )
 
         with col2:
             sec = frame_idx / fps
-            val = st.number_input(
-                "秒（微調整用）",
-                value=float(sec),
-                step=0.1,
-                key=f"time_{i}"
-            )
+            st.metric("秒", f"{sec:.2f}")
 
         with col3:
-            if st.button("−0.1", key=f"minus_{i}"):
-                st.session_state[f"time_{i}"] -= 0.1
+            use = st.checkbox("使用", True, key=f"use_{i}")
 
-        with col4:
-            if st.button("+0.1", key=f"plus_{i}"):
-                st.session_state[f"time_{i}"] += 0.1
-
-        use = st.checkbox(f"{i+1}号艇 使用", True, key=f"use_{i}")
-
-        times.append(st.session_state[f"time_{i}"])
+        times.append(frame_idx / fps)
         use_flags.append(use)
 
         st.divider()
 
-    duration = st.slider("合成秒数", 1.0, 8.0, 4.0)
-    ghost = st.slider("残像の長さ", 0.7, 0.95, 0.85)
+    st.markdown("### ④ 生成")
 
-    # 全艇コピー機能
-    if st.button("👉 このフレームを全艇にコピー"):
-        base = st.session_state["slider_0"]
-        for i in range(6):
-            st.session_state[f"slider_{i}"] = base
-            st.session_state[f"time_{i}"] = base / fps
+    duration = st.slider("比較する長さ（秒）", 1.0, 8.0, 4.0)
+    ghost = st.slider("軌跡の残り具合", 0.7, 0.95, 0.85)
 
-    if st.button("🚀 生成"):
-        if sum(times) == 0:
-            st.warning("秒数を入力してください")
-        else:
-            with st.spinner("処理中..."):
-                try:
-                    res = create_overlay(video_path, times, use_flags, duration, ghost)
+    if st.button("🚀 比較動画を作る"):
+        with st.spinner("処理中..."):
+            res = create_overlay(video_path, times, use_flags, duration, ghost)
+            st.success("完成！")
+            st.video(res)
 
-                    st.success("完成！")
-                    st.video(res)
-
-                    with open(res, "rb") as f:
-                        st.download_button("ダウンロード", f, "boat_strike.mp4")
-
-                except Exception as e:
-                    st.error(f"エラー: {e}")
+            with open(res, "rb") as f:
+                st.download_button("ダウンロード", f, "boat_strike.mp4")
 
     os.remove(video_path)
