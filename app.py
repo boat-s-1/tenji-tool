@@ -5,7 +5,7 @@ import tempfile
 import os
 import gc
 
-st.set_page_config(page_title="BOAT STRIKE", layout="wide")
+st.set_page_config(page_title="BOAT STRIKE MOBILE", layout="centered")
 
 COLORS = [
     (255,255,255),
@@ -17,7 +17,7 @@ COLORS = [
 ]
 
 # -------------------------
-# 動画処理
+# 処理
 # -------------------------
 def create_overlay(video_path, start_times, use_flags, duration_sec, ghost_decay=0.85):
     cap = cv2.VideoCapture(video_path)
@@ -37,7 +37,7 @@ def create_overlay(video_path, start_times, use_flags, duration_sec, ghost_decay
         max_frame = np.zeros((height, width, 3), dtype=np.uint8)
 
         for idx, t in enumerate(start_times):
-            if not use_flags[idx] or t <= 0:
+            if not use_flags[idx]:
                 continue
 
             cap.set(cv2.CAP_PROP_POS_FRAMES, int(t * fps) + i)
@@ -67,14 +67,14 @@ def create_overlay(video_path, start_times, use_flags, duration_sec, ghost_decay
 # -------------------------
 # UI
 # -------------------------
-st.title("🚤 旋回比較ツール")
+st.title("🚤 旋回比較（スマホ版）")
 
 st.markdown("### ① 動画をアップロード")
-uploaded_file = st.file_uploader("周回展示の動画を選択", type=["mp4","mov"])
+file = st.file_uploader("タップして動画を選択", type=["mp4","mov"])
 
-if uploaded_file:
+if file:
     tfile = tempfile.NamedTemporaryFile(delete=False)
-    tfile.write(uploaded_file.read())
+    tfile.write(file.read())
     video_path = tfile.name
 
     cap = cv2.VideoCapture(video_path)
@@ -84,67 +84,67 @@ if uploaded_file:
 
     st.video(video_path)
 
-    st.markdown("### ② ターン位置を合わせる")
-    st.info("👉 再生位置スライダーを動かして『ターンマーク横の瞬間』を合わせてください")
+    st.markdown("### ② まず基準を合わせる")
+    st.info("👉 ターンマーク横の瞬間にスライダーを合わせてください")
 
-    # 共通プレビュー
-    frame_global = st.slider("再生位置（全体）", 0, total_frames, 0)
-    
+    base_frame = st.slider("再生位置（ここを基準にする）", 0, total_frames, 0)
+
     cap = cv2.VideoCapture(video_path)
-    cap.set(cv2.CAP_PROP_POS_FRAMES, frame_global)
+    cap.set(cv2.CAP_PROP_POS_FRAMES, base_frame)
     ret, frame = cap.read()
     cap.release()
 
     if ret:
-        st.image(frame, caption=f"{frame_global/fps:.2f}秒")
+        st.image(frame, caption=f"{base_frame/fps:.2f}秒")
 
-    # 全艇コピー
-    if st.button("👉 この位置を全艇にコピー"):
+    if st.button("👉 この位置を全艇にコピー（おすすめ）"):
         for i in range(6):
-            st.session_state[f"slider_{i}"] = frame_global
+            st.session_state[f"b{i}"] = base_frame
+
+    st.markdown("### ③ 各艇を微調整（ズレてる艇だけ触る）")
 
     times = []
     use_flags = []
 
-    st.markdown("### ③ 各艇を微調整")
-
     for i in range(6):
         st.markdown(f"#### {i+1}号艇")
 
-        col1, col2, col3 = st.columns([5,2,2])
+        frame_idx = st.slider(
+            f"{i+1}号艇 位置",
+            0,
+            total_frames,
+            st.session_state.get(f"b{i}", base_frame),
+            key=f"b{i}"
+        )
 
-        with col1:
-            frame_idx = st.slider(
-                f"{i+1}号艇 再生位置",
-                0, total_frames,
-                st.session_state.get(f"slider_{i}", frame_global),
-                key=f"slider_{i}"
-            )
+        sec = frame_idx / fps
+        st.write(f"⏱ {sec:.2f}秒")
 
-        with col2:
-            sec = frame_idx / fps
-            st.metric("秒", f"{sec:.2f}")
-
-        with col3:
-            use = st.checkbox("使用", True, key=f"use_{i}")
+        use = st.toggle("この艇を使う", True, key=f"use{i}")
 
         times.append(frame_idx / fps)
         use_flags.append(use)
 
         st.divider()
 
-    st.markdown("### ④ 生成")
+    st.markdown("### ④ 動画生成")
 
-    duration = st.slider("比較する長さ（秒）", 1.0, 8.0, 4.0)
+    duration = st.slider("比較する長さ", 1.0, 8.0, 4.0)
     ghost = st.slider("軌跡の残り具合", 0.7, 0.95, 0.85)
 
-    if st.button("🚀 比較動画を作る"):
-        with st.spinner("処理中..."):
+    if st.button("🚀 比較スタート（タップ）", use_container_width=True):
+        with st.spinner("生成中..."):
             res = create_overlay(video_path, times, use_flags, duration, ghost)
+
             st.success("完成！")
             st.video(res)
 
             with open(res, "rb") as f:
-                st.download_button("ダウンロード", f, "boat_strike.mp4")
+                st.download_button(
+                    "⬇ 保存する",
+                    f,
+                    "boat_strike.mp4",
+                    use_container_width=True
+                )
 
     os.remove(video_path)
