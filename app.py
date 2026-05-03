@@ -34,7 +34,7 @@ if "locks" not in st.session_state:
 
 
 # -------------------------
-# 軽量フレーム取得
+# フレーム取得
 # -------------------------
 @st.cache_data
 def get_frame_image(video_path, frame_idx, width=240):
@@ -51,12 +51,13 @@ def get_frame_image(video_path, frame_idx, width=240):
 
 
 # -------------------------
-# AIターン検出（軽量版）
+# AIターン検出（精度UP版）
 # -------------------------
-def detect_turn_frame_light(video_path, sample_rate=5):
+def detect_turn_frame_advanced(video_path, sample_rate=4):
     cap = cv2.VideoCapture(video_path)
     prev = None
-    max_diff = 0
+
+    max_score = 0
     best_frame = 0
     idx = 0
 
@@ -69,13 +70,24 @@ def detect_turn_frame_light(video_path, sample_rate=5):
             idx += 1
             continue
 
-        small = cv2.resize(frame, (160, 90))
+        h, w, _ = frame.shape
+
+        # 👇 ターン付近だけ見る（中央〜下）
+        crop = frame[int(h*0.5):int(h*0.8), int(w*0.3):int(w*0.7)]
+
+        small = cv2.resize(crop, (160, 90))
         gray = cv2.cvtColor(small, cv2.COLOR_BGR2GRAY)
+
+        # 白さ検出（しぶき）
+        _, thresh = cv2.threshold(gray, 200, 255, cv2.THRESH_BINARY)
+        white = np.sum(thresh)
 
         if prev is not None:
             diff = np.sum(cv2.absdiff(prev, gray))
-            if diff > max_diff:
-                max_diff = diff
+            score = diff + white * 2  # ←重要
+
+            if score > max_score:
+                max_score = score
                 best_frame = idx
 
         prev = gray
@@ -136,17 +148,22 @@ def create_overlay(video_path, start_times, use_flags, duration_sec, ghost_decay
 # -------------------------
 # UI
 # -------------------------
-st.title("🚤 旋回比較ツール（AI補助付き）")
+st.title("🚤 旋回比較ツール（AI強化版）")
 
 with st.expander("📖 使い方", expanded=True):
     st.markdown("""
 ① 動画アップ  
-② 🤖AIで自動合わせ（おすすめ）  
+② 🤖AI検出  
 ③ 微調整  
 ④ 生成  
+
+▼見方  
+前に出る → 行き足◎  
+内に残る → ターン◎  
+外に流れる → 弱い  
 """)
 
-file = st.file_uploader("動画をアップロード", type=["mp4","mov"])
+file = st.file_uploader("動画アップロード", type=["mp4","mov"])
 
 if file:
     tfile = tempfile.NamedTemporaryFile(delete=False)
@@ -163,15 +180,15 @@ if file:
     # -------------------------
     # AIボタン
     # -------------------------
-    if st.button("🤖 AIでターン位置を自動検出"):
+    if st.button("🤖 AIでターン検出（精度UP版）"):
         with st.spinner("解析中..."):
-            best = detect_turn_frame_light(video_path)
+            best = detect_turn_frame_advanced(video_path)
             for i in range(6):
                 st.session_state[f"slider_{i}"] = best
-            st.success("自動セット完了！")
+            st.success(f"検出フレーム: {best}")
 
     # -------------------------
-    # 全体操作
+    # 操作
     # -------------------------
     col1, col2 = st.columns(2)
 
@@ -185,7 +202,7 @@ if file:
             for i in range(6):
                 st.session_state[f"slider_{i}"] = base
 
-    st.info(f"全艇ロック：{'ON' if st.session_state.lock_all else 'OFF'}")
+    st.info(f"ロック：{'ON' if st.session_state.lock_all else 'OFF'}")
 
     # -------------------------
     # 各艇
@@ -200,14 +217,13 @@ if file:
         st.session_state.locks[i] = lock
 
         frame_idx = st.slider(
-            f"{i+1}号艇 位置",
+            f"{i+1}号艇",
             0,
             total_frames,
             st.session_state[f"slider_{i}"],
             key=f"slider_{i}"
         )
 
-        # ロック連動
         if st.session_state.lock_all:
             for j in range(6):
                 if not st.session_state.locks[j]:
@@ -217,12 +233,11 @@ if file:
         if img is not None:
             st.image(img)
 
-        sec = frame_idx / fps
-        st.caption(f"{sec:.2f}秒")
+        st.caption(f"{frame_idx/fps:.2f}秒")
 
         use = st.toggle("使用", True, key=f"use_{i}")
 
-        times.append(sec)
+        times.append(frame_idx / fps)
         use_flags.append(use)
 
         st.divider()
@@ -233,12 +248,12 @@ if file:
     duration = st.slider("比較秒数", 1.0, 8.0, 4.0)
     ghost = st.slider("残像", 0.7, 0.95, 0.85)
 
-    if st.button("🚀 生成", use_container_width=True):
+    if st.button("🚀 生成"):
         with st.spinner("生成中..."):
             res = create_overlay(video_path, times, use_flags, duration, ghost)
             st.video(res)
 
             with open(res, "rb") as f:
-                st.download_button("⬇ 保存", f, "boat_strike.mp4")
+                st.download_button("保存", f, "boat_strike.mp4")
 
     os.remove(video_path)
