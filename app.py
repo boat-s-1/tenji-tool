@@ -5,175 +5,94 @@ import tempfile
 import os
 import gc
 
-st.set_page_config(page_title="BOAT STRIKE", layout="centered")
+st.set_page_config(page_title="BOAT STRIKE - 1vs1比較", layout="wide")
 
-# ボートレースの艇旗色に合わせた色設定（BGR形式）
-COLORS = [
-    (255, 255, 255), # 1:白
-    (50, 50, 50),    # 2:黒
-    (0, 0, 255),     # 3:赤
-    (255, 0, 0),     # 4:青
-    (0, 255, 255),   # 5:黄
-    (0, 255, 0)      # 6:緑
-]
-
-# --- 初期化 ---
-if "locks" not in st.session_state:
-    st.session_state.locks = [False] * 6
-if "lock_all" not in st.session_state:
-    st.session_state.lock_all = False
-
-# 各スライダーの初期値を設定
-for i in range(6):
-    if f"slider_{i}" not in st.session_state:
-        st.session_state[f"slider_{i}"] = 0
-
-# --- フレーム取得（プレビュー用） ---
-@st.cache_data
-def get_frame_image(video_path, frame_idx, width=400):
-    cap = cv2.VideoCapture(video_path)
-    cap.set(cv2.CAP_PROP_POS_FRAMES, frame_idx)
-    ret, frame = cap.read()
-    cap.release()
-    if ret:
-        h, w, _ = frame.shape
-        scale = width / w
-        return cv2.resize(frame, (width, int(h * scale)))
-    return None
-
-# --- 動画生成（ここを大幅修正） ---
-def create_overlay(video_path, start_frames, use_flags, duration_sec, ghost_decay=0.85):
+def create_pair_overlay(video_path, base_f, target_f, duration_sec):
     cap = cv2.VideoCapture(video_path)
     fps = cap.get(cv2.CAP_PROP_FPS) or 30.0
     
-    scale = 0.5 # 負荷軽減
-    width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH) * scale)
-    height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT) * scale)
-    total_output_frames = int(duration_sec * fps)
+    # 負荷軽減のため50%リサイズ
+    width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH) // 2)
+    height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT) // 2)
+    total_frames = int(duration_sec * fps)
 
     output_path = tempfile.NamedTemporaryFile(suffix='.mp4', delete=False).name
-    # ブラウザ再生用にavc1(H.264)を試行、ダメならmp4v
     fourcc = cv2.VideoWriter_fourcc(*'mp4v')
     out = cv2.VideoWriter(output_path, fourcc, fps, (width, height))
 
-    for i in range(total_output_frames):
-        # フレームごとの合成用ベース（float32で計算）
-        frame_acc = np.zeros((height, width, 3), dtype=np.float32)
-        active_count = 0
-
-        for idx, base_f in enumerate(start_frames):
-            if not use_flags[idx]:
-                continue
-            
-            # 各艇の「現在のフレーム」を計算
-            current_f = int(base_f + i)
-            cap.set(cv2.CAP_PROP_POS_FRAMES, current_f)
-            ret, frame = cap.read()
-
-            if ret:
-                frame_res = cv2.resize(frame, (width, height))
-                # 各艇の色味を少し強調（オプション）
-                f_float = frame_res.astype(np.float32)
-                frame_acc += f_float
-                active_count += 1
+    for i in range(total_frames):
+        # 1. ベースとなる1号艇のフレームを取得
+        cap.set(cv2.CAP_PROP_POS_FRAMES, int(base_f + i))
+        ret1, frame1 = cap.read()
         
-        if active_count > 0:
-            # 平均化合成（これで重なりが自然になります）
-            res_frame = (frame_acc / active_count).astype(np.uint8)
-            out.write(res_frame)
-        else:
-            out.write(np.zeros((height, width, 3), dtype=np.uint8))
+        # 2. 比較対象艇のフレームを取得
+        cap.set(cv2.CAP_PROP_POS_FRAMES, int(target_f + i))
+        ret2, frame2 = cap.read()
 
-        if i % 15 == 0:
-            gc.collect()
+        if ret1 and ret2:
+            f1 = cv2.resize(frame1, (width, height))
+            f2 = cv2.resize(frame2, (width, height))
+            
+            # 1号艇(f1)をベースに、対象艇(f2)を50%の濃さで重ねる
+            # 公式: dst = src1 * alpha + src2 * beta + gamma
+            blended = cv2.addWeighted(f1, 0.7, f2, 0.3, 0)
+            out.write(blended)
+        elif ret1: # 相手が途切れても1号艇だけは出す
+            out.write(cv2.resize(frame1, (width, height)))
+        else:
+            break
+        
+        if i % 20 == 0: gc.collect()
 
     out.release()
     cap.release()
     return output_path
 
-# --- UI ---
-st.title("🚤 BOAT STRIKE - 旋回精密比較")
+st.title("🚤 BOAT STRIKE - 1vs1 旋回比較")
 
-file = st.file_uploader("動画をアップロード (iPhone画面録画OK)", type=["mp4","mov"])
+file = st.sidebar.file_uploader("動画をアップロード", type=["mp4","mov"])
 
 if file:
     tfile = tempfile.NamedTemporaryFile(delete=False, suffix='.mov')
     tfile.write(file.read())
     video_path = tfile.name
-
-    cap = cv2.VideoCapture(video_path)
-    fps = cap.get(cv2.CAP_PROP_FPS) or 30
-    total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
-    cap.release()
-
+    
     st.video(video_path)
-
+    
     st.divider()
     
-    # 基準設定
-    col_ctrl = st.columns(2)
-    with col_ctrl[0]:
-        base_frame = st.slider("基準位置（まとめて動かす用）", 0, total_frames, 0)
-        if st.button("📋 全艇を基準位置に合わせる"):
-            for i in range(6):
-                st.session_state[f"slider_{i}"] = base_frame
-            st.rerun()
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.subheader("① 基準（1号艇）")
+        base_f = st.number_input("1号艇の開始フレーム", value=0, step=1)
+        # プレビュー表示
+        cap = cv2.VideoCapture(video_path)
+        cap.set(cv2.CAP_PROP_POS_FRAMES, base_f)
+        ret, img = cap.read()
+        if ret:
+            st.image(cv2.resize(img, (320, 180)), caption="1号艇のスタート地点")
+        cap.release()
 
-    with col_ctrl[1]:
-        st.session_state.lock_all = st.toggle("全艇シンクロモード", value=st.session_state.lock_all)
-        st.caption("ONにすると、どれか一つのスライダーを動かすと全員動きます")
+    with col2:
+        st.subheader("② 比較対象")
+        target_no = st.selectbox("比較する艇を選択", [2,3,4,5,6])
+        target_f = st.number_input(f"{target_no}号艇の開始フレーム", value=0, step=1)
+        # プレビュー表示
+        cap = cv2.VideoCapture(video_path)
+        cap.set(cv2.CAP_PROP_POS_FRAMES, target_f)
+        ret, img = cap.read()
+        if ret:
+            st.image(cv2.resize(img, (320, 180)), caption=f"{target_no}号艇のスタート地点")
+        cap.release()
 
-    st.divider()
+    duration = st.slider("合成する秒数", 1.0, 8.0, 4.0)
 
-    # 各艇の設定
-    times_f = []
-    use_flags = []
+    if st.button("🚀 1vs1 比較動画を生成"):
+        with st.spinner(f"1号艇と{target_no}号艇を同期中..."):
+            res = create_pair_overlay(video_path, base_f, target_f, duration)
+            st.video(res)
+            with open(res, "rb") as f:
+                st.download_button("動画を保存", f, f"1vs{target_no}_comparison.mp4")
 
-    for i in range(6):
-        with st.expander(f"{i+1}号艇の設定", expanded=True):
-            c1, c2 = st.columns([2, 1])
-            
-            with c2:
-                use = st.toggle("使用する", True, key=f"use_{i}")
-                use_flags.append(use)
-                lock = st.checkbox("この艇を固定", key=f"lock_{i}")
-            
-            with c1:
-                # スライダー
-                current_val = st.session_state[f"slider_{i}"]
-                frame_idx = st.slider(f"開始フレーム", 0, total_frames, current_val, key=f"s_{i}")
-                
-                # シンクロ処理
-                if st.session_state.lock_all and not lock:
-                    if frame_idx != current_val: # 値が動いた場合
-                        diff = frame_idx - current_val
-                        for j in range(6):
-                            if j != i: st.session_state[f"slider_{j}"] += diff
-                        st.session_state[f"slider_{i}"] = frame_idx
-                        st.rerun()
-                else:
-                    st.session_state[f"slider_{i}"] = frame_idx
-
-                times_f.append(frame_idx)
-                
-                # プレビュー
-                img = get_frame_image(video_path, frame_idx)
-                if img is not None:
-                    st.image(img, caption=f"開始地点: {frame_idx/fps:.2f}秒")
-
-    st.divider()
-
-    # 生成設定
-    col_fin = st.columns(2)
-    with col_fin[0]:
-        duration = st.slider("合成する長さ（秒）", 1.0, 10.0, 5.0)
-    with col_fin[1]:
-        if st.button("🚀 比較動画を生成"):
-            with st.spinner("各艇のタイミングを合わせて合成中..."):
-                res = create_overlay(video_path, times_f, use_flags, duration)
-                st.video(res)
-                with open(res, "rb") as f:
-                    st.download_button("動画を保存", f, "boat_comparison.mp4")
-
-    # クリーンアップ
-    # os.remove(video_path) # 必要に応じて有効化
+    os.remove(video_path)
