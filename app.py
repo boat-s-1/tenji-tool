@@ -3,13 +3,10 @@ import cv2
 import numpy as np
 import tempfile
 import os
-import gc
 
-st.set_page_config(page_title="BOAT STRIKE FINAL", layout="centered")
+st.set_page_config(page_title="BOAT STRIKE 軌跡版", layout="centered")
 
-# -------------------------
-# カラー
-# -------------------------
+# 色（6艇）
 COLORS = [
     (255,255,255),
     (80,80,80),
@@ -20,133 +17,64 @@ COLORS = [
 ]
 
 # -------------------------
-# 初期化
+# 軌跡抽出
 # -------------------------
-for i in range(6):
-    if f"slider_{i}" not in st.session_state:
-        st.session_state[f"slider_{i}"] = 0
-
-if "lock_all" not in st.session_state:
-    st.session_state.lock_all = False
-
-if "locks" not in st.session_state:
-    st.session_state.locks = [False]*6
-
-
-# -------------------------
-# フレーム取得（軽量）
-# -------------------------
-@st.cache_data
-def get_frame_image(video_path, frame_idx, width=240):
+def extract_trajectory(video_path, start_frame, duration_frames):
     cap = cv2.VideoCapture(video_path)
-    cap.set(cv2.CAP_PROP_POS_FRAMES, frame_idx)
-    ret, frame = cap.read()
-    cap.release()
 
-    if ret:
-        h, w, _ = frame.shape
-        scale = width / w
-        return cv2.resize(frame, (width, int(h * scale)))
-    return None
+    points = []
+    prev_gray = None
 
-
-# -------------------------
-# AI検出（精度UP）
-# -------------------------
-def detect_turn_frame(video_path, sample_rate=4):
-    cap = cv2.VideoCapture(video_path)
-    prev = None
-    max_score = 0
-    best_frame = 0
-    idx = 0
-
-    while True:
+    for i in range(duration_frames):
+        cap.set(cv2.CAP_PROP_POS_FRAMES, start_frame + i)
         ret, frame = cap.read()
         if not ret:
             break
 
-        if idx % sample_rate != 0:
-            idx += 1
-            continue
+        frame = cv2.resize(frame, (640, 360))
+        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
-        h, w, _ = frame.shape
+        if prev_gray is not None:
+            diff = cv2.absdiff(prev_gray, gray)
+            _, th = cv2.threshold(diff, 30, 255, cv2.THRESH_BINARY)
 
-        # ターン付近クロップ
-        crop = frame[int(h*0.5):int(h*0.8), int(w*0.3):int(w*0.7)]
+            # 重心を取る
+            ys, xs = np.where(th > 0)
+            if len(xs) > 0:
+                x = int(np.mean(xs))
+                y = int(np.mean(ys))
+                points.append((x, y))
 
-        small = cv2.resize(crop, (160, 90))
-        gray = cv2.cvtColor(small, cv2.COLOR_BGR2GRAY)
-
-        _, thresh = cv2.threshold(gray, 200, 255, cv2.THRESH_BINARY)
-        white = np.sum(thresh)
-
-        if prev is not None:
-            diff = np.sum(cv2.absdiff(prev, gray))
-            score = diff + white * 2
-
-            if score > max_score:
-                max_score = score
-                best_frame = idx
-
-        prev = gray
-        idx += 1
+        prev_gray = gray
 
     cap.release()
-    return best_frame
+    return points
 
 
 # -------------------------
-# 動画生成
+# 軌跡描画
 # -------------------------
-def create_overlay(video_path, start_times, use_flags, duration_sec, ghost_decay=0.85):
+def draw_trajectories(video_path, start_frames, duration_frames):
     cap = cv2.VideoCapture(video_path)
-    fps = cap.get(cv2.CAP_PROP_FPS) or 30.0
-
-    scale = 0.5
-    width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH) * scale)
-    height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT) * scale)
-    total_frames = int(duration_sec * fps)
-
-    output_path = tempfile.NamedTemporaryFile(suffix='.mp4', delete=False).name
-    out = cv2.VideoWriter(output_path, cv2.VideoWriter_fourcc(*'mp4v'), fps, (width, height))
-
-    ghost = np.zeros((height, width, 3), dtype=np.float32)
-
-    for i in range(total_frames):
-        max_frame = np.zeros((height, width, 3), dtype=np.uint8)
-
-        for idx, t in enumerate(start_times):
-            if not use_flags[idx]:
-                continue
-
-            cap.set(cv2.CAP_PROP_POS_FRAMES, int(t * fps) + i)
-            ret, frame = cap.read()
-
-            if ret:
-                frame = cv2.resize(frame, (width, height))
-                color = COLORS[idx]
-
-                colored = frame.astype(np.float32)
-                for c in range(3):
-                    colored[:,:,c] *= color[c] / 255.0
-
-                max_frame = np.maximum(max_frame, colored.astype(np.uint8))
-
-        ghost = ghost * ghost_decay + max_frame * (1 - ghost_decay)
-        out.write(np.clip(ghost,0,255).astype(np.uint8))
-
-        if i % 10 == 0:
-            gc.collect()
-
-    out.release()
+    ret, base = cap.read()
     cap.release()
-    return output_path
+
+    base = cv2.resize(base, (640, 360))
+    canvas = base.copy()
+
+    for i, start in enumerate(start_frames):
+        pts = extract_trajectory(video_path, start, duration_frames)
+
+        for j in range(1, len(pts)):
+            cv2.line(canvas, pts[j-1], pts[j], COLORS[i], 2)
+
+    return canvas
 
 
 # -------------------------
 # UI
 # -------------------------
-st.title("🚤 旋回比較ツール（最終版）")
+st.title("🚤 軌跡ライン比較ツール")
 
 file = st.file_uploader("動画アップロード", type=["mp4","mov"])
 
@@ -162,72 +90,35 @@ if file:
 
     st.video(video_path)
 
-    # AI
-    if st.button("🤖 AI自動合わせ"):
-        best = detect_turn_frame(video_path)
-        for i in range(6):
-            st.session_state[f"slider_{i}"] = best
+    st.markdown("## 🎯 各艇の開始位置")
 
-    # 操作
-    col1, col2 = st.columns(2)
-
-    with col1:
-        if st.button("🔒 全艇ロック"):
-            st.session_state.lock_all = not st.session_state.lock_all
-
-    with col2:
-        if st.button("📋 全艇コピー"):
-            base = st.session_state["slider_0"]
-            for i in range(6):
-                st.session_state[f"slider_{i}"] = base
-
-    st.info(f"ロック：{'ON' if st.session_state.lock_all else 'OFF'}")
-
-    # 各艇
-    times = []
-    use_flags = []
+    start_frames = []
 
     for i in range(6):
-        st.markdown(f"### {i+1}号艇")
+        frame = st.slider(f"{i+1}号艇", 0, total_frames, 0, key=f"s_{i}")
+        start_frames.append(frame)
 
-        lock = st.checkbox("固定", value=st.session_state.locks[i], key=f"lock_{i}")
-        st.session_state.locks[i] = lock
+        cap = cv2.VideoCapture(video_path)
+        cap.set(cv2.CAP_PROP_POS_FRAMES, frame)
+        ret, img = cap.read()
+        cap.release()
 
-        frame_idx = st.slider(
-            f"{i+1}号艇",
-            0,
-            total_frames,
-            st.session_state[f"slider_{i}"],
-            key=f"slider_{i}"
-        )
-
-        if st.session_state.lock_all:
-            for j in range(6):
-                if not st.session_state.locks[j]:
-                    st.session_state[f"slider_{j}"] = frame_idx
-
-        img = get_frame_image(video_path, frame_idx)
-        if img is not None:
+        if ret:
+            img = cv2.resize(img, (320, 180))
             st.image(img)
 
-        st.caption(f"{frame_idx/fps:.2f}秒")
+    duration_sec = st.slider("比較秒数", 1.0, 5.0, 3.0)
+    duration_frames = int(duration_sec * fps)
 
-        use = st.toggle("使用", True, key=f"use_{i}")
+    if st.button("🚀 軌跡生成"):
+        img = draw_trajectories(video_path, start_frames, duration_frames)
+        st.image(img, caption="軌跡比較")
 
-        # 👇 ここが重要（修正済み）
-        times.append(st.session_state[f"slider_{i}"] / fps)
-        use_flags.append(use)
+        # 保存
+        out_path = tempfile.NamedTemporaryFile(suffix=".png", delete=False).name
+        cv2.imwrite(out_path, img)
 
-        st.divider()
-
-    duration = st.slider("秒数", 1.0, 8.0, 4.0)
-    ghost = st.slider("残像", 0.7, 0.95, 0.85)
-
-    if st.button("🚀 生成"):
-        res = create_overlay(video_path, times, use_flags, duration, ghost)
-        st.video(res)
-
-        with open(res, "rb") as f:
-            st.download_button("保存", f, "boat_strike.mp4")
+        with open(out_path, "rb") as f:
+            st.download_button("保存", f, "trajectory.png")
 
     os.remove(video_path)
