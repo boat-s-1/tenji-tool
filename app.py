@@ -36,9 +36,9 @@ def get_frame(video_path, frame_idx, width=320):
 
 
 # -------------------------
-# 動画生成
+# 動画生成（濃さ調整対応）
 # -------------------------
-def create_overlay(video_path, f1_start, f2_start, duration):
+def create_overlay(video_path, f1_start, f2_start, duration, strength, contrast):
     cap = cv2.VideoCapture(video_path)
     fps = cap.get(cv2.CAP_PROP_FPS) or 30
 
@@ -66,15 +66,25 @@ def create_overlay(video_path, f1_start, f2_start, duration):
         if r2:
             f2 = cv2.resize(f2, (w, h))
 
+            # -------------------------
+            # 赤強調
+            # -------------------------
             red = f2.copy()
             red[:,:,1] = 0
             red[:,:,0] = 0
 
-            blended = cv2.addWeighted(f1, 1.0, red, 0.35, 0)
+            # コントラスト調整
+            red = cv2.convertScaleAbs(red, alpha=contrast, beta=10)
+
+            # 合成（濃さ調整）
+            blended = cv2.addWeighted(f1, 1.0, red, strength, 0)
+
         else:
             blended = f1
 
+        # 中央ライン
         cv2.line(blended, (w//2,0), (w//2,h), (0,255,0),1)
+
         out.write(blended)
 
         if i % 20 == 0:
@@ -86,13 +96,12 @@ def create_overlay(video_path, f1_start, f2_start, duration):
 
 
 # -------------------------
-# UI：最強フレーム選択
+# フレームUI
 # -------------------------
 def frame_ui(label, video_path, fps, total_frames, idx):
 
     st.markdown(f"### {label}")
 
-    # 秒スライダー（粗調整）
     sec = st.slider(
         "秒で合わせる",
         0.0,
@@ -104,32 +113,20 @@ def frame_ui(label, video_path, fps, total_frames, idx):
 
     base_frame = int(sec * fps)
 
-    # 微調整
     col1, col2, col3, col4 = st.columns(4)
 
     if col1.button("-5F", key=f"m5_{idx}"):
-        st.session_state[f"frame_{idx}"] -= 5
-
+        base_frame -= 5
     if col2.button("-1F", key=f"m1_{idx}"):
-        st.session_state[f"frame_{idx}"] -= 1
-
+        base_frame -= 1
     if col3.button("+1F", key=f"p1_{idx}"):
-        st.session_state[f"frame_{idx}"] += 1
-
+        base_frame += 1
     if col4.button("+5F", key=f"p5_{idx}"):
-        st.session_state[f"frame_{idx}"] += 5
+        base_frame += 5
 
-    # 同期モード
-    if st.session_state.sync:
-        for i in range(2):
-            st.session_state[f"frame_{i}"] = base_frame
-
-    # 更新
     frame = max(0, min(total_frames-1, base_frame))
-
     st.session_state[f"frame_{idx}"] = frame
 
-    # プレビュー
     img = get_frame(video_path, frame)
     if img is not None:
         st.image(img)
@@ -140,9 +137,9 @@ def frame_ui(label, video_path, fps, total_frames, idx):
 
 
 # -------------------------
-# メイン
+# UI
 # -------------------------
-st.title("🚤 1vs1 最強比較ツール")
+st.title("🚤 1vs1 旋回比較ツール（完成版）")
 
 file = st.file_uploader("動画アップロード", type=["mp4","mov"])
 
@@ -160,8 +157,7 @@ if file:
 
     st.markdown("## 🎯 スタートを合わせる")
 
-    # 同期スイッチ
-    st.session_state.sync = st.toggle("同期モード（同時に動かす）", value=False)
+    st.session_state.sync = st.toggle("同期モード", value=False)
 
     col1, col2 = st.columns(2)
 
@@ -171,9 +167,13 @@ if file:
     with col2:
         f2 = frame_ui("② 比較艇", video_path, fps, total_frames, 1)
 
-    # コピー機能
-    if st.button("📋 1号艇 → コピー"):
+    if st.button("📋 コピー（1→2）"):
         st.session_state["frame_1"] = st.session_state["frame_0"]
+
+    st.markdown("## 🎛 表示調整")
+
+    strength = st.slider("比較艇の濃さ", 0.2, 1.0, 0.6, 0.05)
+    contrast = st.slider("比較艇の強調（輪郭）", 1.0, 2.0, 1.3, 0.1)
 
     st.markdown("## 🎬 生成")
 
@@ -181,12 +181,12 @@ if file:
 
     if st.button("🚀 生成", use_container_width=True):
         with st.spinner("生成中..."):
-            out = create_overlay(video_path, f1, f2, duration)
+            out = create_overlay(video_path, f1, f2, duration, strength, contrast)
 
             st.success("完成！")
             st.video(out)
 
             with open(out, "rb") as f:
-                st.download_button("保存", f, "boat.mp4")
+                st.download_button("保存", f, "boat_compare.mp4")
 
     os.remove(video_path)
