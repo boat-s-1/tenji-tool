@@ -5,7 +5,7 @@ import tempfile
 import os
 import gc
 
-st.set_page_config(page_title="BOAT STRIKE AI", layout="centered")
+st.set_page_config(page_title="BOAT STRIKE FINAL", layout="centered")
 
 # -------------------------
 # カラー
@@ -34,7 +34,7 @@ if "locks" not in st.session_state:
 
 
 # -------------------------
-# フレーム取得
+# フレーム取得（軽量）
 # -------------------------
 @st.cache_data
 def get_frame_image(video_path, frame_idx, width=240):
@@ -51,12 +51,11 @@ def get_frame_image(video_path, frame_idx, width=240):
 
 
 # -------------------------
-# AIターン検出（精度UP版）
+# AI検出（精度UP）
 # -------------------------
-def detect_turn_frame_advanced(video_path, sample_rate=4):
+def detect_turn_frame(video_path, sample_rate=4):
     cap = cv2.VideoCapture(video_path)
     prev = None
-
     max_score = 0
     best_frame = 0
     idx = 0
@@ -72,19 +71,18 @@ def detect_turn_frame_advanced(video_path, sample_rate=4):
 
         h, w, _ = frame.shape
 
-        # 👇 ターン付近だけ見る（中央〜下）
+        # ターン付近クロップ
         crop = frame[int(h*0.5):int(h*0.8), int(w*0.3):int(w*0.7)]
 
         small = cv2.resize(crop, (160, 90))
         gray = cv2.cvtColor(small, cv2.COLOR_BGR2GRAY)
 
-        # 白さ検出（しぶき）
         _, thresh = cv2.threshold(gray, 200, 255, cv2.THRESH_BINARY)
         white = np.sum(thresh)
 
         if prev is not None:
             diff = np.sum(cv2.absdiff(prev, gray))
-            score = diff + white * 2  # ←重要
+            score = diff + white * 2
 
             if score > max_score:
                 max_score = score
@@ -148,20 +146,7 @@ def create_overlay(video_path, start_times, use_flags, duration_sec, ghost_decay
 # -------------------------
 # UI
 # -------------------------
-st.title("🚤 旋回比較ツール（AI強化版）")
-
-with st.expander("📖 使い方", expanded=True):
-    st.markdown("""
-① 動画アップ  
-② 🤖AI検出  
-③ 微調整  
-④ 生成  
-
-▼見方  
-前に出る → 行き足◎  
-内に残る → ターン◎  
-外に流れる → 弱い  
-""")
+st.title("🚤 旋回比較ツール（最終版）")
 
 file = st.file_uploader("動画アップロード", type=["mp4","mov"])
 
@@ -177,19 +162,13 @@ if file:
 
     st.video(video_path)
 
-    # -------------------------
-    # AIボタン
-    # -------------------------
-    if st.button("🤖 AIでターン検出（精度UP版）"):
-        with st.spinner("解析中..."):
-            best = detect_turn_frame_advanced(video_path)
-            for i in range(6):
-                st.session_state[f"slider_{i}"] = best
-            st.success(f"検出フレーム: {best}")
+    # AI
+    if st.button("🤖 AI自動合わせ"):
+        best = detect_turn_frame(video_path)
+        for i in range(6):
+            st.session_state[f"slider_{i}"] = best
 
-    # -------------------------
     # 操作
-    # -------------------------
     col1, col2 = st.columns(2)
 
     with col1:
@@ -204,9 +183,7 @@ if file:
 
     st.info(f"ロック：{'ON' if st.session_state.lock_all else 'OFF'}")
 
-    # -------------------------
     # 各艇
-    # -------------------------
     times = []
     use_flags = []
 
@@ -237,23 +214,20 @@ if file:
 
         use = st.toggle("使用", True, key=f"use_{i}")
 
-        times.append(frame_idx / fps)
+        # 👇 ここが重要（修正済み）
+        times.append(st.session_state[f"slider_{i}"] / fps)
         use_flags.append(use)
 
         st.divider()
 
-    # -------------------------
-    # 生成
-    # -------------------------
-    duration = st.slider("比較秒数", 1.0, 8.0, 4.0)
+    duration = st.slider("秒数", 1.0, 8.0, 4.0)
     ghost = st.slider("残像", 0.7, 0.95, 0.85)
 
     if st.button("🚀 生成"):
-        with st.spinner("生成中..."):
-            res = create_overlay(video_path, times, use_flags, duration, ghost)
-            st.video(res)
+        res = create_overlay(video_path, times, use_flags, duration, ghost)
+        st.video(res)
 
-            with open(res, "rb") as f:
-                st.download_button("保存", f, "boat_strike.mp4")
+        with open(res, "rb") as f:
+            st.download_button("保存", f, "boat_strike.mp4")
 
     os.remove(video_path)
