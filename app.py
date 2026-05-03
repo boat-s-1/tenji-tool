@@ -3,86 +3,87 @@ import cv2
 import numpy as np
 import tempfile
 import os
+import gc
 
-st.set_page_config(page_title="BOAT STRIKE - 軽量版", layout="centered")
+st.set_page_config(page_title="BOAT STRIKE - Memory Efficient", layout="wide")
 
-st.title("🚤 軽量 軌跡ツール")
-st.write("動画から軌跡を1枚の画像で表示します（軽量版）")
+def create_overlay_safe(video_path, start_times, duration_sec):
+    cap = cv2.VideoCapture(video_path)
+    fps = cap.get(cv2.CAP_PROP_FPS)
+    if not fps or fps <= 0: fps = 30.0
+    
+    # 負荷軽減のため解像度を半分にする
+    width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH) // 2)
+    height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT) // 2)
+    total_frames = int(duration_sec * fps)
 
-uploaded_file = st.file_uploader("動画をアップロード", type=["mp4", "mov"])
+    # 出力設定
+    output_path = tempfile.NamedTemporaryFile(suffix='.mp4', delete=False).name
+    fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+    out = cv2.VideoWriter(output_path, fourcc, fps, (width, height))
+
+    # 1フレームずつ処理（メモリを溜め込まない）
+    for i in range(total_frames):
+        frame_sum = np.zeros((height, width, 3), dtype=np.float32)
+        count = 0
+        
+        for t in start_times:
+            if t <= 0: continue
+            
+            # 各艇の該当フレームへジャンプ
+            target_frame = int(t * fps) + i
+            cap.set(cv2.CAP_PROP_POS_FRAMES, target_frame)
+            ret, frame = cap.read()
+            
+            if ret:
+                frame_res = cv2.resize(frame, (width, height))
+                frame_sum += frame_res.astype(np.float32)
+                count += 1
+        
+        if count > 0:
+            avg_frame = (frame_sum / count).astype(np.uint8)
+            out.write(avg_frame)
+        
+        # 毎フレーム、メモリを明示的に解放
+        del frame_sum
+        if i % 10 == 0: gc.collect()
+
+    out.release()
+    cap.release()
+    gc.collect()
+    return output_path
+
+st.title("🚤 BOAT STRIKE - 旋回比較（省メモリ版）")
+
+uploaded_file = st.sidebar.file_uploader("動画をアップロード", type=["mov", "mp4"])
 
 if uploaded_file:
-    # 保存
-    tfile = tempfile.NamedTemporaryFile(delete=False)
+    tfile = tempfile.NamedTemporaryFile(delete=False, suffix='.mov')
     tfile.write(uploaded_file.read())
     video_path = tfile.name
 
+    st.subheader("1. 秒数確認用プレビュー")
     st.video(video_path)
+    
+    st.subheader("2. 設定")
+    times = []
+    cols = st.columns(3)
+    for i in range(6):
+        times.append(cols[i%3].number_input(f"{i+1}号艇 (秒)", 0.0, 1000.0, 0.0, step=0.1, key=f"boat_{i}"))
+    
+    duration = st.slider("合成秒数", 1.0, 8.0, 4.0)
 
-    st.write("設定")
-
-    duration = st.slider("解析秒数（短くするほど安定）", 1, 5, 3)
-    sample_rate = st.slider("フレーム間引き（大きいほど軽い）", 2, 10, 5)
-    threshold = st.slider("検出感度", 5, 50, 15)
-
-    if st.button("🚀 軌跡生成"):
-        with st.spinner("処理中（数秒）"):
-
-            cap = cv2.VideoCapture(video_path)
-            fps = cap.get(cv2.CAP_PROP_FPS) or 30
-
-            scale = 0.3  # 軽量化
-            width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH) * scale)
-            height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT) * scale)
-
-            total_frames = int(duration * fps)
-
-            canvas = np.zeros((height, width, 3), dtype=np.uint8)
-
-            ret, prev = cap.read()
-            if not ret:
-                st.error("動画が読み込めません")
-            else:
-                prev = cv2.resize(prev, (width, height))
-
-                for i in range(total_frames):
-
-                    # フレーム間引き（超重要）
-                    for _ in range(sample_rate):
-                        ret, frame = cap.read()
-
-                    if not ret:
-                        break
-
-                    frame = cv2.resize(frame, (width, height))
-
-                    # 差分
-                    diff = cv2.absdiff(prev, frame)
-                    gray = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
-
-                    _, mask = cv2.threshold(gray, threshold, 255, cv2.THRESH_BINARY)
-
-                    # ノイズ除去
-                    mask = cv2.GaussianBlur(mask, (5,5), 0)
-
-                    # 重心
-                    ys, xs = np.where(mask > 0)
-
-                    if len(xs) > 20:
-                        cx = int(np.mean(xs))
-                        cy = int(np.mean(ys))
-
-                        # 軌跡描画（白）
-                        cv2.circle(canvas, (cx, cy), 2, (255,255,255), -1)
-
-                    prev = frame
-
-                cap.release()
-
-                st.success("完成！")
-
-                st.image(canvas, caption="軌跡")
-
-    # クリーンアップ
-    if os.path.exists(video_path):
-        os.remove(video_path)
+    if st.button("🚀 生成開始"):
+        if sum(times) == 0:
+            st.warning("秒数を入力してください")
+        else:
+            with st.spinner("低メモリモードで処理中..."):
+                try:
+                    res_path = create_overlay_safe(video_path, times, duration)
+                    st.video(res_path)
+                    with open(res_path, "rb") as f:
+                        st.download_button("保存する", f, "boat_strike.mp4")
+                except Exception as e:
+                    st.error(f"エラー: {e}")
+    
+    os.remove(video_path)
