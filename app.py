@@ -5,7 +5,7 @@ import tempfile
 import os
 import gc
 
-st.set_page_config(page_title="BOAT STRIKE", layout="centered")
+st.set_page_config(page_title="BOAT STRIKE - 完成版", layout="centered")
 
 # -------------------------
 # 初期化
@@ -36,9 +36,10 @@ def get_frame(video_path, frame_idx, width=320):
 
 
 # -------------------------
-# 動画生成（濃さ調整対応）
+# 差分＋軌跡 合成
 # -------------------------
-def create_overlay(video_path, f1_start, f2_start, duration, strength, contrast):
+def create_overlay_advanced(video_path, f1_start, f2_start, duration, strength, trail_decay, threshold):
+
     cap = cv2.VideoCapture(video_path)
     fps = cap.get(cv2.CAP_PROP_FPS) or 30
 
@@ -51,7 +52,10 @@ def create_overlay(video_path, f1_start, f2_start, duration, strength, contrast)
     out_path = tempfile.NamedTemporaryFile(suffix=".mp4", delete=False).name
     out = cv2.VideoWriter(out_path, cv2.VideoWriter_fourcc(*"mp4v"), fps, (w, h))
 
+    trail = np.zeros((h, w, 3), dtype=np.float32)
+
     for i in range(total):
+
         cap.set(cv2.CAP_PROP_POS_FRAMES, int(f1_start + i))
         r1, f1 = cap.read()
 
@@ -67,17 +71,40 @@ def create_overlay(video_path, f1_start, f2_start, duration, strength, contrast)
             f2 = cv2.resize(f2, (w, h))
 
             # -------------------------
-            # 赤強調
+            # 差分
             # -------------------------
-            red = f2.copy()
-            red[:,:,1] = 0
-            red[:,:,0] = 0
+            diff = cv2.absdiff(f1, f2)
+            gray = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
 
-            # コントラスト調整
-            red = cv2.convertScaleAbs(red, alpha=contrast, beta=10)
+            _, mask = cv2.threshold(gray, threshold, 255, cv2.THRESH_BINARY)
 
-            # 合成（濃さ調整）
-            blended = cv2.addWeighted(f1, 1.0, red, strength, 0)
+            # ノイズ除去
+            kernel = np.ones((3,3), np.uint8)
+            mask = cv2.morphologyEx(mask, cv2.MORPH_OPEN, kernel)
+
+            # 太くする
+            mask = cv2.dilate(mask, kernel, iterations=1)
+
+            mask_3 = cv2.merge([mask, mask, mask])
+
+            # -------------------------
+            # 赤ハイライト
+            # -------------------------
+            red = np.zeros_like(f2)
+            red[:,:,2] = f2[:,:,2]
+
+            highlight = cv2.bitwise_and(red, mask_3)
+            highlight = cv2.GaussianBlur(highlight, (5,5), 0)
+
+            # -------------------------
+            # 軌跡
+            # -------------------------
+            trail = trail * trail_decay + highlight.astype(np.float32)
+
+            # -------------------------
+            # 合成
+            # -------------------------
+            blended = cv2.addWeighted(f1, 1.0, trail.astype(np.uint8), strength, 0)
 
         else:
             blended = f1
@@ -92,6 +119,7 @@ def create_overlay(video_path, f1_start, f2_start, duration, strength, contrast)
 
     out.release()
     cap.release()
+
     return out_path
 
 
@@ -139,7 +167,7 @@ def frame_ui(label, video_path, fps, total_frames, idx):
 # -------------------------
 # UI
 # -------------------------
-st.title("🚤 1vs1 旋回比較ツール（完成版）")
+st.title("🚤 BOAT STRIKE（差分＋軌跡 完成版）")
 
 file = st.file_uploader("動画アップロード", type=["mp4","mov"])
 
@@ -155,7 +183,7 @@ if file:
 
     st.video(video_path)
 
-    st.markdown("## 🎯 スタートを合わせる")
+    st.markdown("## 🎯 スタート合わせ")
 
     st.session_state.sync = st.toggle("同期モード", value=False)
 
@@ -172,8 +200,9 @@ if file:
 
     st.markdown("## 🎛 表示調整")
 
-    strength = st.slider("比較艇の濃さ", 0.2, 1.0, 0.6, 0.05)
-    contrast = st.slider("比較艇の強調（輪郭）", 1.0, 2.0, 1.3, 0.1)
+    strength = st.slider("比較艇の強さ", 0.3, 1.0, 0.7, 0.05)
+    trail_decay = st.slider("軌跡の残り", 0.7, 0.95, 0.85, 0.01)
+    threshold = st.slider("検出感度", 10, 50, 25, 1)
 
     st.markdown("## 🎬 生成")
 
@@ -181,12 +210,20 @@ if file:
 
     if st.button("🚀 生成", use_container_width=True):
         with st.spinner("生成中..."):
-            out = create_overlay(video_path, f1, f2, duration, strength, contrast)
+            out = create_overlay_advanced(
+                video_path,
+                f1,
+                f2,
+                duration,
+                strength,
+                trail_decay,
+                threshold
+            )
 
             st.success("完成！")
             st.video(out)
 
             with open(out, "rb") as f:
-                st.download_button("保存", f, "boat_compare.mp4")
+                st.download_button("保存", f, "boat_strike_pro.mp4")
 
     os.remove(video_path)
