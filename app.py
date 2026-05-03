@@ -5,8 +5,9 @@ import tempfile
 import os
 import gc
 
-st.set_page_config(page_title="BOAT STRIKE - 完成版UI", layout="wide")
+st.set_page_config(page_title="BOAT STRIKE - 完成版", layout="wide")
 
+# 艇カラー
 COLORS = [
     (255,255,255),
     (80,80,80),
@@ -16,7 +17,10 @@ COLORS = [
     (0,255,0)
 ]
 
-def create_overlay_final(video_path, start_times, use_flags, duration_sec, ghost_decay=0.85):
+# -------------------------
+# 動画処理
+# -------------------------
+def create_overlay(video_path, start_times, use_flags, duration_sec, ghost_decay=0.85):
     cap = cv2.VideoCapture(video_path)
     fps = cap.get(cv2.CAP_PROP_FPS) or 30.0
 
@@ -61,8 +65,36 @@ def create_overlay_final(video_path, start_times, use_flags, duration_sec, ghost
     return output_path
 
 
-# --- UI ---
-st.title("🚤 BOAT STRIKE - 旋回比較ツール（完成版）")
+# -------------------------
+# UI
+# -------------------------
+st.title("🚤 BOAT STRIKE - 旋回比較ツール")
+
+# 使い方ガイド
+with st.expander("📖 使い方（クリックで開く）", expanded=True):
+    st.markdown("""
+### ① 動画をアップロード
+周回展示のリプレイ動画をアップしてください
+
+### ② フレームを合わせる
+各艇ごとに「ターンマーク横を通過した瞬間」を合わせます  
+スライダーを動かしてタイミングを揃えてください
+
+### ③ 微調整
+±0.1ボタンで細かく調整できます
+
+### ④ 生成
+6艇の動きが重なって表示されます
+
+---
+
+### 🔍 見方
+・前に色が出る → 行き足が良い  
+・内側に残る → ターンが良い  
+・外に広がる → 流れている  
+""")
+
+st.info("💡 まず1号艇を合わせてから他の艇を揃えると簡単です")
 
 uploaded_file = st.sidebar.file_uploader("動画アップロード", type=["mp4","mov"])
 
@@ -78,14 +110,15 @@ if uploaded_file:
 
     st.video(video_path)
 
-    st.subheader("🎯 フレーム指定（直感操作）")
+    st.subheader("🎯 フレーム指定")
 
     times = []
     use_flags = []
 
-    # 👉 1号艇→6号艇の順番で縦並び
+    # 1号艇 → 6号艇の順番
     for i in range(6):
         st.markdown(f"### {i+1}号艇")
+        st.caption("👉 ターンマーク横を通過した瞬間に合わせてください")
 
         col1, col2, col3, col4 = st.columns([4,2,1,1])
 
@@ -99,7 +132,7 @@ if uploaded_file:
         with col2:
             sec = frame_idx / fps
             val = st.number_input(
-                "秒",
+                "秒（微調整用）",
                 value=float(sec),
                 step=0.1,
                 key=f"time_{i}"
@@ -123,7 +156,7 @@ if uploaded_file:
     duration = st.slider("合成秒数", 1.0, 8.0, 4.0)
     ghost = st.slider("残像の長さ", 0.7, 0.95, 0.85)
 
-    # 全艇コピー
+    # 全艇コピー機能
     if st.button("👉 このフレームを全艇にコピー"):
         base = st.session_state["slider_0"]
         for i in range(6):
@@ -136,7 +169,7 @@ if uploaded_file:
         else:
             with st.spinner("処理中..."):
                 try:
-                    res = create_overlay_final(video_path, times, use_flags, duration, ghost)
+                    res = create_overlay(video_path, times, use_flags, duration, ghost)
 
                     st.success("完成！")
                     st.video(res)
