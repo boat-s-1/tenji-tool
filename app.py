@@ -5,7 +5,7 @@ import tempfile
 import os
 import gc
 
-st.set_page_config(page_title="BOAT STRIKE - 完成版", layout="centered")
+st.set_page_config(page_title="BOAT STRIKE - 2艇比較", layout="centered")
 
 # -------------------------
 # 初期化
@@ -19,7 +19,7 @@ if "sync" not in st.session_state:
 
 
 # -------------------------
-# フレーム取得
+# フレーム取得（軽量）
 # -------------------------
 @st.cache_data
 def get_frame(video_path, frame_idx, width=320):
@@ -36,9 +36,9 @@ def get_frame(video_path, frame_idx, width=320):
 
 
 # -------------------------
-# 差分＋軌跡 合成
+# 2艇クリーン合成（本命）
 # -------------------------
-def create_overlay_advanced(video_path, f1_start, f2_start, duration, strength, trail_decay, threshold):
+def create_overlay_clean(video_path, f1_start, f2_start, duration, alpha):
 
     cap = cv2.VideoCapture(video_path)
     fps = cap.get(cv2.CAP_PROP_FPS) or 30
@@ -52,13 +52,13 @@ def create_overlay_advanced(video_path, f1_start, f2_start, duration, strength, 
     out_path = tempfile.NamedTemporaryFile(suffix=".mp4", delete=False).name
     out = cv2.VideoWriter(out_path, cv2.VideoWriter_fourcc(*"mp4v"), fps, (w, h))
 
-    trail = np.zeros((h, w, 3), dtype=np.float32)
-
     for i in range(total):
 
+        # 1号艇
         cap.set(cv2.CAP_PROP_POS_FRAMES, int(f1_start + i))
         r1, f1 = cap.read()
 
+        # 比較艇
         cap.set(cv2.CAP_PROP_POS_FRAMES, int(f2_start + i))
         r2, f2 = cap.read()
 
@@ -71,46 +71,26 @@ def create_overlay_advanced(video_path, f1_start, f2_start, duration, strength, 
             f2 = cv2.resize(f2, (w, h))
 
             # -------------------------
-            # 差分
+            # 比較艇を赤寄りに
             # -------------------------
-            diff = cv2.absdiff(f1, f2)
-            gray = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
+            red = f2.copy().astype(np.float32)
 
-            _, mask = cv2.threshold(gray, threshold, 255, cv2.THRESH_BINARY)
+            red[:, :, 1] *= 0.2  # 緑弱め
+            red[:, :, 0] *= 0.2  # 青弱め
+            red[:, :, 2] = np.clip(red[:, :, 2] * 1.5, 0, 255)
 
-            # ノイズ除去
-            kernel = np.ones((3,3), np.uint8)
-            mask = cv2.morphologyEx(mask, cv2.MORPH_OPEN, kernel)
-
-            # 太くする
-            mask = cv2.dilate(mask, kernel, iterations=1)
-
-            mask_3 = cv2.merge([mask, mask, mask])
-
-            # -------------------------
-            # 赤ハイライト
-            # -------------------------
-            red = np.zeros_like(f2)
-            red[:,:,2] = f2[:,:,2]
-
-            highlight = cv2.bitwise_and(red, mask_3)
-            highlight = cv2.GaussianBlur(highlight, (5,5), 0)
-
-            # -------------------------
-            # 軌跡
-            # -------------------------
-            trail = trail * trail_decay + highlight.astype(np.float32)
+            red = red.astype(np.uint8)
 
             # -------------------------
             # 合成
             # -------------------------
-            blended = cv2.addWeighted(f1, 1.0, trail.astype(np.uint8), strength, 0)
+            blended = cv2.addWeighted(f1, 1.0, red, alpha, 0)
 
         else:
             blended = f1
 
         # 中央ライン
-        cv2.line(blended, (w//2,0), (w//2,h), (0,255,0),1)
+        cv2.line(blended, (w//2, 0), (w//2, h), (0,255,0), 1)
 
         out.write(blended)
 
@@ -124,12 +104,13 @@ def create_overlay_advanced(video_path, f1_start, f2_start, duration, strength, 
 
 
 # -------------------------
-# フレームUI
+# フレームUI（スマホ最強）
 # -------------------------
 def frame_ui(label, video_path, fps, total_frames, idx):
 
     st.markdown(f"### {label}")
 
+    # 秒でざっくり
     sec = st.slider(
         "秒で合わせる",
         0.0,
@@ -141,6 +122,7 @@ def frame_ui(label, video_path, fps, total_frames, idx):
 
     base_frame = int(sec * fps)
 
+    # 微調整
     col1, col2, col3, col4 = st.columns(4)
 
     if col1.button("-5F", key=f"m5_{idx}"):
@@ -152,9 +134,10 @@ def frame_ui(label, video_path, fps, total_frames, idx):
     if col4.button("+5F", key=f"p5_{idx}"):
         base_frame += 5
 
-    frame = max(0, min(total_frames-1, base_frame))
+    frame = max(0, min(total_frames - 1, base_frame))
     st.session_state[f"frame_{idx}"] = frame
 
+    # プレビュー
     img = get_frame(video_path, frame)
     if img is not None:
         st.image(img)
@@ -167,9 +150,9 @@ def frame_ui(label, video_path, fps, total_frames, idx):
 # -------------------------
 # UI
 # -------------------------
-st.title("🚤 BOAT STRIKE（差分＋軌跡 完成版）")
+st.title("🚤 BOAT STRIKE（2艇クリーン比較）")
 
-file = st.file_uploader("動画アップロード", type=["mp4","mov"])
+file = st.file_uploader("動画アップロード", type=["mp4", "mov"])
 
 if file:
     tfile = tempfile.NamedTemporaryFile(delete=False)
@@ -190,19 +173,18 @@ if file:
     col1, col2 = st.columns(2)
 
     with col1:
-        f1 = frame_ui("① 1号艇", video_path, fps, total_frames, 0)
+        f1 = frame_ui("① 1号艇（基準）", video_path, fps, total_frames, 0)
 
     with col2:
         f2 = frame_ui("② 比較艇", video_path, fps, total_frames, 1)
 
-    if st.button("📋 コピー（1→2）"):
+    # コピー
+    if st.button("📋 1号艇 → コピー"):
         st.session_state["frame_1"] = st.session_state["frame_0"]
 
     st.markdown("## 🎛 表示調整")
 
-    strength = st.slider("比較艇の強さ", 0.3, 1.0, 0.7, 0.05)
-    trail_decay = st.slider("軌跡の残り", 0.7, 0.95, 0.85, 0.01)
-    threshold = st.slider("検出感度", 10, 50, 25, 1)
+    alpha = st.slider("比較艇の濃さ", 0.2, 0.9, 0.6, 0.05)
 
     st.markdown("## 🎬 生成")
 
@@ -210,20 +192,12 @@ if file:
 
     if st.button("🚀 生成", use_container_width=True):
         with st.spinner("生成中..."):
-            out = create_overlay_advanced(
-                video_path,
-                f1,
-                f2,
-                duration,
-                strength,
-                trail_decay,
-                threshold
-            )
+            out = create_overlay_clean(video_path, f1, f2, duration, alpha)
 
             st.success("完成！")
             st.video(out)
 
             with open(out, "rb") as f:
-                st.download_button("保存", f, "boat_strike_pro.mp4")
+                st.download_button("保存", f, "boat_clean_compare.mp4")
 
     os.remove(video_path)
