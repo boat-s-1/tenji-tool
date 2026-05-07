@@ -878,7 +878,19 @@ header_part = f"""
 # スタンプ用のHTMLパーツ
 stamp_html = ""
 if current_stamp_src:
-    stamp_html = f'<img src="{current_stamp_src}" style="width:180px; height:auto; position:absolute; right:20px; top:-20px; transform:rotate(-10deg); z-index:100; pointer-events:none;">'
+    stamp_html = f'''
+    <img src="{current_stamp_src}" 
+         style="width: 160px; 
+                height: auto; 
+                position: absolute; 
+                right: -10px;    /* 右端ギリギリか、少しはみ出すくらい */
+                top: -30px;      /* 上にはみ出すくらい */
+                transform: rotate(-15deg); 
+                z-index: 100; 
+                pointer-events: none;
+                filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.1));">
+    '''
+
 
 # html_code の冒頭部分
 html_code = f"""
