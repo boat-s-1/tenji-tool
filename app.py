@@ -1,6 +1,20 @@
 import streamlit as st
 from streamlit.components.v1 import html
 import base64
+# --- ロゴ画像の読み込み ---
+import os
+
+# 画像ファイルがスクリプトと同じフォルダにある場合
+logo_path = "8c5a3a8d-fe42-4239-bfe9-c67326baa39a.png" # ここを実際のファイル名に合わせてください
+
+if os.path.exists(logo_path):
+    with open(logo_path, "rb") as f:
+        logo_base64 = base64.b64encode(f.read()).decode()
+    logo_src = f"data:image/png;base64,{logo_base64}"
+else:
+    # 画像がない場合のバックアップ（空文字またはプレースホルダー）
+    logo_src = "" 
+
 
 # =========================================
 # ページ設定
@@ -656,16 +670,18 @@ html_code = f"""
 
 <div class="wrapper">
 
-<div class="header">
-
-<div class="header" style="justify-content: center; position: relative;">
-  <img class="8c5a3a8d-fe42-4239-bfe9-c67326baa39a.png" src="{base64_of_image_1.png}" style="width: 100%; max-width: 650px;">
-  <div class="date" style="position: absolute; right: 20px; top: 50%; transform: translateY(-50%);">
-    {race_date}<br>
-    {race_place}<br>
-    {race_no}
-  </div>
+# --- 修正後のHTML構造の例 ---
+html_code = f"""
+<div class="header" style="display: flex; justify-content: center; position: relative; align-items: center; padding: 20px;">
+    <img src="{logo_src}" style="width: 100%; max-width: 650px; height: auto;">
+    <div class="date" style="position: absolute; right: 20px; font-size: 24px; font-weight: bold; line-height: 1.2;">
+        {race_date}<br>
+        {race_place}<br>
+        {race_no}
+    </div>
 </div>
+"""
+>
 
 
 <div class="date">
