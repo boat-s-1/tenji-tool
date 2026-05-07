@@ -386,6 +386,8 @@ body{{
 }}
 
 /* 吹き出し本体 */
+/* common_style の中を修正 */
+
 .fukidashi {{
     position: relative;
     background: #fff;
@@ -393,39 +395,25 @@ body{{
     border-radius: 20px;
     padding: 20px;
     margin-top: 20px;
+    
+    /* ここで読み込んだフォントを指定！ */
+    font-family: 'Zen Maru Gothic', sans-serif;
+    
     font-size: 20px;
     line-height: 1.6;
+    color: #444; /* 文字色を少し柔らかく */
     box-shadow: 3px 3px 10px rgba(0,0,0,0.05);
 }}
 
-/* 吹き出しのしっぽ（三角形） */
-.fukidashi::before {{
-    content: "";
-    position: absolute;
-    top: -24px; /* 上側に配置 */
-    left: 50px; /* キャラ画像に近い位置に調整 */
-    border: 12px solid transparent;
-    border-bottom: 12px solid #ff6ea8; /* 枠線の色 */
-}}
-
-.fukidashi::after {{
-    content: "";
-    position: absolute;
-    top: -18px;
-    left: 50px;
-    border: 12px solid transparent;
-    border-bottom: 12px solid #fff; /* 中の色（白） */
-}}
-
+/* タイトル部分も丸文字にすると可愛いです */
 .fukidashi-title {{
+    font-family: 'Zen Maru Gothic', sans-serif;
+    font-weight: 700;
     font-size: 26px;
-    font-weight: bold;
     color: #ff4f93;
     margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
 }}
+
 
 
 
@@ -837,14 +825,17 @@ stamp_html = ""
 if current_stamp_src:
     stamp_html = f'<img src="{current_stamp_src}" style="width:180px; height:auto; position:absolute; right:20px; top:-20px; transform:rotate(-10deg); z-index:100; pointer-events:none;">'
 
-# 全体のHTMLを組み立て
+# html_code の冒頭部分
 html_code = f"""
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700&display=swap" rel="stylesheet">
 {common_style}
 </head>
+
+
 
 <body>
 
