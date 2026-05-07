@@ -694,6 +694,11 @@ header_part = f"""
 </div>
 """
 
+# スタンプ用のHTMLパーツを作成（position: relative の親要素の中で absolute 配置する）
+stamp_html = ""
+if current_stamp_src:
+    stamp_html = f'<img src="{current_stamp_src}" style="width:180px; height:auto; position:absolute; right:20px; top:-20px; transform:rotate(-10deg); z-index:100; pointer-events:none;">'
+
 # 全体のHTMLを組み立て
 html_code = f"""
 <!DOCTYPE html>
@@ -717,178 +722,89 @@ html_code = f"""
 
 <div class="left">
 
-# --- 前日版HTML内の修正箇所 ---
-# （mainboxクラスの中、stampの判定部分）
-
-'''
-<div class="mainbox">
-''' + (
-    f'<img src="{current_stamp_src}" style="width:140px; height:auto; position:absolute; right:20px; top:10px; transform:rotate(-10deg); z-index:10;">'
-    if current_stamp_src else ''
-) + f'''
+<div class="mainbox" style="position: relative;">
+    {stamp_html}
     <div style="font-size:42px; font-weight:bold; color:#ff4f93;">
     {honmei}
     </div>
-...
-'''
 
+    <div class="score-row">
+        <div class="score-label">イン逃げ期待度</div>
+        <div class="score-value">{nige_rate}%</div>
+    </div>
 
-<div class="score-row">
-<div class="score-label">
-イン逃げ期待度
-</div>
-<div class="score-value">
-{nige_rate}%
-</div>
-</div>
-
-<div class="score-row">
-<div class="score-label">
-場平均との差
-</div>
-<div class="score-up">
-+{up_rate}%
-</div>
-</div>
-
+    <div class="score-row">
+        <div class="score-label">場平均との差</div>
+        <div class="score-up">+{up_rate}%</div>
+    </div>
 </div>
 
 <div class="grid">
-
-<div class="boat">
-<div class="boat-title">1号艇</div>
-<div class="boat-text">{boat1}</div>
-</div>
-
-<div class="boat">
-<div class="boat-title">2号艇</div>
-<div class="boat-text">{boat2}</div>
-</div>
-
-<div class="boat">
-<div class="boat-title">3号艇</div>
-<div class="boat-text">{boat3}</div>
-</div>
-
-<div class="boat">
-<div class="boat-title">4号艇</div>
-<div class="boat-text">{boat4}</div>
-</div>
-
-<div class="boat">
-<div class="boat-title">5号艇</div>
-<div class="boat-text">{boat5}</div>
-</div>
-
-<div class="boat">
-<div class="boat-title">6号艇</div>
-<div class="boat-text">{boat6}</div>
-</div>
-
+    <div class="boat">
+        <div class="boat-title">1号艇</div>
+        <div class="boat-text">{boat1}</div>
+    </div>
+    <div class="boat">
+        <div class="boat-title">2号艇</div>
+        <div class="boat-text">{boat2}</div>
+    </div>
+    <div class="boat">
+        <div class="boat-title">3号艇</div>
+        <div class="boat-text">{boat3}</div>
+    </div>
+    <div class="boat">
+        <div class="boat-title">4号艇</div>
+        <div class="boat-text">{boat4}</div>
+    </div>
+    <div class="boat">
+        <div class="boat-title">5号艇</div>
+        <div class="boat-text">{boat5}</div>
+    </div>
+    <div class="boat">
+        <div class="boat-title">6号艇</div>
+        <div class="boat-text">{boat6}</div>
+    </div>
 </div>
 
 <div class="mainbox">
-
-<div style="
-font-size:40px;
-font-weight:bold;
-color:#ff4f93;
-margin-bottom:20px;
-">
-各艇評価指数
-</div>
-
-<div class="bar-wrap">
-
-<div class="bar-row">
-<div class="bar-label">1号艇</div>
-<div class="bar-bg">
-<div class="bar-fill" style="width:{boat1_score}%;">
-{boat1_score}
-</div>
-</div>
-</div>
-
-<div class="bar-row">
-<div class="bar-label">2号艇</div>
-<div class="bar-bg">
-<div class="bar-fill" style="width:{boat2_score}%;">
-{boat2_score}
-</div>
-</div>
-</div>
-
-<div class="bar-row">
-<div class="bar-label">3号艇</div>
-<div class="bar-bg">
-<div class="bar-fill" style="width:{boat3_score}%;">
-{boat3_score}
-</div>
-</div>
-</div>
-
-<div class="bar-row">
-<div class="bar-label">4号艇</div>
-<div class="bar-bg">
-<div class="bar-fill" style="width:{boat4_score}%;">
-{boat4_score}
-</div>
-</div>
-</div>
-
-<div class="bar-row">
-<div class="bar-label">5号艇</div>
-<div class="bar-bg">
-<div class="bar-fill" style="width:{boat5_score}%;">
-{boat5_score}
-</div>
-</div>
-</div>
-
-<div class="bar-row">
-<div class="bar-label">6号艇</div>
-<div class="bar-bg">
-<div class="bar-fill" style="width:{boat6_score}%;">
-{boat6_score}
-</div>
-</div>
-</div>
-
-</div>
-
+    <div style="font-size:40px; font-weight:bold; color:#ff4f93; margin-bottom:20px;">各艇評価指数</div>
+    <div class="bar-wrap">
+        <div class="bar-row">
+            <div class="bar-label">1号艇</div>
+            <div class="bar-bg"><div class="bar-fill" style="width:{boat1_score}%;">{boat1_score}</div></div>
+        </div>
+        <div class="bar-row">
+            <div class="bar-label">2号艇</div>
+            <div class="bar-bg"><div class="bar-fill" style="width:{boat2_score}%;">{boat2_score}</div></div>
+        </div>
+        <div class="bar-row">
+            <div class="bar-label">3号艇</div>
+            <div class="bar-bg"><div class="bar-fill" style="width:{boat3_score}%;">{boat3_score}</div></div>
+        </div>
+        <div class="bar-row">
+            <div class="bar-label">4号艇</div>
+            <div class="bar-bg"><div class="bar-fill" style="width:{boat4_score}%;">{boat4_score}</div></div>
+        </div>
+        <div class="bar-row">
+            <div class="bar-label">5号艇</div>
+            <div class="bar-bg"><div class="bar-fill" style="width:{boat5_score}%;">{boat5_score}</div></div>
+        </div>
+        <div class="bar-row">
+            <div class="bar-label">6号艇</div>
+            <div class="bar-bg"><div class="bar-fill" style="width:{boat6_score}%;">{boat6_score}</div></div>
+        </div>
+    </div>
 </div>
 </div>
 
 <div class="right">
-
-<img class="character-img" src="{character_src}">
-
-<div class="notice">
-最終判断は直前版で公開！
-</div>
-
-<div class="notice">
-波乱指数<br>
-{wave}
-</div>
-
-<div class="fukidashi">
-
-<div style="
-font-size:30px;
-font-weight:bold;
-color:#ff4f93;
-margin-bottom:10px;
-">
-一果のひとこと
-</div>
-
-<div>
-{comment}
-</div>
-
-</div>
-
+    <img class="character-img" src="{character_src}">
+    <div class="notice">最終判断は直前版で公開！</div>
+    <div class="notice">波乱指数<br>{wave}</div>
+    <div class="fukidashi">
+        <div style="font-size:30px; font-weight:bold; color:#ff4f93; margin-bottom:10px;">一果のひとこと</div>
+        <div>{comment}</div>
+    </div>
 </div>
 
 </div>
