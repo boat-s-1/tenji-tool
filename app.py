@@ -528,15 +528,132 @@ img {{
                         </div>
                     </div>
 
-                    <div class="bar-row">
+                   <div class="bar-row">
+
                         <div class="bar-label">4号艇</div>
+
                         <div class="bar-bg">
+
                             <div class="bar-fill" style="width:{boat4_score}%;">
+
                                 {boat4_score}
+
                             </div>
+
                         </div>
+
                     </div>
 
                     <div class="bar-row">
+
                         <div class="bar-label">5号艇</div>
-                        <div class="bar-b
+
+                        <div class="bar-bg">
+
+                            <div class="bar-fill" style="width:{boat5_score}%;">
+
+                                {boat5_score}
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="bar-row">
+
+                        <div class="bar-label">6号艇</div>
+
+                        <div class="bar-bg">
+
+                            <div class="bar-fill" style="width:{boat6_score}%;">
+
+                                {boat6_score}
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="fukidashi">
+
+                <div style="font-size:40px;font-weight:bold;color:#ff4f93;">
+
+                    一果のひとこと
+
+                </div>
+
+                <div style="margin-top:15px;">
+
+                    {comment}
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="right">
+
+            <img src="https://placehold.co/400x600/png">
+
+            <div class="notice">
+
+                最終判断は<br>
+
+                直前版で公開！
+
+            </div>
+
+            <div class="notice">
+
+                波乱指数<br>
+
+                {wave}
+
+            </div>
+
+            <div class="alert">
+
+                波乱警報！
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="footer">
+
+        展示評価・補正展示タイムは直前版で公開！
+
+    </div>
+
+</div>
+
+</body>
+
+</html>
+
+"""
+
+# ==================================
+
+# HTML表示
+
+# ==================================
+
+html(
+
+    html_code,
+
+    height=2400,
+
+    scrolling=True
+
+)
