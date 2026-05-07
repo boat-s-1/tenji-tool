@@ -19,7 +19,7 @@ race_data = {
     "boat2_motor": 52,
     "boat2_st": 0.13,
 
-    # 波乱指数用
+    # 波乱指数
     "wave": 28
 }
 
@@ -42,7 +42,7 @@ def st_score(st):
         return 50
 
 # =========================
-# イン逃げ指数
+# イン逃げ指数計算
 # =========================
 
 nige_index = (
@@ -71,9 +71,11 @@ sashi_index = int(sashi_index)
 # =========================
 
 if nige_index >= 75:
+
     honmei = "1号艇"
 
 else:
+
     honmei = "2号艇"
 
 # =========================
@@ -82,15 +84,15 @@ else:
 
 if nige_index >= 80 and race_data["wave"] <= 30:
 
-    comment = "イン中心のレース。"
+    comment = "イン中心のレース"
 
 elif sashi_index >= 70:
 
-    comment = "2号艇の差しに注意。"
+    comment = "2号艇の差しに注意"
 
 else:
 
-    comment = "波乱注意の一戦。"
+    comment = "波乱注意の一戦"
 
 # =========================
 # 信頼度
@@ -121,14 +123,12 @@ img = Image.open("template.jpg")
 draw = ImageDraw.Draw(img)
 
 # =========================
-# フォント設定
+# フォント
 # =========================
 
-font_big = ImageFont.truetype("NotoSansJP-Bold.ttf", 60)
-
-font_mid = ImageFont.truetype("NotoSansJP-Bold.ttf", 40)
-
-font_small = ImageFont.truetype("NotoSansJP-Regular.ttf", 28)
+font_big = ImageFont.load_default()
+font_mid = ImageFont.load_default()
+font_small = ImageFont.load_default()
 
 # =========================
 # テキスト描画
@@ -138,69 +138,69 @@ font_small = ImageFont.truetype("NotoSansJP-Regular.ttf", 28)
 draw.text(
     (70, 40),
     f"{race_data['date']}  {race_data['race_name']}",
-    font=font_small,
-    fill="black"
+    fill="black",
+    font=font_small
 )
 
 # 本命
 draw.text(
     (120, 180),
-    honmei,
-    font=font_big,
-    fill="red"
+    f"本命：{honmei}",
+    fill="red",
+    font=font_big
 )
 
 # イン逃げ期待度
 draw.text(
-    (120, 290),
-    f"{nige_index}%",
-    font=font_big,
-    fill="red"
+    (120, 260),
+    f"イン逃げ期待度 {nige_index}%",
+    fill="red",
+    font=font_big
 )
 
 # 信頼度
 draw.text(
-    (120, 370),
+    (120, 330),
     f"逃げ信頼度：{trust}",
-    font=font_mid,
-    fill="green"
+    fill="green",
+    font=font_mid
 )
 
 # コメント
 draw.text(
     (80, 760),
     comment,
-    font=font_small,
-    fill="black"
+    fill="black",
+    font=font_small
 )
 
 # 分析データ
 draw.text(
     (80, 470),
     f"逃げ成功率 {race_data['boat1_win']}%",
-    font=font_small,
-    fill="black"
+    fill="black",
+    font=font_small
 )
 
 draw.text(
     (80, 520),
     f"差し成功率 {race_data['boat2_sashi']}%",
-    font=font_small,
-    fill="black"
+    fill="black",
+    font=font_small
 )
 
-# 直前版誘導
+# 直前誘導
 draw.text(
     (80, 930),
     "展示評価・補正展示タイムは直前版で公開！",
-    font=font_small,
-    fill="red"
+    fill="red",
+    font=font_small
 )
 
 # =========================
 # 保存
 # =========================
 
-img.save("output.png")
+img.save("output.jpg")
 
 print("新聞画像を生成しました！")
