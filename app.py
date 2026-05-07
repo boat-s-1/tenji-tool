@@ -658,9 +658,15 @@ html_code = f"""
 
 <div class="header">
 
-<div class="title">
-📰 一果のイン逃げ予想
+<div class="header" style="justify-content: center; position: relative;">
+  <img class="8c5a3a8d-fe42-4239-bfe9-c67326baa39a.png" src="{base64_of_image_1.png}" style="width: 100%; max-width: 650px;">
+  <div class="date" style="position: absolute; right: 20px; top: 50%; transform: translateY(-50%);">
+    {race_date}<br>
+    {race_place}<br>
+    {race_no}
+  </div>
 </div>
+
 
 <div class="date">
 {race_date}<br>
