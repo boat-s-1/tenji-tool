@@ -32,6 +32,12 @@ boat2_st = st.slider("2号艇 ST", 0.01, 0.30, 0.13)
 wave = st.slider("波乱指数", 0, 100, 28)
 
 # =========================
+# 座標線ON/OFF
+# =========================
+
+show_grid = st.checkbox("座標線を表示", value=True)
+
+# =========================
 # ボタン
 # =========================
 
@@ -147,12 +153,78 @@ if st.button("新聞を生成する"):
     font_small = ImageFont.load_default()
 
     # =========================
+    # 座標線表示
+    # =========================
+
+    if show_grid:
+
+        # 横線
+        for y in range(0, 1920, 100):
+
+            draw.line(
+                (0, y, 1080, y),
+                fill="gray",
+                width=1
+            )
+
+            draw.text(
+                (10, y),
+                str(y),
+                fill="gray",
+                font=font_small
+            )
+
+        # 縦線
+        for x in range(0, 1080, 100):
+
+            draw.line(
+                (x, 0, x, 1920),
+                fill="gray",
+                width=1
+            )
+
+            draw.text(
+                (x, 10),
+                str(x),
+                fill="gray",
+                font=font_small
+            )
+
+    # =========================
+    # 座標管理
+    # =========================
+
+    DATE_X = 70
+    DATE_Y = 40
+
+    HONMEI_X = 120
+    HONMEI_Y = 180
+
+    NIGE_X = 120
+    NIGE_Y = 260
+
+    TRUST_X = 120
+    TRUST_Y = 330
+
+    DATA1_X = 80
+    DATA1_Y = 470
+
+    DATA2_X = 80
+    DATA2_Y = 520
+
+    COMMENT_X = 80
+    COMMENT_Y = 760
+
+    NOTICE_X = 80
+    NOTICE_Y = 930
+
+    # =========================
     # テキスト描画
     # =========================
 
     # 日付・レース名
     draw.text(
-        (70, 40),
+        (DATE_X, DATE_Y),
         f"{race_date}  {race_name}",
         fill="black",
         font=font_small
@@ -160,7 +232,7 @@ if st.button("新聞を生成する"):
 
     # 本命
     draw.text(
-        (120, 180),
+        (HONMEI_X, HONMEI_Y),
         f"本命：{honmei}",
         fill="red",
         font=font_big
@@ -168,7 +240,7 @@ if st.button("新聞を生成する"):
 
     # イン逃げ期待度
     draw.text(
-        (120, 260),
+        (NIGE_X, NIGE_Y),
         f"イン逃げ期待度 {nige_index}%",
         fill="red",
         font=font_big
@@ -176,38 +248,38 @@ if st.button("新聞を生成する"):
 
     # 信頼度
     draw.text(
-        (120, 330),
+        (TRUST_X, TRUST_Y),
         f"逃げ信頼度：{trust}",
         fill="green",
         font=font_mid
     )
 
-    # コメント
-    draw.text(
-        (80, 760),
-        comment,
-        fill="black",
-        font=font_small
-    )
-
     # 分析データ
     draw.text(
-        (80, 470),
+        (DATA1_X, DATA1_Y),
         f"逃げ成功率 {boat1_win}%",
         fill="black",
         font=font_small
     )
 
     draw.text(
-        (80, 520),
+        (DATA2_X, DATA2_Y),
         f"差し成功率 {boat2_sashi}%",
+        fill="black",
+        font=font_small
+    )
+
+    # コメント
+    draw.text(
+        (COMMENT_X, COMMENT_Y),
+        comment,
         fill="black",
         font=font_small
     )
 
     # 直前版誘導
     draw.text(
-        (80, 930),
+        (NOTICE_X, NOTICE_Y),
         "展示評価・補正展示タイムは直前版で公開！",
         fill="red",
         font=font_small
