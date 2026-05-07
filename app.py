@@ -45,6 +45,15 @@ honmei = st.sidebar.selectbox(
         "6号艇"
     ]
 )
+honmei_kaime = st.sidebar.text_input(
+    "本命買い目",
+    "1-2-3"
+)
+
+osae_kaime = st.sidebar.text_area(
+    "押さえ買い目",
+    "1-3-2\n1-2-5"
+)
 
 # =========================================
 # 画像
@@ -988,8 +997,63 @@ margin-bottom:15px;
 🌸 一果の買い目
 </div>
 
-<div class="buy-kaime-live">
-{kaime}
+<div class="buy-box-live">
+
+<div class="buy-title-live">
+🌸 一果の買い目
+</div>
+
+<div style="
+margin-top:25px;
+">
+
+<div style="
+font-size:34px;
+font-weight:bold;
+color:#ff4f93;
+margin-bottom:10px;
+">
+本命
+</div>
+
+<div style="
+font-size:72px;
+font-weight:bold;
+color:#ff4f93;
+text-align:center;
+margin-bottom:25px;
+">
+{honmei_kaime}
+</div>
+
+<div style="
+border-top:3px dashed #ff9ac2;
+margin:25px 0;
+">
+</div>
+
+<div style="
+font-size:34px;
+font-weight:bold;
+color:#ff4f93;
+margin-bottom:15px;
+">
+押さえ
+</div>
+
+<div style="
+font-size:42px;
+font-weight:bold;
+color:#666;
+line-height:1.8;
+text-align:center;
+white-space:pre-line;
+">
+{osae_kaime}
+</div>
+
+</div>
+
 </div>
 
 </div>
