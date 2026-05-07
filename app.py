@@ -745,10 +745,6 @@ color:#ff4f93;
 </div>
 
 </div>
-
-</div>
-
-<div class="right">
 <div class="mainbox">
 
 <div style="
@@ -819,6 +815,10 @@ margin-bottom:20px;
 </div>
 
 </div>
+</div>
+
+<div class="right">
+
 <img class="character-img" src="{character_src}">
 
 <div class="notice">
