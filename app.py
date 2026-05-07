@@ -378,7 +378,7 @@ body{{
 }}
 
 /* 注目艇のスタイル */
-.pickup-row {
+.pickup-row {{
     display: flex;
     align-items: center;
     margin-bottom: 12px;
@@ -387,9 +387,9 @@ body{{
     border-radius: 8px;
     padding: 10px 15px;
     box-shadow: 2px 2px 5px rgba(0,0,0,0.05);
-}
+}}
 
-.boat-num {
+.boat-num {{
     background: #ff6ea8;
     color: white;
     width: 40px;
@@ -402,13 +402,13 @@ body{{
     font-weight: bold;
     margin-right: 15px;
     flex-shrink: 0;
-}
+}}
 
-.boat-comment {
+.boat-comment {{
     font-size: 20px;
     color: #444;
     font-weight: bold;
-}
+}}
 
 
 .wrapper{{
