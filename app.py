@@ -11,7 +11,7 @@ st.set_page_config(
     layout="wide"
 )
 
-st.title("🚤 一果ちゃん新聞ジェネレーター")
+st.title("🌸 一果ちゃん新聞ジェネレーター")
 
 # =========================================
 # サイドバー
@@ -47,7 +47,7 @@ honmei = st.sidebar.selectbox(
 )
 
 # =========================================
-# 画像アップロード
+# 画像
 # =========================================
 
 st.sidebar.header("画像")
@@ -63,7 +63,7 @@ uploaded_bg = st.sidebar.file_uploader(
 )
 
 # =========================================
-# 画像変換
+# Base64変換
 # =========================================
 
 if uploaded_character is not None:
@@ -198,7 +198,7 @@ boat6 = st.sidebar.text_input(
 )
 
 # =========================================
-# 艇評価
+# 艇評価バー
 # =========================================
 
 boat1_score = st.sidebar.slider(
@@ -301,7 +301,7 @@ jikkan_comment = st.sidebar.text_area(
 )
 
 kaime = st.sidebar.text_input(
-    "推奨買い目",
+    "一果の買い目",
     "1-2-3"
 )
 
@@ -336,12 +336,11 @@ body{{
 .wrapper-live{{
     width:1000px;
     margin:auto;
-    background:rgba(20,20,20,0.96);
-    border:6px solid red;
+    background:rgba(255,240,247,0.96);
+    border:6px dashed #ff4f93;
     border-radius:25px;
     overflow:hidden;
-    box-shadow:0px 0px 35px rgba(255,0,0,0.5);
-    color:white;
+    box-shadow:0px 0px 25px rgba(255,105,180,0.3);
 }}
 
 .header{{
@@ -357,7 +356,7 @@ body{{
     justify-content:space-between;
     align-items:center;
     padding:20px;
-    background:#c40000;
+    background:#ff4f93;
 }}
 
 .title{{
@@ -370,6 +369,7 @@ body{{
     font-size:64px;
     font-weight:bold;
     color:white;
+    letter-spacing:2px;
 }}
 
 .date{{
@@ -409,11 +409,11 @@ body{{
 }}
 
 .mainbox-live{{
-    border:4px solid red;
+    border:5px dashed #ff4f93;
     border-radius:25px;
     padding:20px;
     margin-bottom:20px;
-    background:#2a0000;
+    background:white;
 }}
 
 .circle{{
@@ -493,13 +493,14 @@ body{{
 
 .notice-live{{
     margin-top:20px;
-    background:red;
+    background:#ffe5f1;
     border-radius:20px;
     padding:20px;
     text-align:center;
-    font-size:34px;
+    font-size:32px;
     font-weight:bold;
-    color:white;
+    color:#ff4f93;
+    border:4px dashed #ff4f93;
 }}
 
 .alert{{
@@ -562,8 +563,8 @@ body{{
 }}
 
 .fukidashi-live{{
-    background:#330000;
-    border:4px solid red;
+    background:white;
+    border:4px dashed #ff4f93;
     border-radius:25px;
     padding:18px;
     margin-top:20px;
@@ -583,11 +584,11 @@ body{{
 
 .footer-live{{
     margin-top:20px;
-    background:red;
+    background:#ff4f93;
     color:white;
     text-align:center;
     padding:25px;
-    font-size:40px;
+    font-size:38px;
     font-weight:bold;
 }}
 
@@ -597,23 +598,15 @@ body{{
     margin-top:20px;
 }}
 
-.buy-box{{
-    background:#fff3c4;
-    border:5px dashed #ff6ea8;
-    border-radius:25px;
-    padding:25px;
-    margin-top:20px;
-}}
-
 .buy-box-live{{
-    background:#5a0000;
-    border:6px solid yellow;
+    background:#fff3fa;
+    border:5px dashed #ff4f93;
     border-radius:25px;
     padding:30px;
     margin-top:20px;
 }}
 
-.buy-title{{
+.buy-title-live{{
     font-size:42px;
     font-weight:bold;
     color:#ff4f93;
@@ -621,34 +614,18 @@ body{{
     text-align:center;
 }}
 
-.buy-title-live{{
-    font-size:48px;
-    font-weight:bold;
-    color:yellow;
-    margin-bottom:20px;
-    text-align:center;
-}}
-
-.buy-kaime{{
-    font-size:72px;
-    font-weight:bold;
-    color:red;
-    text-align:center;
-}}
-
 .buy-kaime-live{{
-    font-size:120px;
+    font-size:110px;
     font-weight:bold;
-    color:yellow;
+    color:#ff4f93;
     text-align:center;
-    text-shadow:0px 0px 20px red;
 }}
 
 .telop{{
-    background:red;
+    background:#ff85b5;
     color:white;
     padding:18px;
-    font-size:34px;
+    font-size:32px;
     font-weight:bold;
     text-align:center;
 }}
@@ -662,7 +639,6 @@ body{{
 # =========================================
 
 html_code = f"""
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -770,77 +746,6 @@ color:#ff4f93;
 
 </div>
 
-<div class="mainbox">
-
-<div style="
-font-size:40px;
-font-weight:bold;
-color:#ff4f93;
-margin-bottom:20px;
-">
-艇評価ランキング
-</div>
-
-<div class="bar-wrap">
-
-<div class="bar-row">
-<div class="bar-label">1号艇</div>
-<div class="bar-bg">
-<div class="bar-fill" style="width:{boat1_score}%;">
-{boat1_score}
-</div>
-</div>
-</div>
-
-<div class="bar-row">
-<div class="bar-label">2号艇</div>
-<div class="bar-bg">
-<div class="bar-fill" style="width:{boat2_score}%;">
-{boat2_score}
-</div>
-</div>
-</div>
-
-<div class="bar-row">
-<div class="bar-label">3号艇</div>
-<div class="bar-bg">
-<div class="bar-fill" style="width:{boat3_score}%;">
-{boat3_score}
-</div>
-</div>
-</div>
-
-<div class="bar-row">
-<div class="bar-label">4号艇</div>
-<div class="bar-bg">
-<div class="bar-fill" style="width:{boat4_score}%;">
-{boat4_score}
-</div>
-</div>
-</div>
-
-<div class="bar-row">
-<div class="bar-label">5号艇</div>
-<div class="bar-bg">
-<div class="bar-fill" style="width:{boat5_score}%;">
-{boat5_score}
-</div>
-</div>
-</div>
-
-<div class="bar-row">
-<div class="bar-label">6号艇</div>
-<div class="bar-bg">
-<div class="bar-fill" style="width:{boat6_score}%;">
-{boat6_score}
-</div>
-</div>
-</div>
-
-</div>
-
-</div>
-
 </div>
 
 <div class="right">
@@ -873,16 +778,6 @@ margin-bottom:10px;
 
 </div>
 
-{
-''
-if alert_stamp == "なし"
-else f'''
-<div class="alert">
-{alert_stamp}
-</div>
-'''
-}
-
 </div>
 
 </div>
@@ -895,7 +790,6 @@ else f'''
 
 </body>
 </html>
-
 """
 
 # =========================================
@@ -903,7 +797,6 @@ else f'''
 # =========================================
 
 html_code2 = f"""
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -916,13 +809,13 @@ html_code2 = f"""
 <div class="wrapper-live">
 
 <div class="telop">
-🚨 展示終了！最終結論速報 🚨
+🌸 展示終了！一果の最終決定 🌸
 </div>
 
 <div class="header-live">
 
 <div class="title-live">
-⚠ 一果 緊急速報
+🌸 一果の最終決定
 </div>
 
 <div class="date">
@@ -940,9 +833,9 @@ html_code2 = f"""
 <div class="mainbox-live">
 
 <div style="
-font-size:46px;
+font-size:44px;
 font-weight:bold;
-color:yellow;
+color:#ff4f93;
 ">
 展示評価：{tenji_rank}
 </div>
@@ -964,7 +857,7 @@ margin-top:20px;
 <div style="
 font-size:42px;
 font-weight:bold;
-color:#ffea00;
+color:#ff4f93;
 margin-top:30px;
 ">
 一果判定
@@ -974,6 +867,7 @@ margin-top:30px;
 font-size:52px;
 font-weight:bold;
 margin-top:15px;
+color:#ff4f93;
 ">
 {ikka_hantei}
 </div>
@@ -985,7 +879,7 @@ margin-top:15px;
 <div style="
 font-size:38px;
 font-weight:bold;
-color:#ffea00;
+color:#ff4f93;
 ">
 🎯 的中期待度
 </div>
@@ -993,7 +887,7 @@ color:#ffea00;
 <div style="
 font-size:88px;
 font-weight:bold;
-color:white;
+color:#ff4f93;
 margin-top:15px;
 ">
 {hit_rate}%
@@ -1006,7 +900,7 @@ margin-top:15px;
 <div style="
 font-size:34px;
 font-weight:bold;
-color:yellow;
+color:#ff4f93;
 margin-bottom:15px;
 ">
 一果コメント
@@ -1021,7 +915,7 @@ margin-bottom:15px;
 <div class="buy-box-live">
 
 <div class="buy-title-live">
-推奨買い目
+🌸 一果の買い目
 </div>
 
 <div class="buy-kaime-live">
@@ -1066,24 +960,23 @@ else f'''
 </div>
 
 <div class="footer-live">
-⚠ 最終判断は自己責任で！ ⚠
+🌸 一果の最終判断公開中 🌸
 </div>
 
 </div>
 
 </body>
 </html>
-
 """
 
 # =========================================
-# タブ表示
+# タブ
 # =========================================
 
 tab1, tab2 = st.tabs(
     [
         "📰 前日版",
-        "🚨 直前速報"
+        "🌸 直前版"
     ]
 )
 
@@ -1091,7 +984,7 @@ with tab1:
 
     html(
         html_code,
-        height=2000,
+        height=1900,
         scrolling=True
     )
 
