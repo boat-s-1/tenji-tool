@@ -991,11 +991,7 @@ margin-bottom:15px;
 
 </div>
 
-<div class="buy-box-live">
 
-<div class="buy-title-live">
-🌸 一果の買い目
-</div>
 
 <div class="buy-box-live">
 
@@ -1058,7 +1054,6 @@ white-space:pre-line;
 
 </div>
 
-</div>
 
 <div class="right">
 
