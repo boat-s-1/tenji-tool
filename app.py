@@ -828,6 +828,15 @@ for b_name in selected_boats:
     """
 
 
+# 波乱指数（0-100）を星の数（1-5個）に変換する例
+star_count = (wave // 20) + 1
+stars = "⭐︎" * star_count
+
+# 注目艇（展開ストーリーで選んだ艇など）を取得
+attention_boats = ", ".join([b.replace("号艇", "") for b in selected_boats])
+
+
+
 
 
 # 選択されたスタンプの画像URLを取得
