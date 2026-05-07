@@ -17,12 +17,12 @@ def get_base64_img(path):
 
 # スタンプ画像のパスを指定（実際のファイル名に変更してください）
 stamp_dict = {
-    "本命": get_base64_img("honmei_stamp.png"),
-    "激アツ": get_base64_img("gekiatsu_stamp.png"),
-    "鉄板": get_base64_img("teppan_stamp.png"),
-    "穴狙い": get_base64_img("ananerai_stamp.png"),
-    "見": get_base64_img("mi_stamp.png"),
-    "危険": get_base64_img("kiken_stamp.png"),
+    "本命": get_base64_img("a7105fda-9305-4e70-98eb-212c65842325.png"),
+    "激アツ": get_base64_img("1a097861-b508-41d0-a3ea-ec276d1a4005.png"),
+    "鉄板": get_base64_img("ac668bb2-8f4f-40c6-ab3f-a800c64a817c.png"),
+    "穴狙い": get_base64_img("0c0491e6-0036-4e58-9e8b-c82f0a60bb80.png"),
+    "見": get_base64_img("a6a958fc-8897-4e1b-8d5b-f28459220c26.png"),
+    "危険": get_base64_img("ab68e233-d232-438b-8e50-e9d041eea1df.png"),
 }
 
 # 選択されたスタンプの画像URLを取得
@@ -717,25 +717,21 @@ html_code = f"""
 
 <div class="left">
 
-<div class="mainbox">
+# --- 前日版HTML内の修正箇所 ---
+# （mainboxクラスの中、stampの判定部分）
 
-{
-''
-if stamp == "なし"
-else f'''
-<div class="circle">
-{stamp}
-</div>
 '''
-}
+<div class="mainbox">
+''' + (
+    f'<img src="{current_stamp_src}" style="width:140px; height:auto; position:absolute; right:20px; top:10px; transform:rotate(-10deg); z-index:10;">'
+    if current_stamp_src else ''
+) + f'''
+    <div style="font-size:42px; font-weight:bold; color:#ff4f93;">
+    {honmei}
+    </div>
+...
+'''
 
-<div style="
-font-size:42px;
-font-weight:bold;
-color:#ff4f93;
-">
-{honmei}
-</div>
 
 <div class="score-row">
 <div class="score-label">
