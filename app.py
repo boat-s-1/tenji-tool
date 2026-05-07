@@ -1,66 +1,190 @@
-import streamlit as st
-import cv2
-import numpy as np
-import tempfile
-import os
-import gc
+from PIL import Image, ImageDraw, ImageFont
 
-st.set_page_config(page_title="BOAT STRIKE - 2艇比較", layout="centered")
+# =========================
+# 入力データ
+# =========================
 
-# -------------------------
-# 初期化
-# -------------------------
-for i in range(2):
-    if f"frame_{i}" not in st.session_state:
-        st.session_state[f"frame_{i}"] = 0
+race_data = {
+    "race_name": "丸亀 1R",
+    "date": "2026.05.05",
 
-if "sync" not in st.session_state:
-    st.session_state.sync = False
+    # 1号艇
+    "boat1_win": 72,
+    "boat1_motor": 48,
+    "boat1_st": 0.12,
+    "boat1_local": 68,
 
+    # 2号艇
+    "boat2_sashi": 42,
+    "boat2_motor": 52,
+    "boat2_st": 0.13,
 
-# -------------------------
-# フレーム取得（軽量）
-# -------------------------
-@st.cache_data
-def get_frame(video_path, frame_idx, width=320):
-    cap = cv2.VideoCapture(video_path)
-    cap.set(cv2.CAP_PROP_POS_FRAMES, frame_idx)
-    ret, frame = cap.read()
-    cap.release()
+    # コメント用
+    "wave": 28
+}
 
-    if ret:
-        h, w, _ = frame.shape
-        scale = width / w
-        return cv2.resize(frame, (width, int(h * scale)))
-    return None
+# =========================
+# ST補正関数
+# =========================
 
+def st_score(st):
+    if st <= 0.10:
+        return 100
+    elif st <= 0.13:
+        return 85
+    elif st <= 0.16:
+        return 70
+    else:
+        return 50
 
-# -------------------------
-# 2艇クリーン合成（本命）
-# -------------------------
-def create_overlay_clean(video_path, f1_start, f2_start, duration, alpha):
+# =========================
+# イン逃げ指数
+# =========================
 
-    cap = cv2.VideoCapture(video_path)
-    fps = cap.get(cv2.CAP_PROP_FPS) or 30
+nige_index = (
+    race_data["boat1_win"] * 0.25 +
+    race_data["boat1_motor"] * 0.20 +
+    st_score(race_data["boat1_st"]) * 0.15 +
+    race_data["boat1_local"] * 0.15
+)
 
-    scale = 0.5
-    w = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH) * scale)
-    h = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT) * scale)
+nige_index = int(nige_index)
 
-    total = int(duration * fps)
+# =========================
+# 差し指数
+# =========================
 
-    out_path = tempfile.NamedTemporaryFile(suffix=".mp4", delete=False).name
-    out = cv2.VideoWriter(out_path, cv2.VideoWriter_fourcc(*"mp4v"), fps, (w, h))
+sashi_index = (
+    race_data["boat2_sashi"] * 0.40 +
+    race_data["boat2_motor"] * 0.30 +
+    st_score(race_data["boat2_st"]) * 0.30
+)
 
-    for i in range(total):
+sashi_index = int(sashi_index)
 
-        # 1号艇
-        cap.set(cv2.CAP_PROP_POS_FRAMES, int(f1_start + i))
-        r1, f1 = cap.read()
+# =========================
+# 本命判定
+# =========================
 
-        # 比較艇
-        cap.set(cv2.CAP_PROP_POS_FRAMES, int(f2_start + i))
-        r2, f2 = cap.read()
+if nige_index >= 75:
+    honmei = "1号艇"
+else:
+    honmei = "2号艇"
+
+# =========================
+# コメント生成
+# =========================
+
+if nige_index >= 80 and race_data["wave"] <= 30:
+    comment = "イン中心のレース。"
+elif sashi_index >= 70:
+    comment = "2号艇の差しに注意。"
+else:
+    comment = "波乱注意の一戦。"
+
+# =========================
+# 評価
+# =========================
+
+if nige_index >= 85:
+    trust = "鉄板級"
+elif nige_index >= 75:
+    trust = "信頼度高"
+elif nige_index >= 60:
+    trust = "やや高"
+else:
+    trust = "波乱"
+
+# =========================
+# テンプレ画像読み込み
+# =========================
+
+img = Image.open("template.png")
+
+draw = ImageDraw.Draw(img)
+
+# =========================
+# フォント
+# =========================
+
+font_big = ImageFont.truetype("NotoSansJP-Bold.ttf", 60)
+font_mid = ImageFont.truetype("NotoSansJP-Bold.ttf", 40)
+font_small = ImageFont.truetype("NotoSansJP-Regular.ttf", 28)
+
+# =========================
+# テキスト描画
+# =========================
+
+# レース名
+draw.text(
+    (70, 40),
+    f"{race_data['date']}  {race_data['race_name']}",
+    font=font_small,
+    fill="black"
+)
+
+# 本命
+draw.text(
+    (120, 180),
+    honmei,
+    font=font_big,
+    fill="red"
+)
+
+# イン逃げ期待度
+draw.text(
+    (120, 290),
+    f"{nige_index}%",
+    font=font_big,
+    fill="red"
+)
+
+# 信頼度
+draw.text(
+    (120, 370),
+    f"逃げ信頼度：{trust}",
+    font=font_mid,
+    fill="green"
+)
+
+# コメント
+draw.text(
+    (80, 760),
+    comment,
+    font=font_small,
+    fill="black"
+)
+
+# 分析データ
+draw.text(
+    (80, 470),
+    f"逃げ成功率 {race_data['boat1_win']}%",
+    font=font_small,
+    fill="black"
+)
+
+draw.text(
+    (80, 520),
+    f"差し成功率 {race_data['boat2_sashi']}%",
+    font=font_small,
+    fill="black"
+)
+
+# 直前誘導
+draw.text(
+    (80, 930),
+    "展示評価・補正展示タイムは直前版で公開！",
+    font=font_small,
+    fill="red"
+)
+
+# =========================
+# 保存
+# =========================
+
+img.save("output.png")
+
+print("新聞画像を生成しました！")        r2, f2 = cap.read()
 
         if not r1:
             break
