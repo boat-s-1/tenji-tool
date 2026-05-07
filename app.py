@@ -743,6 +743,12 @@ color:#ff4f93;
 <div class="boat-title">6号艇</div>
 <div class="boat-text">{boat6}</div>
 </div>
+
+</div>
+
+</div>
+
+<div class="right">
 <div class="mainbox">
 
 <div style="
@@ -813,12 +819,6 @@ margin-bottom:20px;
 </div>
 
 </div>
-</div>
-
-</div>
-
-<div class="right">
-
 <img class="character-img" src="{character_src}">
 
 <div class="notice">
