@@ -25,8 +25,7 @@ stamp_dict = {
     "危険": get_base64_img("ab68e233-d232-438b-8e50-e9d041eea1df.png"),
 }
 
-# 選択されたスタンプの画像URLを取得
-current_stamp_src = stamp_dict.get(stamp, "")
+
 
 
 
@@ -677,7 +676,8 @@ body{{
 </style>
 
 """
-
+# 選択されたスタンプの画像URLを取得
+current_stamp_src = stamp_dict.get(stamp, "")
 # =========================================
 # 前日版HTML
 # =========================================
