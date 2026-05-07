@@ -200,6 +200,17 @@ comment = st.sidebar.text_area(
     "一果のひとこと",
     "1号艇中心だが2号艇の差し注意！"
 )
+# =========================================
+# 展開ストーリー設定
+# =========================================
+st.sidebar.header("展開ストーリー設定")
+
+# 注目する艇を最大3つまで選べるようにする
+selected_boats = st.sidebar.multiselect(
+    "注目する艇を選択（最大3つ）",
+    ["1号艇", "2号艇", "3号艇", "4号艇", "5号艇", "6号艇"],
+    default=["1号艇", "2号艇", "3号艇"] # 初期値
+)
 
 # =========================================
 # 艇コメント
@@ -365,6 +376,40 @@ body{{
     background-position:center;
     background-attachment:fixed;
 }}
+
+/* 注目艇のスタイル */
+.pickup-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+    background: linear-gradient(90deg, #fff5f8 0%, #ffffff 100%);
+    border-left: 8px solid #ff6ea8;
+    border-radius: 8px;
+    padding: 10px 15px;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.05);
+}
+
+.boat-num {
+    background: #ff6ea8;
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 22px;
+    font-weight: bold;
+    margin-right: 15px;
+    flex-shrink: 0;
+}
+
+.boat-comment {
+    font-size: 20px;
+    color: #444;
+    font-weight: bold;
+}
+
 
 .wrapper{{
     width:1000px;
@@ -676,6 +721,31 @@ body{{
 </style>
 
 """
+
+# 艇ごとのコメントを辞書にしておく
+all_boat_comments = {
+    "1号艇": boat1,
+    "2号艇": boat2,
+    "3号艇": boat3,
+    "4号艇": boat4,
+    "5号艇": boat5,
+    "6号艇": boat6
+}
+
+# 選択された艇だけをループしてHTMLを作る
+story_html = ""
+for b_name in selected_boats:
+    num = b_name.replace("号艇", "") # "1号艇" -> "1"
+    comment_text = all_boat_comments.get(b_name, "")
+    story_html += f"""
+    <div class="pickup-row">
+        <div class="boat-num">{num}</div>
+        <div class="boat-comment">{comment_text}</div>
+    </div>
+    """
+
+
+
 # 選択されたスタンプの画像URLを取得
 current_stamp_src = stamp_dict.get(stamp, "")
 # =========================================
@@ -739,32 +809,16 @@ html_code = f"""
     </div>
 </div>
 
-<div class="grid">
-    <div class="boat">
-        <div class="boat-title">1号艇</div>
-        <div class="boat-text">{boat1}</div>
+# html_code の中
+<div class="mainbox">
+    <div style="font-size:32px; font-weight:bold; color:#ff4f93; margin-bottom:15px; border-bottom:3px solid #ffb3cf;">
+        展開ストーリー
     </div>
-    <div class="boat">
-        <div class="boat-title">2号艇</div>
-        <div class="boat-text">{boat2}</div>
-    </div>
-    <div class="boat">
-        <div class="boat-title">3号艇</div>
-        <div class="boat-text">{boat3}</div>
-    </div>
-    <div class="boat">
-        <div class="boat-title">4号艇</div>
-        <div class="boat-text">{boat4}</div>
-    </div>
-    <div class="boat">
-        <div class="boat-title">5号艇</div>
-        <div class="boat-text">{boat5}</div>
-    </div>
-    <div class="boat">
-        <div class="boat-title">6号艇</div>
-        <div class="boat-text">{boat6}</div>
+    <div class="story-container">
+        {story_html}
     </div>
 </div>
+
 
 <div class="mainbox">
     <div style="font-size:40px; font-weight:bold; color:#ff4f93; margin-bottom:20px;">各艇評価指数</div>
