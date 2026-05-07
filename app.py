@@ -1065,7 +1065,7 @@ border-top:3px dashed #ff9ac2;
 
 
 
-</div>
+
 
 </div>
 
@@ -1102,7 +1102,7 @@ else f'''
 }
 </div>
 </div>
-
+</div>
 </div>
 
 <div class="footer-live">
