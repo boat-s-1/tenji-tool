@@ -1035,12 +1035,13 @@ margin-bottom:15px;
 </div>
 
 <div style="
-font-size:42px;
+font-size:36px;
 font-weight:bold;
 color:#666;
-line-height:1.8;
+line-height:1.3;
 text-align:center;
 white-space:pre-line;
+padding:5px 0;
 ">
 {osae_kaime}
 </div>
