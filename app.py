@@ -755,7 +755,7 @@ font-weight:bold;
 color:#ff4f93;
 margin-bottom:20px;
 ">
-艇評価ランキング
+各艇評価
 </div>
 
 <div class="bar-wrap">
