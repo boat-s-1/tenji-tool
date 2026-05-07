@@ -385,6 +385,24 @@ body{{
     background-attachment:fixed;
 }}
 
+
+/* 見出しのデザイン：ピンク塗りつぶし ＋ 白文字 */
+.section-title {{
+    background: #ff4f93; /* 濃いめのピンク（赤） */
+    color: white;
+    font-size: 28px;
+    font-weight: bold;
+    padding: 8px 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    display: inline-block; /* 文字の長さに合わせる場合はこれ */
+    width: auto;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+    font-family: 'Zen Maru Gothic', sans-serif;
+}}
+
+
+
 /* 吹き出し本体 */
 .fukidashi {{
     position: relative;
@@ -880,9 +898,6 @@ html_code = f"""
 
 {header_part}
 
-<div class="sub">
-前日版
-</div>
 
 <div class="main">
 
@@ -906,11 +921,11 @@ html_code = f"""
 </div>
 
 <div class="mainbox">
-    <div style="font-size:32px; font-weight:bold; color:#ff4f93; margin-bottom:15px; border-bottom:3px solid #ffb3cf;">
-        展開ストーリー (予想)
+    <div class="section-title">展開ストーリー (予想)</div> <div class="story-container">
+        {story_html}
     </div>
-    {story_html}
 </div>
+
 
 
 
