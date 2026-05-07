@@ -84,7 +84,7 @@ else:
 
 if nige_index >= 80 and race_data["wave"] <= 30:
 
-    comment = "イン中心のレース"
+    comment = "test"
 
 elif sashi_index >= 70:
 
