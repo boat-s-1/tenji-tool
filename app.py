@@ -1,24 +1,20 @@
 import streamlit as st
 from streamlit.components.v1 import html
 
-# ==================================
+# =========================================
 # ページ設定
-# ==================================
+# =========================================
 
 st.set_page_config(
     page_title="一果ちゃん新聞",
     layout="wide"
 )
 
-# ==================================
-# タイトル
-# ==================================
-
 st.title("競艇キャラ新聞ジェネレーター")
 
-# ==================================
+# =========================================
 # サイドバー
-# ==================================
+# =========================================
 
 st.sidebar.header("レース入力")
 
@@ -49,9 +45,9 @@ honmei = st.sidebar.selectbox(
     ]
 )
 
-# ==================================
+# =========================================
 # スタンプ
-# ==================================
+# =========================================
 
 stamp = st.sidebar.selectbox(
     "スタンプ",
@@ -70,9 +66,9 @@ stamp = st.sidebar.selectbox(
     ]
 )
 
-# ==================================
+# =========================================
 # 警報スタンプ
-# ==================================
+# =========================================
 
 alert_stamp = st.sidebar.selectbox(
     "警報スタンプ",
@@ -87,9 +83,9 @@ alert_stamp = st.sidebar.selectbox(
     ]
 )
 
-# ==================================
+# =========================================
 # 数値
-# ==================================
+# =========================================
 
 nige_rate = st.sidebar.slider(
     "イン逃げ期待度",
@@ -112,18 +108,18 @@ wave = st.sidebar.slider(
     28
 )
 
-# ==================================
+# =========================================
 # コメント
-# ==================================
+# =========================================
 
 comment = st.sidebar.text_area(
     "一果のひとこと",
     "1号艇のイン逃げ中心！でも2号艇の差しも怖い…！"
 )
 
-# ==================================
+# =========================================
 # 艇コメント
-# ==================================
+# =========================================
 
 boat1 = st.sidebar.text_input(
     "1号艇",
@@ -155,9 +151,9 @@ boat6 = st.sidebar.text_input(
     "大穴注意"
 )
 
-# ==================================
+# =========================================
 # 艇評価バー
-# ==================================
+# =========================================
 
 boat1_score = st.sidebar.slider(
     "1号艇 総合評価",
@@ -201,31 +197,50 @@ boat6_score = st.sidebar.slider(
     22
 )
 
-# ==================================
-# HTML
-# ==================================
+# =========================================
+# 直前版入力
+# =========================================
 
-html_code = f"""
+tenji_rank = st.sidebar.selectbox(
+    "展示評価",
+    ["S", "A", "B", "C"]
+)
 
-<!DOCTYPE html>
+tenji_time = st.sidebar.text_input(
+    "補正展示タイム",
+    "6.71"
+)
 
-<html>
+shinnyu = st.sidebar.text_input(
+    "進入予想",
+    "123/456"
+)
 
-<head>
+kaime = st.sidebar.text_input(
+    "推奨買い目",
+    "1-2-3"
+)
 
-<meta charset="UTF-8">
+ai_mark = st.sidebar.text_input(
+    "AI印",
+    "◎1 ○2 ▲5"
+)
 
-<link href="https://fonts.googleapis.com/css2?family=Yomogi&display=swap" rel="stylesheet">
+# =========================================
+# 共通CSS
+# =========================================
+
+common_style = """
 
 <style>
 
-body {{
+body{
     background:#fffdf5;
-    font-family:'Yomogi', cursive;
+    font-family:'Arial';
     padding:20px;
-}}
+}
 
-.wrapper {{
+.wrapper{
     width:1000px;
     margin:auto;
     background:white;
@@ -233,164 +248,167 @@ body {{
     border-radius:25px;
     overflow:hidden;
     box-shadow:0px 0px 20px rgba(0,0,0,0.1);
-}}
+}
 
-.header {{
+.header{
     display:flex;
     justify-content:space-between;
     align-items:center;
     padding:20px;
     border-bottom:5px dashed #ff6ea8;
-}}
+}
 
-.title {{
-    font-size:72px;
+.title{
+    font-size:64px;
     font-weight:bold;
     color:#ff4f93;
-    transform:rotate(-2deg);
-    letter-spacing:3px;
-    text-shadow:2px 2px 0px #ffd0e2;
-}}
+}
 
-.date {{
+.date{
     text-align:center;
-    font-size:30px;
+    font-size:28px;
     font-weight:bold;
-}}
+}
 
-.sub {{
-    padding:20px 30px;
-    font-size:36px;
+.sub{
+    padding:20px;
+    font-size:34px;
     color:#ff4f93;
     font-weight:bold;
-}}
+}
 
-.marker {{
-    display:inline;
-    background:linear-gradient(
-        transparent 60%,
-        #ffe066 60%
-    );
-}}
-
-.main {{
+.main{
     display:flex;
     gap:20px;
     padding:20px;
-}}
+}
 
-.left {{
+.left{
     width:65%;
-}}
+}
 
-.right {{
+.right{
     width:35%;
     text-align:center;
-}}
+}
 
-.mainbox {{
+.mainbox{
     border:5px dashed #ffb3cf;
     border-radius:25px;
     padding:20px;
     margin-bottom:20px;
     background:#fffafb;
-}}
+}
 
-.grid {{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:15px;
-    margin-top:20px;
-}}
-
-.boat {{
-    border:4px dashed #ffd0e2;
-    border-radius:20px;
-    padding:15px;
-    background:white;
-    min-height:120px;
-}}
-
-.boat-title {{
-    font-size:34px;
-    font-weight:bold;
-    margin-bottom:10px;
-}}
-
-.boat-text {{
-    font-size:24px;
-}}
-
-.notice {{
-    margin-top:20px;
-    background:#fff3c4;
-    border-radius:20px;
-    padding:20px;
-    text-align:center;
-    font-size:34px;
-    font-weight:bold;
-    color:#ff4f93;
-    border:4px dashed #ff6ea8;
-}}
-
-.circle {{
+.circle{
     display:inline-block;
     border:5px solid red;
     border-radius:50%;
     padding:10px 18px;
     transform:rotate(-8deg);
-    font-size:36px;
+    font-size:34px;
     color:red;
     font-weight:bold;
     margin-bottom:15px;
-}}
+}
 
-.alert {{
+.score-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:20px;
+    padding-bottom:12px;
+    border-bottom:3px dashed #ffd0e2;
+}
+
+.score-label{
+    font-size:36px;
+    font-weight:bold;
+    color:#ff4f93;
+}
+
+.score-value{
+    font-size:52px;
+    font-weight:bold;
+    color:#ff4f93;
+}
+
+.score-up{
+    font-size:48px;
+    font-weight:bold;
+    color:#44aa55;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+    margin-top:20px;
+}
+
+.boat{
+    border:4px dashed #ffd0e2;
+    border-radius:20px;
+    padding:15px;
+    background:white;
+}
+
+.boat-title{
+    font-size:30px;
+    font-weight:bold;
+}
+
+.boat-text{
+    font-size:22px;
+    margin-top:8px;
+}
+
+.notice{
+    margin-top:20px;
+    background:#fff3c4;
+    border-radius:20px;
+    padding:20px;
+    text-align:center;
+    font-size:30px;
+    font-weight:bold;
+    color:#ff4f93;
+    border:4px dashed #ff6ea8;
+}
+
+.alert{
     background:red;
     color:white;
-    font-size:42px;
+    font-size:36px;
     font-weight:bold;
     padding:20px;
     transform:rotate(-8deg);
     display:inline-block;
     margin-top:20px;
     border-radius:15px;
-}}
+}
 
-.footer {{
+.bar-wrap{
     margin-top:20px;
-    background:#ff4f93;
-    color:white;
-    text-align:center;
-    padding:25px;
-    font-size:40px;
+}
+
+.bar-row{
+    margin-bottom:15px;
+}
+
+.bar-label{
+    font-size:26px;
     font-weight:bold;
-}}
+}
 
-.bar-wrap {{
-    margin-top:25px;
-}}
-
-.bar-row {{
-    margin-bottom:18px;
-}}
-
-.bar-label {{
-    font-size:28px;
-    font-weight:bold;
-    margin-bottom:5px;
-}}
-
-.bar-bg {{
+.bar-bg{
     width:100%;
-    height:38px;
+    height:36px;
     background:#ffe3ee;
     border-radius:20px;
     overflow:hidden;
-    border:3px dashed #ffb3cf;
-}}
+}
 
-.bar-fill {{
+.bar-fill{
     height:100%;
     background:linear-gradient(
         90deg,
@@ -400,67 +418,54 @@ body {{
     border-radius:20px;
     text-align:right;
     color:white;
-    font-size:24px;
+    font-size:22px;
     font-weight:bold;
-    padding-right:15px;
-    line-height:38px;
-}}
+    padding-right:12px;
+    line-height:36px;
+}
 
-.fukidashi {{
-    position:relative;
+.fukidashi{
     background:#fff;
     border:4px dashed #ff6ea8;
     border-radius:25px;
     padding:18px;
     margin-top:20px;
-    font-size:24px;
+    font-size:22px;
     line-height:1.7;
-}}
+}
 
-.fukidashi:after {{
-    content:'';
-    position:absolute;
-    top:100%;
-    left:60px;
-    border-width:18px;
-    border-style:solid;
-    border-color:#ff6ea8 transparent transparent transparent;
-}}
-
-.score-row{{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
+.footer{
     margin-top:20px;
-    padding-bottom:12px;
-    border-bottom:3px dashed #ffd0e2;
-}}
-
-.score-label{{
-    font-size:38px;
+    background:#ff4f93;
+    color:white;
+    text-align:center;
+    padding:25px;
+    font-size:34px;
     font-weight:bold;
-    color:#ff4f93;
-}}
+}
 
-.score-value{{
-    font-size:58px;
-    font-weight:bold;
-    color:#ff4f93;
-}}
-
-.score-up{{
-    font-size:52px;
-    font-weight:bold;
-    color:#44aa55;
-}}
-
-img {{
+img{
     width:90%;
     border-radius:20px;
     margin-top:20px;
-}}
+}
 
 </style>
+
+"""
+
+# =========================================
+# 前日版HTML
+# =========================================
+
+html_code = f"""
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+
+{common_style}
 
 </head>
 
@@ -483,11 +488,7 @@ img {{
 </div>
 
 <div class="sub">
-
-<span class="marker">
-前日版 - 一果のイン逃げ予想 -
-</span>
-
+📰 前日版
 </div>
 
 <div class="main">
@@ -511,7 +512,6 @@ else f'''
 </div>
 
 <div class="score-row">
-
 <div class="score-label">
 イン逃げ期待度
 </div>
@@ -519,11 +519,9 @@ else f'''
 <div class="score-value">
 {nige_rate}%
 </div>
-
 </div>
 
 <div class="score-row">
-
 <div class="score-label">
 場平均との差
 </div>
@@ -531,7 +529,6 @@ else f'''
 <div class="score-up">
 +{up_rate}%
 </div>
-
 </div>
 
 </div>
@@ -573,7 +570,7 @@ else f'''
 <div class="mainbox">
 
 <div style="
-font-size:42px;
+font-size:40px;
 font-weight:bold;
 color:#ff4f93;
 margin-bottom:20px;
@@ -660,7 +657,7 @@ margin-bottom:20px;
 <div class="fukidashi">
 
 <div style="
-font-size:34px;
+font-size:30px;
 font-weight:bold;
 color:#ff4f93;
 margin-bottom:10px;
@@ -695,17 +692,170 @@ else f'''
 </div>
 
 </body>
-
 </html>
 
 """
 
-# ==================================
-# 表示
-# ==================================
+# =========================================
+# 直前版HTML
+# =========================================
 
-html(
-    html_code,
-    height=1800,
-    scrolling=True
+html_code2 = f"""
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+
+{common_style}
+
+</head>
+
+<body>
+
+<div class="wrapper">
+
+<div class="header">
+
+<div class="title">
+🚨 一果 直前速報
+</div>
+
+<div class="date">
+{race_date}<br>
+{race_place}<br>
+{race_no}
+</div>
+
+</div>
+
+<div class="main">
+
+<div class="left">
+
+<div class="mainbox">
+
+<div style="font-size:42px;font-weight:bold;color:#ff4f93;">
+展示評価：{tenji_rank}
+</div>
+
+<div class="score-row">
+<div class="score-label">
+補正展示タイム
+</div>
+
+<div class="score-value">
+{tenji_time}
+</div>
+</div>
+
+<div class="score-row">
+<div class="score-label">
+進入予想
+</div>
+
+<div class="score-value">
+{shinnyu}
+</div>
+</div>
+
+<div class="score-row">
+<div class="score-label">
+AI印
+</div>
+
+<div class="score-value">
+{ai_mark}
+</div>
+</div>
+
+</div>
+
+<div class="mainbox">
+
+<div style="
+font-size:42px;
+font-weight:bold;
+color:#ff4f93;
+margin-bottom:15px;
+">
+推奨買い目
+</div>
+
+<div style="
+font-size:72px;
+font-weight:bold;
+color:red;
+text-align:center;
+">
+{kaime}
+</div>
+
+</div>
+
+</div>
+
+<div class="right">
+
+<img src="https://placehold.co/400x600/png">
+
+<div class="notice">
+展示後更新！
+</div>
+
+<div class="notice">
+波乱指数<br>
+{wave}
+</div>
+
+{
+''
+if alert_stamp == "なし"
+else f'''
+<div class="alert">
+{alert_stamp}
+</div>
+'''
+}
+
+</div>
+
+</div>
+
+<div class="footer">
+直前情報は展示後更新！
+</div>
+
+</div>
+
+</body>
+</html>
+
+"""
+
+# =========================================
+# タブ表示
+# =========================================
+
+tab1, tab2 = st.tabs(
+    [
+        "📰 前日版",
+        "🚨 直前速報"
+    ]
 )
+
+with tab1:
+
+    html(
+        html_code,
+        height=1800,
+        scrolling=True
+    )
+
+with tab2:
+
+    html(
+        html_code2,
+        height=1400,
+        scrolling=True
+    )
