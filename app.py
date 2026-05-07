@@ -396,7 +396,7 @@ body{{
 }}
 
 .right{{
-    width:35%;
+    width:42%;
     text-align:center;
 }}
 
@@ -755,7 +755,7 @@ font-weight:bold;
 color:#ff4f93;
 margin-bottom:20px;
 ">
-評価指数
+各艇評価指数
 </div>
 
 <div class="bar-wrap">
