@@ -118,7 +118,7 @@ else:
 # テンプレ画像読み込み
 # =========================
 
-img = Image.open("template.jpg")
+img = Image.new("RGB", (1080, 1920), "white")
 
 draw = ImageDraw.Draw(img)
 
