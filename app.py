@@ -1,6 +1,5 @@
 import streamlit as st
 from streamlit.components.v1 import html
-from html2image import Html2Image
 
 # ==================================
 # ページ設定
@@ -104,7 +103,7 @@ boat6 = st.sidebar.text_input(
 )
 
 # ==================================
-# HTML新聞
+# HTMLコード
 # ==================================
 
 html_code = f"""
@@ -113,140 +112,197 @@ html_code = f"""
 
 <head>
 
+<meta charset="UTF-8">
+
+<link href="https://fonts.googleapis.com/css2?family=Yomogi&display=swap" rel="stylesheet">
+
 <style>
 
 body {{
-    background: #fff5f8;
-    font-family: sans-serif;
+    background:#fffdf5;
+    font-family:'Yomogi', cursive;
+    padding:30px;
 }}
 
 .wrapper {{
-    width: 1000px;
-    margin: auto;
-    background: white;
-    border: 5px solid #ff6ea8;
-    border-radius: 25px;
-    overflow: hidden;
+    width:1000px;
+    margin:auto;
+    background:white;
+    border:6px dashed #ff6ea8;
+    border-radius:25px;
+    overflow:hidden;
+    box-shadow:0px 0px 20px rgba(0,0,0,0.1);
 }}
 
 .header {{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px;
-    border-bottom: 4px solid #ff6ea8;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:20px;
+    border-bottom:5px dashed #ff6ea8;
 }}
 
 .title {{
-    font-size: 64px;
-    font-weight: bold;
-    color: #ff4f93;
+    font-size:72px;
+    font-weight:bold;
+    color:#ff4f93;
+    transform:rotate(-2deg);
+    letter-spacing:3px;
+    text-shadow:2px 2px 0px #ffd0e2;
 }}
 
 .date {{
-    text-align: center;
-    font-size: 32px;
-    font-weight: bold;
+    text-align:center;
+    font-size:30px;
+    font-weight:bold;
 }}
 
 .sub {{
-    padding: 15px 30px;
-    font-size: 32px;
-    color: #ff4f93;
-    font-weight: bold;
+    padding:20px 30px;
+    font-size:36px;
+    color:#ff4f93;
+    font-weight:bold;
+}}
+
+.marker {{
+    display:inline;
+    background:linear-gradient(
+        transparent 60%,
+        #ffe066 60%
+    );
 }}
 
 .main {{
-    display: flex;
-    padding: 20px;
+    display:flex;
+    padding:20px;
 }}
 
 .left {{
-    width: 65%;
+    width:65%;
 }}
 
 .right {{
-    width: 35%;
-    text-align: center;
+    width:35%;
+    text-align:center;
 }}
 
 .mainbox {{
-    border: 4px solid #ffb3cf;
-    border-radius: 20px;
-    padding: 20px;
-    margin-bottom: 20px;
+    border:5px dashed #ffb3cf;
+    border-radius:25px;
+    padding:25px;
+    margin-bottom:20px;
+    background:#fffafb;
 }}
 
 .big {{
-    font-size: 90px;
-    color: #ff4f93;
-    font-weight: bold;
+    font-size:100px;
+    color:#ff4f93;
+    font-weight:bold;
+    transform:rotate(-2deg);
 }}
 
 .up {{
-    font-size: 56px;
-    color: #44aa55;
-    font-weight: bold;
+    font-size:60px;
+    color:#44aa55;
+    font-weight:bold;
 }}
 
 .grid {{
-    display: grid;
-    grid-template-columns: repeat(3,1fr);
-    gap: 10px;
-    margin-top: 20px;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+    margin-top:20px;
 }}
 
 .boat {{
-    border: 3px solid #ffd0e2;
-    border-radius: 15px;
-    padding: 15px;
-    background: white;
-    min-height: 140px;
+    border:4px dashed #ffd0e2;
+    border-radius:20px;
+    padding:15px;
+    background:white;
+    min-height:140px;
 }}
 
 .boat-title {{
-    font-size: 32px;
-    font-weight: bold;
-    margin-bottom: 10px;
+    font-size:34px;
+    font-weight:bold;
+    margin-bottom:10px;
 }}
 
 .boat-text {{
-    font-size: 28px;
+    font-size:28px;
 }}
 
-.comment {{
-    margin-top: 20px;
-    border: 3px solid #ffb3cf;
-    border-radius: 20px;
-    padding: 20px;
-    font-size: 30px;
-    line-height: 1.7;
+.fukidashi {{
+    position:relative;
+    background:#fff;
+    border:4px dashed #ff6ea8;
+    border-radius:25px;
+    padding:25px;
+    margin-top:20px;
+    font-size:30px;
+    line-height:1.7;
 }}
 
-.footer {{
-    margin-top: 20px;
-    background: #ff4f93;
-    color: white;
-    text-align: center;
-    padding: 20px;
-    font-size: 36px;
-    font-weight: bold;
+.fukidashi:after {{
+    content:'';
+    position:absolute;
+    top:100%;
+    left:60px;
+    border-width:18px;
+    border-style:solid;
+    border-color:#ff6ea8 transparent transparent transparent;
 }}
 
 .notice {{
-    margin-top: 20px;
-    background: #fff3c4;
-    border-radius: 20px;
-    padding: 20px;
-    text-align: center;
-    font-size: 34px;
-    font-weight: bold;
-    color: #ff4f93;
+    margin-top:20px;
+    background:#fff3c4;
+    border-radius:20px;
+    padding:20px;
+    text-align:center;
+    font-size:36px;
+    font-weight:bold;
+    color:#ff4f93;
+    border:4px dashed #ff6ea8;
+}}
+
+.circle {{
+    display:inline-block;
+    border:5px solid red;
+    border-radius:50%;
+    padding:10px 18px;
+    transform:rotate(-8deg);
+    font-size:36px;
+    color:red;
+    font-weight:bold;
+    margin-bottom:15px;
+}}
+
+.alert {{
+    background:red;
+    color:white;
+    font-size:42px;
+    font-weight:bold;
+    padding:20px;
+    transform:rotate(-8deg);
+    display:inline-block;
+    margin-top:20px;
+    border-radius:15px;
+}}
+
+.footer {{
+    margin-top:20px;
+    background:#ff4f93;
+    color:white;
+    text-align:center;
+    padding:25px;
+    font-size:40px;
+    font-weight:bold;
 }}
 
 img {{
-    width: 90%;
-    border-radius: 20px;
+    width:90%;
+    border-radius:20px;
+    margin-top:20px;
 }}
 
 </style>
@@ -272,7 +328,9 @@ img {{
     </div>
 
     <div class="sub">
-        前日版 - 一果のイン逃げ予想 -
+        <span class="marker">
+            前日版 - 一果のイン逃げ予想 -
+        </span>
     </div>
 
     <div class="main">
@@ -281,12 +339,18 @@ img {{
 
             <div class="mainbox">
 
-                <div style="font-size:38px;font-weight:bold;color:#ff4f93;">
-                    本命：{honmei}
+                <div class="circle">
+                    本命
+                </div>
+
+                <div style="font-size:42px;font-weight:bold;color:#ff4f93;">
+                    {honmei}
                 </div>
 
                 <div style="margin-top:20px;font-size:40px;">
-                    イン逃げ期待度
+                    <span class="marker">
+                        イン逃げ期待度
+                    </span>
                 </div>
 
                 <div class="big">
@@ -294,7 +358,9 @@ img {{
                 </div>
 
                 <div style="margin-top:20px;font-size:40px;">
-                    場平均との差
+                    <span class="marker">
+                        場平均との差
+                    </span>
                 </div>
 
                 <div class="up">
@@ -337,9 +403,9 @@ img {{
 
             </div>
 
-            <div class="comment">
+            <div class="fukidashi">
 
-                <div style="font-size:36px;font-weight:bold;color:#ff4f93;">
+                <div style="font-size:40px;font-weight:bold;color:#ff4f93;">
                     一果のひとこと
                 </div>
 
@@ -365,6 +431,10 @@ img {{
                 {wave}
             </div>
 
+            <div class="alert">
+                波乱警報！
+            </div>
+
         </div>
 
     </div>
@@ -380,36 +450,11 @@ img {{
 """
 
 # ==================================
-# 新聞表示
+# HTML表示
 # ==================================
 
 html(
     html_code,
-    height=1800,
+    height=1900,
     scrolling=True
 )
-
-# ==================================
-# PNG保存
-# ==================================
-
-if st.button("新聞画像を保存"):
-
-    hti = Html2Image()
-
-    hti.screenshot(
-        html_str=html_code,
-        save_as="newspaper.png",
-        size=(1100, 1800)
-    )
-
-    st.success("新聞画像を保存しました！")
-
-    with open("newspaper.png", "rb") as file:
-
-        st.download_button(
-            label="PNGダウンロード",
-            data=file,
-            file_name="newspaper.png",
-            mime="image/png"
-        )
