@@ -1063,7 +1063,7 @@ margin-top:15px;
 border-top:3px dashed #ff9ac2;
 "></div>
 
-</div>
+
 
 </div>
 
@@ -1100,7 +1100,7 @@ else f'''
 </div>
 '''
 }
-
+</div>
 </div>
 
 </div>
