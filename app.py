@@ -216,14 +216,19 @@ shinnyu = st.sidebar.text_input(
     "123/456"
 )
 
+ikka_hantei = st.sidebar.text_input(
+    "一果判定",
+    "◎1 ○2 ▲5"
+)
+
+jikkan_comment = st.sidebar.text_area(
+    "直前コメント",
+    "展示気配は1号艇中心！"
+)
+
 kaime = st.sidebar.text_input(
     "推奨買い目",
     "1-2-3"
-)
-
-ai_mark = st.sidebar.text_input(
-    "AI印",
-    "◎1 ○2 ▲5"
 )
 
 # =========================================
@@ -450,6 +455,29 @@ img{
     margin-top:20px;
 }
 
+.buy-box{
+    background:#fff3c4;
+    border:5px dashed #ff6ea8;
+    border-radius:25px;
+    padding:25px;
+    margin-top:20px;
+}
+
+.buy-title{
+    font-size:42px;
+    font-weight:bold;
+    color:#ff4f93;
+    margin-bottom:15px;
+    text-align:center;
+}
+
+.buy-kaime{
+    font-size:72px;
+    font-weight:bold;
+    color:red;
+    text-align:center;
+}
+
 </style>
 
 """
@@ -476,7 +504,7 @@ html_code = f"""
 <div class="header">
 
 <div class="title">
-一果ちゃん新聞
+📰 一果ちゃん新聞
 </div>
 
 <div class="date">
@@ -488,7 +516,7 @@ html_code = f"""
 </div>
 
 <div class="sub">
-📰 前日版
+前日版
 </div>
 
 <div class="main">
@@ -512,6 +540,7 @@ else f'''
 </div>
 
 <div class="score-row">
+
 <div class="score-label">
 イン逃げ期待度
 </div>
@@ -519,9 +548,11 @@ else f'''
 <div class="score-value">
 {nige_rate}%
 </div>
+
 </div>
 
 <div class="score-row">
+
 <div class="score-label">
 場平均との差
 </div>
@@ -529,6 +560,7 @@ else f'''
 <div class="score-up">
 +{up_rate}%
 </div>
+
 </div>
 
 </div>
@@ -735,11 +767,16 @@ html_code2 = f"""
 
 <div class="mainbox">
 
-<div style="font-size:42px;font-weight:bold;color:#ff4f93;">
+<div style="
+font-size:42px;
+font-weight:bold;
+color:#ff4f93;
+">
 展示評価：{tenji_rank}
 </div>
 
 <div class="score-row">
+
 <div class="score-label">
 補正展示タイム
 </div>
@@ -747,9 +784,11 @@ html_code2 = f"""
 <div class="score-value">
 {tenji_time}
 </div>
+
 </div>
 
 <div class="score-row">
+
 <div class="score-label">
 進入予想
 </div>
@@ -757,37 +796,47 @@ html_code2 = f"""
 <div class="score-value">
 {shinnyu}
 </div>
+
 </div>
 
 <div class="score-row">
+
 <div class="score-label">
-AI印
+一果判定
 </div>
 
 <div class="score-value">
-{ai_mark}
+{ikka_hantei}
 </div>
+
 </div>
 
 </div>
 
-<div class="mainbox">
+<div class="fukidashi">
 
 <div style="
-font-size:42px;
+font-size:30px;
 font-weight:bold;
 color:#ff4f93;
-margin-bottom:15px;
+margin-bottom:10px;
 ">
+一果コメント
+</div>
+
+<div>
+{jikkan_comment}
+</div>
+
+</div>
+
+<div class="buy-box">
+
+<div class="buy-title">
 推奨買い目
 </div>
 
-<div style="
-font-size:72px;
-font-weight:bold;
-color:red;
-text-align:center;
-">
+<div class="buy-kaime">
 {kaime}
 </div>
 
@@ -856,6 +905,6 @@ with tab2:
 
     html(
         html_code2,
-        height=1400,
+        height=1600,
         scrolling=True
     )
