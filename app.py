@@ -883,7 +883,7 @@ if current_stamp_src:
          style="width: 160px; 
                 height: auto; 
                 position: absolute; 
-                right: -50px;    /* 右端ギリギリか、少しはみ出すくらい */
+                right: -80px;    /* 右端ギリギリか、少しはみ出すくらい */
                 top: -30px;      /* 上にはみ出すくらい */
                 transform: rotate(-15deg); 
                 z-index: 100; 
