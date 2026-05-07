@@ -615,28 +615,48 @@ body{{
     margin-top:8px;
 }}
 
-.notice{{
-    margin-top:20px;
-    background:#fff3c4;
-    border-radius:20px;
-    padding:20px;
-    text-align:center;
-    font-size:30px;
-    font-weight:bold;
-    color:#ff4f93;
-    border:4px dashed #ff6ea8;
+/* 前日版・直前版共通のチェックポイント枠 */
+.notice, .notice-live {{
+    margin-top: 20px;
+    background: #fff3c4; /* 前日版は黄色系 */
+    border: 4px dashed #ff6ea8;
+    border-radius: 20px;
+    padding: 15px;
+    text-align: left;
+    box-shadow: 3px 3px 10px rgba(0,0,0,0.05);
 }}
 
-.notice-live{{
-    margin-top:20px;
-    background:#ffe5f1;
-    border-radius:20px;
-    padding:20px;
-    text-align:center;
-    font-size:32px;
-    font-weight:bold;
-    color:#ff4f93;
-    border:4px dashed #ff4f93;
+/* 直前版だけ少し色を変えるなら（ピンク系） */
+.notice-live {{
+    background: #ffe5f1;
+    border: 4px dashed #ff4f93;
+}}
+
+.notice-title {{
+    font-size: 24px;
+    font-weight: bold;
+    color: #ff4f93;
+    text-align: center;
+    border-bottom: 2px solid #ffb3cf;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    font-family: 'Zen Maru Gothic', sans-serif;
+}}
+
+.notice-item {{
+    font-size: 18px;
+    font-weight: bold;
+    color: #555;
+    margin-bottom: 8px;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Zen Maru Gothic', sans-serif;
+}}
+
+.notice-value {{
+    font-size: 22px;
+    color: #ff4f93;
+    padding-left: 10px;
 }}
 
 .alert{{
@@ -917,21 +937,33 @@ html_code = f"""
 </div>
 
 <div class="right">
-    <img class="character-img" src="{character_src}" style="width: 100%; height: auto;">
+    <img class="character-img" src="{character_src}">
 
     <div class="fukidashi">
-        <div class="fukidashi-title">
-            🌸 一果のひとこと
-        </div>
-        <div>
-            {comment}
-        </div>
+        <div class="fukidashi-title">🌸 一果のひとこと</div>
+        <div>{comment}</div>
     </div>
 
-    <div class="notice" style="margin-top:20px;">
-        波乱指数 {wave}
+    <div class="notice">
+        <div class="notice-title">📍 要チェックポイント</div>
+        
+        <div class="notice-item">
+            ・波乱指数
+            <span class="notice-value">{stars} ({wave})</span>
+        </div>
+
+        <div class="notice-item">
+            ・危険艇
+            <span class="notice-value">{danger_boat if danger_boat != "なし" else "なし"}</span>
+        </div>
+
+        <div class="notice-item">
+            ・注目艇
+            <span class="notice-value">{attention_boats}</span>
+        </div>
     </div>
 </div>
+
 
 
 </div>
