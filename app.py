@@ -755,8 +755,7 @@ font-weight:bold;
 color:#ff4f93;
 margin-bottom:20px;
 ">
-各艇評価
-　ランキング
+一果の評価指数
 </div>
 
 <div class="bar-wrap">
