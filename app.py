@@ -296,19 +296,6 @@ body {{
     background:#fffafb;
 }}
 
-.big {{
-    font-size:100px;
-    color:#ff4f93;
-    font-weight:bold;
-    transform:rotate(-2deg);
-}}
-
-.up {{
-    font-size:60px;
-    color:#44aa55;
-    font-weight:bold;
-}}
-
 .grid {{
     display:grid;
     grid-template-columns:repeat(3,1fr);
@@ -440,6 +427,33 @@ body {{
     border-color:#ff6ea8 transparent transparent transparent;
 }}
 
+.score-row{{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:20px;
+    padding-bottom:12px;
+    border-bottom:3px dashed #ffd0e2;
+}}
+
+.score-label{{
+    font-size:38px;
+    font-weight:bold;
+    color:#ff4f93;
+}}
+
+.score-value{{
+    font-size:58px;
+    font-weight:bold;
+    color:#ff4f93;
+}}
+
+.score-up{{
+    font-size:52px;
+    font-weight:bold;
+    color:#44aa55;
+}}
+
 img {{
     width:90%;
     border-radius:20px;
@@ -496,24 +510,28 @@ else f'''
 {honmei}
 </div>
 
-<div style="margin-top:20px;font-size:40px;">
-<span class="marker">
+<div class="score-row">
+
+<div class="score-label">
 イン逃げ期待度
-</span>
 </div>
 
-<div class="big">
+<div class="score-value">
 {nige_rate}%
 </div>
 
-<div style="margin-top:20px;font-size:40px;">
-<span class="marker">
-場平均との差
-</span>
 </div>
 
-<div class="up">
+<div class="score-row">
+
+<div class="score-label">
+場平均との差
+</div>
+
+<div class="score-up">
 +{up_rate}%
+</div>
+
 </div>
 
 </div>
@@ -688,6 +706,6 @@ else f'''
 
 html(
     html_code,
-    height=2000,
+    height=1800,
     scrolling=True
 )
