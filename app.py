@@ -921,6 +921,15 @@ html_code = f"""
     {honmei}
     </div>
 
+
+
+<div class="mainbox" style="position: relative;">
+    {stamp_html}
+    <div class="section-title">本命候補</div> <div style="font-size:42px; font-weight:bold; color:#ff4f93; margin-left:10px;">
+        {honmei}
+    </div>
+
+
     <div class="score-row">
         <div class="score-label">イン逃げ期待度</div>
         <div class="score-value">{nige_rate}%</div>
