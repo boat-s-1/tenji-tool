@@ -880,7 +880,7 @@ stamp_html = ""
 if current_stamp_src:
     stamp_html = f'''
     <img src="{current_stamp_src}" 
-         style="width: 250px; 
+         style="width: 220px; 
                 height: auto; 
                 position: absolute; 
                 right: -80px;    /* 右端ギリギリか、少しはみ出すくらい */
