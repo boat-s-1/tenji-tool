@@ -658,6 +658,19 @@ body{{
 # 前日版HTML
 # =========================================
 
+# まずヘッダー部分をパーツとして作成
+header_part = f"""
+<div class="header" style="display: flex; justify-content: center; position: relative; align-items: center; padding: 20px; border-bottom: 5px dashed #ff6ea8;">
+    <img src="{logo_src}" style="width: 100%; max-width: 650px; height: auto;">
+    <div class="date" style="position: absolute; right: 20px; font-size: 24px; font-weight: bold; line-height: 1.2; text-align: center;">
+        {race_date}<br>
+        {race_place}<br>
+        {race_no}
+    </div>
+</div>
+"""
+
+# 全体のHTMLを組み立て
 html_code = f"""
 <!DOCTYPE html>
 <html>
@@ -670,27 +683,7 @@ html_code = f"""
 
 <div class="wrapper">
 
-# --- 修正後のHTML構造の例 ---
-html_code = f"""
-<div class="header" style="display: flex; justify-content: center; position: relative; align-items: center; padding: 20px;">
-    <img src="{logo_src}" style="width: 100%; max-width: 650px; height: auto;">
-    <div class="date" style="position: absolute; right: 20px; font-size: 24px; font-weight: bold; line-height: 1.2;">
-        {race_date}<br>
-        {race_place}<br>
-        {race_no}
-    </div>
-</div>
-"""
->
-
-
-<div class="date">
-{race_date}<br>
-{race_place}<br>
-{race_no}
-</div>
-
-</div>
+{header_part}
 
 <div class="sub">
 前日版
@@ -889,6 +882,7 @@ margin-bottom:10px;
 </body>
 </html>
 """
+
 
 # =========================================
 # 直前版HTML
