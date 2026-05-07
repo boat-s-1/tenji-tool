@@ -930,8 +930,8 @@ html_code = f"""
 
 
 <div class="mainbox">
-    <div style="font-size:40px; font-weight:bold; color:#ff4f93; margin-bottom:20px;">各艇評価指数</div>
-    <div class="bar-wrap">
+    <div class="section-title">各艇評価指数</div> <div class="bar-wrap">
+
         <div class="bar-row">
             <div class="bar-label">1号艇</div>
             <div class="bar-bg"><div class="bar-fill" style="width:{boat1_score}%;">{boat1_score}</div></div>
