@@ -11,13 +11,13 @@ st.set_page_config(
     layout="wide"
 )
 
-st.title("競艇キャラ新聞ジェネレーター")
+st.title("🚤 一果ちゃん新聞ジェネレーター")
 
 # =========================================
 # サイドバー
 # =========================================
 
-st.sidebar.header("レース入力")
+st.sidebar.header("レース情報")
 
 race_place = st.sidebar.text_input(
     "レース場",
@@ -50,7 +50,7 @@ honmei = st.sidebar.selectbox(
 # 画像アップロード
 # =========================================
 
-st.sidebar.header("画像設定")
+st.sidebar.header("画像")
 
 uploaded_character = st.sidebar.file_uploader(
     "キャラ画像",
@@ -76,7 +76,7 @@ if uploaded_character is not None:
 
 else:
 
-    character_src = "https://placehold.co/500x800/png"
+    character_src = "https://placehold.co/500x900/png"
 
 if uploaded_bg is not None:
 
@@ -103,28 +103,22 @@ stamp = st.sidebar.selectbox(
         "激アツ",
         "鉄板",
         "穴狙い",
-        "波乱警報",
         "見",
-        "見送り",
         "危険",
+        "波乱警報",
         "大荒れ注意"
     ]
 )
 
-# =========================================
-# 警報スタンプ
-# =========================================
-
 alert_stamp = st.sidebar.selectbox(
-    "警報スタンプ",
+    "警報",
     [
         "なし",
         "波乱注意！",
-        "波乱警報！",
-        "大荒れ注意！",
-        "高配当警戒！",
+        "展示急上昇！",
         "イン危険！",
-        "展示急上昇！"
+        "高配当警戒！",
+        "超波乱！"
     ]
 )
 
@@ -153,13 +147,20 @@ wave = st.sidebar.slider(
     28
 )
 
+hit_rate = st.sidebar.slider(
+    "的中期待度",
+    0,
+    100,
+    87
+)
+
 # =========================================
 # コメント
 # =========================================
 
 comment = st.sidebar.text_area(
     "一果のひとこと",
-    "1号艇のイン逃げ中心！でも2号艇の差しも怖い…！"
+    "1号艇中心だが2号艇の差し注意！"
 )
 
 # =========================================
@@ -188,7 +189,7 @@ boat4 = st.sidebar.text_input(
 
 boat5 = st.sidebar.text_input(
     "5号艇",
-    "厳しい"
+    "展示上昇"
 )
 
 boat6 = st.sidebar.text_input(
@@ -197,54 +198,56 @@ boat6 = st.sidebar.text_input(
 )
 
 # =========================================
-# 艇評価バー
+# 艇評価
 # =========================================
 
 boat1_score = st.sidebar.slider(
-    "1号艇 総合評価",
+    "1号艇 評価",
     0,
     100,
     88
 )
 
 boat2_score = st.sidebar.slider(
-    "2号艇 総合評価",
+    "2号艇 評価",
     0,
     100,
     65
 )
 
 boat3_score = st.sidebar.slider(
-    "3号艇 総合評価",
+    "3号艇 評価",
     0,
     100,
     52
 )
 
 boat4_score = st.sidebar.slider(
-    "4号艇 総合評価",
+    "4号艇 評価",
     0,
     100,
     48
 )
 
 boat5_score = st.sidebar.slider(
-    "5号艇 総合評価",
+    "5号艇 評価",
     0,
     100,
-    35
+    60
 )
 
 boat6_score = st.sidebar.slider(
-    "6号艇 総合評価",
+    "6号艇 評価",
     0,
     100,
     22
 )
 
 # =========================================
-# 直前版入力
+# 直前版
 # =========================================
+
+st.sidebar.header("直前版")
 
 tenji_rank = st.sidebar.selectbox(
     "展示評価",
@@ -266,9 +269,35 @@ ikka_hantei = st.sidebar.text_input(
     "◎1 ○2 ▲5"
 )
 
+danger_boat = st.sidebar.selectbox(
+    "危険艇",
+    [
+        "なし",
+        "1号艇",
+        "2号艇",
+        "3号艇",
+        "4号艇",
+        "5号艇",
+        "6号艇"
+    ]
+)
+
+up_boat = st.sidebar.selectbox(
+    "展示急上昇",
+    [
+        "なし",
+        "1号艇",
+        "2号艇",
+        "3号艇",
+        "4号艇",
+        "5号艇",
+        "6号艇"
+    ]
+)
+
 jikkan_comment = st.sidebar.text_area(
     "直前コメント",
-    "展示気配は1号艇中心！"
+    "展示は1号艇優勢！ただ2号艇の差し残し注意！"
 )
 
 kaime = st.sidebar.text_input(
@@ -277,7 +306,7 @@ kaime = st.sidebar.text_input(
 )
 
 # =========================================
-# 共通CSS
+# CSS
 # =========================================
 
 common_style = f"""
@@ -288,7 +317,6 @@ body{{
     background:#fffdf5;
     padding:20px;
     font-family:'Arial';
-    
     background-image:url('{bg_src}');
     background-size:cover;
     background-position:center;
@@ -305,6 +333,17 @@ body{{
     box-shadow:0px 0px 25px rgba(0,0,0,0.15);
 }}
 
+.wrapper-live{{
+    width:1000px;
+    margin:auto;
+    background:rgba(20,20,20,0.96);
+    border:6px solid red;
+    border-radius:25px;
+    overflow:hidden;
+    box-shadow:0px 0px 35px rgba(255,0,0,0.5);
+    color:white;
+}}
+
 .header{{
     display:flex;
     justify-content:space-between;
@@ -313,10 +352,24 @@ body{{
     border-bottom:5px dashed #ff6ea8;
 }}
 
+.header-live{{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:20px;
+    background:#c40000;
+}}
+
 .title{{
     font-size:64px;
     font-weight:bold;
     color:#ff4f93;
+}}
+
+.title-live{{
+    font-size:64px;
+    font-weight:bold;
+    color:white;
 }}
 
 .date{{
@@ -353,6 +406,14 @@ body{{
     padding:20px;
     margin-bottom:20px;
     background:#fffafb;
+}}
+
+.mainbox-live{{
+    border:4px solid red;
+    border-radius:25px;
+    padding:20px;
+    margin-bottom:20px;
+    background:#2a0000;
 }}
 
 .circle{{
@@ -430,6 +491,17 @@ body{{
     border:4px dashed #ff6ea8;
 }}
 
+.notice-live{{
+    margin-top:20px;
+    background:red;
+    border-radius:20px;
+    padding:20px;
+    text-align:center;
+    font-size:34px;
+    font-weight:bold;
+    color:white;
+}}
+
 .alert{{
     background:red;
     color:white;
@@ -489,6 +561,16 @@ body{{
     line-height:1.7;
 }}
 
+.fukidashi-live{{
+    background:#330000;
+    border:4px solid red;
+    border-radius:25px;
+    padding:18px;
+    margin-top:20px;
+    font-size:24px;
+    line-height:1.8;
+}}
+
 .footer{{
     margin-top:20px;
     background:#ff4f93;
@@ -496,6 +578,16 @@ body{{
     text-align:center;
     padding:25px;
     font-size:34px;
+    font-weight:bold;
+}}
+
+.footer-live{{
+    margin-top:20px;
+    background:red;
+    color:white;
+    text-align:center;
+    padding:25px;
+    font-size:40px;
     font-weight:bold;
 }}
 
@@ -513,6 +605,14 @@ body{{
     margin-top:20px;
 }}
 
+.buy-box-live{{
+    background:#5a0000;
+    border:6px solid yellow;
+    border-radius:25px;
+    padding:30px;
+    margin-top:20px;
+}}
+
 .buy-title{{
     font-size:42px;
     font-weight:bold;
@@ -521,10 +621,35 @@ body{{
     text-align:center;
 }}
 
+.buy-title-live{{
+    font-size:48px;
+    font-weight:bold;
+    color:yellow;
+    margin-bottom:20px;
+    text-align:center;
+}}
+
 .buy-kaime{{
     font-size:72px;
     font-weight:bold;
     color:red;
+    text-align:center;
+}}
+
+.buy-kaime-live{{
+    font-size:120px;
+    font-weight:bold;
+    color:yellow;
+    text-align:center;
+    text-shadow:0px 0px 20px red;
+}}
+
+.telop{{
+    background:red;
+    color:white;
+    padding:18px;
+    font-size:34px;
+    font-weight:bold;
     text-align:center;
 }}
 
@@ -592,27 +717,21 @@ color:#ff4f93;
 </div>
 
 <div class="score-row">
-
 <div class="score-label">
 イン逃げ期待度
 </div>
-
 <div class="score-value">
 {nige_rate}%
 </div>
-
 </div>
 
 <div class="score-row">
-
 <div class="score-label">
 場平均との差
 </div>
-
 <div class="score-up">
 +{up_rate}%
 </div>
-
 </div>
 
 </div>
@@ -729,8 +848,7 @@ margin-bottom:20px;
 <img class="character-img" src="{character_src}">
 
 <div class="notice">
-最終判断は<br>
-直前版で公開！
+最終判断は直前版で公開！
 </div>
 
 <div class="notice">
@@ -795,12 +913,16 @@ html_code2 = f"""
 
 <body>
 
-<div class="wrapper">
+<div class="wrapper-live">
 
-<div class="header">
+<div class="telop">
+🚨 展示終了！最終結論速報 🚨
+</div>
 
-<div class="title">
-🚨 一果 直前速報
+<div class="header-live">
+
+<div class="title-live">
+⚠ 一果 緊急速報
 </div>
 
 <div class="date">
@@ -815,61 +937,77 @@ html_code2 = f"""
 
 <div class="left">
 
-<div class="mainbox">
+<div class="mainbox-live">
 
 <div style="
-font-size:42px;
+font-size:46px;
 font-weight:bold;
-color:#ff4f93;
+color:yellow;
 ">
 展示評価：{tenji_rank}
 </div>
 
-<div class="score-row">
-
-<div class="score-label">
-補正展示タイム
+<div style="
+font-size:34px;
+margin-top:20px;
+">
+補正展示タイム：{tenji_time}
 </div>
 
-<div class="score-value">
-{tenji_time}
+<div style="
+font-size:34px;
+margin-top:20px;
+">
+進入予想：{shinnyu}
 </div>
 
-</div>
-
-<div class="score-row">
-
-<div class="score-label">
-進入予想
-</div>
-
-<div class="score-value">
-{shinnyu}
-</div>
-
-</div>
-
-<div class="score-row">
-
-<div class="score-label">
+<div style="
+font-size:42px;
+font-weight:bold;
+color:#ffea00;
+margin-top:30px;
+">
 一果判定
 </div>
 
-<div class="score-value">
+<div style="
+font-size:52px;
+font-weight:bold;
+margin-top:15px;
+">
 {ikka_hantei}
 </div>
 
 </div>
 
-</div>
-
-<div class="fukidashi">
+<div class="mainbox-live">
 
 <div style="
-font-size:30px;
+font-size:38px;
 font-weight:bold;
-color:#ff4f93;
-margin-bottom:10px;
+color:#ffea00;
+">
+🎯 的中期待度
+</div>
+
+<div style="
+font-size:88px;
+font-weight:bold;
+color:white;
+margin-top:15px;
+">
+{hit_rate}%
+</div>
+
+</div>
+
+<div class="fukidashi-live">
+
+<div style="
+font-size:34px;
+font-weight:bold;
+color:yellow;
+margin-bottom:15px;
 ">
 一果コメント
 </div>
@@ -880,13 +1018,13 @@ margin-bottom:10px;
 
 </div>
 
-<div class="buy-box">
+<div class="buy-box-live">
 
-<div class="buy-title">
+<div class="buy-title-live">
 推奨買い目
 </div>
 
-<div class="buy-kaime">
+<div class="buy-kaime-live">
 {kaime}
 </div>
 
@@ -898,13 +1036,19 @@ margin-bottom:10px;
 
 <img class="character-img" src="{character_src}">
 
-<div class="notice">
-展示後更新！
-</div>
-
-<div class="notice">
+<div class="notice-live">
 波乱指数<br>
 {wave}
+</div>
+
+<div class="notice-live">
+展示急上昇<br>
+{up_boat}
+</div>
+
+<div class="notice-live">
+危険艇<br>
+{danger_boat}
 </div>
 
 {
@@ -921,8 +1065,8 @@ else f'''
 
 </div>
 
-<div class="footer">
-直前情報は展示後更新！
+<div class="footer-live">
+⚠ 最終判断は自己責任で！ ⚠
 </div>
 
 </div>
@@ -947,7 +1091,7 @@ with tab1:
 
     html(
         html_code,
-        height=1900,
+        height=2000,
         scrolling=True
     )
 
@@ -955,6 +1099,6 @@ with tab2:
 
     html(
         html_code2,
-        height=1700,
+        height=1800,
         scrolling=True
     )
