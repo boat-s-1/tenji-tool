@@ -7,6 +7,30 @@ import os
 # 画像ファイルがスクリプトと同じフォルダにある場合
 logo_path = "8c5a3a8d-fe42-4239-bfe9-c67326baa39a.png" # ここを実際のファイル名に合わせてください
 
+# --- スタンプ画像の読み込み関数 ---
+def get_base64_img(path):
+    if os.path.exists(path):
+        with open(path, "rb") as f:
+            data = base64.b64encode(f.read()).decode()
+        return f"data:image/png;base64,{data}"
+    return ""
+
+# スタンプ画像のパスを指定（実際のファイル名に変更してください）
+stamp_dict = {
+    "本命": get_base64_img("honmei_stamp.png"),
+    "激アツ": get_base64_img("gekiatsu_stamp.png"),
+    "鉄板": get_base64_img("teppan_stamp.png"),
+    "穴狙い": get_base64_img("ananerai_stamp.png"),
+    "見": get_base64_img("mi_stamp.png"),
+    "危険": get_base64_img("kiken_stamp.png"),
+}
+
+# 選択されたスタンプの画像URLを取得
+current_stamp_src = stamp_dict.get(stamp, "")
+
+
+
+
 if os.path.exists(logo_path):
     with open(logo_path, "rb") as f:
         logo_base64 = base64.b64encode(f.read()).decode()
