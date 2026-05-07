@@ -27,12 +27,12 @@ stamp_dict = {
 
 # --- ボート画像の読み込み ---
 # ファイル名はご自身が保存したもの（例: boat1.png）に合わせてください
-boat1_src = get_base64_img("image_8.png") 
-boat2_src = get_base64_img("boat2.png") 
-boat3_src = get_base64_img("boat2.png")
-boat4_src = get_base64_img("boat2.png")
-boat5_src = get_base64_img("boat2.png")
-boat6_src = get_base64_img("boat2.png")
+boat1_src = get_base64_img("IMG_4170.png") 
+boat2_src = get_base64_img("IMG_4172.png") 
+boat3_src = get_base64_img("IMG_4171.png")
+boat4_src = get_base64_img("55e7bfa3-f032-45f8-ab82-0cd34799feb2.png")
+boat5_src = get_base64_img("3e82f55c-1d03-46ce-a11f-9050f242877d.png")
+boat6_src = get_base64_img("c81ee8e5-46b3-4526-bfee-3d6efdd0801b.png")
 
 
 
@@ -752,6 +752,34 @@ for b_name in selected_boats:
     </div>
     """
 
+# =========================================
+# 展開ストーリー生成ロジック (ここが「ロジック部分」です)
+# =========================================
+
+# 各艇のコメントと背景色などを辞書で管理
+boat_info = {
+    "1号艇": {"comment": boat1, "color": "#e2e2e2"}, # 白（少しグレー）
+    "2号艇": {"comment": boat2, "color": "#444444"}, # 黒
+    "3号艇": {"comment": boat3, "color": "#ff4444"}, # 赤
+    "4号艇": {"comment": boat4, "color": "#4444ff"}, # 青
+    "5号艇": {"comment": boat5, "color": "#eeaa00"}, # 黄
+    "6号艇": {"comment": boat6, "color": "#22aa22"}, # 緑
+}
+
+# 選択された艇だけをループして、HTMLを組み立てる
+story_html = ""
+for b_name in selected_boats:
+    num = b_name.replace("号艇", "")
+    info = boat_info.get(b_name)
+    
+    # ここで1行分のパーツを作成
+    story_html += f"""
+    <div class="pickup-row">
+        <div class="boat-num" style="background: {info['color']};">{num}</div>
+        <div class="boat-comment">{info['comment']}</div>
+    </div>
+    """
+
 
 
 # 選択されたスタンプの画像URLを取得
@@ -819,12 +847,11 @@ html_code = f"""
 
 <div class="mainbox">
     <div style="font-size:32px; font-weight:bold; color:#ff4f93; margin-bottom:15px; border-bottom:3px solid #ffb3cf;">
-        展開ストーリー
+        展開ストーリー (予想)
     </div>
-    <div class="story-container">
-        {story_html}
-    </div>
+    {story_html}
 </div>
+
 
 
 <div class="mainbox">
