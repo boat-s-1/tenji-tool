@@ -880,7 +880,7 @@ stamp_html = ""
 if current_stamp_src:
     stamp_html = f'''
     <img src="{current_stamp_src}" 
-         style="width: 160px; 
+         style="width: 250px; 
                 height: auto; 
                 position: absolute; 
                 right: -80px;    /* 右端ギリギリか、少しはみ出すくらい */
@@ -917,7 +917,7 @@ html_code = f"""
 
 <div class="mainbox" style="position: relative;">
     {stamp_html}
-    <div class="section-title">本命</div> <div style="font-size:42px; font-weight:bold; color:#ff4f93; margin-left:10px;">
+    <div class="section-title">本命候補</div> <div style="font-size:42px; font-weight:bold; color:#ff4f93; margin-left:10px;">
         {honmei}
     </div>
 
