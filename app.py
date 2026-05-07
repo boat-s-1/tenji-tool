@@ -17,7 +17,7 @@ st.set_page_config(
 st.title("競艇キャラ新聞ジェネレーター")
 
 # ==================================
-# サイドバー入力
+# サイドバー
 # ==================================
 
 st.sidebar.header("レース入力")
@@ -39,8 +39,57 @@ race_date = st.sidebar.text_input(
 
 honmei = st.sidebar.selectbox(
     "本命",
-    ["1号艇", "2号艇", "3号艇"]
+    [
+        "1号艇",
+        "2号艇",
+        "3号艇",
+        "4号艇",
+        "5号艇",
+        "6号艇"
+    ]
 )
+
+# ==================================
+# スタンプ
+# ==================================
+
+stamp = st.sidebar.selectbox(
+    "スタンプ",
+    [
+        "なし",
+        "本命",
+        "超本命",
+        "激アツ",
+        "鉄板",
+        "穴狙い",
+        "波乱警報",
+        "見",
+        "見送り",
+        "危険",
+        "大荒れ注意"
+    ]
+)
+
+# ==================================
+# 警報スタンプ
+# ==================================
+
+alert_stamp = st.sidebar.selectbox(
+    "警報スタンプ",
+    [
+        "なし",
+        "波乱注意！",
+        "波乱警報！",
+        "大荒れ注意！",
+        "高配当警戒！",
+        "イン危険！",
+        "展示急上昇！"
+    ]
+)
+
+# ==================================
+# 数値
+# ==================================
 
 nige_rate = st.sidebar.slider(
     "イン逃げ期待度",
@@ -63,13 +112,17 @@ wave = st.sidebar.slider(
     28
 )
 
+# ==================================
+# コメント
+# ==================================
+
 comment = st.sidebar.text_area(
     "一果のひとこと",
     "1号艇のイン逃げ中心！でも2号艇の差しも怖い…！"
 )
 
 # ==================================
-# 艇別コメント
+# 艇コメント
 # ==================================
 
 boat1 = st.sidebar.text_input(
@@ -149,11 +202,13 @@ boat6_score = st.sidebar.slider(
 )
 
 # ==================================
-# HTMLコード
+# HTML
 # ==================================
 
 html_code = f"""
+
 <!DOCTYPE html>
+
 <html>
 
 <head>
@@ -398,241 +453,220 @@ img {{
 
 <div class="wrapper">
 
-    <div class="header">
-
-        <div class="title">
-            一果ちゃん新聞
-        </div>
-
-        <div class="date">
-            {race_date}<br>
-            {race_place}<br>
-            {race_no}
-        </div>
-
-    </div>
-
-    <div class="sub">
-        <span class="marker">
-            前日版 - 一果のイン逃げ予想 -
-        </span>
-    </div>
-
-    <div class="main">
-
-        <div class="left">
-
-            <div class="mainbox">
-
-                <div class="circle">
-                    本命
-                </div>
-
-                <div style="font-size:42px;font-weight:bold;color:#ff4f93;">
-                    {honmei}
-                </div>
-
-                <div style="margin-top:20px;font-size:40px;">
-                    <span class="marker">
-                        イン逃げ期待度
-                    </span>
-                </div>
-
-                <div class="big">
-                    {nige_rate}%
-                </div>
-
-                <div style="margin-top:20px;font-size:40px;">
-                    <span class="marker">
-                        場平均との差
-                    </span>
-                </div>
+<div class="header">
 
-                <div class="up">
-                    +{up_rate}%
-                </div>
+<div class="title">
+一果ちゃん新聞
+</div>
+
+<div class="date">
+{race_date}<br>
+{race_place}<br>
+{race_no}
+</div>
 
-            </div>
-
-            <div class="grid">
-
-                <div class="boat">
-                    <div class="boat-title">1号艇</div>
-                    <div class="boat-text">{boat1}</div>
-                </div>
-
-                <div class="boat">
-                    <div class="boat-title">2号艇</div>
-                    <div class="boat-text">{boat2}</div>
-                </div>
-
-                <div class="boat">
-                    <div class="boat-title">3号艇</div>
-                    <div class="boat-text">{boat3}</div>
-                </div>
-
-                <div class="boat">
-                    <div class="boat-title">4号艇</div>
-                    <div class="boat-text">{boat4}</div>
-                </div>
-
-                <div class="boat">
-                    <div class="boat-title">5号艇</div>
-                    <div class="boat-text">{boat5}</div>
-                </div>
-
-                <div class="boat">
-                    <div class="boat-title">6号艇</div>
-                    <div class="boat-text">{boat6}</div>
-                </div>
-
-            </div>
-
-            <div class="mainbox">
-
-                <div style="
-                    font-size:42px;
-                    font-weight:bold;
-                    color:#ff4f93;
-                    margin-bottom:20px;
-                ">
-                    艇評価ランキング
-                </div>
-
-                <div class="bar-wrap">
-
-                    <div class="bar-row">
-                        <div class="bar-label">1号艇</div>
-                        <div class="bar-bg">
-                            <div class="bar-fill" style="width:{boat1_score}%;">
-                                {boat1_score}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="bar-row">
-                        <div class="bar-label">2号艇</div>
-                        <div class="bar-bg">
-                            <div class="bar-fill" style="width:{boat2_score}%;">
-                                {boat2_score}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="bar-row">
-                        <div class="bar-label">3号艇</div>
-                        <div class="bar-bg">
-                            <div class="bar-fill" style="width:{boat3_score}%;">
-                                {boat3_score}
-                            </div>
-                        </div>
-                    </div>
-
-                   <div class="bar-row">
-
-                        <div class="bar-label">4号艇</div>
-
-                        <div class="bar-bg">
-
-                            <div class="bar-fill" style="width:{boat4_score}%;">
-
-                                {boat4_score}
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                    <div class="bar-row">
-
-                        <div class="bar-label">5号艇</div>
-
-                        <div class="bar-bg">
-
-                            <div class="bar-fill" style="width:{boat5_score}%;">
-
-                                {boat5_score}
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                    <div class="bar-row">
-
-                        <div class="bar-label">6号艇</div>
-
-                        <div class="bar-bg">
-
-                            <div class="bar-fill" style="width:{boat6_score}%;">
-
-                                {boat6_score}
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="fukidashi">
-
-                <div style="font-size:40px;font-weight:bold;color:#ff4f93;">
-
-                    一果のひとこと
-
-                </div>
-
-                <div style="margin-top:15px;">
-
-                    {comment}
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="right">
-
-            <img src="https://placehold.co/400x600/png">
-
-            <div class="notice">
-
-                最終判断は<br>
-
-                直前版で公開！
-
-            </div>
-
-            <div class="notice">
-
-                波乱指数<br>
-
-                {wave}
-
-            </div>
-
-            <div class="alert">
-
-                波乱警報！
-
-            </div>
-
-        </div>
-
-    </div>
-
-    <div class="footer">
-
-        展示評価・補正展示タイムは直前版で公開！
-
-    </div>
+</div>
+
+<div class="sub">
+
+<span class="marker">
+前日版 - 一果のイン逃げ予想 -
+</span>
+
+</div>
+
+<div class="main">
+
+<div class="left">
+
+<div class="mainbox">
+
+{
+''
+if stamp == "なし"
+else f'''
+<div class="circle">
+{stamp}
+</div>
+'''
+}
+
+<div style="font-size:42px;font-weight:bold;color:#ff4f93;">
+{honmei}
+</div>
+
+<div style="margin-top:20px;font-size:40px;">
+<span class="marker">
+イン逃げ期待度
+</span>
+</div>
+
+<div class="big">
+{nige_rate}%
+</div>
+
+<div style="margin-top:20px;font-size:40px;">
+<span class="marker">
+場平均との差
+</span>
+</div>
+
+<div class="up">
++{up_rate}%
+</div>
+
+</div>
+
+<div class="grid">
+
+<div class="boat">
+<div class="boat-title">1号艇</div>
+<div class="boat-text">{boat1}</div>
+</div>
+
+<div class="boat">
+<div class="boat-title">2号艇</div>
+<div class="boat-text">{boat2}</div>
+</div>
+
+<div class="boat">
+<div class="boat-title">3号艇</div>
+<div class="boat-text">{boat3}</div>
+</div>
+
+<div class="boat">
+<div class="boat-title">4号艇</div>
+<div class="boat-text">{boat4}</div>
+</div>
+
+<div class="boat">
+<div class="boat-title">5号艇</div>
+<div class="boat-text">{boat5}</div>
+</div>
+
+<div class="boat">
+<div class="boat-title">6号艇</div>
+<div class="boat-text">{boat6}</div>
+</div>
+
+</div>
+
+<div class="mainbox">
+
+<div style="
+font-size:42px;
+font-weight:bold;
+color:#ff4f93;
+margin-bottom:20px;
+">
+艇評価ランキング
+</div>
+
+<div class="bar-wrap">
+
+<div class="bar-row">
+<div class="bar-label">1号艇</div>
+<div class="bar-bg">
+<div class="bar-fill" style="width:{boat1_score}%;">
+{boat1_score}
+</div>
+</div>
+</div>
+
+<div class="bar-row">
+<div class="bar-label">2号艇</div>
+<div class="bar-bg">
+<div class="bar-fill" style="width:{boat2_score}%;">
+{boat2_score}
+</div>
+</div>
+</div>
+
+<div class="bar-row">
+<div class="bar-label">3号艇</div>
+<div class="bar-bg">
+<div class="bar-fill" style="width:{boat3_score}%;">
+{boat3_score}
+</div>
+</div>
+</div>
+
+<div class="bar-row">
+<div class="bar-label">4号艇</div>
+<div class="bar-bg">
+<div class="bar-fill" style="width:{boat4_score}%;">
+{boat4_score}
+</div>
+</div>
+</div>
+
+<div class="bar-row">
+<div class="bar-label">5号艇</div>
+<div class="bar-bg">
+<div class="bar-fill" style="width:{boat5_score}%;">
+{boat5_score}
+</div>
+</div>
+</div>
+
+<div class="bar-row">
+<div class="bar-label">6号艇</div>
+<div class="bar-bg">
+<div class="bar-fill" style="width:{boat6_score}%;">
+{boat6_score}
+</div>
+</div>
+</div>
+
+</div>
+
+</div>
+
+<div class="fukidashi">
+
+<div style="font-size:40px;font-weight:bold;color:#ff4f93;">
+一果のひとこと
+</div>
+
+<div style="margin-top:15px;">
+{comment}
+</div>
+
+</div>
+
+</div>
+
+<div class="right">
+
+<img src="https://placehold.co/400x600/png">
+
+<div class="notice">
+最終判断は<br>
+直前版で公開！
+</div>
+
+<div class="notice">
+波乱指数<br>
+{wave}
+</div>
+
+{
+''
+if alert_stamp == "なし"
+else f'''
+<div class="alert">
+{alert_stamp}
+</div>
+'''
+}
+
+</div>
+
+</div>
+
+<div class="footer">
+展示評価・補正展示タイムは直前版で公開！
+</div>
 
 </div>
 
@@ -643,17 +677,11 @@ img {{
 """
 
 # ==================================
-
-# HTML表示
-
+# 表示
 # ==================================
 
 html(
-
     html_code,
-
     height=2400,
-
     scrolling=True
-
 )
