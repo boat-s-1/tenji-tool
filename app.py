@@ -222,7 +222,7 @@ html_code = f"""
 body {{
     background:#fffdf5;
     font-family:'Yomogi', cursive;
-    padding:30px;
+    padding:20px;
 }}
 
 .wrapper {{
@@ -275,6 +275,7 @@ body {{
 
 .main {{
     display:flex;
+    gap:20px;
     padding:20px;
 }}
 
@@ -290,7 +291,7 @@ body {{
 .mainbox {{
     border:5px dashed #ffb3cf;
     border-radius:25px;
-    padding:25px;
+    padding:20px;
     margin-bottom:20px;
     background:#fffafb;
 }}
@@ -320,7 +321,7 @@ body {{
     border-radius:20px;
     padding:15px;
     background:white;
-    min-height:140px;
+    min-height:120px;
 }}
 
 .boat-title {{
@@ -330,28 +331,7 @@ body {{
 }}
 
 .boat-text {{
-    font-size:28px;
-}}
-
-.fukidashi {{
-    position:relative;
-    background:#fff;
-    border:4px dashed #ff6ea8;
-    border-radius:25px;
-    padding:25px;
-    margin-top:20px;
-    font-size:30px;
-    line-height:1.7;
-}}
-
-.fukidashi:after {{
-    content:'';
-    position:absolute;
-    top:100%;
-    left:60px;
-    border-width:18px;
-    border-style:solid;
-    border-color:#ff6ea8 transparent transparent transparent;
+    font-size:24px;
 }}
 
 .notice {{
@@ -360,7 +340,7 @@ body {{
     border-radius:20px;
     padding:20px;
     text-align:center;
-    font-size:36px;
+    font-size:34px;
     font-weight:bold;
     color:#ff4f93;
     border:4px dashed #ff6ea8;
@@ -409,7 +389,7 @@ body {{
 }}
 
 .bar-label {{
-    font-size:30px;
+    font-size:28px;
     font-weight:bold;
     margin-bottom:5px;
 }}
@@ -437,6 +417,27 @@ body {{
     font-weight:bold;
     padding-right:15px;
     line-height:38px;
+}}
+
+.fukidashi {{
+    position:relative;
+    background:#fff;
+    border:4px dashed #ff6ea8;
+    border-radius:25px;
+    padding:18px;
+    margin-top:20px;
+    font-size:24px;
+    line-height:1.7;
+}}
+
+.fukidashi:after {{
+    content:'';
+    position:absolute;
+    top:100%;
+    left:60px;
+    border-width:18px;
+    border-style:solid;
+    border-color:#ff6ea8 transparent transparent transparent;
 }}
 
 img {{
@@ -622,18 +623,6 @@ margin-bottom:20px;
 
 </div>
 
-<div class="fukidashi">
-
-<div style="font-size:40px;font-weight:bold;color:#ff4f93;">
-一果のひとこと
-</div>
-
-<div style="margin-top:15px;">
-{comment}
-</div>
-
-</div>
-
 </div>
 
 <div class="right">
@@ -648,6 +637,23 @@ margin-bottom:20px;
 <div class="notice">
 波乱指数<br>
 {wave}
+</div>
+
+<div class="fukidashi">
+
+<div style="
+font-size:34px;
+font-weight:bold;
+color:#ff4f93;
+margin-bottom:10px;
+">
+一果のひとこと
+</div>
+
+<div>
+{comment}
+</div>
+
 </div>
 
 {
@@ -682,6 +688,6 @@ else f'''
 
 html(
     html_code,
-    height=2400,
+    height=2000,
     scrolling=True
 )
