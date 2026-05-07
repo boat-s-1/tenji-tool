@@ -34,6 +34,8 @@ boat4_src = get_base64_img("55e7bfa3-f032-45f8-ab82-0cd34799feb2.png")
 boat5_src = get_base64_img("3e82f55c-1d03-46ce-a11f-9050f242877d.png")
 boat6_src = get_base64_img("c81ee8e5-46b3-4526-bfee-3d6efdd0801b.png")
 
+# ファイル名は保存したもの（例: footer_msg.png）に合わせてください
+footer_img_src = get_base64_img("1b1a684d-c8bb-45fb-a123-0ed1b73c5046.png")
 
 
 
@@ -746,14 +748,20 @@ body{{
     line-height:1.8;
 }}
 
-.footer{{
-    margin-top:20px;
-    background:#ff4f93;
-    color:white;
-    text-align:center;
-    padding:25px;
-    font-size:34px;
-    font-weight:bold;
+.footer {{
+    margin-top: 20px;
+    background: transparent; /* 背景色を透明に */
+    text-align: center;
+    padding: 10px 0;
+}}
+
+.footer-img {{
+    width: 100%;       /* 枠の幅いっぱいに広げる */
+    max-width: 900px;  /* 大きすぎないように制限 */
+    height: auto;
+    border-radius: 10px;
+}}
+
 }}
 
 .footer-live{{
@@ -1008,13 +1016,12 @@ html_code = f"""
 </div>
 
 <div class="footer">
-展示評価・補正展示タイムは直前版で公開！
+    <img src="{footer_img_src}" class="footer-img">
 </div>
 
-</div>
-
-</body>
+</div> </body>
 </html>
+
 """
 
 
