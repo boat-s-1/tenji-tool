@@ -764,7 +764,7 @@ header_part = f"""
 </div>
 """
 
-# スタンプ用のHTMLパーツを作成（position: relative の親要素の中で absolute 配置する）
+# スタンプ用のHTMLパーツ
 stamp_html = ""
 if current_stamp_src:
     stamp_html = f'<img src="{current_stamp_src}" style="width:180px; height:auto; position:absolute; right:20px; top:-20px; transform:rotate(-10deg); z-index:100; pointer-events:none;">'
@@ -809,7 +809,6 @@ html_code = f"""
     </div>
 </div>
 
-# html_code の中
 <div class="mainbox">
     <div style="font-size:32px; font-weight:bold; color:#ff4f93; margin-bottom:15px; border-bottom:3px solid #ffb3cf;">
         展開ストーリー
@@ -872,6 +871,7 @@ html_code = f"""
 </body>
 </html>
 """
+
 
 
 # =========================================
