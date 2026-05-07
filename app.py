@@ -1,6 +1,7 @@
+import streamlit as st
 from PIL import Image, ImageDraw, ImageFont
 
-# 白背景作成
+# 白背景画像
 img = Image.new("RGB", (1080, 1920), "white")
 
 draw = ImageDraw.Draw(img)
@@ -16,7 +17,7 @@ draw.text(
     font=font
 )
 
-# 保存
-img.save("output.jpg")
+# Streamlit表示
+st.image(img)
 
 print("完了")
