@@ -653,7 +653,7 @@ html_code = f"""
 <div class="header">
 
 <div class="title">
-📰 一果ちゃん新聞
+📰 一果のイン逃げ予想
 </div>
 
 <div class="date">
@@ -745,6 +745,7 @@ color:#ff4f93;
 </div>
 
 </div>
+
 <div class="mainbox">
 
 <div style="
@@ -753,7 +754,7 @@ font-weight:bold;
 color:#ff4f93;
 margin-bottom:20px;
 ">
-艇評価ランキング
+各艇評価指数
 </div>
 
 <div class="bar-wrap">
