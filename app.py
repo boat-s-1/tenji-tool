@@ -917,17 +917,11 @@ html_code = f"""
 
 <div class="mainbox" style="position: relative;">
     {stamp_html}
-    <div style="font-size:42px; font-weight:bold; color:#ff4f93;">
-    {honmei}
-    </div>
-
-
-
-<div class="mainbox" style="position: relative;">
-    {stamp_html}
-    <div class="section-title">本命候補</div> <div style="font-size:42px; font-weight:bold; color:#ff4f93; margin-left:10px;">
+    <div class="section-title">本命</div> <div style="font-size:42px; font-weight:bold; color:#ff4f93; margin-left:10px;">
         {honmei}
     </div>
+
+
 
 
     <div class="score-row">
