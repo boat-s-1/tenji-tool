@@ -45,15 +45,7 @@ honmei = st.sidebar.selectbox(
         "6号艇"
     ]
 )
-honmei_kaime = st.sidebar.text_input(
-    "本命買い目",
-    "1-2-3"
-)
 
-osae_kaime = st.sidebar.text_area(
-    "押さえ買い目",
-    "1-3-2\n1-2-5"
-)
 
 # =========================================
 # 画像
@@ -309,9 +301,14 @@ jikkan_comment = st.sidebar.text_area(
     "展示は1号艇優勢！ただ2号艇の差し残し注意！"
 )
 
-kaime = st.sidebar.text_input(
-    "一果の買い目",
+honmei_kaime = st.sidebar.text_input(
+    "本命買い目",
     "1-2-3"
+)
+
+osae_kaime = st.sidebar.text_area(
+    "押さえ買い目",
+    "1-3-2\n1-2-5"
 )
 
 # =========================================
