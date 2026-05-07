@@ -203,4 +203,4 @@ draw.text(
 
 img.save("output.jpg")
 
-print("新聞画像を生成しました！")
+print(img.size)
