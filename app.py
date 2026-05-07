@@ -996,15 +996,13 @@ margin-bottom:15px;
 🌸 一果の買い目
 </div>
 
-<div style="
-margin-top:25px;
-">
-
+<!-- 本命 -->
 <div style="
 font-size:34px;
 font-weight:bold;
 color:#ff4f93;
-margin-bottom:10px;
+margin-top:20px;
+text-align:center;
 ">
 本命
 </div>
@@ -1014,36 +1012,57 @@ font-size:72px;
 font-weight:bold;
 color:#ff4f93;
 text-align:center;
-margin-bottom:25px;
+margin-bottom:20px;
 ">
 {honmei_kaime}
 </div>
 
-<div style="
-border-top:3px dashed #ff9ac2;
-margin:25px 0;
-">
-</div>
-
+<!-- 押さえ（2列カードUI） -->
 <div style="
 font-size:34px;
 font-weight:bold;
 color:#ff4f93;
-margin-bottom:15px;
+text-align:center;
+margin-top:20px;
+margin-bottom:10px;
 ">
 押さえ
 </div>
 
 <div style="
-font-size:36px;
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
+padding:10px;
+">
+
+{''.join([
+f"""
+<div style="
+background:#fff;
+border:2px solid #ff9ac2;
+border-radius:14px;
+padding:10px;
+font-size:30px;
 font-weight:bold;
 color:#666;
-line-height:1.3;
 text-align:center;
-white-space:pre-line;
-padding:5px 0;
+box-shadow:0 2px 6px rgba(0,0,0,0.05);
 ">
-{osae_kaime}
+{line}
+</div>
+"""
+for line in osae_kaime.splitlines()
+])}
+
+</div>
+
+<!-- 押さえ下ライン -->
+<div style="
+margin-top:15px;
+border-top:3px dashed #ff9ac2;
+"></div>
+
 </div>
 
 </div>
