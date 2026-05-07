@@ -385,6 +385,50 @@ body{{
     background-attachment:fixed;
 }}
 
+/* 吹き出し本体 */
+.fukidashi {{
+    position: relative;
+    background: #fff;
+    border: 4px solid #ff6ea8;
+    border-radius: 20px;
+    padding: 20px;
+    margin-top: 20px;
+    font-size: 20px;
+    line-height: 1.6;
+    box-shadow: 3px 3px 10px rgba(0,0,0,0.05);
+}}
+
+/* 吹き出しのしっぽ（三角形） */
+.fukidashi::before {{
+    content: "";
+    position: absolute;
+    top: -24px; /* 上側に配置 */
+    left: 50px; /* キャラ画像に近い位置に調整 */
+    border: 12px solid transparent;
+    border-bottom: 12px solid #ff6ea8; /* 枠線の色 */
+}}
+
+.fukidashi::after {{
+    content: "";
+    position: absolute;
+    top: -18px;
+    left: 50px;
+    border: 12px solid transparent;
+    border-bottom: 12px solid #fff; /* 中の色（白） */
+}}
+
+.fukidashi-title {{
+    font-size: 26px;
+    font-weight: bold;
+    color: #ff4f93;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}}
+
+
+
 /* 注目艇のスタイル */
 .pickup-row {{
     display: flex;
@@ -874,14 +918,22 @@ html_code = f"""
 </div>
 
 <div class="right">
-    <img class="character-img" src="{character_src}">
-    <div class="notice">最終判断は直前版で公開！</div>
-    <div class="notice">波乱指数<br>{wave}</div>
+    <img class="character-img" src="{character_src}" style="width: 100%; height: auto;">
+
     <div class="fukidashi">
-        <div style="font-size:30px; font-weight:bold; color:#ff4f93; margin-bottom:10px;">一果のひとこと</div>
-        <div>{comment}</div>
+        <div class="fukidashi-title">
+            🌸 一果のひとこと
+        </div>
+        <div>
+            {comment}
+        </div>
+    </div>
+
+    <div class="notice" style="margin-top:20px;">
+        波乱指数 {wave}
     </div>
 </div>
+
 
 </div>
 
