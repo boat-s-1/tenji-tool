@@ -1,5 +1,6 @@
 import streamlit as st
 from streamlit.components.v1 import html
+import base64
 
 # =========================================
 # ページ設定
@@ -44,6 +45,50 @@ honmei = st.sidebar.selectbox(
         "6号艇"
     ]
 )
+
+# =========================================
+# 画像アップロード
+# =========================================
+
+st.sidebar.header("画像設定")
+
+uploaded_character = st.sidebar.file_uploader(
+    "キャラ画像",
+    type=["png", "jpg", "jpeg"]
+)
+
+uploaded_bg = st.sidebar.file_uploader(
+    "背景画像",
+    type=["png", "jpg", "jpeg"]
+)
+
+# =========================================
+# 画像変換
+# =========================================
+
+if uploaded_character is not None:
+
+    character_base64 = base64.b64encode(
+        uploaded_character.read()
+    ).decode()
+
+    character_src = f"data:image/png;base64,{character_base64}"
+
+else:
+
+    character_src = "https://placehold.co/500x800/png"
+
+if uploaded_bg is not None:
+
+    bg_base64 = base64.b64encode(
+        uploaded_bg.read()
+    ).decode()
+
+    bg_src = f"data:image/png;base64,{bg_base64}"
+
+else:
+
+    bg_src = ""
 
 # =========================================
 # スタンプ
@@ -235,77 +280,82 @@ kaime = st.sidebar.text_input(
 # 共通CSS
 # =========================================
 
-common_style = """
+common_style = f"""
 
 <style>
 
-body{
+body{{
     background:#fffdf5;
-    font-family:'Arial';
     padding:20px;
-}
+    font-family:'Arial';
+    
+    background-image:url('{bg_src}');
+    background-size:cover;
+    background-position:center;
+    background-attachment:fixed;
+}}
 
-.wrapper{
+.wrapper{{
     width:1000px;
     margin:auto;
-    background:white;
+    background:rgba(255,255,255,0.94);
     border:6px dashed #ff6ea8;
     border-radius:25px;
     overflow:hidden;
-    box-shadow:0px 0px 20px rgba(0,0,0,0.1);
-}
+    box-shadow:0px 0px 25px rgba(0,0,0,0.15);
+}}
 
-.header{
+.header{{
     display:flex;
     justify-content:space-between;
     align-items:center;
     padding:20px;
     border-bottom:5px dashed #ff6ea8;
-}
+}}
 
-.title{
+.title{{
     font-size:64px;
     font-weight:bold;
     color:#ff4f93;
-}
+}}
 
-.date{
+.date{{
     text-align:center;
     font-size:28px;
     font-weight:bold;
-}
+}}
 
-.sub{
+.sub{{
     padding:20px;
     font-size:34px;
     color:#ff4f93;
     font-weight:bold;
-}
+}}
 
-.main{
+.main{{
     display:flex;
     gap:20px;
     padding:20px;
-}
+}}
 
-.left{
+.left{{
     width:65%;
-}
+}}
 
-.right{
+.right{{
     width:35%;
     text-align:center;
-}
+}}
 
-.mainbox{
+.mainbox{{
     border:5px dashed #ffb3cf;
     border-radius:25px;
     padding:20px;
     margin-bottom:20px;
     background:#fffafb;
-}
+}}
 
-.circle{
+.circle{{
     display:inline-block;
     border:5px solid red;
     border-radius:50%;
@@ -315,60 +365,60 @@ body{
     color:red;
     font-weight:bold;
     margin-bottom:15px;
-}
+}}
 
-.score-row{
+.score-row{{
     display:flex;
     justify-content:space-between;
     align-items:center;
     margin-top:20px;
     padding-bottom:12px;
     border-bottom:3px dashed #ffd0e2;
-}
+}}
 
-.score-label{
+.score-label{{
     font-size:36px;
     font-weight:bold;
     color:#ff4f93;
-}
+}}
 
-.score-value{
+.score-value{{
     font-size:52px;
     font-weight:bold;
     color:#ff4f93;
-}
+}}
 
-.score-up{
+.score-up{{
     font-size:48px;
     font-weight:bold;
     color:#44aa55;
-}
+}}
 
-.grid{
+.grid{{
     display:grid;
     grid-template-columns:repeat(3,1fr);
     gap:15px;
     margin-top:20px;
-}
+}}
 
-.boat{
+.boat{{
     border:4px dashed #ffd0e2;
     border-radius:20px;
     padding:15px;
     background:white;
-}
+}}
 
-.boat-title{
+.boat-title{{
     font-size:30px;
     font-weight:bold;
-}
+}}
 
-.boat-text{
+.boat-text{{
     font-size:22px;
     margin-top:8px;
-}
+}}
 
-.notice{
+.notice{{
     margin-top:20px;
     background:#fff3c4;
     border-radius:20px;
@@ -378,9 +428,9 @@ body{
     font-weight:bold;
     color:#ff4f93;
     border:4px dashed #ff6ea8;
-}
+}}
 
-.alert{
+.alert{{
     background:red;
     color:white;
     font-size:36px;
@@ -390,30 +440,30 @@ body{
     display:inline-block;
     margin-top:20px;
     border-radius:15px;
-}
+}}
 
-.bar-wrap{
+.bar-wrap{{
     margin-top:20px;
-}
+}}
 
-.bar-row{
+.bar-row{{
     margin-bottom:15px;
-}
+}}
 
-.bar-label{
+.bar-label{{
     font-size:26px;
     font-weight:bold;
-}
+}}
 
-.bar-bg{
+.bar-bg{{
     width:100%;
     height:36px;
     background:#ffe3ee;
     border-radius:20px;
     overflow:hidden;
-}
+}}
 
-.bar-fill{
+.bar-fill{{
     height:100%;
     background:linear-gradient(
         90deg,
@@ -427,9 +477,9 @@ body{
     font-weight:bold;
     padding-right:12px;
     line-height:36px;
-}
+}}
 
-.fukidashi{
+.fukidashi{{
     background:#fff;
     border:4px dashed #ff6ea8;
     border-radius:25px;
@@ -437,9 +487,9 @@ body{
     margin-top:20px;
     font-size:22px;
     line-height:1.7;
-}
+}}
 
-.footer{
+.footer{{
     margin-top:20px;
     background:#ff4f93;
     color:white;
@@ -447,36 +497,36 @@ body{
     padding:25px;
     font-size:34px;
     font-weight:bold;
-}
+}}
 
-img{
+.character-img{{
     width:90%;
     border-radius:20px;
     margin-top:20px;
-}
+}}
 
-.buy-box{
+.buy-box{{
     background:#fff3c4;
     border:5px dashed #ff6ea8;
     border-radius:25px;
     padding:25px;
     margin-top:20px;
-}
+}}
 
-.buy-title{
+.buy-title{{
     font-size:42px;
     font-weight:bold;
     color:#ff4f93;
     margin-bottom:15px;
     text-align:center;
-}
+}}
 
-.buy-kaime{
+.buy-kaime{{
     font-size:72px;
     font-weight:bold;
     color:red;
     text-align:center;
-}
+}}
 
 </style>
 
@@ -492,9 +542,7 @@ html_code = f"""
 <html>
 <head>
 <meta charset="UTF-8">
-
 {common_style}
-
 </head>
 
 <body>
@@ -535,7 +583,11 @@ else f'''
 '''
 }
 
-<div style="font-size:42px;font-weight:bold;color:#ff4f93;">
+<div style="
+font-size:42px;
+font-weight:bold;
+color:#ff4f93;
+">
 {honmei}
 </div>
 
@@ -674,7 +726,7 @@ margin-bottom:20px;
 
 <div class="right">
 
-<img src="https://placehold.co/400x600/png">
+<img class="character-img" src="{character_src}">
 
 <div class="notice">
 最終判断は<br>
@@ -738,9 +790,7 @@ html_code2 = f"""
 <html>
 <head>
 <meta charset="UTF-8">
-
 {common_style}
-
 </head>
 
 <body>
@@ -846,7 +896,7 @@ margin-bottom:10px;
 
 <div class="right">
 
-<img src="https://placehold.co/400x600/png">
+<img class="character-img" src="{character_src}">
 
 <div class="notice">
 展示後更新！
@@ -897,7 +947,7 @@ with tab1:
 
     html(
         html_code,
-        height=1800,
+        height=1900,
         scrolling=True
     )
 
@@ -905,6 +955,6 @@ with tab2:
 
     html(
         html_code2,
-        height=1600,
+        height=1700,
         scrolling=True
     )
