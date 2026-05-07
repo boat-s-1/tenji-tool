@@ -747,7 +747,76 @@ color:#ff4f93;
 </div>
 
 </div>
+<div class="mainbox">
 
+<div style="
+font-size:40px;
+font-weight:bold;
+color:#ff4f93;
+margin-bottom:20px;
+">
+艇評価ランキング
+</div>
+
+<div class="bar-wrap">
+
+<div class="bar-row">
+<div class="bar-label">1号艇</div>
+<div class="bar-bg">
+<div class="bar-fill" style="width:{boat1_score}%;">
+{boat1_score}
+</div>
+</div>
+</div>
+
+<div class="bar-row">
+<div class="bar-label">2号艇</div>
+<div class="bar-bg">
+<div class="bar-fill" style="width:{boat2_score}%;">
+{boat2_score}
+</div>
+</div>
+</div>
+
+<div class="bar-row">
+<div class="bar-label">3号艇</div>
+<div class="bar-bg">
+<div class="bar-fill" style="width:{boat3_score}%;">
+{boat3_score}
+</div>
+</div>
+</div>
+
+<div class="bar-row">
+<div class="bar-label">4号艇</div>
+<div class="bar-bg">
+<div class="bar-fill" style="width:{boat4_score}%;">
+{boat4_score}
+</div>
+</div>
+</div>
+
+<div class="bar-row">
+<div class="bar-label">5号艇</div>
+<div class="bar-bg">
+<div class="bar-fill" style="width:{boat5_score}%;">
+{boat5_score}
+</div>
+</div>
+</div>
+
+<div class="bar-row">
+<div class="bar-label">6号艇</div>
+<div class="bar-bg">
+<div class="bar-fill" style="width:{boat6_score}%;">
+{boat6_score}
+</div>
+</div>
+</div>
+
+</div>
+
+</div>
 <div class="right">
 
 <img class="character-img" src="{character_src}">
