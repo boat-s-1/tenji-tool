@@ -25,6 +25,14 @@ stamp_dict = {
     "危険": get_base64_img("ab68e233-d232-438b-8e50-e9d041eea1df.png"),
 }
 
+# --- ボート画像の読み込み ---
+# ファイル名はご自身が保存したもの（例: boat1.png）に合わせてください
+boat1_src = get_base64_img("image_8.png") 
+boat2_src = get_base64_img("boat2.png") 
+boat3_src = get_base64_img("boat2.png")
+boat4_src = get_base64_img("boat2.png")
+boat5_src = get_base64_img("boat2.png")
+boat6_src = get_base64_img("boat2.png")
 
 
 
