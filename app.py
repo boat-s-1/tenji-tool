@@ -740,45 +740,33 @@ all_boat_comments = {
     "6号艇": boat6
 }
 
-# 選択された艇だけをループしてHTMLを作る
-story_html = ""
-for b_name in selected_boats:
-    num = b_name.replace("号艇", "") # "1号艇" -> "1"
-    comment_text = all_boat_comments.get(b_name, "")
-    story_html += f"""
-    <div class="pickup-row">
-        <div class="boat-num">{num}</div>
-        <div class="boat-comment">{comment_text}</div>
-    </div>
-    """
-
 # =========================================
-# 展開ストーリー生成ロジック (ここが「ロジック部分」です)
+# 展開ストーリー生成ロジック (ここを修正します)
 # =========================================
 
-# 各艇のコメントと背景色などを辞書で管理
+# 各艇の「画像」と「艇番カラー」を紐付けます
 boat_info = {
-    "1号艇": {"comment": boat1, "color": "#e2e2e2"}, # 白（少しグレー）
-    "2号艇": {"comment": boat2, "color": "#444444"}, # 黒
-    "3号艇": {"comment": boat3, "color": "#ff4444"}, # 赤
-    "4号艇": {"comment": boat4, "color": "#4444ff"}, # 青
-    "5号艇": {"comment": boat5, "color": "#eeaa00"}, # 黄
-    "6号艇": {"comment": boat6, "color": "#22aa22"}, # 緑
+    "1号艇": {"comment": boat1, "color": "#e2e2e2", "img": boat1_src}, # boat1_srcなどはコード上部で取得済み
+    "2号艇": {"comment": boat2, "color": "#444444", "img": boat2_src},
+    "3号艇": {"comment": boat3, "color": "#ff4444", "img": boat3_src},
+    "4号艇": {"comment": boat4, "color": "#4444ff", "img": boat4_src},
+    "5号艇": {"comment": boat5, "color": "#eeaa00", "img": boat5_src},
+    "6号艇": {"comment": boat6, "color": "#22aa22", "img": boat6_src},
 }
 
 # 選択された艇だけをループして、HTMLを組み立てる
 story_html = ""
 for b_name in selected_boats:
-    num = b_name.replace("号艇", "")
     info = boat_info.get(b_name)
     
-    # ここで1行分のパーツを作成
+    # 修正ポイント：丸数字(boat-num)の代わりに <img> タグを入れました
     story_html += f"""
-    <div class="pickup-row">
-        <div class="boat-num" style="background: {info['color']};">{num}</div>
+    <div class="pickup-row" style="border-left: 8px solid {info['color']};">
+        <img src="{info['img']}" style="width: 80px; height: auto; margin-right: 15px;">
         <div class="boat-comment">{info['comment']}</div>
     </div>
     """
+
 
 
 
