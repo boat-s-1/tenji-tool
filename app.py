@@ -69,7 +69,7 @@ comment = st.sidebar.text_area(
 )
 
 # ==================================
-# 艇別データ
+# 艇別コメント
 # ==================================
 
 boat1 = st.sidebar.text_input(
@@ -100,6 +100,52 @@ boat5 = st.sidebar.text_input(
 boat6 = st.sidebar.text_input(
     "6号艇",
     "大穴注意"
+)
+
+# ==================================
+# 艇評価バー
+# ==================================
+
+boat1_score = st.sidebar.slider(
+    "1号艇 総合評価",
+    0,
+    100,
+    88
+)
+
+boat2_score = st.sidebar.slider(
+    "2号艇 総合評価",
+    0,
+    100,
+    65
+)
+
+boat3_score = st.sidebar.slider(
+    "3号艇 総合評価",
+    0,
+    100,
+    52
+)
+
+boat4_score = st.sidebar.slider(
+    "4号艇 総合評価",
+    0,
+    100,
+    48
+)
+
+boat5_score = st.sidebar.slider(
+    "5号艇 総合評価",
+    0,
+    100,
+    35
+)
+
+boat6_score = st.sidebar.slider(
+    "6号艇 総合評価",
+    0,
+    100,
+    22
 )
 
 # ==================================
@@ -299,6 +345,45 @@ body {{
     font-weight:bold;
 }}
 
+.bar-wrap {{
+    margin-top:25px;
+}}
+
+.bar-row {{
+    margin-bottom:18px;
+}}
+
+.bar-label {{
+    font-size:30px;
+    font-weight:bold;
+    margin-bottom:5px;
+}}
+
+.bar-bg {{
+    width:100%;
+    height:38px;
+    background:#ffe3ee;
+    border-radius:20px;
+    overflow:hidden;
+    border:3px dashed #ffb3cf;
+}}
+
+.bar-fill {{
+    height:100%;
+    background:linear-gradient(
+        90deg,
+        #ff7eb3,
+        #ff4f93
+    );
+    border-radius:20px;
+    text-align:right;
+    color:white;
+    font-size:24px;
+    font-weight:bold;
+    padding-right:15px;
+    line-height:38px;
+}}
+
 img {{
     width:90%;
     border-radius:20px;
@@ -403,58 +488,55 @@ img {{
 
             </div>
 
-            <div class="fukidashi">
+            <div class="mainbox">
 
-                <div style="font-size:40px;font-weight:bold;color:#ff4f93;">
-                    一果のひとこと
+                <div style="
+                    font-size:42px;
+                    font-weight:bold;
+                    color:#ff4f93;
+                    margin-bottom:20px;
+                ">
+                    艇評価ランキング
                 </div>
 
-                <div style="margin-top:15px;">
-                    {comment}
-                </div>
+                <div class="bar-wrap">
 
-            </div>
+                    <div class="bar-row">
+                        <div class="bar-label">1号艇</div>
+                        <div class="bar-bg">
+                            <div class="bar-fill" style="width:{boat1_score}%;">
+                                {boat1_score}
+                            </div>
+                        </div>
+                    </div>
 
-        </div>
+                    <div class="bar-row">
+                        <div class="bar-label">2号艇</div>
+                        <div class="bar-bg">
+                            <div class="bar-fill" style="width:{boat2_score}%;">
+                                {boat2_score}
+                            </div>
+                        </div>
+                    </div>
 
-        <div class="right">
+                    <div class="bar-row">
+                        <div class="bar-label">3号艇</div>
+                        <div class="bar-bg">
+                            <div class="bar-fill" style="width:{boat3_score}%;">
+                                {boat3_score}
+                            </div>
+                        </div>
+                    </div>
 
-            <img src="https://placehold.co/400x600/png">
+                    <div class="bar-row">
+                        <div class="bar-label">4号艇</div>
+                        <div class="bar-bg">
+                            <div class="bar-fill" style="width:{boat4_score}%;">
+                                {boat4_score}
+                            </div>
+                        </div>
+                    </div>
 
-            <div class="notice">
-                最終判断は<br>
-                直前版で公開！
-            </div>
-
-            <div class="notice">
-                波乱指数<br>
-                {wave}
-            </div>
-
-            <div class="alert">
-                波乱警報！
-            </div>
-
-        </div>
-
-    </div>
-
-    <div class="footer">
-        展示評価・補正展示タイムは直前版で公開！
-    </div>
-
-</div>
-
-</body>
-</html>
-"""
-
-# ==================================
-# HTML表示
-# ==================================
-
-html(
-    html_code,
-    height=1900,
-    scrolling=True
-)
+                    <div class="bar-row">
+                        <div class="bar-label">5号艇</div>
+                        <div class="bar-b
