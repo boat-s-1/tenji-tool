@@ -301,6 +301,13 @@ boat6_score = st.sidebar.slider(
     100,
     22
 )
+# サイドバーの「数値」セクションあたりに追加
+st.sidebar.header("モーター評価")
+motor_eval = st.sidebar.text_area(
+    "モーター一言メモ",
+    "1号艇は出足型、3号艇の伸びが節イチ級！",
+    height=100
+)
 
 # =========================================
 # 直前版
@@ -385,6 +392,30 @@ body{{
     background-size:cover;
     background-position:center;
     background-attachment:fixed;
+}}
+
+
+/* モーター評価ボックス */
+.motor-box {{
+    margin-top: 15px;
+    background: #f0f9ff; /* 少し青みがかった爽やかな色 */
+    border: 3px solid #7ec2ff;
+    border-radius: 15px;
+    padding: 15px;
+    font-family: 'Zen Maru Gothic', sans-serif;
+    text-align: left;
+    box-shadow: 3px 3px 8px rgba(0,0,0,0.05);
+}}
+
+.motor-title {{
+    font-size: 22px;
+    font-weight: bold;
+    color: #0077cc;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+    border-bottom: 2px solid #b3d9ff;
 }}
 
 
@@ -1009,6 +1040,15 @@ html_code = f"""
             <span class="notice-value">{attention_boats}</span>
         </div>
     </div>
+
+    <div class="motor-box">
+        <div class="motor-title">⚙️ 一果の機力チェック</div>
+        <div style="font-size: 18px; line-height: 1.5; color: #333; font-weight: bold;">
+            {motor_eval}
+        </div>
+    </div>
+</div>
+
 </div>
 
 
