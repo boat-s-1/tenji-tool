@@ -386,33 +386,41 @@ body{{
 }}
 
 /* 吹き出し本体 */
-/* common_style の中を修正 */
-
 .fukidashi {{
     position: relative;
     background: #fff;
     border: 4px solid #ff6ea8;
-    border-radius: 20px;
+    border-radius: 25px;
     padding: 20px;
-    margin-top: 20px;
-    
-    /* ここで読み込んだフォントを指定！ */
+    margin-top: -15px; /* キャラ画像と少し重ねる */
+    z-index: 10;
     font-family: 'Zen Maru Gothic', sans-serif;
-    
     font-size: 20px;
     line-height: 1.6;
-    color: #444; /* 文字色を少し柔らかく */
-    box-shadow: 3px 3px 10px rgba(0,0,0,0.05);
+    color: #444;
+    box-shadow: 0px 5px 15px rgba(0,0,0,0.08);
 }}
 
-/* タイトル部分も丸文字にすると可愛いです */
-.fukidashi-title {{
-    font-family: 'Zen Maru Gothic', sans-serif;
-    font-weight: 700;
-    font-size: 26px;
-    color: #ff4f93;
-    margin-bottom: 10px;
+/* 吹き出しのしっぽ（外側のピンクの縁） */
+.fukidashi::before {{
+    content: "";
+    position: absolute;
+    top: -24px;
+    left: 40px;
+    border: 12px solid transparent;
+    border-bottom: 12px solid #ff6ea8;
 }}
+
+/* 吹き出しのしっぽ（内側の白い塗り） */
+.fukidashi::after {{
+    content: "";
+    position: absolute;
+    top: -18px;
+    left: 40px;
+    border: 12px solid transparent;
+    border-bottom: 12px solid #fff;
+}}
+
 
 
 
