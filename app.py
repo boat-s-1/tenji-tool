@@ -1016,7 +1016,11 @@ margin-bottom:20px;
 ">
 {honmei_kaime}
 </div>
-
+<!-- 押さえ下ライン -->
+<div style="
+margin-top:15px;
+border-top:3px dashed #ff9ac2;
+"></div>
 <!-- 押さえ（2列カードUI） -->
 <div style="
 font-size:34px;
@@ -1057,11 +1061,7 @@ for line in osae_kaime.splitlines()
 
 </div>
 
-<!-- 押さえ下ライン -->
-<div style="
-margin-top:15px;
-border-top:3px dashed #ff9ac2;
-"></div>
+
 
 
 
