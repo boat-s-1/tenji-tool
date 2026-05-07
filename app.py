@@ -1,5 +1,6 @@
 import streamlit as st
 from streamlit.components.v1 import html
+from html2image import Html2Image
 
 # ==================================
 # ページ設定
@@ -22,9 +23,20 @@ st.title("競艇キャラ新聞ジェネレーター")
 
 st.sidebar.header("レース入力")
 
-race_place = st.sidebar.text_input("レース場", "丸亀")
-race_no = st.sidebar.text_input("レース番号", "1R")
-race_date = st.sidebar.text_input("日付", "2026/05/05")
+race_place = st.sidebar.text_input(
+    "レース場",
+    "丸亀"
+)
+
+race_no = st.sidebar.text_input(
+    "レース番号",
+    "1R"
+)
+
+race_date = st.sidebar.text_input(
+    "日付",
+    "2026/05/05"
+)
 
 honmei = st.sidebar.selectbox(
     "本命",
@@ -98,6 +110,7 @@ boat6 = st.sidebar.text_input(
 html_code = f"""
 <!DOCTYPE html>
 <html>
+
 <head>
 
 <style>
@@ -340,7 +353,7 @@ img {{
 
         <div class="right">
 
-            <img src="https://i.imgur.com/0y0y0y0.png">
+            <img src="https://placehold.co/400x600/png">
 
             <div class="notice">
                 最終判断は<br>
@@ -367,7 +380,7 @@ img {{
 """
 
 # ==================================
-# 表示
+# 新聞表示
 # ==================================
 
 html(
@@ -375,3 +388,28 @@ html(
     height=1800,
     scrolling=True
 )
+
+# ==================================
+# PNG保存
+# ==================================
+
+if st.button("新聞画像を保存"):
+
+    hti = Html2Image()
+
+    hti.screenshot(
+        html_str=html_code,
+        save_as="newspaper.png",
+        size=(1100, 1800)
+    )
+
+    st.success("新聞画像を保存しました！")
+
+    with open("newspaper.png", "rb") as file:
+
+        st.download_button(
+            label="PNGダウンロード",
+            data=file,
+            file_name="newspaper.png",
+            mime="image/png"
+        )
