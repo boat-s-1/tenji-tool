@@ -1220,38 +1220,18 @@ with main_tab2:
         "⚡ 直前版"
     ])
 
-    with tab3:
+with tab3:
 
-        html(
-            '''
-            <div style="
-            background:#fff8d9;
-            height:1500px;
-            font-size:50px;
-            text-align:center;
-            padding-top:300px;
-            ">
-            ⚡ キイナちゃん前日版
-            </div>
-            ''',
-            height=1600,
-            scrolling=True
-        )
+    html(
+        kiina_html,
+        height=2600,
+        scrolling=True
+    )
 
-    with tab4:
+with tab4:
 
-        html(
-            '''
-            <div style="
-            background:#fff5b8;
-            height:1500px;
-            font-size:50px;
-            text-align:center;
-            padding-top:300px;
-            ">
-            ⚡ キイナちゃん直前版
-            </div>
-            ''',
-            height=1600,
-            scrolling=True
-        )
+    html(
+        kiina_live_html,
+        height=2600,
+        scrolling=True
+    )
