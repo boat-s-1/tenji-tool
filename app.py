@@ -51,7 +51,7 @@ with st.sidebar.expander("📌 レース基本情報"):
     race_no = st.text_input("レース番号", "1R")
     race_date = st.text_input("日付", "2026/05/05")
  
-honmei = st.sidebar.selectbox("本命", [f"{i}号艇" for i in range(1, 7)])
+
 
 with st.sidebar.expander("📌 一果画像"):
     uploaded_character = st.file_uploader("キャラ画像", type=["png", "jpg", "jpeg"])
@@ -63,9 +63,12 @@ if uploaded_character:
 else:
     character_src = "https://placehold.co/500x900/png"
 
-stamp = st.sidebar.selectbox("スタンプ", ["なし"] + list(stamp_dict.keys()))
-nige_rate = st.sidebar.slider("イン逃げ期待度", 0, 100, 84)
-up_rate = st.sidebar.slider("場平均との差", -30, 30, 11)
+with st.sidebar.expander("📌 一果本命候補"):
+    honmei = st.selectbox("本命", [f"{i}号艇" for i in range(1, 7)])
+    stamp = st.selectbox("スタンプ", ["なし"] + list(stamp_dict.keys()))
+    nige_rate = st.slider("イン逃げ期待度", 0, 100, 84)
+    up_rate = st.slider("場平均との差", -30, 30, 11)
+    
 wave = st.sidebar.slider("波乱指数", 0, 100, 28)
 hit_rate = st.sidebar.slider("的中期待度", 0, 100, 87)
 comment = st.sidebar.text_area("一果のひとこと", "1号艇中心だが2号艇の差し注意！")
