@@ -92,23 +92,19 @@ osae_kaime = st.sidebar.text_area("押さえ買い目", "1-3-2\n1-2-5")
 # =========================================
 
 # CSS (NameErrorを防ぐため、HTMLの前に定義)
-common_style = f"""
+common_style = """
 <style>
 
 @import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@700&display=swap');
 
-body {{
+body {
     background:#fffdf5;
     padding:20px;
     font-family:'Arial';
-
-    background-image:url('{bg_src}');
-    background-size:cover;
-    background-attachment:fixed;
-}}
+}
 
 .wrapper,
-.wrapper-live {{
+.wrapper-live {
 
     width:1000px;
     margin:auto;
@@ -121,25 +117,25 @@ body {{
     overflow:visible;
 
     position: relative;
-}}
+}
 
-.main {{
+.main {
     display:flex;
     gap:20px;
     padding:20px;
-}}
+}
 
-.left {{
+.left {
     width:65%;
-}}
+}
 
-.right {{
+.right {
     width:35%;
     text-align:center;
-}}
+}
 
 .mainbox,
-.mainbox-live {{
+.mainbox-live {
 
     border:5px dashed #ffb3cf;
     border-radius:25px;
@@ -148,84 +144,32 @@ body {{
     margin-bottom:20px;
 
     background:#fffafb;
-}}
+}
 
-.section-title {{
+.section-title {
 
-    background: #ff4f93;
-    color: white;
+    background:#ff4f93;
+    color:white;
 
-    font-size: 26px;
-    font-weight: bold;
+    font-size:26px;
+    font-weight:bold;
 
-    padding: 8px 15px;
+    padding:8px 15px;
 
-    border-radius: 8px;
+    border-radius:8px;
 
-    margin-bottom: 15px;
+    margin-bottom:15px;
 
-    display: inline-block;
+    display:inline-block;
+}
 
-    font-family: 'Zen Maru Gothic', sans-serif;
-}}
-
-.character-img {{
+.character-img {
 
     width:100%;
     max-width:320px;
-}}
+}
 
-.fukidashi {{
-
-    position: relative;
-
-    background: #fff;
-
-    border: 4px solid #ff6ea8;
-
-    border-radius: 25px;
-
-    padding: 20px;
-
-    margin-top: 20px;
-
-    font-family: 'Zen Maru Gothic', sans-serif;
-
-    font-size: 20px;
-    line-height: 1.6;
-}}
-
-.notice {{
-
-    margin-top: 20px;
-
-    background: #fff3c4;
-
-    border: 4px dashed #ff6ea8;
-
-    border-radius: 20px;
-
-    padding: 15px;
-
-    text-align: left;
-}}
-
-.motor-box {{
-
-    margin-top: 15px;
-
-    background: #f0f9ff;
-
-    border: 3px solid #7ec2ff;
-
-    border-radius: 15px;
-
-    padding: 15px;
-
-    text-align: left;
-}}
-
-.pickup-row {{
+.pickup-row {
 
     display:flex;
     align-items:center;
@@ -234,14 +178,58 @@ body {{
 
     background: linear-gradient(90deg, #fff5f8 0%, #ffffff 100%);
 
-    border-left: 8px solid #ff6ea8;
+    border-left:8px solid #ff6ea8;
 
-    border-radius: 8px;
+    border-radius:8px;
 
-    padding: 10px;
-}}
+    padding:10px;
+}
 
-.bar-bg {{
+.fukidashi {
+
+    position:relative;
+
+    background:#fff;
+
+    border:4px solid #ff6ea8;
+
+    border-radius:25px;
+
+    padding:20px;
+
+    margin-top:20px;
+
+    font-size:20px;
+    line-height:1.6;
+}
+
+.notice {
+
+    margin-top:20px;
+
+    background:#fff3c4;
+
+    border:4px dashed #ff6ea8;
+
+    border-radius:20px;
+
+    padding:15px;
+}
+
+.motor-box {
+
+    margin-top:15px;
+
+    background:#f0f9ff;
+
+    border:3px solid #7ec2ff;
+
+    border-radius:15px;
+
+    padding:15px;
+}
+
+.bar-bg {
 
     width:100%;
     height:30px;
@@ -253,40 +241,36 @@ body {{
     overflow:hidden;
 
     margin-top:5px;
-}}
+}
 
-.bar-fill {{
+.bar-fill {
 
     height:100%;
 
     background:linear-gradient(90deg, #ff7eb3, #ff4f93);
 
-    text-align:right;
-
     color:white;
+
+    text-align:right;
 
     padding-right:10px;
 
     line-height:30px;
 
     font-weight:bold;
-}}
+}
 
-.footer {{
-
+.footer {
     text-align:center;
     padding:20px;
-}}
+}
 
-.footer-img {{
-
+.footer-img {
     width:100%;
     max-width:900px;
+}
 
-    border-radius:10px;
-}}
-
-.download-btn {{
+.download-btn {
 
     display:block;
 
@@ -308,7 +292,7 @@ body {{
     font-weight:bold;
 
     cursor:pointer;
-}}
+}
 
 </style>
 """
