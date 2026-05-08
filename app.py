@@ -131,10 +131,11 @@ stamp_html = f'<img src="{current_stamp_src}" style="width: 200px; position: abs
 boat_info_map = {"1号艇": "#e2e2e2", "2号艇": "#444444", "3号艇": "#ff4444", "4号艇": "#4444ff", "5号艇": "#eeaa00", "6号艇": "#22aa22"}
 story_html = "".join([f'<div class="pickup-row" style="border-left: 8px solid {boat_info_map[b]};"><img src="{boat_srcs[b]}" style="width: 70px; margin-right: 15px;"><div style="font-size:20px; font-weight:bold;">{boat_comments[b]}</div></div>' for b in selected_boats])
 
-# 保存用JavaScriptdownload_logic = f"""
+download_logic = """
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
 <script>
+
 function saveImage(targetClass, fileName) {
 
     const target = document.querySelector(targetClass);
@@ -148,12 +149,17 @@ function saveImage(targetClass, fileName) {
     }).then(canvas => {
 
         const link = document.createElement('a');
+
         link.download = fileName;
+
         link.href = canvas.toDataURL('image/png');
+
         link.click();
 
     });
+
 }
+
 </script>
 """
 score_html = ""
