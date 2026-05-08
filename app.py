@@ -46,7 +46,8 @@ footer_img_src = get_base64_img("1b1a684d-c8bb-45fb-a123-0ed1b73c5046.png")
 st.set_page_config(page_title="一果ちゃん新聞", layout="wide")
 st.title("🌸 一果ちゃん新聞ジェネレーター")
 
-st.sidebar.header("レース情報")
+with st.sidebar.expander("一果"):
+
 race_place = st.sidebar.text_input("レース場", "丸亀")
 race_no = st.sidebar.text_input("レース番号", "1R")
 race_date = st.sidebar.text_input("日付", "2026/05/05")
