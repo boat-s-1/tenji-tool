@@ -80,8 +80,8 @@ with st.sidebar.expander("📌 一果展開ストーリー評価"):
     boat_scores = {}
     for i in range(1, 7):
        name = f"{i}号艇"
-       boat_comments[name] = st.sidebar.text_input(f"{name} コメント", f"{name}の展開解説")
-       boat_scores[name] = st.sidebar.slider(f"{name} 評価", 0, 100, 50)
+       boat_comments[name] = st.text_input(f"{name} コメント", f"{name}の展開解説")
+       boat_scores[name] = st.slider(f"{name} 評価", 0, 100, 50)
 
 motor_eval = st.sidebar.text_area("機力チェック", "1号艇は出足型、3号艇の伸びが節イチ級！", height=100)
 
