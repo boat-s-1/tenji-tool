@@ -96,7 +96,20 @@ common_style = f"""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@700&display=swap');
 body {{ background:#fffdf5; padding:20px; font-family:'Arial'; background-image:url('{bg_src}'); background-size:cover; background-attachment:fixed; }}
-.wrapper, .wrapper-live {{ width:1000px; margin:auto; background:rgba(255,255,255,0.94); border:6px dashed #ff6ea8; border-radius:25px; overflow:visible; position: relative; }}
+.wrapper, .wrapper-live {
+
+    width:1000px;
+    margin:auto;
+    background:rgba(255,255,255,0.94);
+
+    border:6px dashed #ff6ea8;
+    border-radius:25px;
+
+    overflow: visible;
+    min-height: auto;
+
+    position: relative;
+}
 .section-title {{ background: #ff4f93; color: white; font-size: 26px; font-weight: bold; padding: 8px 15px; border-radius: 8px; margin-bottom: 15px; display: inline-block; font-family: 'Zen Maru Gothic', sans-serif; }}
 .main {{ display:flex; gap:20px; padding:20px; }}
 .left {{ width:65%; }} .right {{ width:35%; text-align:center; }}
