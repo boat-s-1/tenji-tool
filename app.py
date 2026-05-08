@@ -395,6 +395,28 @@ body{{
 }}
 
 
+/* ダウンロードボタンのスタイル */
+.download-btn {{
+    display: block;
+    width: 250px;
+    margin: 20px auto;
+    padding: 15px;
+    background: #ff4f93;
+    color: white;
+    text-align: center;
+    border-radius: 50px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    border: none;
+    font-size: 18px;
+}}
+.download-btn:hover {{
+    background: #ff7eb3;
+}}
+
+
+
 /* モーター評価ボックス */
 .motor-box {{
     margin-top: 15px;
@@ -1059,7 +1081,36 @@ html_code = f"""
     <img src="{footer_img_src}" class="footer-img">
 </div>
 
-</div> </body>
+</div> 
+
+# 各html_codeの末尾、</body>タグの直前あたりに挿入
+download_script = """
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<button class="download-btn" id="save-btn">🖼 画像として保存する</button>
+
+<script>
+document.getElementById('save-btn').addEventListener('click', function() {
+    // 保存したい範囲（wrapper）を指定
+    const target = document.querySelector('.wrapper') || document.querySelector('.wrapper-live');
+    
+    html2canvas(target, {
+        useCORS: true,       // 画像の外部読み込みを許可
+        scale: 2,            // 高画質にする（2倍サイズ）
+        backgroundColor: null // 背景を透明にしない場合は指定
+    }).then(canvas => {
+        const link = document.createElement('a');
+        link.download = 'ikka_newspaper.png'; // ファイル名
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+    });
+});
+</script>
+"""
+
+# これを html_code = f""" ... {download_script} </body></html> """ のように組み込みます。
+
+
+</body>
 </html>
 
 """
