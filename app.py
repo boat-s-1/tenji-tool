@@ -154,11 +154,18 @@ function saveImage(targetClass, fileName) {
     const target = document.querySelector(targetClass);
 
     html2canvas(target, {
+
         useCORS: true,
         allowTaint: true,
         scale: 2,
         backgroundColor: "#ffffff",
-        scrollY: -window.scrollY
+
+        scrollX: 0,
+        scrollY: -window.scrollY,
+
+        windowWidth: document.documentElement.scrollWidth,
+        windowHeight: document.documentElement.scrollHeight
+
     }).then(canvas => {
 
         const link = document.createElement('a');
