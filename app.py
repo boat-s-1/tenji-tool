@@ -164,19 +164,23 @@ header_part = f"""
     background: #fff;
     border-radius: 20px 20px 0 0;
 ">
-    <!-- ロゴ画像：左寄せにして最大幅を制限 -->
-    <img src="{logo_src}" style="width: 550px; height: auto; object-fit: contain;">
+    <!-- ロゴ画像 -->
+    <img src="{logo_src}" style="width: 520px; height: auto; object-fit: contain;">
 
-    <!-- レース情報：右寄せ・文字を大きく太く -->
+    <!-- レース情報：日付の下に場名とRを横並び -->
     <div style="
         text-align: right; 
-        line-height: 1.2;
-        color: #333;
         font-family: 'Zen Maru Gothic', sans-serif;
+        color: #333;
     ">
-        <div style="font-size: 28px; font-weight: 800;">{race_date}</div>
-        <div style="font-size: 42px; font-weight: 900; color: #ff4f93; margin: 5px 0;">{race_place}</div>
-        <div style="font-size: 34px; font-weight: 800;">{race_no}</div>
+        <!-- 日付：少し控えめなサイズ -->
+        <div style="font-size: 24px; font-weight: 800; margin-bottom: 2px;">{race_date}</div>
+        
+        <!-- 場名とレース番号：特大サイズで横並び -->
+        <div style="display: flex; justify-content: flex-end; align-items: baseline; gap: 15px;">
+            <span style="font-size: 52px; font-weight: 900; color: #ff4f93;">{race_place}</span>
+            <span style="font-size: 46px; font-weight: 900;">{race_no}</span>
+        </div>
     </div>
 </div>
 """
