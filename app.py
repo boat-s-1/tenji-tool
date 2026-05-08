@@ -68,7 +68,7 @@ with st.sidebar.expander("📌 一果本命候補"):
     stamp = st.selectbox("スタンプ", ["なし"] + list(stamp_dict.keys()))
     nige_rate = st.slider("イン逃げ期待度", 0, 100, 84)
     up_rate = st.slider("場平均との差", -30, 30, 11)
-with st.sidebar.expander("📌 一果展開ストーリー評価"):
+with st.sidebar.expander("📌 一果展開評価"):
     selected_boats = st.multiselect("注目艇", [f"{i}号艇" for i in range(1, 7)], default=["1号艇", "2号艇", "3号艇"])
 
     boat_comments = {}
