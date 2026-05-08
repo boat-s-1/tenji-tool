@@ -155,9 +155,29 @@ function saveImage(targetClass, fileName) {
 # =========================================
 
 header_part = f"""
-<div class="header" style="display: flex; justify-content: center; position: relative; align-items: center; padding: 20px; border-bottom: 5px dashed #ff6ea8;">
-    <img src="{logo_src}" style="width: 100%; max-width: 650px;">
-    <div style="position: absolute; right: 20px; font-size: 22px; font-weight: bold; text-align: center;">{race_date}<br>{race_place}<br>{race_no}</div>
+<div class="header" style="
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    padding: 10px 30px; 
+    border-bottom: 5px dashed #ff6ea8;
+    background: #fff;
+    border-radius: 20px 20px 0 0;
+">
+    <!-- ロゴ画像：左寄せにして最大幅を制限 -->
+    <img src="{logo_src}" style="width: 550px; height: auto; object-fit: contain;">
+
+    <!-- レース情報：右寄せ・文字を大きく太く -->
+    <div style="
+        text-align: right; 
+        line-height: 1.2;
+        color: #333;
+        font-family: 'Zen Maru Gothic', sans-serif;
+    ">
+        <div style="font-size: 28px; font-weight: 800;">{race_date}</div>
+        <div style="font-size: 42px; font-weight: 900; color: #ff4f93; margin: 5px 0;">{race_place}</div>
+        <div style="font-size: 34px; font-weight: 800;">{race_no}</div>
+    </div>
 </div>
 """
 
@@ -185,7 +205,9 @@ for i in range(1, 7):
 
 # --- 一果 前日 ---
 html_code = f"""
-<!DOCTYPE html><html><head><meta charset="UTF-8">{common_style}{download_logic}</head>
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8">{common_style}{download_logic}</head>
 <body><div class="wrapper">{header_part}<div class="main"><div class="left"><div class="mainbox" style="position: relative;">{stamp_html}<div class="section-title">本命候補</div><div style="font-size:40px; font-weight:bold; color:#ff4f93; margin-left:10px;">{honmei}</div><div style="display:flex; justify-content:space-between; border-bottom:3px dashed #ffd0e2; padding:10px 0;"><div style="font-size:24px; font-weight:bold;">イン逃げ期待度</div><div style="font-size:40px; font-weight:bold; color:#ff4f93;">{nige_rate}%</div></div><div style="display:flex; justify-content:space-between; padding:10px 0;"><div style="font-size:24px; font-weight:bold;">場平均との差</div><div style="font-size:36px; font-weight:bold; color:#44aa55;">+{up_rate}%</div></div></div><div class="mainbox"><div class="section-title">展開ストーリー (予想)</div>{story_html}</div><div class="mainbox"><div class="section-title">各艇評価指数</div>{score_html}</div></div><div class="right"><img class="character-img" src="{character_src}"><div class="fukidashi"><div style="color:#ff4f93; font-weight:bold; font-size:24px; margin-bottom:5px;">🌸 一果のひとこと</div>{comment}</div><div class="notice"><div style="font-size:22px; font-weight:bold; color:#ff4f93; text-align:center; border-bottom:2px solid #ffb3cf; margin-bottom:10px;">📍 要チェックポイント</div><div>・波乱指数：{stars} ({wave})</div><div>・危険艇：{danger_boat}</div><div>・注目艇：{attention_boats}</div></div><div class="motor-box"><div style="font-size:20px; font-weight:bold; color:#0077cc; border-bottom:2px solid #b3d9ff; margin-bottom:8px;">⚙️ 一果の機力チェック</div><div style="font-weight:bold; font-size:18px;">{motor_eval}</div></div></div></div><div class="footer"><img src="{footer_img_src}" class="footer-img"></div></div><div style="text-align:center;"><button class="download-btn" onclick="saveImage('.wrapper', 'zenjitsu.png')">画像を保存する</button></div></body></html>
 """
 
@@ -197,8 +219,10 @@ html_code2 = f"""
 
 # --- キイナ 前日 ---
 kiina_html = f"""
-<!DOCTYPE html><html><head><meta charset="UTF-8">{common_style}{download_logic}</head>
-<body><div class="wrapper-kiina"><div style="background:linear-gradient(90deg, #ffb300, #ff9800); padding:25px; display:flex; justify-content:space-between; align-items:center;"><div class="kiina-title">⚡ キイナの5アタマ速報</div><div style="font-size:24px; font-weight:bold; text-align:right; color:white;">{race_date}<br>{race_place}<br>{race_no}</div></div><div class="main"><div class="left"><div class="kiina-box"><div class="kiina-section">⚡ 本命候補</div><div style="font-size:88px; font-weight:bold; color:#ff9800; text-align:center; margin-top:10px;">◎5号艇</div><div style="display:grid; grid-template-columns:1fr 1fr; gap:15px; margin-top:20px;"><div style="background:#fff8e1; border-radius:15px; padding:15px; text-align:center;"><div style="font-size:22px; font-weight:bold;">5アタマ期待度</div><div style="font-size:54px; font-weight:bold; color:#ff9800;">72%</div></div><div style="background:#fff8e1; border-radius:15px; padding:15px; text-align:center;"><div style="font-size:22px; font-weight:bold;">波乱指数</div><div style="font-size:54px; font-weight:bold; color:#ff5722;">{wave}</div></div></div></div><div class="kiina-box"><div class="kiina-section">⚡ 展開ストーリー</div><div style="font-size:28px; line-height:2; font-weight:bold;">・1号艇が流れる展開！<br>・5号艇のまくり差し炸裂！<br>・2号艇が差して続く！</div></div><div class="warning-box">🚨 イン危険警報発令中 🚨</div></div><div class="right"><img class="character-img" src="{character_src}"><div class="fukidashi" style="border-color:#ffb300; background:#fffdf3;"><div style="color:#ff9800; font-size:26px; font-weight:bold; margin-bottom:10px;">⚡ キイナのひとこと</div><div style="font-size:22px; font-weight:bold; line-height:1.8;">今日は5コースが超怪しい！ 万舟狙うならここ！</div></div><div class="notice" style="background:#fff3cd; border-color:#ffb300;"><div style="font-size:24px; font-weight:bold; color:#ff9800; margin-bottom:10px;">⚡ 要チェック</div><div style="font-size:20px; line-height:1.8;">・超抜候補：5号艇<br>・展示急上昇：{up_boat}<br>・危険艇：{danger_boat}</div></div></div></div><div style="background:#ff9800; color:white; text-align:center; padding:25px; font-size:32px; font-weight:bold;">⚡ 高配当を掴み取れ！</div></div><div style="text-align:center;"><button class="download-btn" onclick="saveImage('.wrapper-kiina', 'kiina_zenjitsu.png')">画像を保存する</button></div></body></html>
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8">{common_style}{download_logic}</head>
+<body>
+<div class="wrapper-kiina"><div style="background:linear-gradient(90deg, #ffb300, #ff9800); padding:25px; display:flex; justify-content:space-between; align-items:center;"><div class="kiina-title">⚡ キイナの5アタマ速報</div><div style="font-size:24px; font-weight:bold; text-align:right; color:white;">{race_date}<br>{race_place}<br>{race_no}</div></div><div class="main"><div class="left"><div class="kiina-box"><div class="kiina-section">⚡ 本命候補</div><div style="font-size:88px; font-weight:bold; color:#ff9800; text-align:center; margin-top:10px;">◎5号艇</div><div style="display:grid; grid-template-columns:1fr 1fr; gap:15px; margin-top:20px;"><div style="background:#fff8e1; border-radius:15px; padding:15px; text-align:center;"><div style="font-size:22px; font-weight:bold;">5アタマ期待度</div><div style="font-size:54px; font-weight:bold; color:#ff9800;">72%</div></div><div style="background:#fff8e1; border-radius:15px; padding:15px; text-align:center;"><div style="font-size:22px; font-weight:bold;">波乱指数</div><div style="font-size:54px; font-weight:bold; color:#ff5722;">{wave}</div></div></div></div><div class="kiina-box"><div class="kiina-section">⚡ 展開ストーリー</div><div style="font-size:28px; line-height:2; font-weight:bold;">・1号艇が流れる展開！<br>・5号艇のまくり差し炸裂！<br>・2号艇が差して続く！</div></div><div class="warning-box">🚨 イン危険警報発令中 🚨</div></div><div class="right"><img class="character-img" src="{character_src}"><div class="fukidashi" style="border-color:#ffb300; background:#fffdf3;"><div style="color:#ff9800; font-size:26px; font-weight:bold; margin-bottom:10px;">⚡ キイナのひとこと</div><div style="font-size:22px; font-weight:bold; line-height:1.8;">今日は5コースが超怪しい！ 万舟狙うならここ！</div></div><div class="notice" style="background:#fff3cd; border-color:#ffb300;"><div style="font-size:24px; font-weight:bold; color:#ff9800; margin-bottom:10px;">⚡ 要チェック</div><div style="font-size:20px; line-height:1.8;">・超抜候補：5号艇<br>・展示急上昇：{up_boat}<br>・危険艇：{danger_boat}</div></div></div></div><div style="background:#ff9800; color:white; text-align:center; padding:25px; font-size:32px; font-weight:bold;">⚡ 高配当を掴み取れ！</div></div><div style="text-align:center;"><button class="download-btn" onclick="saveImage('.wrapper-kiina', 'kiina_zenjitsu.png')">画像を保存する</button></div></body></html>
 """
 
 # --- キイナ 直前 ---
