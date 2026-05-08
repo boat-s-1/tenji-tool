@@ -915,24 +915,12 @@ stars = "⭐︎" * star_count
 attention_boats = ", ".join([b.replace("号艇", "") for b in selected_boats])
 
 
-# ダウンロード機能のパーツを作成
+# --- 1. ダウンロードスクリプトを先に定義 ---
 download_script = f"""
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <div style="text-align:center; padding: 20px;">
-    <button class="download-btn" id="save-btn" style="
-        width: 250px;
-        padding: 15px;
-        background: #ff4f93;
-        color: white;
-        border-radius: 50px;
-        font-weight: bold;
-        cursor: pointer;
-        border: none;
-        font-size: 18px;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    ">保存する</button>
+    <button class="download-btn" id="save-btn">画像を保存する</button>
 </div>
-
 <script>
 document.getElementById('save-btn').addEventListener('click', function() {{
     const target = document.querySelector('.wrapper') || document.querySelector('.wrapper-live');
@@ -950,44 +938,10 @@ document.getElementById('save-btn').addEventListener('click', function() {{
 </script>
 """
 
-
-
-# 選択されたスタンプの画像URLを取得
-current_stamp_src = stamp_dict.get(stamp, "")
 # =========================================
-# 前日版HTML
+# 前日版HTML (全体を整理)
 # =========================================
 
-# まずヘッダー部分をパーツとして作成
-header_part = f"""
-<div class="header" style="display: flex; justify-content: center; position: relative; align-items: center; padding: 20px; border-bottom: 5px dashed #ff6ea8;">
-    <img src="{logo_src}" style="width: 100%; max-width: 650px; height: auto;">
-    <div class="date" style="position: absolute; right: 20px; font-size: 24px; font-weight: bold; line-height: 1.2; text-align: center;">
-        {race_date}<br>
-        {race_place}<br>
-        {race_no}
-    </div>
-</div>
-"""
-
-# スタンプ用のHTMLパーツ
-stamp_html = ""
-if current_stamp_src:
-    stamp_html = f'''
-    <img src="{current_stamp_src}" 
-         style="width: 220px; 
-                height: auto; 
-                position: absolute; 
-                right: 100px;    /* 右端ギリギリか、少しはみ出すくらい */
-                top: -30px;      /* 上にはみ出すくらい */
-                transform: rotate(-15deg); 
-                z-index: 100; 
-                pointer-events: none;
-                filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.1));">
-    '''
-
-
-# html_code の冒頭部分
 html_code = f"""
 <!DOCTYPE html>
 <html>
@@ -997,158 +951,94 @@ html_code = f"""
 {common_style}
 </head>
 
-
-
 <body>
-
 <div class="wrapper">
 
-{header_part}
+    {header_part}
 
+    <div class="main">
+        <div class="left">
+            <div class="mainbox" style="position: relative;">
+                {stamp_html}
+                <div class="section-title">本命候補</div> 
+                <div style="font-size:42px; font-weight:bold; color:#ff4f93; margin-left:10px;">
+                    {honmei}
+                </div>
+                <div class="score-row">
+                    <div class="score-label">イン逃げ期待度</div>
+                    <div class="score-value">{nige_rate}%</div>
+                </div>
+                <div class="score-row">
+                    <div class="score-label">場平均との差</div>
+                    <div class="score-up">+{up_rate}%</div>
+                </div>
+            </div>
 
-<div class="main">
+            <div class="mainbox">
+                <div class="section-title">展開ストーリー (予想)</div> 
+                <div class="story-container">
+                    {story_html}
+                </div>
+            </div>
 
-<div class="left">
-
-<div class="mainbox" style="position: relative;">
-    {stamp_html}
-    <div class="section-title">本命候補</div> <div style="font-size:42px; font-weight:bold; color:#ff4f93; margin-left:10px;">
-        {honmei}
-    </div>
-
-
-
-
-    <div class="score-row">
-        <div class="score-label">イン逃げ期待度</div>
-        <div class="score-value">{nige_rate}%</div>
-    </div>
-
-    <div class="score-row">
-        <div class="score-label">場平均との差</div>
-        <div class="score-up">+{up_rate}%</div>
-    </div>
-</div>
-
-<div class="mainbox">
-    <div class="section-title">展開ストーリー (予想)</div> <div class="story-container">
-        {story_html}
-    </div>
-</div>
-
-
-
-
-<div class="mainbox">
-    <div class="section-title">各艇評価指数</div> <div class="bar-wrap">
-
-        <div class="bar-row">
-            <div class="bar-label">1号艇</div>
-            <div class="bar-bg"><div class="bar-fill" style="width:{boat1_score}%;">{boat1_score}</div></div>
-        </div>
-        <div class="bar-row">
-            <div class="bar-label">2号艇</div>
-            <div class="bar-bg"><div class="bar-fill" style="width:{boat2_score}%;">{boat2_score}</div></div>
-        </div>
-        <div class="bar-row">
-            <div class="bar-label">3号艇</div>
-            <div class="bar-bg"><div class="bar-fill" style="width:{boat3_score}%;">{boat3_score}</div></div>
-        </div>
-        <div class="bar-row">
-            <div class="bar-label">4号艇</div>
-            <div class="bar-bg"><div class="bar-fill" style="width:{boat4_score}%;">{boat4_score}</div></div>
-        </div>
-        <div class="bar-row">
-            <div class="bar-label">5号艇</div>
-            <div class="bar-bg"><div class="bar-fill" style="width:{boat5_score}%;">{boat5_score}</div></div>
-        </div>
-        <div class="bar-row">
-            <div class="bar-label">6号艇</div>
-            <div class="bar-bg"><div class="bar-fill" style="width:{boat6_score}%;">{boat6_score}</div></div>
-        </div>
-    </div>
-</div>
-</div>
-
-<div class="right">
-    <img class="character-img" src="{character_src}">
-
-    <div class="fukidashi">
-        <div class="fukidashi-title">🌸 一果のひとこと</div>
-        <div>{comment}</div>
-    </div>
-
-    <div class="notice">
-        <div class="notice-title">📍 要チェックポイント</div>
-        
-        <div class="notice-item">
-            ・波乱指数
-            <span class="notice-value">{stars} ({wave})</span>
+            <div class="mainbox">
+                <div class="section-title">各艇評価指数</div>
+                <div class="bar-wrap">
+                    <div class="bar-row">
+                        <div class="bar-label">1号艇</div>
+                        <div class="bar-bg"><div class="bar-fill" style="width:{boat1_score}%;">{boat1_score}</div></div>
+                    </div>
+                    <div class="bar-row">
+                        <div class="bar-label">2号艇</div>
+                        <div class="bar-bg"><div class="bar-fill" style="width:{boat2_score}%;">{boat2_score}</div></div>
+                    </div>
+                    <div class="bar-row">
+                        <div class="bar-label">3号艇</div>
+                        <div class="bar-bg"><div class="bar-fill" style="width:{boat3_score}%;">{boat3_score}</div></div>
+                    </div>
+                    <div class="bar-row">
+                        <div class="bar-label">4号艇</div>
+                        <div class="bar-bg"><div class="bar-fill" style="width:{boat4_score}%;">{boat4_score}</div></div>
+                    </div>
+                    <div class="bar-row">
+                        <div class="bar-label">5号艇</div>
+                        <div class="bar-bg"><div class="bar-fill" style="width:{boat5_score}%;">{boat5_score}</div></div>
+                    </div>
+                    <div class="bar-row">
+                        <div class="bar-label">6号艇</div>
+                        <div class="bar-bg"><div class="bar-fill" style="width:{boat6_score}%;">{boat6_score}</div></div>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <div class="notice-item">
-            ・危険艇
-            <span class="notice-value">{danger_boat if danger_boat != "なし" else "なし"}</span>
-        </div>
-
-        <div class="notice-item">
-            ・注目艇
-            <span class="notice-value">{attention_boats}</span>
+        <div class="right">
+            <img class="character-img" src="{character_src}">
+            <div class="fukidashi">
+                <div class="fukidashi-title">🌸 一果のひとこと</div>
+                <div>{comment}</div>
+            </div>
+            <div class="notice">
+                <div class="notice-title">📍 要チェックポイント</div>
+                <div class="notice-item">・波乱指数<span class="notice-value">{stars} ({wave})</span></div>
+                <div class="notice-item">・危険艇<span class="notice-value">{danger_boat if danger_boat != "なし" else "なし"}</span></div>
+                <div class="notice-item">・注目艇<span class="notice-value">{attention_boats}</span></div>
+            </div>
+            <div class="motor-box">
+                <div class="motor-title">⚙️ 一果の機力チェック</div>
+                <div style="font-size: 18px; line-height: 1.5; color: #333; font-weight: bold;">{motor_eval}</div>
+            </div>
         </div>
     </div>
 
-    <div class="motor-box">
-        <div class="motor-title">⚙️ 一果の機力チェック</div>
-        <div style="font-size: 18px; line-height: 1.5; color: #333; font-weight: bold;">
-            {motor_eval}
-        </div>
+    <div class="footer">
+        <img src="{footer_img_src}" class="footer-img">
     </div>
-</div>
 
-</div>
-
-
-
-</div>
-
-<div class="footer">
-    <img src="{footer_img_src}" class="footer-img">
-</div>
-
-</div> 
-
-# 各html_codeの末尾、</body>タグの直前あたりに挿入
-download_script = """
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-<button class="download-btn" id="save-btn">🖼 画像として保存する</button>
-
-<script>
-document.getElementById('save-btn').addEventListener('click', function() {
-    // 保存したい範囲（wrapper）を指定
-    const target = document.querySelector('.wrapper') || document.querySelector('.wrapper-live');
-    
-    html2canvas(target, {
-        useCORS: true,       // 画像の外部読み込みを許可
-        scale: 2,            // 高画質にする（2倍サイズ）
-        backgroundColor: null // 背景を透明にしない場合は指定
-    }).then(canvas => {
-        const link = document.createElement('a');
-        link.download = 'ikka_newspaper.png'; // ファイル名
-        link.href = canvas.toDataURL('image/png');
-        link.click();
-    });
-});
-</script>
-"""
-
-{download_script}
-
-
-
+</div> {download_script}
 
 </body>
 </html>
-
 """
 
 
