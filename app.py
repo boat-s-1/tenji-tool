@@ -196,24 +196,74 @@ current_stamp_src = stamp_dict.get(stamp, "")
 stamp_html = f'<img src="{current_stamp_src}" style="width: 200px; position: absolute; right: 20px; top: -30px; transform: rotate(-15deg); z-index: 100; filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.1));">' if current_stamp_src else ""
 
 # =========================================
-# 4. 前日版・直前版の最終組み立て
+# 4. 前日版の最終組み立て（修正版）
 # =========================================
 
-# 前日版
 html_code = f"""
-<!DOCTYPE html><html><head><meta charset="UTF-8"><link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@700&display=swap" rel="stylesheet">{common_style}</head>
-<body><div class="wrapper">{header_part}<div class="main"><div class="left">
-<div class="mainbox" style="position: relative;">{stamp_html}<div class="section-title">本命候補</div><div style="font-size:40px; font-weight:bold; color:#ff4f93; margin-left:10px;">{honmei}</div>
-<div class="score-row"><div style="font-size:24px; font-weight:bold;">イン逃げ期待度</div><div style="font-size:40px; font-weight:bold; color:#ff4f93;">{nige_rate}%</div></div>
-<div class="score-row"><div style="font-size:24px; font-weight:bold;">場平均との差</div><div style="font-size:36px; font-weight:bold; color:#44aa55;">+{up_rate}%</div></div></div>
-<div class="mainbox"><div class="section-title">展開ストーリー (予想)</div>{story_html}</div>
-<div class="mainbox"><div class="section-title">各艇評価指数</div>
-{"".join([f'<div style="margin-bottom:10px;"><div style="font-weight:bold;">{i}号艇</div><div class="bar-bg"><div class="bar-fill" style="width:{boat_scores[f"{i}号艇"]}%;">{boat_scores[f"{i}号艇"]}</div></div></div>' for i in range(1,7)])}
-</div></div><div class="right"><img class="character-img" src="{character_src}"><div class="fukidashi"><div style="color:#ff4f93; font-weight:bold; font-size:24px; margin-bottom:5px;">🌸 一果のひとこと</div>{comment}</div>
-<div class="notice"><div class="notice-title">📍 要チェックポイント</div><div class="notice-item">・波乱指数<span class="notice-value">{stars} ({wave})</span></div><div class="notice-item">・危険艇<span class="notice-value">{danger_boat}</span></div><div class="notice-item">・注目艇<span class="notice-value">{attention_boats}</span></div></div>
-<div class="motor-box"><div class="motor-title">⚙️ 一果の機力チェック</div><div style="font-weight:bold; font-size:18px;">{motor_eval}</div></div></div></div>
-<div class="footer"><img src="{footer_img_src}" class="footer-img"></div></div>{download_script}</body></html>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@700&display=swap" rel="stylesheet">
+    {common_style}
+</head>
+<body>
+    <div class="wrapper">
+        {header_part}
+        <div class="main">
+            <div class="left">
+                <div class="mainbox" style="position: relative;">
+                    {stamp_html}
+                    <div class="section-title">本命候補</div>
+                    <div style="font-size:40px; font-weight:bold; color:#ff4f93; margin-left:10px;">{honmei}</div>
+                    <div class="score-row">
+                        <div style="font-size:24px; font-weight:bold;">イン逃げ期待度</div>
+                        <div style="font-size:40px; font-weight:bold; color:#ff4f93;">{nige_rate}%</div>
+                    </div>
+                    <div class="score-row">
+                        <div style="font-size:24px; font-weight:bold;">場平均との差</div>
+                        <div style="font-size:36px; font-weight:bold; color:#44aa55;">+{up_rate}%</div>
+                    </div>
+                </div>
+
+                <div class="mainbox">
+                    <div class="section-title">展開ストーリー (予想)</div>
+                    {story_html}
+                </div>
+
+                <div class="mainbox">
+                    <div class="section-title">各艇評価指数</div>
+                    {"".join([f'<div style="margin-bottom:10px;"><div style="font-weight:bold;">{i}号艇</div><div class="bar-bg"><div class="bar-fill" style="width:{boat_scores[f"{i}号艇"]}%;">{boat_scores[f"{i}号艇"]}</div></div></div>' for i in range(1,7)])}
+                </div>
+            </div>
+
+            <div class="right">
+                <img class="character-img" src="{character_src}">
+                <div class="fukidashi">
+                    <div style="color:#ff4f93; font-weight:bold; font-size:24px; margin-bottom:5px;">🌸 一果のひとこと</div>
+                    {comment}
+                </div>
+                <div class="notice">
+                    <div class="notice-title">📍 要チェックポイント</div>
+                    <div class="notice-item">・波乱指数<span class="notice-value">{stars} ({wave})</span></div>
+                    <div class="notice-item">・危険艇<span class="notice-value">{danger_boat}</span></div>
+                    <div class="notice-item">・注目艇<span class="notice-value">{attention_boats}</span></div>
+                </div>
+                <div class="motor-box">
+                    <div class="motor-title">⚙️ 一果の機力チェック</div>
+                    <div style="font-weight:bold; font-size:18px;">{motor_eval}</div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <img src="{footer_img_src}" class="footer-img">
+        </div>
+    </div> {download_script}
+
+</body>
+</html>
 """
+
 
 # 直前版 (簡易版としての構築例)
 html_code2 = f"""
