@@ -534,6 +534,645 @@ html_code2 = f"""
 <body><div class="wrapper-live"><div style="background:#ff85b5; color:white; padding:18px; font-size:32px; font-weight:bold; text-align:center;">🌸 展示終了！一果の最終決定 🌸</div>{header_part}<div class="main"><div class="left"><div class="mainbox" style="border-color:#ff4f93;"><div style="font-size:32px; font-weight:bold; color:#ff4f93;">展示評価：{tenji_rank}</div><div style="font-size:24px;">タイム：{tenji_time} / 進入：{shinnyu}</div><div style="font-size:36px; font-weight:bold; color:#ff4f93; margin-top:15px;">一果判定：{ikka_hantei}</div></div><div class="mainbox" style="border-color:#ff4f93;"><div style="font-size:28px; font-weight:bold;">🎯 的中期待度</div><div style="font-size:72px; font-weight:bold; color:#ff4f93;">{hit_rate}%</div></div><div class="mainbox" style="border-color:#ff4f93;"><div class="section-title">🌸 一果の買い目</div><div style="font-size:24px; font-weight:bold; color:#ff4f93; text-align:center;">本命：{honmei_kaime}</div><div style="border-top:2px dashed #ffb3cf; margin:10px 0;"></div><div style="font-size:20px; text-align:center; color:#666;">押さえ：<br>{osae_kaime.replace('\\n', '<br>')}</div></div></div><div class="right"><img class="character-img" src="{character_src}"><div class="notice" style="background:#ffe5f1; border-color:#ff4f93;"><div style="font-size:22px; font-weight:bold; color:#ff4f93; text-align:center; border-bottom:2px solid #ffb3cf; margin-bottom:10px;">📍 直前チェック</div><div>・急上昇：{up_boat}</div><div>・危険艇：{danger_boat}</div></div><div class="fukidashi" style="margin-top:20px;">{jikkan_comment}</div></div></div><div style="background:#ff4f93; color:white; text-align:center; padding:20px; font-size:24px; font-weight:bold;">🌸 一果の最終判断公開中 🌸</div></div><div style="text-align:center;"><button class="download-btn" onclick="saveImage('.wrapper-live', 'chokuzen.png')">画像を保存する</button></div></body></html>
 """
 
+
+# =========================================
+# キイナちゃん 前日版HTML
+# =========================================
+
+kiina_html = f"""
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+
+{common_style}
+{download_logic}
+
+<style>
+
+.wrapper-kiina {
+
+    width:1000px;
+    margin:auto;
+
+    background:linear-gradient(
+        180deg,
+        #fff8d9 0%,
+        #fffdf5 100%
+    );
+
+    border:6px solid #ffb300;
+
+    border-radius:25px;
+
+    overflow:visible;
+
+    position:relative;
+
+    box-shadow:0 0 30px rgba(255,179,0,0.3);
+}
+
+.kiina-title {
+
+    font-size:54px;
+    font-weight:bold;
+
+    color:#ff9800;
+
+    text-shadow:
+        2px 2px 0px #fff,
+        4px 4px 10px rgba(0,0,0,0.15);
+}
+
+.kiina-box {
+
+    border:4px solid #ffca28;
+
+    border-radius:25px;
+
+    background:white;
+
+    padding:20px;
+
+    margin-bottom:20px;
+}
+
+.kiina-section {
+
+    background:linear-gradient(
+        90deg,
+        #ffb300,
+        #ff9800
+    );
+
+    color:white;
+
+    font-size:24px;
+    font-weight:bold;
+
+    padding:10px 18px;
+
+    border-radius:10px;
+
+    display:inline-block;
+
+    margin-bottom:15px;
+}
+
+.warning-box {
+
+    background:linear-gradient(
+        135deg,
+        #ff5722,
+        #ff9800
+    );
+
+    color:white;
+
+    border-radius:20px;
+
+    padding:20px;
+
+    margin-top:20px;
+
+    font-size:26px;
+    font-weight:bold;
+
+    text-align:center;
+
+    box-shadow:0 0 15px rgba(255,87,34,0.35);
+}
+
+.buy-card {
+
+    background:white;
+
+    border:3px solid #ffb300;
+
+    border-radius:15px;
+
+    padding:15px;
+
+    text-align:center;
+
+    font-size:34px;
+    font-weight:bold;
+
+    color:#ff9800;
+}
+
+.buy-grid {
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:15px;
+
+    margin-top:15px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="wrapper-kiina">
+
+    <div style="
+    background:linear-gradient(
+        90deg,
+        #ffb300,
+        #ff9800
+    );
+
+    padding:25px;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    ">
+
+        <div class="kiina-title">
+            ⚡ キイナの5アタマ速報
+        </div>
+
+        <div style="
+        font-size:24px;
+        font-weight:bold;
+        text-align:right;
+        color:white;
+        ">
+            {race_date}<br>
+            {race_place}<br>
+            {race_no}
+        </div>
+
+    </div>
+
+    <div class="main">
+
+        <div class="left">
+
+            <div class="kiina-box">
+
+                <div class="kiina-section">
+                    ⚡ 本命候補
+                </div>
+
+                <div style="
+                font-size:88px;
+                font-weight:bold;
+                color:#ff9800;
+                text-align:center;
+                margin-top:10px;
+                ">
+                    ◎5号艇
+                </div>
+
+                <div style="
+                display:grid;
+                grid-template-columns:1fr 1fr;
+                gap:15px;
+                margin-top:20px;
+                ">
+
+                    <div style="
+                    background:#fff8e1;
+                    border-radius:15px;
+                    padding:15px;
+                    text-align:center;
+                    ">
+
+                        <div style="
+                        font-size:22px;
+                        font-weight:bold;
+                        ">
+                            5アタマ期待度
+                        </div>
+
+                        <div style="
+                        font-size:54px;
+                        font-weight:bold;
+                        color:#ff9800;
+                        ">
+                            72%
+                        </div>
+
+                    </div>
+
+                    <div style="
+                    background:#fff8e1;
+                    border-radius:15px;
+                    padding:15px;
+                    text-align:center;
+                    ">
+
+                        <div style="
+                        font-size:22px;
+                        font-weight:bold;
+                        ">
+                            波乱指数
+                        </div>
+
+                        <div style="
+                        font-size:54px;
+                        font-weight:bold;
+                        color:#ff5722;
+                        ">
+                            {wave}
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="kiina-box">
+
+                <div class="kiina-section">
+                    ⚡ 展開ストーリー
+                </div>
+
+                <div style="
+                font-size:28px;
+                line-height:2;
+                font-weight:bold;
+                ">
+
+                    ・1号艇が流れる展開！<br>
+                    ・5号艇のまくり差し炸裂！<br>
+                    ・2号艇が差して続く！
+
+                </div>
+
+            </div>
+
+            <div class="warning-box">
+                🚨 イン危険警報発令中 🚨
+            </div>
+
+        </div>
+
+        <div class="right">
+
+            <img class="character-img" src="{character_src}">
+
+            <div class="fukidashi" style="
+            border-color:#ffb300;
+            background:#fffdf3;
+            ">
+
+                <div style="
+                color:#ff9800;
+                font-size:26px;
+                font-weight:bold;
+                margin-bottom:10px;
+                ">
+                    ⚡ キイナのひとこと
+                </div>
+
+                <div style="
+                font-size:22px;
+                font-weight:bold;
+                line-height:1.8;
+                ">
+
+                    今日は5コースが超怪しい！
+                    万舟狙うならここ！
+
+                </div>
+
+            </div>
+
+            <div class="notice" style="
+            background:#fff3cd;
+            border-color:#ffb300;
+            ">
+
+                <div style="
+                font-size:24px;
+                font-weight:bold;
+                color:#ff9800;
+                margin-bottom:10px;
+                ">
+                    ⚡ 要チェック
+                </div>
+
+                <div style="
+                font-size:20px;
+                line-height:1.8;
+                ">
+
+                    ・超抜候補：5号艇<br>
+                    ・展示急上昇：{up_boat}<br>
+                    ・危険艇：{danger_boat}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div style="
+    background:#ff9800;
+    color:white;
+
+    text-align:center;
+
+    padding:25px;
+
+    font-size:32px;
+    font-weight:bold;
+    ">
+
+        ⚡ 高配当を掴み取れ！
+
+    </div>
+
+</div>
+
+</body>
+</html>
+"""
+
+# =========================================
+# キイナちゃん 直前版HTML
+# =========================================
+
+kiina_live_html = f"""
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+
+{common_style}
+{download_logic}
+
+</head>
+
+<body>
+
+<div class="wrapper-kiina">
+
+    <div style="
+    background:linear-gradient(
+        90deg,
+        #ff9800,
+        #ff5722
+    );
+
+    color:white;
+
+    text-align:center;
+
+    padding:18px;
+
+    font-size:34px;
+    font-weight:bold;
+    ">
+
+        ⚡ 展示終了！キイナの最終決断 ⚡
+
+    </div>
+
+    <div style="
+    padding:25px;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    background:#ffb300;
+    ">
+
+        <div class="kiina-title" style="color:white;">
+            ⚡ キイナ最終決断
+        </div>
+
+        <div style="
+        font-size:24px;
+        font-weight:bold;
+        color:white;
+        text-align:right;
+        ">
+            {race_date}<br>
+            {race_place}<br>
+            {race_no}
+        </div>
+
+    </div>
+
+    <div class="main">
+
+        <div class="left">
+
+            <div class="kiina-box">
+
+                <div class="kiina-section">
+                    ⚡ 最終判定
+                </div>
+
+                <div style="
+                font-size:72px;
+                font-weight:bold;
+                color:#ff9800;
+                text-align:center;
+                margin-top:20px;
+                ">
+
+                    ◎5 ○2 ▲1
+
+                </div>
+
+                <div style="
+                margin-top:20px;
+                font-size:26px;
+                line-height:2;
+                font-weight:bold;
+                ">
+
+                    展示気配は5号艇が抜群！<br>
+                    イン受け流して突き抜け期待！
+
+                </div>
+
+            </div>
+
+            <div class="kiina-box">
+
+                <div class="kiina-section">
+                    🎯 的中期待度
+                </div>
+
+                <div style="
+                font-size:110px;
+                font-weight:bold;
+                color:#ff5722;
+                text-align:center;
+                ">
+
+                    {hit_rate}%
+
+                </div>
+
+            </div>
+
+            <div class="kiina-box">
+
+                <div class="kiina-section">
+                    ⚡ キイナの買い目
+                </div>
+
+                <div style="
+                font-size:88px;
+                font-weight:bold;
+                color:#ff9800;
+                text-align:center;
+                margin-top:15px;
+                ">
+
+                    5-2-1
+
+                </div>
+
+                <div style="
+                text-align:center;
+                font-size:28px;
+                font-weight:bold;
+                color:#ff9800;
+                margin-top:25px;
+                margin-bottom:10px;
+                ">
+
+                    押さえ
+
+                </div>
+
+                <div class="buy-grid">
+
+                    <div class="buy-card">
+                        5-1-2
+                    </div>
+
+                    <div class="buy-card">
+                        5-2-4
+                    </div>
+
+                    <div class="buy-card">
+                        5-1-4
+                    </div>
+
+                    <div class="buy-card">
+                        5-2-6
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="right">
+
+            <img class="character-img" src="{character_src}">
+
+            <div class="warning-box">
+
+                ⚡ 万舟警報発令中 ⚡
+
+            </div>
+
+            <div class="notice" style="
+            background:#fff3cd;
+            border-color:#ff9800;
+            ">
+
+                <div style="
+                font-size:24px;
+                font-weight:bold;
+                color:#ff9800;
+                margin-bottom:10px;
+                ">
+
+                    ⚡ 直前チェック
+                </div>
+
+                <div style="
+                font-size:20px;
+                line-height:1.8;
+                ">
+
+                    ・展示急上昇：{up_boat}<br>
+                    ・危険艇：{danger_boat}<br>
+                    ・波乱指数：{wave}
+
+                </div>
+
+            </div>
+
+            <div class="fukidashi" style="
+            border-color:#ffb300;
+            background:#fffdf3;
+            ">
+
+                <div style="
+                font-size:24px;
+                font-weight:bold;
+                color:#ff9800;
+                margin-bottom:10px;
+                ">
+
+                    ⚡ キイナコメント
+                </div>
+
+                <div style="
+                font-size:22px;
+                line-height:1.8;
+                font-weight:bold;
+                ">
+
+                    今日はイン危険！
+                    5コース一撃あるよ！
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div style="
+    background:#ff5722;
+    color:white;
+
+    text-align:center;
+
+    padding:25px;
+
+    font-size:34px;
+    font-weight:bold;
+    ">
+
+        ⚡ 超波乱モード突入 ⚡
+
+    </div>
+
+</div>
+
+</body>
+</html>
+"""
+
+
+
 # =========================================
 # メインタブ
 # =========================================
