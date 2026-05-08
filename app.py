@@ -147,31 +147,12 @@ stamp_html = f'<img src="{current_stamp_src}" style="width: 200px; position: abs
 
 score_html = "".join([f'<div style="margin-bottom:10px;"><div style="font-weight:bold;">{k}</div><div class="bar-bg"><div class="bar-fill" style="width:{v}%;">{v}</div></div></div>' for k, v in boat_scores.items()])
 
-# --- 🌸 一果 前日HTML ---
-html_ikka_zenjitsu = f"""
+# --- 一果 前日 ---
+html_code = f"""
 <!DOCTYPE html><html><head><meta charset="UTF-8">{common_style}{download_logic}</head>
-<body><div class="wrapper">
-    <div style="display:flex; justify-content:center; align-items:center; padding:20px; border-bottom:5px dashed #ff6ea8;">
-        <img src="{logo_src}" style="width:100%; max-width:650px;">
-        <div style="position:absolute; right:20px; font-size:22px; font-weight:bold; text-align:center;">{race_date}<br>{race_place}<br>{race_no}</div>
-    </div>
-    <div class="main">
-        <div class="left">
-            <div class="mainbox" style="position:relative;">{stamp_html}
-                <div class="section-title">本命候補</div>
-                <div style="font-size:40px; font-weight:bold; color:#ff4f93;">{honmei}</div>
-                <div style="display:flex; justify-content:space-between; border-bottom:2px dashed #ffd0e2; padding:10px 0;"><span>イン逃げ期待度</span><span style="font-size:30px; color:#ff4f93;">{nige_rate}%</span></div>
-            </div>
-            <div class="mainbox"><div class="section-title">各艇評価指数</div>{score_html}</div>
-        </div>
-        <div class="right">
-            <img class="character-img" src="{character_src}">
-            <div class="fukidashi"><b>🌸 一果のひとこと</b><br>{comment}</div>
-            <div class="notice">📍 <b>要チェック</b><br>・波乱指数: {stars}<br>・危険艇: {danger_boat}</div>
-        </div>
-    </div>
-</div><div style="text-align:center;"><button class="download-btn" onclick="saveImage('.wrapper', 'ikka_zenjitsu.png')">保存</button></div></body></html>
+<body><div class="wrapper">{header_part}<div class="main"><div class="left"><div class="mainbox" style="position: relative;">{stamp_html}<div class="section-title">本命候補</div><div style="font-size:40px; font-weight:bold; color:#ff4f93; margin-left:10px;">{honmei}</div><div style="display:flex; justify-content:space-between; border-bottom:3px dashed #ffd0e2; padding:10px 0;"><div style="font-size:24px; font-weight:bold;">イン逃げ期待度</div><div style="font-size:40px; font-weight:bold; color:#ff4f93;">{nige_rate}%</div></div><div style="display:flex; justify-content:space-between; padding:10px 0;"><div style="font-size:24px; font-weight:bold;">場平均との差</div><div style="font-size:36px; font-weight:bold; color:#44aa55;">+{up_rate}%</div></div></div><div class="mainbox"><div class="section-title">展開ストーリー (予想)</div>{story_html}</div><div class="mainbox"><div class="section-title">各艇評価指数</div>{score_html}</div></div><div class="right"><img class="character-img" src="{character_src}"><div class="fukidashi"><div style="color:#ff4f93; font-weight:bold; font-size:24px; margin-bottom:5px;">🌸 一果のひとこと</div>{comment}</div><div class="notice"><div style="font-size:22px; font-weight:bold; color:#ff4f93; text-align:center; border-bottom:2px solid #ffb3cf; margin-bottom:10px;">📍 要チェックポイント</div><div>・波乱指数：{stars} ({wave})</div><div>・危険艇：{danger_boat}</div><div>・注目艇：{attention_boats}</div></div><div class="motor-box"><div style="font-size:20px; font-weight:bold; color:#0077cc; border-bottom:2px solid #b3d9ff; margin-bottom:8px;">⚙️ 一果の機力チェック</div><div style="font-weight:bold; font-size:18px;">{motor_eval}</div></div></div></div><div class="footer"><img src="{footer_img_src}" class="footer-img"></div></div><div style="text-align:center;"><button class="download-btn" onclick="saveImage('.wrapper', 'zenjitsu.png')">画像を保存する</button></div></body></html>
 """
+
 
 # --- ⚡ キイナ 前日HTML ---
 kiina_osae_html = "".join([f'<div class="buy-card" style="font-size:24px; padding:10px;">{line}</div>' for line in kiina_osae_list.split("\n") if line])
