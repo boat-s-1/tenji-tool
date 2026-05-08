@@ -326,7 +326,7 @@ function saveImage(targetClass, fileName) {
 
         useCORS: true,
         allowTaint: true,
-        scale: 2,
+        scale: 1,
         backgroundColor: "#ffffff",
 
         scrollX: 0,
