@@ -68,11 +68,6 @@ with st.sidebar.expander("📌 一果本命候補"):
     stamp = st.selectbox("スタンプ", ["なし"] + list(stamp_dict.keys()))
     nige_rate = st.slider("イン逃げ期待度", 0, 100, 84)
     up_rate = st.slider("場平均との差", -30, 30, 11)
-comment = st.sidebar.text_area("一果のひとこと", "1号艇中心だが2号艇の差し注意！")  
-wave = st.sidebar.slider("波乱指数", 0, 100, 28)
-danger_boat = st.sidebar.selectbox("危険艇", ["なし"] + [f"{i}号艇" for i in range(1, 7)])
-
-
 with st.sidebar.expander("📌 一果展開ストーリー評価"):
     selected_boats = st.multiselect("注目艇", [f"{i}号艇" for i in range(1, 7)], default=["1号艇", "2号艇", "3号艇"])
 
@@ -82,6 +77,12 @@ with st.sidebar.expander("📌 一果展開ストーリー評価"):
        name = f"{i}号艇"
        boat_comments[name] = st.text_input(f"{name} コメント", f"{name}の展開解説")
        boat_scores[name] = st.slider(f"{name} 評価", 0, 100, 50)
+comment = st.sidebar.text_area("一果のひとこと", "1号艇中心だが2号艇の差し注意！")  
+wave = st.sidebar.slider("波乱指数", 0, 100, 28)
+danger_boat = st.sidebar.selectbox("危険艇", ["なし"] + [f"{i}号艇" for i in range(1, 7)])
+
+
+
 
 motor_eval = st.sidebar.text_area("機力チェック", "1号艇は出足型、3号艇の伸びが節イチ級！", height=100)
 
