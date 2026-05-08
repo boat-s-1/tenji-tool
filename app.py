@@ -48,10 +48,10 @@ st.title("🌸 一果ちゃん新聞ジェネレーター")
 
 with st.sidebar.expander("一果"):
 
-race_place = st.sidebar.text_input("レース場", "丸亀")
-race_no = st.sidebar.text_input("レース番号", "1R")
-race_date = st.sidebar.text_input("日付", "2026/05/05")
-honmei = st.sidebar.selectbox("本命", [f"{i}号艇" for i in range(1, 7)])
+race_place = st.text_input("レース場", "丸亀")
+race_no = st.text_input("レース番号", "1R")
+race_date = st.text_input("日付", "2026/05/05")
+honmei = st.selectbox("本命", [f"{i}号艇" for i in range(1, 7)])
 
 st.sidebar.header("画像設定")
 uploaded_character = st.sidebar.file_uploader("キャラ画像", type=["png", "jpg", "jpeg"])
