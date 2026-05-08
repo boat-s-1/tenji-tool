@@ -534,14 +534,85 @@ html_code2 = f"""
 <body><div class="wrapper-live"><div style="background:#ff85b5; color:white; padding:18px; font-size:32px; font-weight:bold; text-align:center;">🌸 展示終了！一果の最終決定 🌸</div>{header_part}<div class="main"><div class="left"><div class="mainbox" style="border-color:#ff4f93;"><div style="font-size:32px; font-weight:bold; color:#ff4f93;">展示評価：{tenji_rank}</div><div style="font-size:24px;">タイム：{tenji_time} / 進入：{shinnyu}</div><div style="font-size:36px; font-weight:bold; color:#ff4f93; margin-top:15px;">一果判定：{ikka_hantei}</div></div><div class="mainbox" style="border-color:#ff4f93;"><div style="font-size:28px; font-weight:bold;">🎯 的中期待度</div><div style="font-size:72px; font-weight:bold; color:#ff4f93;">{hit_rate}%</div></div><div class="mainbox" style="border-color:#ff4f93;"><div class="section-title">🌸 一果の買い目</div><div style="font-size:24px; font-weight:bold; color:#ff4f93; text-align:center;">本命：{honmei_kaime}</div><div style="border-top:2px dashed #ffb3cf; margin:10px 0;"></div><div style="font-size:20px; text-align:center; color:#666;">押さえ：<br>{osae_kaime.replace('\\n', '<br>')}</div></div></div><div class="right"><img class="character-img" src="{character_src}"><div class="notice" style="background:#ffe5f1; border-color:#ff4f93;"><div style="font-size:22px; font-weight:bold; color:#ff4f93; text-align:center; border-bottom:2px solid #ffb3cf; margin-bottom:10px;">📍 直前チェック</div><div>・急上昇：{up_boat}</div><div>・危険艇：{danger_boat}</div></div><div class="fukidashi" style="margin-top:20px;">{jikkan_comment}</div></div></div><div style="background:#ff4f93; color:white; text-align:center; padding:20px; font-size:24px; font-weight:bold;">🌸 一果の最終判断公開中 🌸</div></div><div style="text-align:center;"><button class="download-btn" onclick="saveImage('.wrapper-live', 'chokuzen.png')">画像を保存する</button></div></body></html>
 """
 
-# --- 5. タブ表示部分を以下に書き換え ---
+# =========================================
+# メインタブ
+# =========================================
 
-tab1, tab2 = st.tabs(["📰 前日版", "🌸 直前版"])
+main_tab1, main_tab2 = st.tabs([
+    "🌸 一果ちゃん",
+    "⚡ キイナちゃん"
+])
 
-with tab1:
-    # 前日版を表示
-    html(html_code, height=3200, scrolling=True)
+# =========================================
+# 一果ちゃん
+# =========================================
 
+with main_tab1:
 
-with tab2:
-    html(html_code2, height=1800, scrolling=True)
+    tab1, tab2 = st.tabs([
+        "📰 前日版",
+        "🌸 直前版"
+    ])
+
+    with tab1:
+
+        html(
+            html_code,
+            height=3200,
+            scrolling=True
+        )
+
+    with tab2:
+
+        html(
+            html_code2,
+            height=1800,
+            scrolling=True
+        )
+
+# =========================================
+# キイナちゃん
+# =========================================
+
+with main_tab2:
+
+    tab3, tab4 = st.tabs([
+        "⚡ 前日版",
+        "⚡ 直前版"
+    ])
+
+    with tab3:
+
+        html(
+            '''
+            <div style="
+            background:#fff8d9;
+            height:1500px;
+            font-size:50px;
+            text-align:center;
+            padding-top:300px;
+            ">
+            ⚡ キイナちゃん前日版
+            </div>
+            ''',
+            height=1600,
+            scrolling=True
+        )
+
+    with tab4:
+
+        html(
+            '''
+            <div style="
+            background:#fff5b8;
+            height:1500px;
+            font-size:50px;
+            text-align:center;
+            padding-top:300px;
+            ">
+            ⚡ キイナちゃん直前版
+            </div>
+            ''',
+            height=1600,
+            scrolling=True
+        )
