@@ -53,9 +53,9 @@ with st.sidebar.expander("📌 レース基本情報"):
  
 honmei = st.sidebar.selectbox("本命", [f"{i}号艇" for i in range(1, 7)])
 
-st.sidebar.header("画像設定")
-uploaded_character = st.sidebar.file_uploader("キャラ画像", type=["png", "jpg", "jpeg"])
-uploaded_bg = st.sidebar.file_uploader("背景画像", type=["png", "jpg", "jpeg"])
+with st.sidebar.expander("📌 一果画像"):
+　　uploaded_character = st.file_uploader("キャラ画像", type=["png", "jpg", "jpeg"])
+　　uploaded_bg = st.file_uploader("背景画像", type=["png", "jpg", "jpeg"])
 
 # 画像のBase64化
 if uploaded_character:
