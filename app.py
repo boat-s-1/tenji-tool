@@ -92,39 +92,224 @@ osae_kaime = st.sidebar.text_area("押さえ買い目", "1-3-2\n1-2-5")
 # =========================================
 
 # CSS (NameErrorを防ぐため、HTMLの前に定義)
-common_style = """
+common_style = f"""
 <style>
+
 @import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@700&display=swap');
-body {{ background:#fffdf5; padding:20px; font-family:'Arial'; background-image:url('{bg_src}'); background-size:cover; background-attachment:fixed; }}
-.wrapper, .wrapper-live {
+
+body {{
+    background:#fffdf5;
+    padding:20px;
+    font-family:'Arial';
+
+    background-image:url('{bg_src}');
+    background-size:cover;
+    background-attachment:fixed;
+}}
+
+.wrapper,
+.wrapper-live {{
 
     width:1000px;
     margin:auto;
+
     background:rgba(255,255,255,0.94);
 
     border:6px dashed #ff6ea8;
     border-radius:25px;
 
-    overflow: visible;
-    min-height: auto;
+    overflow:visible;
 
     position: relative;
-}
-.section-title {{ background: #ff4f93; color: white; font-size: 26px; font-weight: bold; padding: 8px 15px; border-radius: 8px; margin-bottom: 15px; display: inline-block; font-family: 'Zen Maru Gothic', sans-serif; }}
-.main {{ display:flex; gap:20px; padding:20px; }}
-.left {{ width:65%; }} .right {{ width:35%; text-align:center; }}
-.mainbox, .mainbox-live {{ border:5px dashed #ffb3cf; border-radius:25px; padding:20px; margin-bottom:20px; background:#fffafb; }}
-.fukidashi {{ position: relative; background: #fff; border: 4px solid #ff6ea8; border-radius: 25px; padding: 20px; margin-top: -15px; z-index: 10; font-family: 'Zen Maru Gothic', sans-serif; font-size: 20px; line-height: 1.6; }}
-.fukidashi::before {{ content: ""; position: absolute; top: -24px; left: 40px; border: 12px solid transparent; border-bottom: 12px solid #ff6ea8; }}
-.fukidashi::after {{ content: ""; position: absolute; top: -18px; left: 40px; border: 12px solid transparent; border-bottom: 12px solid #fff; }}
-.pickup-row {{ display: flex; align-items: center; margin-bottom: 12px; background: linear-gradient(90deg, #fff5f8 0%, #ffffff 100%); border-left: 8px solid #ff6ea8; border-radius: 8px; padding: 10px; }}
-.notice, .notice-live {{ margin-top: 20px; background: #fff3c4; border: 4px dashed #ff6ea8; border-radius: 20px; padding: 15px; text-align: left; font-family: 'Zen Maru Gothic', sans-serif; }}
-.motor-box {{ margin-top: 15px; background: #f0f9ff; border: 3px solid #7ec2ff; border-radius: 15px; padding: 15px; text-align: left; }}
-.bar-bg {{ width:100%; height:30px; background:#ffe3ee; border-radius:15px; overflow:hidden; margin-top:5px; }}
-.bar-fill {{ height:100%; background:linear-gradient(90deg, #ff7eb3, #ff4f93); text-align:right; color:white; padding-right:10px; line-height:30px; font-weight:bold; }}
-.footer {{ text-align: center; padding: 20px; }}
-.footer-img {{ width: 100%; max-width: 900px; border-radius: 10px; }}
-.download-btn {{ display: block; width: 220px; margin: 20px auto; padding: 15px; background: #ff4f93; color: white; border-radius: 50px; font-weight: bold; cursor: pointer; border: none; font-size: 18px; }}
+}}
+
+.main {{
+    display:flex;
+    gap:20px;
+    padding:20px;
+}}
+
+.left {{
+    width:65%;
+}}
+
+.right {{
+    width:35%;
+    text-align:center;
+}}
+
+.mainbox,
+.mainbox-live {{
+
+    border:5px dashed #ffb3cf;
+    border-radius:25px;
+
+    padding:20px;
+    margin-bottom:20px;
+
+    background:#fffafb;
+}}
+
+.section-title {{
+
+    background: #ff4f93;
+    color: white;
+
+    font-size: 26px;
+    font-weight: bold;
+
+    padding: 8px 15px;
+
+    border-radius: 8px;
+
+    margin-bottom: 15px;
+
+    display: inline-block;
+
+    font-family: 'Zen Maru Gothic', sans-serif;
+}}
+
+.character-img {{
+
+    width:100%;
+    max-width:320px;
+}}
+
+.fukidashi {{
+
+    position: relative;
+
+    background: #fff;
+
+    border: 4px solid #ff6ea8;
+
+    border-radius: 25px;
+
+    padding: 20px;
+
+    margin-top: 20px;
+
+    font-family: 'Zen Maru Gothic', sans-serif;
+
+    font-size: 20px;
+    line-height: 1.6;
+}}
+
+.notice {{
+
+    margin-top: 20px;
+
+    background: #fff3c4;
+
+    border: 4px dashed #ff6ea8;
+
+    border-radius: 20px;
+
+    padding: 15px;
+
+    text-align: left;
+}}
+
+.motor-box {{
+
+    margin-top: 15px;
+
+    background: #f0f9ff;
+
+    border: 3px solid #7ec2ff;
+
+    border-radius: 15px;
+
+    padding: 15px;
+
+    text-align: left;
+}}
+
+.pickup-row {{
+
+    display:flex;
+    align-items:center;
+
+    margin-bottom:12px;
+
+    background: linear-gradient(90deg, #fff5f8 0%, #ffffff 100%);
+
+    border-left: 8px solid #ff6ea8;
+
+    border-radius: 8px;
+
+    padding: 10px;
+}}
+
+.bar-bg {{
+
+    width:100%;
+    height:30px;
+
+    background:#ffe3ee;
+
+    border-radius:15px;
+
+    overflow:hidden;
+
+    margin-top:5px;
+}}
+
+.bar-fill {{
+
+    height:100%;
+
+    background:linear-gradient(90deg, #ff7eb3, #ff4f93);
+
+    text-align:right;
+
+    color:white;
+
+    padding-right:10px;
+
+    line-height:30px;
+
+    font-weight:bold;
+}}
+
+.footer {{
+
+    text-align:center;
+    padding:20px;
+}}
+
+.footer-img {{
+
+    width:100%;
+    max-width:900px;
+
+    border-radius:10px;
+}}
+
+.download-btn {{
+
+    display:block;
+
+    width:220px;
+
+    margin:20px auto;
+
+    padding:15px;
+
+    background:#ff4f93;
+
+    color:white;
+
+    border:none;
+
+    border-radius:50px;
+
+    font-size:18px;
+    font-weight:bold;
+
+    cursor:pointer;
+}}
+
 </style>
 """
 
