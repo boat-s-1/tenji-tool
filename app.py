@@ -41,56 +41,54 @@ boat_srcs = {
 footer_img_src = get_base64_img("1b1a684d-c8bb-45fb-a123-0ed1b73c5046.png")
 
 # =========================================
-# 2. ユーザー入力（サイドバー）
+# サイドバーの構成
 # =========================================
-st.set_page_config(page_title="一果ちゃん新聞", layout="wide")
-st.title("🌸 一果ちゃん新聞ジェネレーター")
+st.sidebar.title("🛠 新聞設定パネル")
 
-st.sidebar.header("レース情報")
-race_place = st.sidebar.text_input("レース場", "丸亀")
-race_no = st.sidebar.text_input("レース番号", "1R")
-race_date = st.sidebar.text_input("日付", "2026/05/05")
-honmei = st.sidebar.selectbox("本命", [f"{i}号艇" for i in range(1, 7)])
+# 1. レースの基本情報（どちらの新聞でも共通の部分）
+with st.sidebar.expander("📌 レース基本情報", expanded=True):
+    race_place = st.text_input("レース場", "丸亀")
+    race_no = st.text_input("レース番号", "1R")
+    race_date = st.text_input("日付", "2026/05/05")
+    
+    # 画像アップロード
+    uploaded_character = st.file_uploader("キャラ画像", type=["png", "jpg", "jpeg"])
+    # （ここでBase64変換のロジックを入れる）
 
-st.sidebar.header("画像設定")
-uploaded_character = st.sidebar.file_uploader("キャラ画像", type=["png", "jpg", "jpeg"])
-uploaded_bg = st.sidebar.file_uploader("背景画像", type=["png", "jpg", "jpeg"])
+# 2. 数値・評価系（スライダーなど場所を取るものをまとめる）
+with st.sidebar.expander("📊 数値・インデックス設定"):
+    hit_rate = st.slider("的中期待度 (%)", 0, 100, 80)
+    wave = st.slider("波乱指数", 0, 100, 30)
+    # 波乱指数から★を生成するロジック
+    stars = "⭐" * ((wave // 20) + 1)
 
-# 画像のBase64化
-if uploaded_character:
-    character_src = f"data:image/png;base64,{base64.b64encode(uploaded_character.read()).decode()}"
-else:
-    character_src = "https://placehold.co/500x900/png"
+# 3. 🌸 一果ちゃん専用の入力項目
+with st.sidebar.expander("🌸 一果ちゃん専用項目"):
+    honmei_ikka = st.selectbox("一果の本命", [f"{i}号艇" for i in range(1, 7)], key="ikka_h")
+    nige_rate = st.slider("イン逃げ期待度", 0, 100, 80)
+    ikka_comment = st.text_area("一果のひとこと", "ここは逃げ信頼！")
+    ikka_hantei = st.text_input("一果最終判定", "◎1 ○2 ▲3")
 
-stamp = st.sidebar.selectbox("スタンプ", ["なし"] + list(stamp_dict.keys()))
-nige_rate = st.sidebar.slider("イン逃げ期待度", 0, 100, 84)
-up_rate = st.sidebar.slider("場平均との差", -30, 30, 11)
-wave = st.sidebar.slider("波乱指数", 0, 100, 28)
-hit_rate = st.sidebar.slider("的中期待度", 0, 100, 87)
-comment = st.sidebar.text_area("一果のひとこと", "1号艇中心だが2号艇の差し注意！")
+# 4. ⚡ キイナちゃん専用の入力項目
+with st.sidebar.expander("⚡ キイナちゃん専用項目"):
+    honmei_kiina = st.selectbox("キイナの本命", [f"{i}号艇" for i in range(1, 7)], index=4, key="kiina_h")
+    kiina_atama_rate = st.slider("アタマ期待度", 0, 100, 50)
+    kiina_story = st.text_area("展開ストーリー", "5号艇のまくり差し一閃！")
+    kiina_hantei = st.text_input("キイナ最終判定", "◎5 ○1 ▲2")
 
-st.sidebar.header("展開ストーリー設定")
-selected_boats = st.sidebar.multiselect("注目艇", [f"{i}号艇" for i in range(1, 7)], default=["1号艇", "2号艇", "3号艇"])
+# 5. 直前情報（展示など）
+with st.sidebar.expander("⏱ 直前・展示情報"):
+    tenji_rank = st.radio("展示評価", ["S", "A", "B", "C"], horizontal=True)
+    tenji_time = st.text_input("タイム", "6.71")
+    danger_boat = st.selectbox("危険艇", ["なし"] + [f"{i}号艇" for i in range(1, 7)])
 
-boat_comments = {}
-boat_scores = {}
-for i in range(1, 7):
-    name = f"{i}号艇"
-    boat_comments[name] = st.sidebar.text_input(f"{name} コメント", f"{name}の展開解説")
-    boat_scores[name] = st.sidebar.slider(f"{name} 評価", 0, 100, 50)
-
-motor_eval = st.sidebar.text_area("機力チェック", "1号艇は出足型、3号艇の伸びが節イチ級！", height=100)
-
-st.sidebar.header("直前情報")
-tenji_rank = st.sidebar.selectbox("展示評価", ["S", "A", "B", "C"])
-tenji_time = st.sidebar.text_input("補正タイム", "6.71")
-shinnyu = st.sidebar.text_input("進入予想", "123/456")
-ikka_hantei = st.sidebar.text_input("一果判定", "◎1 ○2 ▲5")
-danger_boat = st.sidebar.selectbox("危険艇", ["なし"] + [f"{i}号艇" for i in range(1, 7)])
-up_boat = st.sidebar.selectbox("展示急上昇", ["なし"] + [f"{i}号艇" for i in range(1, 7)])
-jikkan_comment = st.sidebar.text_area("直前コメント", "展示は1号艇優勢！")
-honmei_kaime = st.sidebar.text_input("本命買い目", "1-2-3")
-osae_kaime = st.sidebar.text_area("押さえ買い目", "1-3-2\n1-2-5")
+# 6. 各艇の評価スコア（ループで生成）
+with st.sidebar.expander("🔢 艇別評価（グラフ用）"):
+    boat_scores = {}
+    cols = st.columns(2) # サイドバー内を2列にしてコンパクトに
+    for i in range(1, 7):
+        with cols[(i-1)%2]:
+            boat_scores[f"{i}号艇"] = st.number_input(f"{i}号艇", 0, 100, 50)
 
 # =========================================
 # 3. CSS/JavaScript (f-stringの競合回避)
