@@ -96,7 +96,7 @@ common_style = f"""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@700&display=swap');
 body {{ background:#fffdf5; padding:20px; font-family:'Arial'; background-image:url('{bg_src}'); background-size:cover; background-attachment:fixed; }}
-.wrapper, .wrapper-live {{ width:1000px; margin:auto; background:rgba(255,255,255,0.94); border:6px dashed #ff6ea8; border-radius:25px; overflow:hidden; position: relative; }}
+.wrapper, .wrapper-live {{ width:1000px; margin:auto; background:rgba(255,255,255,0.94); border:6px dashed #ff6ea8; border-radius:25px; overflow:visible; position: relative; }}
 .section-title {{ background: #ff4f93; color: white; font-size: 26px; font-weight: bold; padding: 8px 15px; border-radius: 8px; margin-bottom: 15px; display: inline-block; font-family: 'Zen Maru Gothic', sans-serif; }}
 .main {{ display:flex; gap:20px; padding:20px; }}
 .left {{ width:65%; }} .right {{ width:35%; text-align:center; }}
@@ -137,7 +137,13 @@ download_logic = f"""
 <script>
 function saveImage(targetClass, fileName) {{
     const target = document.querySelector(targetClass);
-    html2canvas(target, {{ useCORS: true, scale: 2, backgroundColor: "#ffffff" }}).then(canvas => {{
+    html2canvas(target, {
+    useCORS: true,
+    allowTaint: true,
+    scale: 2,
+    backgroundColor: "#ffffff",
+    scrollY: -window.scrollY
+}).then(canvas => {{
         const link = document.createElement('a');
         link.download = fileName; link.href = canvas.toDataURL('image/png'); link.click();
     }});
@@ -172,17 +178,7 @@ tab1, tab2 = st.tabs(["📰 前日版", "🌸 直前版"])
 with tab1:
     # 前日版を表示
     html(html_code, height=2200, scrolling=True)
-    # 前日版保存用の隠しボタン（もしHTML内のボタンが効かない時用）
-    if st.button("前日版を画像でダウンロード"):
-        # JavaScriptを直接実行して保存をキックする
-        js = f"""
-            <script>
-            const target = window.parent.document.querySelector('.wrapper');
-            // ここに保存ロジックを書くか、HTML内のsaveImageを呼び出す
-            window.parent.saveImage('.wrapper', 'zenjitsu.png');
-            </script>
-        """
-        html(js, height=0)
+
 
 with tab2:
     html(html_code2, height=1800, scrolling=True)
