@@ -915,6 +915,40 @@ stars = "⭐︎" * star_count
 attention_boats = ", ".join([b.replace("号艇", "") for b in selected_boats])
 
 
+# ダウンロード機能のパーツを作成
+download_script = f"""
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<div style="text-align:center; padding: 20px;">
+    <button class="download-btn" id="save-btn" style="
+        width: 250px;
+        padding: 15px;
+        background: #ff4f93;
+        color: white;
+        border-radius: 50px;
+        font-weight: bold;
+        cursor: pointer;
+        border: none;
+        font-size: 18px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    ">保存する</button>
+</div>
+
+<script>
+document.getElementById('save-btn').addEventListener('click', function() {{
+    const target = document.querySelector('.wrapper') || document.querySelector('.wrapper-live');
+    html2canvas(target, {{
+        useCORS: true,
+        scale: 2,
+        backgroundColor: "#ffffff"
+    }}).then(canvas => {{
+        const link = document.createElement('a');
+        link.download = 'ikka_newspaper_{race_place}_{race_no}.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+    }});
+}});
+</script>
+"""
 
 
 
@@ -1107,7 +1141,9 @@ document.getElementById('save-btn').addEventListener('click', function() {
 </script>
 """
 
-# これを html_code = f""" ... {download_script} </body></html> """ のように組み込みます。
+{download_script}
+
+
 
 
 </body>
