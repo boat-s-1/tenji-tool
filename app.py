@@ -167,5 +167,5 @@ html_code2 = f"""
 
 # 表示
 tab1, tab2 = st.tabs(["📰 前日版", "🌸 直前版"])
-with tab1: html(html_code, height=2200, scrolling=True)
+with tab1: html(html_code, height=2500, scrolling=True)
 with tab2: html(html_code2, height=1800, scrolling=True)
