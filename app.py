@@ -371,7 +371,7 @@ tab1, tab2 = st.tabs(["📰 前日版", "🌸 直前版"])
 
 with tab1:
     # 前日版を表示
-    html(html_code, height=2200, scrolling=True)
+    html(html_code, height=3200, scrolling=True)
 
 
 with tab2:
