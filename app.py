@@ -70,18 +70,18 @@ with st.sidebar.expander("📌 一果本命候補"):
     up_rate = st.slider("場平均との差", -30, 30, 11)
     
 wave = st.sidebar.slider("波乱指数", 0, 100, 28)
-hit_rate = st.sidebar.slider("的中期待度", 0, 100, 87)
+
 comment = st.sidebar.text_area("一果のひとこと", "1号艇中心だが2号艇の差し注意！")
 
-st.sidebar.header("展開ストーリー設定")
-selected_boats = st.sidebar.multiselect("注目艇", [f"{i}号艇" for i in range(1, 7)], default=["1号艇", "2号艇", "3号艇"])
+with st.sidebar.expander("📌 一果展開ストーリー評価"):
+    selected_boats = st.multiselect("注目艇", [f"{i}号艇" for i in range(1, 7)], default=["1号艇", "2号艇", "3号艇"])
 
-boat_comments = {}
-boat_scores = {}
-for i in range(1, 7):
-    name = f"{i}号艇"
-    boat_comments[name] = st.sidebar.text_input(f"{name} コメント", f"{name}の展開解説")
-    boat_scores[name] = st.sidebar.slider(f"{name} 評価", 0, 100, 50)
+    boat_comments = {}
+    boat_scores = {}
+    for i in range(1, 7):
+       name = f"{i}号艇"
+       boat_comments[name] = st.sidebar.text_input(f"{name} コメント", f"{name}の展開解説")
+       boat_scores[name] = st.sidebar.slider(f"{name} 評価", 0, 100, 50)
 
 motor_eval = st.sidebar.text_area("機力チェック", "1号艇は出足型、3号艇の伸びが節イチ級！", height=100)
 
@@ -95,7 +95,7 @@ up_boat = st.sidebar.selectbox("展示急上昇", ["なし"] + [f"{i}号艇" for
 jikkan_comment = st.sidebar.text_area("直前コメント", "展示は1号艇優勢！")
 honmei_kaime = st.sidebar.text_input("本命買い目", "1-2-3")
 osae_kaime = st.sidebar.text_area("押さえ買い目", "1-3-2\n1-2-5")
-
+hit_rate = st.sidebar.slider("的中期待度", 0, 100, 87)
 # =========================================
 # 3. CSS/JavaScript (f-stringの競合回避)
 # =========================================
