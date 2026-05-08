@@ -141,11 +141,17 @@ function saveImage(targetClass, fileName) {{
 stars = "⭐" * ((wave // 20) + 1)
 attention_boats = ", ".join([b.replace("号艇", "") for b in selected_boats])
 
-# 展開ストーリー生成
-boat_info_map = {{
-    "1号艇": {{"color": "#e2e2e2"}}, "2号艇": {{"color": "#444444"}}, "3号艇": {{"color": "#ff4444"}},
-    "4号艇": {{"color": "#4444ff"}}, "5号艇": {{"color": "#eeaa00"}}, "6号艇": {{"color": "#22aa22"}},
-}}
+
+# --- 修正後（これに差し替えてください） ---
+boat_info_map = {
+    "1号艇": {"color": "#e2e2e2"}, 
+    "2号艇": {"color": "#444444"}, 
+    "3号艇": {"color": "#ff4444"},
+    "4号艇": {"color": "#4444ff"}, 
+    "5号艇": {"color": "#eeaa00"}, 
+    "6号艇": {"color": "#22aa22"},
+}
+
 story_html = ""
 for b_name in selected_boats:
     color = boat_info_map[b_name]["color"]
