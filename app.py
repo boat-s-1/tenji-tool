@@ -92,7 +92,7 @@ osae_kaime = st.sidebar.text_area("押さえ買い目", "1-3-2\n1-2-5")
 # =========================================
 
 # CSS (NameErrorを防ぐため、HTMLの前に定義)
-common_style = f"""
+common_style = """
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@700&display=swap');
 body {{ background:#fffdf5; padding:20px; font-family:'Arial'; background-image:url('{bg_src}'); background-size:cover; background-attachment:fixed; }}
