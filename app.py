@@ -99,7 +99,18 @@ st.sidebar.header("直前情報")
 tenji_rank = st.sidebar.selectbox("展示評価", ["S", "A", "B", "C"])
 tenji_time = st.sidebar.text_input("補正タイム", "6.71")
 shinnyu = st.sidebar.text_input("進入予想", "123/456")
-ikka_hantei = st.sidebar.text_input("一果判定", "◎1 ○2 ▲5")
+# --- 修正版：サイドバー入力 ---
+st.sidebar.header("直前情報")
+# 艇番のリスト [1, 2, 3, 4, 5, 6]
+boat_numbers = [str(i) for i in range(1, 7)]
+
+col1, col2, col3 = st.sidebar.columns(3)
+with col1:
+    hantei_double = st.selectbox("◎ 本命", boat_numbers, index=0) # 初期値 1
+with col2:
+    hantei_single = st.selectbox("○ 対抗", boat_numbers, index=1) # 初期値 2
+with col3:
+    hantei_triangle = st.selectbox("▲ 単穴", boat_numbers, index=4) # 初期値 5
 
 up_boat = st.sidebar.selectbox("展示急上昇", ["なし"] + [f"{i}号艇" for i in range(1, 7)])
 jikkan_comment = st.sidebar.text_area("直前コメント", "展示は1号艇優勢！")
@@ -533,17 +544,28 @@ html_code2 = f"""
                         <span style="font-size: 16px; color: #666;">進入：{shinnyu}</span>
                     </div>
                 </div>
-                <div style="padding: 20px; text-align: center;">
-                    <div style="font-size: 20px; color: #ff4f93; font-weight: bold; margin-bottom: 12px;">🌸 一果の直前判定</div>
-                    <div style="display: flex; justify-content: center; gap: 15px; align-items: center;">
-    <!-- ◎ 本命 -->
-    <span style="background:#ff4f93; color:white; padding:5px 20px; border-radius:50px; font-size:24px; font-weight:bold; box-shadow: 0 4px 0 #d63d7a;">◎ 1</span>
-    
-    <!-- ○ 対抗：薄いピンクで塗りつぶし -->
-    <span style="background:#fff0f5; color:#ff4f93; padding:5px 20px; border-radius:50px; font-size:24px; font-weight:bold; border: 2px solid #ff4f93;">○ 2</span>
-    
-    <!-- ▲ 単穴：薄いグレーで塗りつぶし -->
-    <span style="background:#f5f5f5; color:#666; padding:5px 20px; border-radius:50px; font-size:24px; font-weight:bold; border: 2px solid #999;">▲ 5</span>
+             # --- html_code2 内の「一果の直前判定」エリアを修正 ---
+
+<div style="padding: 20px; text-align: center;">
+    <div style="font-size: 20px; color: #ff4f93; font-weight: bold; margin-bottom: 12px;">🌸 一果の直前判定</div>
+    <div style="display: flex; justify-content: center; gap: 15px; align-items: center;">
+        
+        <!-- ◎ 本命 (変数 hantei_double を使用) -->
+        <span style="background:#ff4f93; color:white; padding:5px 20px; border-radius:50px; font-size:24px; font-weight:bold; box-shadow: 0 4px 0 #d63d7a;">
+            ◎ {hantei_double}
+        </span>
+        
+        <!-- ○ 対抗 (変数 hantei_single を使用) -->
+        <span style="background:#fff0f5; color:#ff4f93; padding:5px 20px; border-radius:50px; font-size:24px; font-weight:bold; border: 2px solid #ff4f93;">
+            ○ {hantei_single}
+        </span>
+        
+        <!-- ▲ 単穴 (変数 hantei_triangle を使用) -->
+        <span style="background:#f5f5f5; color:#666; padding:5px 20px; border-radius:50px; font-size:24px; font-weight:bold; border: 2px solid #999;">
+            ▲ {hantei_triangle}
+        </span>
+
+    </div>
 </div>
                 </div>
             </div>
