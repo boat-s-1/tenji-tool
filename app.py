@@ -20,7 +20,7 @@ def get_base64_img(path):
 logo_path = "名称未設定のデザイン (49).png"
 logo_src = get_base64_img(logo_path)
 # 直前版用のロゴを新しく定義
-logo_live_path = "61EC8FBE-0574-494A-BABA-2C34DE37FE3B.png" 
+logo_live_path = "名称未設定のデザイン (50).png" 
 logo_live_src = get_base64_img(logo_live_path)
 stamp_dict = {
     "本命": get_base64_img("a7105fda-9305-4e70-98eb-212c65842325.png"),
