@@ -93,7 +93,17 @@ danger_boat = st.sidebar.selectbox("危険艇", ["なし"] + [f"{i}号艇" for i
 with st.sidebar.expander("📌 一果直前"):
        tenji_rank = st.selectbox("展示評価", ["S", "A", "B", "C"])
        tenji_time = st.text_input("補正タイム", "6.71")
-       shinnyu = st.sidebar.text_input("進入予想", "123/456")
+       shinnyu = st.text_input("進入予想", "123/456")
+    # 艇番のリスト [1, 2, 3, 4, 5, 6]
+boat_numbers = [str(i) for i in range(1, 7)]
+
+col1, col2, col3 = st.columns(3)
+with col1:
+    hantei_double = st.selectbox("◎ 本命", boat_numbers, index=0) # 初期値 1
+with col2:
+    hantei_single = st.selectbox("○ 対抗", boat_numbers, index=1) # 初期値 2
+with col3:
+    hantei_triangle = st.selectbox("▲ 単穴", boat_numbers, index=4) # 初期値 5
        honmei_kaime = st.text_input("本命買い目", "1-2-3")
        osae_kaime = st.text_area("押さえ買い目", "1-3-2\n1-2-5")
 
@@ -104,17 +114,7 @@ st.sidebar.header("直前情報")
 
 
 # --- 修正版：サイドバー入力 ---
-st.sidebar.header("直前情報")
-# 艇番のリスト [1, 2, 3, 4, 5, 6]
-boat_numbers = [str(i) for i in range(1, 7)]
 
-col1, col2, col3 = st.sidebar.columns(3)
-with col1:
-    hantei_double = st.selectbox("◎ 本命", boat_numbers, index=0) # 初期値 1
-with col2:
-    hantei_single = st.selectbox("○ 対抗", boat_numbers, index=1) # 初期値 2
-with col3:
-    hantei_triangle = st.selectbox("▲ 単穴", boat_numbers, index=4) # 初期値 5
 
 up_boat = st.sidebar.selectbox("展示急上昇", ["なし"] + [f"{i}号艇" for i in range(1, 7)])
 jikkan_comment = st.sidebar.text_area("直前コメント", "展示は1号艇優勢！")
