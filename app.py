@@ -111,6 +111,12 @@ selected_stamp_name = st.sidebar.selectbox("表示するスタンプ", list(stam
 # 💡 ここを追加：選択されたスタンプ名から、実際の画像データ（base64）を取得する
 stamp_img = stamp_options[selected_stamp_name]
 
+st.sidebar.header("直前情報")
+# ↓この行を、html_code2 を作成するより「前」に必ず書く
+hit_rate = st.sidebar.slider("🎯 的中期待度 (%)", 0, 100, 80)
+
+tenji_rank = st.sidebar.selectbox("展示評価", ["S", "A", "B", "C"])
+# ...他の入力項目
 
 # =========================================
 # 3. CSS/JavaScript (f-stringの競合回避)
