@@ -133,12 +133,79 @@ stamp_img = stamp_options[selected_stamp_name]
 st.sidebar.header("直前情報")
 # ↓この行を、html_code2 を作成するより「前」に必ず書く
 
-
+# --- サイドバー：キイナちゃん設定 ---
+with st.sidebar.expander("⚡ キイナの穴党設定"):
+    chou_batsu = st.selectbox("超抜気配", ["★", "★★", "★★★", "★★★★", "★★★★★"], index=4)
+    ana_target = st.text_input("穴ターゲット", "5号艇のまくり差し")
+    keihou_msg = st.text_input("警報メッセージ", "波乱警報発令中！万舟のチャンス！")
 
 
 # =========================================
 # 3. CSS/JavaScript (f-stringの競合回避)
 # =========================================
+
+# --- common_style に追加 ---
+kiina_style = """
+<style>
+/* キイナちゃん専用：全体背景と枠線 */
+.wrapper-kiina {
+    width: 1000px;
+    margin: auto;
+    background: #000; /* 黒ベース */
+    border: 6px solid #ffcc00; /* 黄色枠 */
+    border-radius: 15px;
+    color: #fff;
+    font-family: 'Zen Maru Gothic', sans-serif;
+    position: relative;
+    overflow: hidden;
+}
+
+/* タイトル部分の稲妻感 */
+.kiina-header {
+    background: linear-gradient(135deg, #ffcc00 0%, #ff9900 100%);
+    color: #000;
+    padding: 20px;
+    text-align: center;
+    font-size: 40px;
+    font-weight: 900;
+    text-shadow: 2px 2px 0px #fff;
+    border-bottom: 4px solid #000;
+}
+
+/* 各ボックス（イエローカード風） */
+.kiina-box {
+    background: #fffde6; /* 薄い黄色 */
+    color: #000;
+    border: 3px solid #000;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: 4px 4px 0px #ffcc00;
+}
+
+/* 期待度などの大きな数字 */
+.kiina-huge-text {
+    font-size: 60px;
+    font-weight: 900;
+    color: #e60000; /* 勝負の赤 */
+    line-height: 1;
+}
+
+/* 稲妻バナー（下部） */
+.kiina-banner {
+    background: #000;
+    color: #ffcc00;
+    padding: 15px;
+    text-align: center;
+    font-size: 30px;
+    font-weight: 900;
+    border-top: 4px solid #ffcc00;
+}
+</style>
+"""
+
+
+
 
 common_style = """
 <style>
@@ -646,11 +713,60 @@ html_code2 = f"""
 </html>
 """
 # --- キイナ 前日 ---
-kiina_html = f"""
-<!DOCTYPE html>
-<html><head><meta charset="UTF-8">{common_style}{download_logic}</head>
-<body>
-<div class="wrapper-kiina"><div style="background:linear-gradient(90deg, #ffb300, #ff9800); padding:25px; display:flex; justify-content:space-between; align-items:center;"><div class="kiina-title">⚡ キイナの5アタマ速報</div><div style="font-size:24px; font-weight:bold; text-align:right; color:white;">{race_date}<br>{race_place}<br>{race_no}</div></div><div class="main"><div class="left"><div class="kiina-box"><div class="kiina-section">⚡ 本命候補</div><div style="font-size:88px; font-weight:bold; color:#ff9800; text-align:center; margin-top:10px;">◎5号艇</div><div style="display:grid; grid-template-columns:1fr 1fr; gap:15px; margin-top:20px;"><div style="background:#fff8e1; border-radius:15px; padding:15px; text-align:center;"><div style="font-size:22px; font-weight:bold;">5アタマ期待度</div><div style="font-size:54px; font-weight:bold; color:#ff9800;">72%</div></div><div style="background:#fff8e1; border-radius:15px; padding:15px; text-align:center;"><div style="font-size:22px; font-weight:bold;">波乱指数</div><div style="font-size:54px; font-weight:bold; color:#ff5722;">{wave}</div></div></div></div><div class="kiina-box"><div class="kiina-section">⚡ 展開ストーリー</div><div style="font-size:28px; line-height:2; font-weight:bold;">・1号艇が流れる展開！<br>・5号艇のまくり差し炸裂！<br>・2号艇が差して続く！</div></div><div class="warning-box">🚨 イン危険警報発令中 🚨</div></div><div class="right"><img class="character-img" src="{character_src}"><div class="fukidashi" style="border-color:#ffb300; background:#fffdf3;"><div style="color:#ff9800; font-size:26px; font-weight:bold; margin-bottom:10px;">⚡ キイナのひとこと</div><div style="font-size:22px; font-weight:bold; line-height:1.8;">今日は5コースが超怪しい！ 万舟狙うならここ！</div></div><div class="notice" style="background:#fff3cd; border-color:#ffb300;"><div style="font-size:24px; font-weight:bold; color:#ff9800; margin-bottom:10px;">⚡ 要チェック</div><div style="font-size:20px; line-height:1.8;">・超抜候補：5号艇<br>・展示急上昇：{up_boat}<br>・危険艇：{danger_boat}</div></div></div></div><div style="background:#ff9800; color:white; text-align:center; padding:25px; font-size:32px; font-weight:bold;">⚡ 高配当を掴み取れ！</div></div><div style="text-align:center;"><button class="download-btn" onclick="saveImage('.wrapper-kiina', 'kiina_zenjitsu.png')">画像を保存する</button></div></body></html>
+kiina_zenjitsu_html = f"""
+<div class="wrapper-kiina">
+    <!-- ヘッダー -->
+    <div class="kiina-header">
+        ⚡ キイナの5アタマ速報 ⚡
+        <div style="font-size: 20px; color: #000; text-shadow: none;">{race_place} {race_no} / {race_date}</div>
+    </div>
+
+    <div class="main" style="display: flex; gap: 15px; padding: 20px; background: #fffde6;">
+        <!-- 左カラム -->
+        <div style="flex: 1.5;">
+            <!-- 本命候補エリア -->
+            <div class="kiina-box" style="text-align: center;">
+                <div style="background:#000; color:#fff; display:inline-block; padding:5px 20px; border-radius:5px; margin-bottom:10px;">本命候補</div>
+                <div style="font-size: 80px; font-weight: 900; color: #000;">◎ 5号艇</div>
+                
+                <div style="display: flex; justify-content: space-around; margin-top: 15px;">
+                    <div style="background:#fff; border:2px solid #000; padding:10px; border-radius:10px; width:30%;">
+                        <div style="font-size:14px; font-weight:bold;">5アタマ期待度</div>
+                        <div class="kiina-huge-text">72%</div>
+                    </div>
+                    <div style="background:#fff; border:2px solid #000; padding:10px; border-radius:10px; width:30%;">
+                        <div style="font-size:14px; font-weight:bold;">波乱指数</div>
+                        <div class="kiina-huge-text" style="color:#000;">88</div>
+                    </div>
+                    <div style="background:#fff; border:2px solid #000; padding:10px; border-radius:10px; width:30%;">
+                        <div style="font-size:14px; font-weight:bold;">超抜気配</div>
+                        <div style="font-size:24px; color:#ffcc00;">{chou_batsu}</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 展開ストーリー -->
+            <div class="kiina-box">
+                <div style="background:#ffcc00; color:#000; display:inline-block; padding:3px 15px; border-radius:5px; font-weight:bold; margin-bottom:10px;">展開ストーリー（予想）</div>
+                {story_items_html}
+            </div>
+        </div>
+
+        <!-- 右カラム -->
+        <div style="flex: 1; text-align: center;">
+            <img src="{character_src}" style="width: 100%; transform: scale(1.1);">
+            <div class="fukidashi" style="background:#000; color:#ffcc00; border:4px solid #ffcc00;">
+                <div style="font-weight:bold; font-size:22px; border-bottom:1px solid #ffcc00; margin-bottom:10px;">⚡ キイナのひとこと</div>
+                インが弱けりゃ私の出番でしょ！高配当いただき！
+            </div>
+        </div>
+    </div>
+
+    <!-- 下部バナー -->
+    <div class="kiina-banner">
+        ⚡ {keihou_msg} ⚡
+    </div>
+</div>
 """
 
 # --- キイナ 直前 ---
