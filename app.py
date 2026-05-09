@@ -44,10 +44,10 @@ footer_img_src = get_base64_img("1b1a684d-c8bb-45fb-a123-0ed1b73c5046.png")
 
 
 stamp_options = {
-           "なし": "",
-        "波乱注意": "085d5af5-0e82-44da-a883-e7a1ac808d51.png",
-        "鉄板": "79794320-58c8-4fd2-8815-174ca1b73ab3.png",
-        "見": "64f255c6-e9d6-427c-890f-f6cdb55695ee.png",
+    "なし": "",
+    "波乱注意": get_base64_img("085d5af5-0e82-44da-a883-e7a1ac808d51.png"),
+    "鉄板": get_base64_img("79794320-58c8-4fd2-8815-174ca1b73ab3.png"),
+    "見": get_base64_img("64f255c6-e9d6-427c-890f-f6cdb55695ee.png"),
 }
 # =========================================
 # 2. ユーザー入力（サイドバー）
