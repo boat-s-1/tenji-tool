@@ -256,22 +256,37 @@ for i in range(1, 7):
         </div>
     </div>
     """
-# --- 修正版：展開ストーリー（選択された艇だけを表示） ---
+# --- 修正版：展開ストーリー（フォント改善＆自動改行対応） ---
 story_items_html = ""
-for boat_name in selected_boats:  # range(1, 4) ではなく、選ばれた艇のリストを使う
-    # 画像を取得
+for boat_name in selected_boats:
     b_src = boat_srcs.get(boat_name, "")
-    # コメントを取得
     b_comment = boat_comments.get(boat_name, "展開解説がありません")
-    # その艇に対応する色を取得（枠線の色用）
     b_color = boat_colors.get(boat_name, "#ff4f93")
     
     story_items_html += f"""
-    <div style="display: flex; align-items: center; background: #f9f9f9; border-radius: 10px; padding: 8px; margin-bottom: 8px; border-left: 5px solid {b_color};">
-        <img src="{b_src}" style="width: 50px; height: auto; margin-right: 10px;">
-        <div style="flex: 1;">
-            <span style="font-weight: bold; color: #333; font-size: 14px;">{boat_name}：</span>
-            <span style="font-size: 14px; color: #555;">{b_comment}</span>
+    <div style="
+        display: flex; 
+        align-items: flex-start; /* 上揃えにして長文に対応 */
+        background: #f9f9f9; 
+        border-radius: 12px; 
+        padding: 10px; 
+        margin-bottom: 10px; 
+        border-left: 6px solid {b_color};
+        font-family: 'Zen Maru Gothic', sans-serif; /* 丸ゴシック適用 */
+    ">
+        <!-- ボート画像（固定幅） -->
+        <div style="flex: 0 0 65px; text-align: center;">
+            <img src="{b_src}" style="width: 55px; height: auto;">
+        </div>
+        
+        <!-- テキストエリア（可変幅・自動改行） -->
+        <div style="flex: 1; margin-left: 10px; line-height: 1.4;">
+            <div style="font-weight: bold; color: #333; font-size: 15px; margin-bottom: 2px;">
+                {boat_name}
+            </div>
+            <div style="font-size: 14px; color: #444; word-wrap: break-word;">
+                {b_comment}
+            </div>
         </div>
     </div>
     """
