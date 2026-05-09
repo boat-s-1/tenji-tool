@@ -378,36 +378,45 @@ right_column_live_html = f"""
 </div>
 """
 
-# 直前版ロゴ（前日版と変える場合は logo_live_src に書き換えてください）
-current_logo_live = logo_live_src if 'logo_live_src' in locals() else logo_src
+# 直前版ロゴの判定
+current_logo_live = logo_live_src if 'logo_live_src' in locals() and logo_live_src else logo_src
 
-# 全体の組み立て
-html_code2 = f"""
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    {common_style}
-    {download_logic}
-</head>
-<body>
-    <div class="wrapper-live">
-        <!-- LIVE帯 -->
-        <div style="background:#ff85b5; color:white; padding:18px; font-size:32px; font-weight:bold; text-align:center;">
-            🌸 展示終了！一果の最終決定 🌸
-        </div>
+# html_code2 のヘッダー部分書き換え
+<div class="header" style="
+    position: relative; 
+    width: 1000px; 
+    height: 180px; 
+    border-bottom: 5px dashed #ff6ea8;
+    background: #fff;
+">
+    <!-- ロゴ画像を全面に配置 -->
+    <img src="{current_logo_live}" style="
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 1000px;
+        height: 100%;
+        object-fit: cover;
+        z-index: 1;
+    ">
 
-        <!-- 横並びヘッダー -->
-        <div class="header" style="display: flex; justify-content: space-between; align-items: center; padding: 10px 30px; border-bottom: 5px dashed #ff6ea8; background: #fff;">
-            <img src="{current_logo_live}" style="width: 520px; height: auto; object-fit: contain;">
-            <div style="text-align: right; font-family: 'Zen Maru Gothic', sans-serif; color: #333;">
-                <div style="font-size: 24px; font-weight: 800; margin-bottom: 2px;">{race_date}</div>
-                <div style="display: flex; justify-content: flex-end; align-items: baseline; gap: 15px;">
-                    <span style="font-size: 52px; font-weight: 900; color: #ff4f93;">{race_place}</span>
-                    <span style="font-size: 46px; font-weight: 900;">{race_no}</span>
-                </div>
-            </div>
+    <!-- 文字情報を画像の上に重ねる -->
+    <div style="
+        position: absolute; 
+        right: 30px; 
+        top: 25px; 
+        text-align: right; 
+        z-index: 2;
+        font-family: 'Zen Maru Gothic', sans-serif;
+        text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8), -2px -2px 4px rgba(255, 255, 255, 0.8);
+    ">
+        <div style="font-size: 24px; font-weight: 800; color: #333; margin-bottom: 2px;">{race_date}</div>
+        <div style="display: flex; justify-content: flex-end; align-items: baseline; gap: 15px;">
+            <span style="font-size: 56px; font-weight: 900; color: #ff4f93;">{race_place}</span>
+            <span style="font-size: 48px; font-weight: 900; color: #333;">{race_no}</span>
         </div>
+    </div>
+</div>
 
         <div class="main">
             <!-- 左側：展示・判定・買い目 -->
