@@ -108,6 +108,9 @@ osae_kaime = st.sidebar.text_area("押さえ買い目", "1-3-2\n1-2-5")
 
 selected_stamp_name = st.sidebar.selectbox("表示するスタンプ", list(stamp_options.keys()))
 
+# 💡 ここを追加：選択されたスタンプ名から、実際の画像データ（base64）を取得する
+stamp_img = stamp_options[selected_stamp_name]
+
 
 # =========================================
 # 3. CSS/JavaScript (f-stringの競合回避)
