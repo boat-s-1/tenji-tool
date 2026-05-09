@@ -372,7 +372,6 @@ html_code = f"""
     
     <!-- ここに Python で生成した graph_items_html が入ります -->
     {graph_items_html}
-</div>
             
             <!-- 右側カラム（上で作ったパーツを入れる） -->
             {right_column_html}
