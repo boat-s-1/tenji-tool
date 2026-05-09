@@ -71,7 +71,7 @@ if uploaded_character:
     character_src = f"data:image/png;base64,{base64.b64encode(uploaded_character.read()).decode()}"
 else:
     character_src = "https://placehold.co/500x900/png"
-
+st.sidebar.header("一果")
 with st.sidebar.expander("📌 一果本命候補"):
     honmei = st.selectbox("本命", [f"{i}号艇" for i in range(1, 7)])
     stamp = st.selectbox("スタンプ", ["なし"] + list(stamp_dict.keys()))
@@ -112,7 +112,7 @@ with col3:
 
 motor_eval = st.sidebar.text_area("機力チェック", "1号艇は出足型、3号艇の伸びが節イチ級！", height=100)
 
-st.sidebar.header("直前情報")
+
 
 # --- 修正箇所：変数を定義する ---
 
