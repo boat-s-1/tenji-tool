@@ -286,7 +286,7 @@ for boat_name in selected_boats:
             <div style="
                 font-size: 18px; 
                 font-weight: 900; 
-                color: {b_color if b_name != '1号艇' else '#333'}; 
+              color: {b_color if boat_name != '1号艇' else '#333'};
                 margin-bottom: 4px;
                 letter-spacing: 1px;
             ">
