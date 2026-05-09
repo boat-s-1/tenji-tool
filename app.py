@@ -371,7 +371,7 @@ html_code = f"""
     <div class="section-title" style="background: #ff4f93; color: white; display: inline-block; padding: 2px 15px; border-radius: 5px; font-weight: bold; margin-bottom: 15px;">各艇評価指数</div>
     
     <!-- ここに Python で生成した graph_items_html が入ります -->
-    {graph_items_html}
+    {graph_items_html}  </div>  </div>
             
             <!-- 右側カラム（上で作ったパーツを入れる） -->
             {right_column_html}
