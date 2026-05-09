@@ -353,20 +353,24 @@ html_code2 = f"""
 <!DOCTYPE html>
 <html>
 <head><meta charset="UTF-8">{common_style}{download_logic}</head>
-<body>
-<!-- 【重要】paddingを 0 !important にして強制的に余白を消し、左端の欠けを防ぎます -->
-<div class="wrapper-live" style="width: 1000px; margin: auto; padding: 0 !important; border: 6px dashed #ff6ea8; border-radius: 25px; overflow: hidden; background: #fffdf5; box-sizing: border-box;">
+<body style="margin:0; padding:0;">
+<!-- 
+  【解決策】
+  1. padding: 0 !important で外枠の余白を完全に殺します。
+  2. width: 1000px 固定。
+  3. overflow: hidden で画像のはみ出しをカットします。
+-->
+<div class="wrapper-live" style="width: 1000px; margin: 20px auto; padding: 0 !important; border: 6px dashed #ff6ea8; border-radius: 25px; overflow: hidden; background: #fffdf5; box-sizing: border-box;">
     
-    <!-- 1. LIVE帯：ここは横幅いっぱい -->
-    <div style="background:#ff85b5; color:white; padding:15px; font-size:32px; font-weight:bold; text-align:center; width: 100%; box-sizing: border-box;">
+    <!-- ライブ帯 -->
+    <div style="background:#ff85b5; color:white; padding:15px; font-size:32px; font-weight:bold; text-align:center; width: 100%; box-sizing: border-box; margin: 0;">
         🌸 展示終了！一果の最終決定 🌸
     </div>
 
-    <!-- 2. 全面ヘッダー：left: 0 を指定して左に寄せます -->
-    <div class="header" style="position: relative; width: 1000px; height: 180px; border-bottom: 5px dashed #ff6ea8; overflow: hidden; background: #fff;">
-        <img src="{target_logo_live}" style="position: absolute; top: 0; left: 0; width: 1000px; height: 100%; object-fit: cover; z-index: 1;">
+    <!-- ヘッダーエリア：left: 0 を徹底 -->
+    <div class="header" style="position: relative; width: 1000px; height: 180px; border-bottom: 5px dashed #ff6ea8; overflow: hidden; background: #fff; margin: 0; padding: 0;">
+        <img src="{target_logo_live}" style="position: absolute; top: 0; left: 0; width: 1000px; height: 100%; object-fit: cover; z-index: 1; border: none; display: block;">
         
-        <!-- 文字情報：キャラや場名と被りすぎないよう配置 -->
         <div style="position: absolute; right: 30px; top: 25px; text-align: right; z-index: 2; font-family: 'Zen Maru Gothic', sans-serif; text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.9), -2px -2px 4px rgba(255, 255, 255, 0.9);">
             <div style="font-size: 22px; font-weight: 800; color: #333; margin-bottom: 2px;">{race_date}</div>
             <div style="display: flex; justify-content: flex-end; align-items: baseline; gap: 10px;">
@@ -376,30 +380,32 @@ html_code2 = f"""
         </div>
     </div>
 
-    <!-- 3. メインコンテンツ：ここから左右に 20px の余白を付けて中身を整えます -->
-    <div class="main" style="display: flex; gap: 20px; padding: 20px; box-sizing: border-box;">
-        <div class="left" style="width: 65%;">
-             <div class="mainbox" style="border-color:#ff4f93;">
+    <!-- コンテンツエリア：ここから内側に余白を付ける -->
+    <div class="main" style="display: flex; gap: 20px; padding: 25px; box-sizing: border-box; width: 1000px;">
+        <div class="left" style="width: 610px;">
+             <div class="mainbox" style="border-color:#ff4f93; margin-bottom: 20px; padding: 20px; border-radius: 20px; border: 4px dashed #ffb3cf; background: #fffafb;">
                 <div style="font-size:32px; font-weight:bold; color:#ff4f93;">展示評価：{tenji_rank}</div>
-                <div style="font-size:24px; margin: 5px 0;">タイム：{tenji_time} / 進入：{shinnyu}</div>
-                <div style="font-size:36px; font-weight:bold; color:#ff4f93; border-top: 2px dashed #ffb3cf; padding-top: 10px;">一果判定：{ikka_hantei}</div>
+                <div style="font-size:24px; margin: 10px 0;">タイム：{tenji_time} / 進入：{shinnyu}</div>
+                <div style="font-size:36px; font-weight:bold; color:#ff4f93; border-top: 2px dashed #ffb3cf; padding-top: 15px;">一果判定：{ikka_hantei}</div>
             </div>
-            <div class="mainbox" style="border-color:#ff4f93; text-align: center;">
+            <div class="mainbox" style="border-color:#ff4f93; text-align: center; margin-bottom: 20px; padding: 20px; border-radius: 20px; border: 4px dashed #ffb3cf; background: #fffafb;">
                 <div style="font-size:24px; font-weight:bold;">🎯 的中期待度</div>
-                <div style="font-size:72px; font-weight:bold; color:#ff4f93; line-height: 1;">{hit_rate}%</div>
+                <div style="font-size:80px; font-weight:bold; color:#ff4f93; line-height: 1;">{hit_rate}%</div>
             </div>
-            <div class="mainbox" style="border-color:#ff4f93;">
-                <div class="section-title">🌸 一果の買い目</div>
-                <div style="font-size:32px; font-weight:bold; color:#ff4f93; text-align:center; padding: 10px 0;">本命：{honmei_kaime}</div>
-                <div style="border-top:2px dashed #ffb3cf; margin:10px 0;"></div>
-                <div style="font-size:22px; text-align:center; color:#666; font-weight: bold;">押さえ：<br>{osae_kaime.replace('\\n', '<br>')}</div>
+            <div class="mainbox" style="border-color:#ff4f93; padding: 20px; border-radius: 20px; border: 4px dashed #ffb3cf; background: #fffafb;">
+                <div class="section-title" style="margin-bottom: 15px;">🌸 一果の買い目</div>
+                <div style="font-size:36px; font-weight:bold; color:#ff4f93; text-align:center; padding: 10px 0; background: #fff; border-radius: 10px; border: 2px solid #ffb3cf;">本命：{honmei_kaime}</div>
+                <div style="border-top:2px dashed #ffb3cf; margin:15px 0;"></div>
+                <div style="font-size:24px; text-align:center; color:#666; font-weight: bold; line-height: 1.6;">
+                    押さえ：<br>{osae_kaime.replace('\\n', '<br>')}
+                </div>
             </div>
         </div>
         {right_column_live_html}
     </div>
     
-    <!-- 4. 下部フッター帯 -->
-    <div style="background:#ff4f93; color:white; text-align:center; padding:20px; font-size:24px; font-weight:bold;">
+    <!-- フッター -->
+    <div style="background:#ff4f93; color:white; text-align:center; padding:20px; font-size:26px; font-weight:bold;">
         🌸 一果の最終判断公開中 🌸
     </div>
 </div>
