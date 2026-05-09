@@ -367,6 +367,17 @@ html_code = f"""
             <div style="font-size:36px; font-weight:bold; color:#44aa55;">+{up_rate}%</div>
         </div>
     </div>
+
+         <!-- 展開ストーリーセクション -->
+            <div class="mainbox" style="border-color:#ff4f93; border-radius: 20px; border: 4px dashed #ffb3cf; background: #fff; padding: 15px;">
+                <div class="section-title" style="background: #ff4f93; color: white; display: inline-block; padding: 2px 15px; border-radius: 5px; font-weight: bold; margin-bottom: 12px;">展開ストーリー（予想）</div>
+                
+                <div style="padding: 5px;">
+                    {story_items_html}
+                </div>
+            </div>
+
+    
                 <div class="mainbox" style="padding: 15px; border-radius: 20px; border: 4px dashed #ffb3cf; background: #fff;">
     <div class="section-title" style="background: #ff4f93; color: white; display: inline-block; padding: 2px 15px; border-radius: 5px; font-weight: bold; margin-bottom: 15px;">各艇評価指数</div>
     
