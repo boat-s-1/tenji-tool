@@ -223,35 +223,46 @@ html_code = f"""
 <div style="font-size:24px; font-weight:bold;">場平均との差</div><div style="font-size:36px; font-weight:bold; color:#44aa55;">+{up_rate}%</div></div></div>
 <div class="mainbox"><div class="section-title">展開ストーリー (予想)</div>{story_html}</div><div class="mainbox"><div class="section-title">各艇評価指数</div>{score_html}</div></div>
 
-# 右側のカラム部分のHTMLを書き換え
-f"""
-<div class="right" style="display: flex; flex-direction: column; align-items: center;">
+# 右側カラム（キャラと吹き出し）の組み立て
+# 必ず f""" で始め、最後に """ で閉じるようにしてください。
+right_column_html = f"""
+<div class="right" style="display: flex; flex-direction: column; align-items: center; width: 350px;">
 
- 
+    <!-- 1. キャラ画像 -->
     <img class="character-img" src="{character_src}" style="
         position: relative; 
         z-index: 1; 
         margin-bottom: 0;
+        width: 100%;
+        max-width: 320px;
     ">
 
-    <!-- 吹き出し：margin-topをマイナスにして上にずらし、z-indexを高くして重ねる -->
+    <!-- 2. 吹き出し（キャラの上に重なる設定） -->
     <div class="fukidashi" style="
         position: relative; 
         z-index: 2; 
-        margin-top: -60px; /* ここで被り具合を調整（数字を大きくするともっと被ります） */
-        background: rgba(255, 255, 255, 0.95); /* 少し透けさせるとおしゃれ */
-        box-shadow: 0 4px 15px rgba(255, 110, 168, 0.2); /* 浮き出た感じにする */
-        width: 90%; /* 横幅を少し抑えるとキャラとのバランスが良くなります */
+        margin-top: -60px; 
+        background: rgba(255, 255, 255, 0.98);
+        border: 4px solid #ff6ea8;
+        border-radius: 25px;
+        padding: 20px;
+        width: 90%;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     ">
-        <div style="color:#ff4f93; font-weight:bold; font-size:22px; margin-bottom:5px;">
+        <!-- タイトル -->
+        <div style="color: #ff4f93; font-weight: bold; font-size: 20px; margin-bottom: 8px; display: flex; align-items: center; justify-content: center;">
             🌸 一果のひとこと
         </div>
-        {comment}
         
-        <!-- 吹き出しの「しっぽ」をCSSで作る（さらにおしゃれにする場合） -->
+        <!-- コメント本文 -->
+        <div style="font-size: 18px; line-height: 1.6; color: #333; text-align: left;">
+            {comment}
+        </div>
+        
+        <!-- 吹き出しのしっぽ（CSSで三角形を作成） -->
         <div style="
             position: absolute;
-            top: -15px;
+            top: -18px;
             left: 50%;
             transform: translateX(-50%);
             width: 0;
@@ -262,7 +273,27 @@ f"""
         "></div>
     </div>
 
-<div class="notice"><div style="font-size:22px; font-weight:bold; color:#ff4f93; text-align:center; border-bottom:2px solid #ffb3cf; margin-bottom:10px;">📍 要チェックポイント</div><div>・波乱指数：{stars} ({wave})</div><div>・危険艇：{danger_boat}</div><div>・注目艇：{attention_boats}</div></div><div class="motor-box"><div style="font-size:20px; font-weight:bold; color:#0077cc; border-bottom:2px solid #b3d9ff; margin-bottom:8px;">⚙️ 一果の機力チェック</div><div style="font-weight:bold; font-size:18px;">{motor_eval}</div></div></div></div><div class="footer"><img src="{footer_img_src}" class="footer-img"></div></div><div style="text-align:center;"><button class="download-btn" onclick="saveImage('.wrapper', 'zenjitsu.png')">画像を保存する</button></div></body></html>
+    <!-- 3. 要チェックポイント -->
+    <div class="notice" style="
+        margin-top: 20px;
+        background: #fff3c4;
+        border: 4px dashed #ff6ea8;
+        border-radius: 20px;
+        padding: 15px;
+        width: 90%;
+        text-align: left;
+    ">
+        <div style="font-size: 18px; font-weight: bold; color: #ff4f93; text-align: center; border-bottom: 2px solid #ffb3cf; margin-bottom: 10px;">
+            📍 要チェックポイント
+        </div>
+        <div style="font-size: 16px; line-height: 1.8;">
+            ・波乱指数：{stars} ({wave})<br>
+            ・危険艇：{danger_boat}<br>
+            ・注目艇：{attention_boats}
+        </div>
+    </div>
+
+</div>
 """
 
 # --- 一果 直前 ---
