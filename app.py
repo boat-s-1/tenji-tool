@@ -346,7 +346,7 @@ right_column_live_html = f"""
 </div>
 """
 
-# 直前用ロゴが定義されていない場合のエラー防止
+# 直前用ロゴの判定
 target_logo_live = logo_live_src if 'logo_live_src' in locals() and logo_live_src else logo_src
 
 html_code2 = f"""
@@ -354,19 +354,19 @@ html_code2 = f"""
 <html>
 <head><meta charset="UTF-8">{common_style}{download_logic}</head>
 <body>
-<!-- wrapper-liveのpaddingを0にして、border-radiusを調整 -->
-<div class="wrapper-live" style="width: 1000px; margin: auto; padding: 0; border: 6px dashed #ff6ea8; border-radius: 25px; overflow: hidden; background: #fffdf5;">
+<!-- 【重要】paddingを 0 !important にして強制的に余白を消し、左端の欠けを防ぎます -->
+<div class="wrapper-live" style="width: 1000px; margin: auto; padding: 0 !important; border: 6px dashed #ff6ea8; border-radius: 25px; overflow: hidden; background: #fffdf5; box-sizing: border-box;">
     
-    <!-- 1. LIVE帯：padding: 0 の影響を受けないよう個別に余白を調整 -->
-    <div style="background:#ff85b5; color:white; padding:15px; font-size:32px; font-weight:bold; text-align:center;">
+    <!-- 1. LIVE帯：ここは横幅いっぱい -->
+    <div style="background:#ff85b5; color:white; padding:15px; font-size:32px; font-weight:bold; text-align:center; width: 100%; box-sizing: border-box;">
         🌸 展示終了！一果の最終決定 🌸
     </div>
 
-    <!-- 2. 全面ヘッダー：width: 100% (1000px) で左端から配置 -->
+    <!-- 2. 全面ヘッダー：left: 0 を指定して左に寄せます -->
     <div class="header" style="position: relative; width: 1000px; height: 180px; border-bottom: 5px dashed #ff6ea8; overflow: hidden; background: #fff;">
         <img src="{target_logo_live}" style="position: absolute; top: 0; left: 0; width: 1000px; height: 100%; object-fit: cover; z-index: 1;">
         
-        <!-- 文字情報：右端ギリギリにならないよう少し余白(30px)をあける -->
+        <!-- 文字情報：キャラや場名と被りすぎないよう配置 -->
         <div style="position: absolute; right: 30px; top: 25px; text-align: right; z-index: 2; font-family: 'Zen Maru Gothic', sans-serif; text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.9), -2px -2px 4px rgba(255, 255, 255, 0.9);">
             <div style="font-size: 22px; font-weight: 800; color: #333; margin-bottom: 2px;">{race_date}</div>
             <div style="display: flex; justify-content: flex-end; align-items: baseline; gap: 10px;">
@@ -376,11 +376,24 @@ html_code2 = f"""
         </div>
     </div>
 
-    <!-- 3. メインコンテンツ：ここから左右に 20px の余白を戻す -->
-    <div class="main" style="display: flex; gap: 20px; padding: 20px;">
+    <!-- 3. メインコンテンツ：ここから左右に 20px の余白を付けて中身を整えます -->
+    <div class="main" style="display: flex; gap: 20px; padding: 20px; box-sizing: border-box;">
         <div class="left" style="width: 65%;">
-             <!-- 展示評価ボックスなど -->
-             ...
+             <div class="mainbox" style="border-color:#ff4f93;">
+                <div style="font-size:32px; font-weight:bold; color:#ff4f93;">展示評価：{tenji_rank}</div>
+                <div style="font-size:24px; margin: 5px 0;">タイム：{tenji_time} / 進入：{shinnyu}</div>
+                <div style="font-size:36px; font-weight:bold; color:#ff4f93; border-top: 2px dashed #ffb3cf; padding-top: 10px;">一果判定：{ikka_hantei}</div>
+            </div>
+            <div class="mainbox" style="border-color:#ff4f93; text-align: center;">
+                <div style="font-size:24px; font-weight:bold;">🎯 的中期待度</div>
+                <div style="font-size:72px; font-weight:bold; color:#ff4f93; line-height: 1;">{hit_rate}%</div>
+            </div>
+            <div class="mainbox" style="border-color:#ff4f93;">
+                <div class="section-title">🌸 一果の買い目</div>
+                <div style="font-size:32px; font-weight:bold; color:#ff4f93; text-align:center; padding: 10px 0;">本命：{honmei_kaime}</div>
+                <div style="border-top:2px dashed #ffb3cf; margin:10px 0;"></div>
+                <div style="font-size:22px; text-align:center; color:#666; font-weight: bold;">押さえ：<br>{osae_kaime.replace('\\n', '<br>')}</div>
+            </div>
         </div>
         {right_column_live_html}
     </div>
@@ -394,7 +407,6 @@ html_code2 = f"""
 </body>
 </html>
 """
-
 # --- キイナ 前日 ---
 kiina_html = f"""
 <!DOCTYPE html>
