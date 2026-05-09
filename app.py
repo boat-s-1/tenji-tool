@@ -156,27 +156,29 @@ function saveImage(targetClass, fileName) {
 
 header_part = f"""
 <div class="header" style="
-    display: flex; 
-    justify-content: space-between; 
-    align-items: center; 
-    padding: 10px 30px; 
+    position: relative; 
+    width: 1000px; 
+    height: 150px; 
     border-bottom: 5px dashed #ff6ea8;
-    background: #fff;
-    border-radius: 20px 20px 0 0;
 ">
-    <!-- ロゴ画像 -->
-    <img src="{logo_src}" style="width: 520px; height: auto; object-fit: contain;">
-
-    <!-- レース情報：日付の下に場名とRを横並び -->
-    <div style="
-        text-align: right; 
-        font-family: 'Zen Maru Gothic', sans-serif;
-        color: #333;
+    <!-- 背景としてロゴと花びら画像を置く -->
+    <img src="{logo_src}" style="
+        position: absolute; 
+        top: 0; 
+        left: 0; 
+        width: 1000px; 
+        z-index: 1;
     ">
-        <!-- 日付：少し控えめなサイズ -->
-        <div style="font-size: 24px; font-weight: 800; margin-bottom: 2px;">{race_date}</div>
-        
-        <!-- 場名とレース番号：特大サイズで横並び -->
+    
+    <!-- その上に文字を重ねる -->
+    <div style="
+        position: absolute; 
+        right: 30px; 
+        top: 20px; 
+        text-align: right; 
+        z-index: 2; /* 画像より上に表示 */
+    ">
+        <div style="font-size: 24px; font-weight: 800;">{race_date}</div>
         <div style="display: flex; justify-content: flex-end; align-items: baseline; gap: 15px;">
             <span style="font-size: 52px; font-weight: 900; color: #ff4f93;">{race_place}</span>
             <span style="font-size: 46px; font-weight: 900;">{race_no}</span>
