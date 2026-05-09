@@ -256,17 +256,18 @@ for i in range(1, 7):
         </div>
     </div>
     """
-# 展開ストーリー（予想）のHTML生成
+# --- 修正版：展開ストーリー（選択された艇だけを表示） ---
 story_items_html = ""
-for i in range(1, 4):  # 1〜3番目の注目艇を表示
-    boat_name = f"{i}号艇" # または selected_boats[i-1] など
-    # 各艇の画像を取得（boat_srcs辞書から）
+for boat_name in selected_boats:  # range(1, 4) ではなく、選ばれた艇のリストを使う
+    # 画像を取得
     b_src = boat_srcs.get(boat_name, "")
-    # 各艇のコメントを取得
+    # コメントを取得
     b_comment = boat_comments.get(boat_name, "展開解説がありません")
+    # その艇に対応する色を取得（枠線の色用）
+    b_color = boat_colors.get(boat_name, "#ff4f93")
     
     story_items_html += f"""
-    <div style="display: flex; align-items: center; background: #f9f9f9; border-radius: 10px; padding: 8px; margin-bottom: 8px; border-left: 5px solid #ff4f93;">
+    <div style="display: flex; align-items: center; background: #f9f9f9; border-radius: 10px; padding: 8px; margin-bottom: 8px; border-left: 5px solid {b_color};">
         <img src="{b_src}" style="width: 50px; height: auto; margin-right: 10px;">
         <div style="flex: 1;">
             <span style="font-weight: bold; color: #333; font-size: 14px;">{boat_name}：</span>
