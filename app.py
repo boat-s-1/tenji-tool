@@ -346,33 +346,61 @@ right_column_live_html = f"""
 </div>
 """
 
-# 直前用ロゴの判定
 target_logo_live = logo_live_src if 'logo_live_src' in locals() and logo_live_src else logo_src
 
 html_code2 = f"""
 <!DOCTYPE html>
 <html>
-<head><meta charset="UTF-8">{common_style}{download_logic}</head>
-<body style="margin:0; padding:0;">
-<!-- 
-  【解決策】
-  1. padding: 0 !important で外枠の余白を完全に殺します。
-  2. width: 1000px 固定。
-  3. overflow: hidden で画像のはみ出しをカットします。
--->
-<div class="wrapper-live" style="width: 1000px; margin: 20px auto; padding: 0 !important; border: 6px dashed #ff6ea8; border-radius: 25px; overflow: hidden; background: #fffdf5; box-sizing: border-box;">
+<head>
+    <meta charset="UTF-8">
+    {common_style}
+    {download_logic}
+    <style>
+        /* 強制的に全ての余白をリセットするスタイル */
+        #target-paper {{
+            width: 1000px !important;
+            padding: 0 !important;
+            margin: 0 auto !important;
+            border: 6px dashed #ff6ea8 !important;
+            border-radius: 25px !important;
+            overflow: hidden !important;
+            box-sizing: border-box !important;
+            display: block !important;
+        }}
+        .header-full {{
+            position: relative;
+            width: 100% !important;
+            height: 180px;
+            margin: 0 !important;
+            padding: 0 !important;
+            left: 0 !important;
+        }}
+        .header-full img {{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: cover;
+            z-index: 1;
+        }}
+    </style>
+</head>
+<body style="margin:0; padding:0; background:transparent;">
+
+<div id="target-paper" class="wrapper-live">
     
-    <!-- ライブ帯 -->
-    <div style="background:#ff85b5; color:white; padding:15px; font-size:32px; font-weight:bold; text-align:center; width: 100%; box-sizing: border-box; margin: 0;">
+    <!-- 1. LIVE帯 -->
+    <div style="background:#ff85b5; color:white; padding:15px; font-size:32px; font-weight:bold; text-align:center; margin:0;">
         🌸 展示終了！一果の最終決定 🌸
     </div>
 
-    <!-- ヘッダーエリア：left: 0 を徹底 -->
-    <div class="header" style="position: relative; width: 1000px; height: 180px; border-bottom: 5px dashed #ff6ea8; overflow: hidden; background: #fff; margin: 0; padding: 0;">
-        <img src="{target_logo_live}" style="position: absolute; top: 0; left: 0; width: 1000px; height: 100%; object-fit: cover; z-index: 1; border: none; display: block;">
+    <!-- 2. ヘッダー：クラスを付与して絶対配置を徹底 -->
+    <div class="header-full">
+        <img src="{target_logo_live}">
         
         <div style="position: absolute; right: 30px; top: 25px; text-align: right; z-index: 2; font-family: 'Zen Maru Gothic', sans-serif; text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.9), -2px -2px 4px rgba(255, 255, 255, 0.9);">
-            <div style="font-size: 22px; font-weight: 800; color: #333; margin-bottom: 2px;">{race_date}</div>
+            <div style="font-size: 22px; font-weight: 800; color: #333;">{race_date}</div>
             <div style="display: flex; justify-content: flex-end; align-items: baseline; gap: 10px;">
                 <span style="font-size: 52px; font-weight: 900; color: #ff4f93;">{race_place}</span>
                 <span style="font-size: 42px; font-weight: 900; color: #333;">{race_no}</span>
@@ -380,8 +408,8 @@ html_code2 = f"""
         </div>
     </div>
 
-    <!-- コンテンツエリア：ここから内側に余白を付ける -->
-    <div class="main" style="display: flex; gap: 20px; padding: 25px; box-sizing: border-box; width: 1000px;">
+    <!-- 3. メイン：ここから内側に余白をつける -->
+    <div class="main" style="display: flex; gap: 20px; padding: 25px; box-sizing: border-box;">
         <div class="left" style="width: 610px;">
              <div class="mainbox" style="border-color:#ff4f93; margin-bottom: 20px; padding: 20px; border-radius: 20px; border: 4px dashed #ffb3cf; background: #fffafb;">
                 <div style="font-size:32px; font-weight:bold; color:#ff4f93;">展示評価：{tenji_rank}</div>
@@ -404,12 +432,15 @@ html_code2 = f"""
         {right_column_live_html}
     </div>
     
-    <!-- フッター -->
     <div style="background:#ff4f93; color:white; text-align:center; padding:20px; font-size:26px; font-weight:bold;">
         🌸 一果の最終判断公開中 🌸
     </div>
 </div>
-<div style="text-align:center;"><button class="download-btn" onclick="saveImage('.wrapper-live', 'chokuzen.png')">画像を保存する</button></div>
+
+<div style="text-align:center; margin-top: 20px;">
+    <button class="download-btn" onclick="saveImage('#target-paper', 'chokuzen.png')">画像を保存する</button>
+</div>
+
 </body>
 </html>
 """
