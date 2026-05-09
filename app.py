@@ -17,7 +17,7 @@ def get_base64_img(path):
     return ""
 
 # --- 各種画像の読み込み ---
-logo_path = "8c5a3a8d-fe42-4239-bfe9-c67326baa39a.png"
+logo_path = "名称未設定のデザイン (49).png"
 logo_src = get_base64_img(logo_path)
 
 stamp_dict = {
