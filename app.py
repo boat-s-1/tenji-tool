@@ -380,7 +380,7 @@ html_code2 = f"""
             position: absolute;
             top: 0;
             /* ロゴ左側の余白をカットするために左へスライド */
-            left: -65px !important; 
+            left: -55px !important; 
             /* スライドした分、幅を広げて右側の隙間を埋める */
             width: calc(100% + 65px) !important;
             height: 100% !important;
