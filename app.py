@@ -381,14 +381,33 @@ html_code2 = f"""
     <!-- 3. メイン -->
     <div class="main" style="display: flex; gap: 20px; padding: 20px;">
         <div class="left" style="width: 610px;">
-             <div class="mainbox" style="border-color:#ff4f93;">
-                <div style="font-size:32px; font-weight:bold; color:#ff4f93;">展示評価：{tenji_rank}</div>
-                <div style="font-size:24px; margin: 5px 0;">タイム：{tenji_time} / 進入：{shinnyu}</div>
-                <div style="font-size:36px; font-weight:bold; color:#ff4f93; border-top: 2px dashed #ffb3cf; padding-top: 10px;">一果判定：{ikka_hantei}</div>
+                   <!-- 展示評価・一果判定ボックス -->
+             <div class="mainbox" style="border-color:#ff4f93; margin-bottom: 20px; padding: 0; overflow: hidden; border-radius: 20px; border: 4px dashed #ffb3cf; background: #fff;">
+                <div style="background: #fff0f5; padding: 10px; border-bottom: 2px dashed #ffb3cf; display: flex; justify-content: space-between; align-items: center;">
+                    <span style="font-size: 28px; font-weight: bold; color: #ff4f93;">展示評価：<span style="font-size: 48px;">{tenji_rank}</span></span>
+                    <div style="text-align: right; line-height: 1.2;">
+                        <span style="font-size: 16px; color: #666;">タイム：{tenji_time}</span><br>
+                        <span style="font-size: 16px; color: #666;">進入：{shinnyu}</span>
+                    </div>
+                </div>
+                <div style="padding: 20px; text-align: center;">
+                    <div style="font-size: 20px; color: #ff4f93; font-weight: bold; margin-bottom: 10px;">🌸 一果の直前判定</div>
+                    <div style="display: flex; justify-content: center; gap: 15px; align-items: center;">
+                        <span style="background:#ff4f93; color:white; padding:5px 15px; border-radius:50px; font-size:24px; font-weight:bold;">◎ 1</span>
+                        <span style="background:#ffb3cf; color:#ff4f93; padding:5px 15px; border-radius:50px; font-size:24px; font-weight:bold; border: 2px solid #ff4f93;">○ 2</span>
+                        <span style="background:#eee; color:#666; padding:5px 15px; border-radius:50px; font-size:24px; font-weight:bold;">▲ 5</span>
+                    </div>
+                </div>
             </div>
-            <div class="mainbox" style="border-color:#ff4f93; text-align: center;">
-                <div style="font-size:24px; font-weight:bold;">🎯 的中期待度</div>
-                <div style="font-size:72px; font-weight:bold; color:#ff4f93; line-height: 1;">{hit_rate}%</div>
+
+            <!-- 的中期待度ボックス -->
+            <div class="mainbox" style="border-color:#ff4f93; text-align: center; margin-bottom: 20px; padding: 25px; border-radius: 20px; border: 4px dashed #ffb3cf; background: linear-gradient(145deg, #fff, #fff0f5);">
+                <div style="font-size:24px; font-weight:bold; display: flex; align-items: center; justify-content: center; gap: 10px;">
+                    🎯 <span style="border-bottom: 3px solid #ff4f93;">的中期待度</span>
+                </div>
+                <div style="font-size:95px; font-weight:900; color:#ff4f93; line-height: 1.1; margin-top: 10px; text-shadow: 2px 2px 0px rgba(255, 79, 147, 0.1);">
+                    {hit_rate}<span style="font-size: 40px;">%</span>
+                </div>
             </div>
             <div class="mainbox" style="border-color:#ff4f93;">
                 <div class="section-title">🌸 一果の買い目</div>
