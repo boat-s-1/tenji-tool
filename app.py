@@ -354,8 +354,12 @@ html_code2 = f"""
 <html>
 <head><meta charset="UTF-8">{common_style}{download_logic}</head>
 <body>
-<div class="wrapper-live">
-    <div style="background:#ff85b5; color:white; padding:18px; font-size:32px; font-weight:bold; text-align:center; border-radius: 25px 25px 0 0;">🌸 展示終了！一果の最終決定 🌸</div>
+<div class="wrapper-live" style="width: 1000px; margin: auto; padding: 0; border: 6px dashed #ff6ea8; border-radius: 25px; overflow: hidden; background: #fffdf5;">
+    
+    <!-- 1. LIVE帯：横幅いっぱい -->
+    <div style="background:#ff85b5; color:white; padding:18px; font-size:32px; font-weight:bold; text-align:center;">
+        🌸 展示終了！一果の最終決定 🌸
+    </div>
     <div class="header" style="position: relative; width: 1000px; height: 180px; border-bottom: 5px dashed #ff6ea8; overflow: hidden; background: #fff;">
         <img src="{target_logo_live}" style="position: absolute; top: 0; left: 0; width: 1000px; height: 100%; object-fit: cover; z-index: 1;">
         <div style="position: absolute; right: 30px; top: 25px; text-align: right; z-index: 2; font-family: 'Zen Maru Gothic', sans-serif; text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8), -2px -2px 4px rgba(255, 255, 255, 0.8);">
