@@ -99,7 +99,7 @@ with st.sidebar.expander("📌 一果直前"):
     # 艇番のリスト [1, 2, 3, 4, 5, 6]
 boat_numbers = [str(i) for i in range(1, 7)]
 
-col1, col2, col3 = st.columns(3)
+col1, col2, col3 = st.sidebar.columns(3)
 with col1:
     hantei_double = st.selectbox("◎ 本命", boat_numbers, index=0) # 初期値 1
 with col2:
