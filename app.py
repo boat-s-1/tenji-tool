@@ -97,7 +97,7 @@ with st.sidebar.expander("📌 一果直前"):
        honmei_kaime = st.text_input("本命買い目", "1-2-3")
        osae_kaime = st.text_area("押さえ買い目", "1-3-2\n1-2-5")
        up_boat = st.selectbox("展示急上昇", ["なし"] + [f"{i}号艇" for i in range(1, 7)], key="up_boat_select")
-    
+       hit_rate = st.slider("🎯 的中期待度 (%)", 0, 100, 80)
     # 艇番のリスト [1, 2, 3, 4, 5, 6]
 boat_numbers = [str(i) for i in range(1, 7)]
 
@@ -132,7 +132,7 @@ selected_stamp_name = st.sidebar.selectbox("表示するスタンプ", list(stam
 stamp_img = stamp_options[selected_stamp_name]
 st.sidebar.header("直前情報")
 # ↓この行を、html_code2 を作成するより「前」に必ず書く
-hit_rate = st.sidebar.slider("🎯 的中期待度 (%)", 0, 100, 80)
+
 
 
 
