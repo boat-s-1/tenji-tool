@@ -98,7 +98,7 @@ up_boat = st.sidebar.selectbox("展示急上昇", ["なし"] + [f"{i}号艇" for
 jikkan_comment = st.sidebar.text_area("直前コメント", "展示は1号艇優勢！")
 honmei_kaime = st.sidebar.text_input("本命買い目", "1-2-3")
 osae_kaime = st.sidebar.text_area("押さえ買い目", "1-3-2\n1-2-5")
-hit_rate = st.sidebar.slider("的中期待度", 0, 100, 87)st.sidebar.subheader("🎨 直前版スタンプ設定")
+hit_rate = st.sidebar.subheader("🎨 直前版スタンプ設定")
 
 # 選択肢を定義
 stamp_options = {
