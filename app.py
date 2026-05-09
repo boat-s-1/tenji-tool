@@ -94,6 +94,8 @@ with st.sidebar.expander("📌 一果直前"):
        tenji_rank = st.selectbox("展示評価", ["S", "A", "B", "C"])
        tenji_time = st.text_input("補正タイム", "6.71")
        shinnyu = st.text_input("進入予想", "123/456")
+       honmei_kaime = st.text_input("本命買い目", "1-2-3")
+       osae_kaime = st.text_area("押さえ買い目", "1-3-2\n1-2-5")
     # 艇番のリスト [1, 2, 3, 4, 5, 6]
 boat_numbers = [str(i) for i in range(1, 7)]
 
@@ -104,8 +106,7 @@ with col2:
     hantei_single = st.selectbox("○ 対抗", boat_numbers, index=1) # 初期値 2
 with col3:
     hantei_triangle = st.selectbox("▲ 単穴", boat_numbers, index=4) # 初期値 5
-       honmei_kaime = st.text_input("本命買い目", "1-2-3")
-       osae_kaime = st.text_area("押さえ買い目", "1-3-2\n1-2-5")
+      
 
 motor_eval = st.sidebar.text_area("機力チェック", "1号艇は出足型、3号艇の伸びが節イチ級！", height=100)
 
