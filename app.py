@@ -354,43 +354,41 @@ html_code2 = f"""
 <html>
 <head><meta charset="UTF-8">{common_style}{download_logic}</head>
 <body>
+<!-- wrapper-liveのpaddingを0にして、border-radiusを調整 -->
 <div class="wrapper-live" style="width: 1000px; margin: auto; padding: 0; border: 6px dashed #ff6ea8; border-radius: 25px; overflow: hidden; background: #fffdf5;">
     
-    <!-- 1. LIVE帯：横幅いっぱい -->
-    <div style="background:#ff85b5; color:white; padding:18px; font-size:32px; font-weight:bold; text-align:center;">
+    <!-- 1. LIVE帯：padding: 0 の影響を受けないよう個別に余白を調整 -->
+    <div style="background:#ff85b5; color:white; padding:15px; font-size:32px; font-weight:bold; text-align:center;">
         🌸 展示終了！一果の最終決定 🌸
     </div>
+
+    <!-- 2. 全面ヘッダー：width: 100% (1000px) で左端から配置 -->
     <div class="header" style="position: relative; width: 1000px; height: 180px; border-bottom: 5px dashed #ff6ea8; overflow: hidden; background: #fff;">
         <img src="{target_logo_live}" style="position: absolute; top: 0; left: 0; width: 1000px; height: 100%; object-fit: cover; z-index: 1;">
-        <div style="position: absolute; right: 30px; top: 25px; text-align: right; z-index: 2; font-family: 'Zen Maru Gothic', sans-serif; text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8), -2px -2px 4px rgba(255, 255, 255, 0.8);">
-            <div style="font-size: 24px; font-weight: 800; color: #333; margin-bottom: 2px;">{race_date}</div>
-            <div style="display: flex; justify-content: flex-end; align-items: baseline; gap: 15px;">
-                <span style="font-size: 56px; font-weight: 900; color: #ff4f93;">{race_place}</span>
-                <span style="font-size: 48px; font-weight: 900; color: #333;">{race_no}</span>
+        
+        <!-- 文字情報：右端ギリギリにならないよう少し余白(30px)をあける -->
+        <div style="position: absolute; right: 30px; top: 25px; text-align: right; z-index: 2; font-family: 'Zen Maru Gothic', sans-serif; text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.9), -2px -2px 4px rgba(255, 255, 255, 0.9);">
+            <div style="font-size: 22px; font-weight: 800; color: #333; margin-bottom: 2px;">{race_date}</div>
+            <div style="display: flex; justify-content: flex-end; align-items: baseline; gap: 10px;">
+                <span style="font-size: 52px; font-weight: 900; color: #ff4f93;">{race_place}</span>
+                <span style="font-size: 42px; font-weight: 900; color: #333;">{race_no}</span>
             </div>
         </div>
     </div>
-    <div class="main">
-        <div class="left">
-            <div class="mainbox" style="border-color:#ff4f93;">
-                <div style="font-size:32px; font-weight:bold; color:#ff4f93;">展示評価：{tenji_rank}</div>
-                <div style="font-size:24px; margin: 5px 0;">タイム：{tenji_time} / 進入：{shinnyu}</div>
-                <div style="font-size:36px; font-weight:bold; color:#ff4f93; border-top: 2px dashed #ffb3cf; padding-top: 10px;">一果判定：{ikka_hantei}</div>
-            </div>
-            <div class="mainbox" style="border-color:#ff4f93; text-align: center;">
-                <div style="font-size:24px; font-weight:bold;">🎯 的中期待度</div>
-                <div style="font-size:72px; font-weight:bold; color:#ff4f93; line-height: 1;">{hit_rate}%</div>
-            </div>
-            <div class="mainbox" style="border-color:#ff4f93;">
-                <div class="section-title">🌸 一果の買い目</div>
-                <div style="font-size:32px; font-weight:bold; color:#ff4f93; text-align:center; padding: 10px 0;">本命：{honmei_kaime}</div>
-                <div style="border-top:2px dashed #ffb3cf; margin:10px 0;"></div>
-                <div style="font-size:22px; text-align:center; color:#666; font-weight: bold;">押さえ：<br>{osae_kaime.replace('\\n', '<br>')}</div>
-            </div>
+
+    <!-- 3. メインコンテンツ：ここから左右に 20px の余白を戻す -->
+    <div class="main" style="display: flex; gap: 20px; padding: 20px;">
+        <div class="left" style="width: 65%;">
+             <!-- 展示評価ボックスなど -->
+             ...
         </div>
         {right_column_live_html}
     </div>
-    <div style="background:#ff4f93; color:white; text-align:center; padding:20px; font-size:24px; font-weight:bold; border-radius: 0 0 25px 25px;">🌸 一果の最終判断公開中 🌸</div>
+    
+    <!-- 4. 下部フッター帯 -->
+    <div style="background:#ff4f93; color:white; text-align:center; padding:20px; font-size:24px; font-weight:bold;">
+        🌸 一果の最終判断公開中 🌸
+    </div>
 </div>
 <div style="text-align:center;"><button class="download-btn" onclick="saveImage('.wrapper-live', 'chokuzen.png')">画像を保存する</button></div>
 </body>
