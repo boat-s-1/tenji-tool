@@ -96,7 +96,7 @@ with st.sidebar.expander("📌 一果直前"):
        shinnyu = st.text_input("進入予想", "123/456")
        honmei_kaime = st.text_input("本命買い目", "1-2-3")
        osae_kaime = st.text_area("押さえ買い目", "1-3-2\n1-2-5")
-       selected_stamp_name = st.selectbox("表示するスタンプ", list(stamp_options.keys()))
+      
     
     # 艇番のリスト [1, 2, 3, 4, 5, 6]
 boat_numbers = [str(i) for i in range(1, 7)]
@@ -122,7 +122,7 @@ st.sidebar.header("直前情報")
 
 jikkan_comment = st.sidebar.text_area("直前コメント", "展示は1号艇優勢！")
 
-
+ selected_stamp_name = st.selectbox("表示するスタンプ", list(stamp_options.keys()))
 
 
 # 💡 ここを追加：選択されたスタンプ名から、実際の画像データ（base64）を取得する
