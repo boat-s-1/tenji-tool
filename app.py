@@ -316,7 +316,7 @@ html_code = f"""
                     <div style="font-size:40px; font-weight:bold; color:#ff4f93; margin-left:10px;">{honmei}</div>
                     <div style="display:flex; justify-content:space-between; border-bottom:3px dashed #ffd0e2; padding:10px 0;">
                         <div style="font-size:24px; font-weight:bold;">イン逃げ期待度</div>
-                        <div style="font-size:40px; font-weight:bold; color:#ff4f93;">{nige_rate}%</div>
+                        <div style="font-size:68px; font-weight:bold; color:#ff4f93;">{nige_rate}%</div>
                     </div>
                     <div style="display:flex; justify-content:space-between; padding:10px 0;">
                         <div style="font-size:24px; font-weight:bold;">場平均との差</div>
