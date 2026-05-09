@@ -333,7 +333,6 @@ html_code = f"""
             <div style="font-size:36px; font-weight:bold; color:#44aa55;">+{up_rate}%</div>
         </div>
     </div>
-</div>
                 <div class="mainbox">
                     <div class="section-title">展開ストーリー (予想)</div>
                     {story_html}
