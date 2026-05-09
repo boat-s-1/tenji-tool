@@ -356,7 +356,6 @@ html_code2 = f"""
     {common_style}
     {download_logic}
     <style>
-        /* 強制的に全ての余白をリセットするスタイル */
         #target-paper {{
             width: 1000px !important;
             padding: 0 !important;
@@ -366,49 +365,54 @@ html_code2 = f"""
             overflow: hidden !important;
             box-sizing: border-box !important;
             display: block !important;
+            background: #fffdf5;
         }}
         .header-full {{
             position: relative;
-            width: 100% !important;
+            width: 1000px !important;
             height: 180px;
             margin: 0 !important;
             padding: 0 !important;
-            left: 0 !important;
+            background: #fff;
+            overflow: hidden;
         }}
         .header-full img {{
             position: absolute;
             top: 0;
-            left: 0;
-            width: 100% !important;
+            /* ロゴ左側の余白をカットするために左へスライド */
+            left: -65px !important; 
+            /* スライドした分、幅を広げて右側の隙間を埋める */
+            width: calc(100% + 65px) !important;
             height: 100% !important;
-            object-fit: cover;
+            object-fit: contain;
             z-index: 1;
         }}
     </style>
 </head>
 <body style="margin:0; padding:0; background:transparent;">
 
-<div id="target-paper" class="wrapper-live">
+<div id="target-paper">
     
     <!-- 1. LIVE帯 -->
     <div style="background:#ff85b5; color:white; padding:15px; font-size:32px; font-weight:bold; text-align:center; margin:0;">
         🌸 展示終了！一果の最終決定 🌸
     </div>
 
-    <!-- 2. ヘッダー：クラスを付与して絶対配置を徹底 -->
+    <!-- 2. ヘッダー：文字位置をキャラの左側に調整 -->
     <div class="header-full">
         <img src="{target_logo_live}">
         
-        <div style="position: absolute; right: 30px; top: 25px; text-align: right; z-index: 2; font-family: 'Zen Maru Gothic', sans-serif; text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.9), -2px -2px 4px rgba(255, 255, 255, 0.9);">
-            <div style="font-size: 22px; font-weight: 800; color: #333;">{race_date}</div>
+        <!-- rightの数値を大きくして文字を左へ寄せ、キャラ（指差し）とのバランスを取る -->
+        <div style="position: absolute; right: 130px; top: 25px; text-align: right; z-index: 2; font-family: 'Zen Maru Gothic', sans-serif; text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.95), -2px -2px 4px rgba(255, 255, 255, 0.95), 0 0 10px rgba(255, 255, 255, 0.8);">
+            <div style="font-size: 22px; font-weight: 800; color: #333; margin-bottom: 2px;">{race_date}</div>
             <div style="display: flex; justify-content: flex-end; align-items: baseline; gap: 10px;">
-                <span style="font-size: 52px; font-weight: 900; color: #ff4f93;">{race_place}</span>
-                <span style="font-size: 42px; font-weight: 900; color: #333;">{race_no}</span>
+                <span style="font-size: 54px; font-weight: 900; color: #ff4f93;">{race_place}</span>
+                <span style="font-size: 44px; font-weight: 900; color: #333;">{race_no}</span>
             </div>
         </div>
     </div>
 
-    <!-- 3. メイン：ここから内側に余白をつける -->
+    <!-- 3. メイン -->
     <div class="main" style="display: flex; gap: 20px; padding: 25px; box-sizing: border-box;">
         <div class="left" style="width: 610px;">
              <div class="mainbox" style="border-color:#ff4f93; margin-bottom: 20px; padding: 20px; border-radius: 20px; border: 4px dashed #ffb3cf; background: #fffafb;">
