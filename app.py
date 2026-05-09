@@ -417,7 +417,9 @@ html_code2 = f"""
                 </div>
             </div>
 
-           # 的中期待度エリアのHTML部分
+          # --- html_code2 の「的中期待度」部分を以下に差し替え ---
+
+            <!-- 的中期待度エリア -->
             <div class="mainbox" style="
                 border-color: #ff4f93; 
                 margin-bottom: 20px; 
@@ -428,8 +430,9 @@ html_code2 = f"""
                 display: flex; 
                 align-items: center; 
                 justify-content: space-between;
-                overflow: visible; /* スタンプを少しはみ出させるため */
+                overflow: visible; /* スタンプを枠からはみ出させるために必須 */
             ">
+                <!-- 左：数字 -->
                 <div style="text-align: left;">
                     <div style="font-size: 20px; font-weight: bold; color: #ff4f93; margin-bottom: 5px;">
                         🎯 的中期待度
@@ -439,19 +442,19 @@ html_code2 = f"""
                     </div>
                 </div>
 
-                <!-- スタンプ表示エリア -->
+                <!-- 右：スタンプ表示エリア -->
                 <div style="position: relative; width: 140px; height: 100px;">
                     {f'''
-                    <img src="{stamp_img}" style="
+                    <img src="{stamp_img_url}" style="
                         position: absolute;
-                        top: -20px; 
+                        top: -30px; 
                         right: -10px; 
                         height: 130px; 
                         transform: rotate(-15deg); 
                         filter: drop-shadow(3px 3px 2px rgba(0,0,0,0.1));
                         z-index: 10;
                     ">
-                    ''' if stamp_img else ''}
+                    ''' if stamp_img_url else ''}
                 </div>
             </div>
             <div class="mainbox" style="border-color:#ff4f93;">
