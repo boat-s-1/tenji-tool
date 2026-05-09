@@ -213,8 +213,58 @@ for i in range(1, 7):
 html_code = f"""
 <!DOCTYPE html>
 <html>
-<head><meta charset="UTF-8">{common_style}{download_logic}</head>
-<body><div class="wrapper">{header_part}<div class="main"><div class="left"><div class="mainbox" style="position: relative;">{stamp_html}<div class="section-title">本命候補</div><div style="font-size:40px; font-weight:bold; color:#ff4f93; margin-left:10px;">{honmei}</div><div style="display:flex; justify-content:space-between; border-bottom:3px dashed #ffd0e2; padding:10px 0;"><div style="font-size:24px; font-weight:bold;">イン逃げ期待度</div><div style="font-size:40px; font-weight:bold; color:#ff4f93;">{nige_rate}%</div></div><div style="display:flex; justify-content:space-between; padding:10px 0;"><div style="font-size:24px; font-weight:bold;">場平均との差</div><div style="font-size:36px; font-weight:bold; color:#44aa55;">+{up_rate}%</div></div></div><div class="mainbox"><div class="section-title">展開ストーリー (予想)</div>{story_html}</div><div class="mainbox"><div class="section-title">各艇評価指数</div>{score_html}</div></div><div class="right"><img class="character-img" src="{character_src}"><div class="fukidashi"><div style="color:#ff4f93; font-weight:bold; font-size:24px; margin-bottom:5px;">🌸 一果のひとこと</div>{comment}</div><div class="notice"><div style="font-size:22px; font-weight:bold; color:#ff4f93; text-align:center; border-bottom:2px solid #ffb3cf; margin-bottom:10px;">📍 要チェックポイント</div><div>・波乱指数：{stars} ({wave})</div><div>・危険艇：{danger_boat}</div><div>・注目艇：{attention_boats}</div></div><div class="motor-box"><div style="font-size:20px; font-weight:bold; color:#0077cc; border-bottom:2px solid #b3d9ff; margin-bottom:8px;">⚙️ 一果の機力チェック</div><div style="font-weight:bold; font-size:18px;">{motor_eval}</div></div></div></div><div class="footer"><img src="{footer_img_src}" class="footer-img"></div></div><div style="text-align:center;"><button class="download-btn" onclick="saveImage('.wrapper', 'zenjitsu.png')">画像を保存する</button></div></body></html>
+ <head><meta charset="UTF-8">{common_style}{download_logic}</head>
+  <body>
+   <div class="wrapper">{header_part}<div class="main"><div class="left">
+    <div class="mainbox" style="position: relative;">{stamp_html}
+     <div class="section-title">本命候補</div><div style="font-size:40px; font-weight:bold; color:#ff4f93; margin-left:10px;">{honmei}</div>
+ <div style="display:flex; justify-content:space-between; border-bottom:3px dashed #ffd0e2; padding:10px 0;"><div style="font-size:24px; font-weight:bold;">イン逃げ期待度</div>
+<div style="font-size:40px; font-weight:bold; color:#ff4f93;">{nige_rate}%</div></div><div style="display:flex; justify-content:space-between; padding:10px 0;">
+<div style="font-size:24px; font-weight:bold;">場平均との差</div><div style="font-size:36px; font-weight:bold; color:#44aa55;">+{up_rate}%</div></div></div>
+<div class="mainbox"><div class="section-title">展開ストーリー (予想)</div>{story_html}</div><div class="mainbox"><div class="section-title">各艇評価指数</div>{score_html}</div></div>
+# 右側のカラム部分のHTMLを書き換え
+f"""
+<div class="right" style="display: flex; flex-direction: column; align-items: center;">
+
+    <!-- キャラの表示設定：z-indexを低くして吹き出しの下に回るようにする -->
+    <img class="character-img" src="{character_src}" style="
+        position: relative; 
+        z-index: 1; 
+        margin-bottom: 0;
+    ">
+
+    <!-- 吹き出し：margin-topをマイナスにして上にずらし、z-indexを高くして重ねる -->
+    <div class="fukidashi" style="
+        position: relative; 
+        z-index: 2; 
+        margin-top: -60px; /* ここで被り具合を調整（数字を大きくするともっと被ります） */
+        background: rgba(255, 255, 255, 0.95); /* 少し透けさせるとおしゃれ */
+        box-shadow: 0 4px 15px rgba(255, 110, 168, 0.2); /* 浮き出た感じにする */
+        width: 90%; /* 横幅を少し抑えるとキャラとのバランスが良くなります */
+    ">
+        <div style="color:#ff4f93; font-weight:bold; font-size:22px; margin-bottom:5px;">
+            🌸 一果のひとこと
+        </div>
+        {comment}
+        
+        <!-- 吹き出しの「しっぽ」をCSSで作る（さらにおしゃれにする場合） -->
+        <div style="
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-bottom: 15px solid #ff6ea8;
+        "></div>
+    </div>
+
+    <!-- 以下のnoticeなどはそのまま -->
+    ...
+</div>
+"""<div class="notice"><div style="font-size:22px; font-weight:bold; color:#ff4f93; text-align:center; border-bottom:2px solid #ffb3cf; margin-bottom:10px;">📍 要チェックポイント</div><div>・波乱指数：{stars} ({wave})</div><div>・危険艇：{danger_boat}</div><div>・注目艇：{attention_boats}</div></div><div class="motor-box"><div style="font-size:20px; font-weight:bold; color:#0077cc; border-bottom:2px solid #b3d9ff; margin-bottom:8px;">⚙️ 一果の機力チェック</div><div style="font-weight:bold; font-size:18px;">{motor_eval}</div></div></div></div><div class="footer"><img src="{footer_img_src}" class="footer-img"></div></div><div style="text-align:center;"><button class="download-btn" onclick="saveImage('.wrapper', 'zenjitsu.png')">画像を保存する</button></div></body></html>
 """
 
 # --- 一果 直前 ---
