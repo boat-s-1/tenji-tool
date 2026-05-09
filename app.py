@@ -115,8 +115,7 @@ st.sidebar.header("直前情報")
 # ↓この行を、html_code2 を作成するより「前」に必ず書く
 hit_rate = st.sidebar.slider("🎯 的中期待度 (%)", 0, 100, 80)
 
-tenji_rank = st.sidebar.selectbox("展示評価", ["S", "A", "B", "C"])
-# ...他の入力項目
+tenji_rank = st.sidebar.selectbox("展示評価", ["S", "A", "B", "C"], key="live_tenji_rank")
 
 # =========================================
 # 3. CSS/JavaScript (f-stringの競合回避)
