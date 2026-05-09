@@ -180,7 +180,7 @@ header_part = f"""
     ">
         <div style="font-size: 24px; font-weight: 800;">{race_date}</div>
         <div style="display: flex; justify-content: flex-end; align-items: baseline; gap: 15px;">
-            <span style="font-size: 52px; font-weight: 900; color: #ff4f93;">{race_place}</span>
+            <span style="font-size: 52px; font-weight: 900;">{race_place}</span>
             <span style="font-size: 46px; font-weight: 900;">{race_no}</span>
         </div>
     </div>
