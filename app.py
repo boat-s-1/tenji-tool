@@ -90,15 +90,19 @@ comment = st.sidebar.text_area("一果のひとこと", "1号艇中心だが2号
 wave = st.sidebar.slider("波乱指数", 0, 100, 28)
 danger_boat = st.sidebar.selectbox("危険艇", ["なし"] + [f"{i}号艇" for i in range(1, 7)])
 
-
-
+with st.sidebar.expander("📌 一果直前"):
+       tenji_rank = st.selectbox("展示評価", ["S", "A", "B", "C"])
+       tenji_time = st.text_input("補正タイム", "6.71")
+       shinnyu = st.sidebar.text_input("進入予想", "123/456")
+       honmei_kaime = st.text_input("本命買い目", "1-2-3")
+       osae_kaime = st.text_area("押さえ買い目", "1-3-2\n1-2-5")
 
 motor_eval = st.sidebar.text_area("機力チェック", "1号艇は出足型、3号艇の伸びが節イチ級！", height=100)
 
 st.sidebar.header("直前情報")
-tenji_rank = st.sidebar.selectbox("展示評価", ["S", "A", "B", "C"])
-tenji_time = st.sidebar.text_input("補正タイム", "6.71")
-shinnyu = st.sidebar.text_input("進入予想", "123/456")
+
+
+
 # --- 修正版：サイドバー入力 ---
 st.sidebar.header("直前情報")
 # 艇番のリスト [1, 2, 3, 4, 5, 6]
@@ -114,8 +118,7 @@ with col3:
 
 up_boat = st.sidebar.selectbox("展示急上昇", ["なし"] + [f"{i}号艇" for i in range(1, 7)])
 jikkan_comment = st.sidebar.text_area("直前コメント", "展示は1号艇優勢！")
-honmei_kaime = st.sidebar.text_input("本命買い目", "1-2-3")
-osae_kaime = st.sidebar.text_area("押さえ買い目", "1-3-2\n1-2-5")
+
 
 selected_stamp_name = st.sidebar.selectbox("表示するスタンプ", list(stamp_options.keys()))
 
