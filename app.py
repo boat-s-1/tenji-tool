@@ -309,18 +309,28 @@ html_code = f"""
         {header_part}
         <div class="main">
             <!-- 左側カラム -->
-            <div class="left">
-                <div class="mainbox" style="position: relative;">
-                    {stamp_html}
-                    <div class="section-title">本命候補</div>
-                    <div style="font-size:40px; font-weight:bold; color:#ff4f93; margin-left:10px;">{honmei}</div>
-                    <div style="display:flex; justify-content:space-between; border-bottom:3px dashed #ffd0e2; padding:10px 0;">
-                        <div style="font-size:24px; font-weight:bold;">イン逃げ期待度</div>
-                        <div style="font-size:82px; font-weight:bold; color:#ff4f93;">{nige_rate}%</div>
+                       <div class="left">
+                <div class="mainbox" style="position: relative; overflow: visible;">
+                    <!-- スタンプを右上に配置（z-indexで数字の上に重ねる） -->
+                    <div style="position: absolute; top: -10px; right: 10px; z-index: 10; transform: rotate(10deg);">
+                        {stamp_html}
                     </div>
-                    <div style="display:flex; justify-content:space-between; padding:10px 0;">
-                        <div style="font-size:24px; font-weight:bold;">場平均との差</div>
-                        <div style="font-size:36px; font-weight:bold; color:#44aa55;">+{up_rate}%</div>
+
+                    <div class="section-title">本命候補</div>
+                    <div style="font-size:32px; font-weight:bold; color:#ff4f93; margin: 5px 0 0 10px;">{honmei}</div>
+                    
+                    <!-- 期待度表示エリア：中央寄せで数字を極大化 -->
+                    <div style="text-align: center; padding: 10px 0; border-bottom:3px dashed #ffd0e2;">
+                        <div style="font-size:20px; font-weight:bold; color:#333; margin-bottom: -10px;">イン逃げ期待度</div>
+                        <div style="font-size:100px; font-weight:900; color:#ff4f93; line-height: 1.1;">
+                            {nige_rate}<span style="font-size: 40px; font-weight: bold;">%</span>
+                        </div>
+                    </div>
+
+                    <!-- 場平均との差：下部にスッキリ配置 -->
+                    <div style="display:flex; justify-content:space-between; align-items: center; padding: 10px 10px 5px 10px;">
+                        <div style="font-size:20px; font-weight:bold; color:#666;">場平均との差</div>
+                        <div style="font-size:32px; font-weight:bold; color:#44aa55;">+{up_rate}%</div>
                     </div>
                 </div>
                 <div class="mainbox">
