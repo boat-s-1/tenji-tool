@@ -522,7 +522,7 @@ html_code2 = f"""
     <!-- 3. メイン -->
     <div class="main" style="display: flex; gap: 20px; padding: 20px;">
         <div class="left" style="width: 610px;">
-                  # --- html_code2 のメインコンテンツ部分 ---
+        
 
             <!-- 1. 展示評価・一果判定 -->
             <div class="mainbox" style="border-color:#ff4f93; margin-bottom: 20px; border-radius: 20px; border: 4px dashed #ffb3cf; background: #fff; overflow: hidden;">
