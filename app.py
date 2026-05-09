@@ -20,7 +20,7 @@ def get_base64_img(path):
 logo_path = "名称未設定のデザイン (49).png"
 logo_src = get_base64_img(logo_path)
 # 直前版用のロゴを新しく定義
-logo_live_path = "直前版用ロゴのファイル名.png" 
+logo_live_path = "61EC8FBE-0574-494A-BABA-2C34DE37FE3B.png" 
 logo_live_src = get_base64_img(logo_live_path)
 stamp_dict = {
     "本命": get_base64_img("a7105fda-9305-4e70-98eb-212c65842325.png"),
@@ -330,10 +330,123 @@ html_code = f"""
 </html>
 """
 
-# --- 一果 直前 ---
+# =========================================
+# 🌸 一果ちゃん 直前版の組み立て
+# =========================================
+
+# 直前版専用の右側カラム（キャラ・吹き出し・直前チェック）
+right_column_live_html = f"""
+<div class="right" style="display: flex; flex-direction: column; align-items: center; width: 350px;">
+    <!-- 1. キャラ画像 -->
+    <img class="character-img" src="{character_src}" style="
+        position: relative; 
+        z-index: 1; 
+        margin-bottom: 0;
+        width: 100%;
+        max-width: 320px;
+    ">
+    
+    <!-- 2. 吹き出し（直前コメント） -->
+    <div class="fukidashi" style="
+        position: relative; 
+        z-index: 2; 
+        margin-top: -60px; 
+        background: rgba(255, 255, 255, 0.98);
+        border: 4px solid #ff6ea8;
+        border-radius: 25px;
+        padding: 20px;
+        width: 90%;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    ">
+        <div style="color: #ff4f93; font-weight: bold; font-size: 20px; margin-bottom: 8px; display: flex; align-items: center; justify-content: center;">
+            🌸 一果の直前談
+        </div>
+        <div style="font-size: 18px; line-height: 1.6; color: #333; text-align: left;">
+            {jikkan_comment}
+        </div>
+        <div style="position: absolute; top: -18px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-bottom: 15px solid #ff6ea8;"></div>
+    </div>
+
+    <!-- 3. 直前チェック -->
+    <div class="notice" style="margin-top: 20px; background: #ffe5f1; border: 4px dashed #ff4f93; border-radius: 20px; padding: 15px; width: 90%; text-align: left;">
+        <div style="font-size: 18px; font-weight: bold; color: #ff4f93; text-align: center; border-bottom: 2px solid #ffb3cf; margin-bottom: 10px;">📍 直前チェック</div>
+        <div style="font-size: 16px; line-height: 1.8;">
+            ・展示急上昇：{up_boat}<br>
+            ・一果の危険艇：{danger_boat}
+        </div>
+    </div>
+</div>
+"""
+
+# 直前版ロゴ（前日版と変える場合は logo_live_src に書き換えてください）
+current_logo_live = logo_live_src if 'logo_live_src' in locals() else logo_src
+
+# 全体の組み立て
 html_code2 = f"""
-<!DOCTYPE html><html><head><meta charset="UTF-8">{common_style}{download_logic}</head>
-<body><div class="wrapper-live"><div style="background:#ff85b5; color:white; padding:18px; font-size:32px; font-weight:bold; text-align:center;">🌸 展示終了！一果の最終決定 🌸</div>{header_part}<div class="main"><div class="left"><div class="mainbox" style="border-color:#ff4f93;"><div style="font-size:32px; font-weight:bold; color:#ff4f93;">展示評価：{tenji_rank}</div><div style="font-size:24px;">タイム：{tenji_time} / 進入：{shinnyu}</div><div style="font-size:36px; font-weight:bold; color:#ff4f93; margin-top:15px;">一果判定：{ikka_hantei}</div></div><div class="mainbox" style="border-color:#ff4f93;"><div style="font-size:28px; font-weight:bold;">🎯 的中期待度</div><div style="font-size:72px; font-weight:bold; color:#ff4f93;">{hit_rate}%</div></div><div class="mainbox" style="border-color:#ff4f93;"><div class="section-title">🌸 一果の買い目</div><div style="font-size:24px; font-weight:bold; color:#ff4f93; text-align:center;">本命：{honmei_kaime}</div><div style="border-top:2px dashed #ffb3cf; margin:10px 0;"></div><div style="font-size:20px; text-align:center; color:#666;">押さえ：<br>{osae_kaime.replace('\\n', '<br>')}</div></div></div><div class="right"><img class="character-img" src="{character_src}"><div class="notice" style="background:#ffe5f1; border-color:#ff4f93;"><div style="font-size:22px; font-weight:bold; color:#ff4f93; text-align:center; border-bottom:2px solid #ffb3cf; margin-bottom:10px;">📍 直前チェック</div><div>・急上昇：{up_boat}</div><div>・危険艇：{danger_boat}</div></div><div class="fukidashi" style="margin-top:20px;">{jikkan_comment}</div></div></div><div style="background:#ff4f93; color:white; text-align:center; padding:20px; font-size:24px; font-weight:bold;">🌸 一果の最終判断公開中 🌸</div></div><div style="text-align:center;"><button class="download-btn" onclick="saveImage('.wrapper-live', 'chokuzen.png')">画像を保存する</button></div></body></html>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    {common_style}
+    {download_logic}
+</head>
+<body>
+    <div class="wrapper-live">
+        <!-- LIVE帯 -->
+        <div style="background:#ff85b5; color:white; padding:18px; font-size:32px; font-weight:bold; text-align:center;">
+            🌸 展示終了！一果の最終決定 🌸
+        </div>
+
+        <!-- 横並びヘッダー -->
+        <div class="header" style="display: flex; justify-content: space-between; align-items: center; padding: 10px 30px; border-bottom: 5px dashed #ff6ea8; background: #fff;">
+            <img src="{current_logo_live}" style="width: 520px; height: auto; object-fit: contain;">
+            <div style="text-align: right; font-family: 'Zen Maru Gothic', sans-serif; color: #333;">
+                <div style="font-size: 24px; font-weight: 800; margin-bottom: 2px;">{race_date}</div>
+                <div style="display: flex; justify-content: flex-end; align-items: baseline; gap: 15px;">
+                    <span style="font-size: 52px; font-weight: 900; color: #ff4f93;">{race_place}</span>
+                    <span style="font-size: 46px; font-weight: 900;">{race_no}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="main">
+            <!-- 左側：展示・判定・買い目 -->
+            <div class="left">
+                <div class="mainbox" style="border-color:#ff4f93; position: relative;">
+                    <div style="font-size:32px; font-weight:bold; color:#ff4f93;">展示評価：{tenji_rank}</div>
+                    <div style="font-size:24px; margin: 5px 0;">タイム：{tenji_time} / 進入：{shinnyu}</div>
+                    <div style="font-size:36px; font-weight:bold; color:#ff4f93; border-top: 2px dashed #ffb3cf; padding-top: 10px;">一果判定：{ikka_hantei}</div>
+                </div>
+
+                <div class="mainbox" style="border-color:#ff4f93; text-align: center;">
+                    <div style="font-size:24px; font-weight:bold;">🎯 的中期待度</div>
+                    <div style="font-size:72px; font-weight:bold; color:#ff4f93; line-height: 1;">{hit_rate}%</div>
+                </div>
+
+                <div class="mainbox" style="border-color:#ff4f93;">
+                    <div class="section-title">🌸 一果の買い目</div>
+                    <div style="font-size:32px; font-weight:bold; color:#ff4f93; text-align:center; padding: 10px 0;">本命：{honmei_kaime}</div>
+                    <div style="border-top:2px dashed #ffb3cf; margin:10px 0;"></div>
+                    <div style="font-size:22px; text-align:center; color:#666; font-weight: bold;">
+                        押さえ：<br>{osae_kaime.replace('\\n', '<br>')}
+                    </div>
+                </div>
+            </div>
+
+            <!-- 右側パーツ（キャラ・吹き出し） -->
+            {right_column_live_html}
+        </div>
+
+        <div style="background:#ff4f93; color:white; text-align:center; padding:20px; font-size:24px; font-weight:bold; border-radius: 0 0 20px 20px;">
+            🌸 一果の最終判断公開中 🌸
+        </div>
+    </div>
+
+    <div style="text-align:center;">
+        <button class="download-btn" onclick="saveImage('.wrapper-live', 'ikka_chokuzen.png')">画像を保存する</button>
+    </div>
+</body>
+</html>
 """
 
 # --- キイナ 前日 ---
