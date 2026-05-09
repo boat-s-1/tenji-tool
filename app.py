@@ -19,7 +19,9 @@ def get_base64_img(path):
 # --- 各種画像の読み込み ---
 logo_path = "名称未設定のデザイン (49).png"
 logo_src = get_base64_img(logo_path)
-
+# 直前版用のロゴを新しく定義
+logo_live_path = "直前版用ロゴのファイル名.png" 
+logo_live_src = get_base64_img(logo_live_path)
 stamp_dict = {
     "本命": get_base64_img("a7105fda-9305-4e70-98eb-212c65842325.png"),
     "激アツ": get_base64_img("1a097861-b508-41d0-a3ea-ec276d1a4005.png"),
