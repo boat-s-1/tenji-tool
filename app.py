@@ -394,28 +394,28 @@ html_code2 = f"""
     <!-- 3. メイン -->
     <div class="main" style="display: flex; gap: 20px; padding: 20px;">
         <div class="left" style="width: 610px;">
-                   <!-- 展示評価・一果判定ボックス -->
-             <div class="mainbox" style="border-color:#ff4f93; margin-bottom: 20px; padding: 0; overflow: hidden; border-radius: 20px; border: 4px dashed #ffb3cf; background: #fff;">
-                <div style="background: #fff0f5; padding: 10px; border-bottom: 2px dashed #ffb3cf; display: flex; justify-content: space-between; align-items: center;">
+                  # --- html_code2 のメインコンテンツ部分 ---
+
+            <!-- 1. 展示評価・一果判定 -->
+            <div class="mainbox" style="border-color:#ff4f93; margin-bottom: 20px; border-radius: 20px; border: 4px dashed #ffb3cf; background: #fff; overflow: hidden;">
+                <div style="background: #fff0f5; padding: 10px 20px; border-bottom: 2px dashed #ffb3cf; display: flex; justify-content: space-between; align-items: center;">
                     <span style="font-size: 28px; font-weight: bold; color: #ff4f93;">展示評価：<span style="font-size: 48px;">{tenji_rank}</span></span>
-                    <div style="text-align: right; line-height: 1.2;">
+                    <div style="text-align: right; line-height: 1.3;">
                         <span style="font-size: 16px; color: #666;">タイム：{tenji_time}</span><br>
                         <span style="font-size: 16px; color: #666;">進入：{shinnyu}</span>
                     </div>
                 </div>
                 <div style="padding: 20px; text-align: center;">
-                    <div style="font-size: 20px; color: #ff4f93; font-weight: bold; margin-bottom: 10px;">🌸 一果の直前判定</div>
+                    <div style="font-size: 20px; color: #ff4f93; font-weight: bold; margin-bottom: 12px;">🌸 一果の直前判定</div>
                     <div style="display: flex; justify-content: center; gap: 15px; align-items: center;">
-                        <span style="background:#ff4f93; color:white; padding:5px 15px; border-radius:50px; font-size:24px; font-weight:bold;">◎ 1</span>
-                        <span style="background:#ffb3cf; color:#ff4f93; padding:5px 15px; border-radius:50px; font-size:24px; font-weight:bold; border: 2px solid #ff4f93;">○ 2</span>
-                        <span style="background:#eee; color:#666; padding:5px 15px; border-radius:50px; font-size:24px; font-weight:bold;">▲ 5</span>
+                        <span style="background:#ff4f93; color:white; padding:5px 20px; border-radius:50px; font-size:24px; font-weight:bold; box-shadow: 0 4px 0 #d63d7a;">◎ 1</span>
+                        <span style="background:#ffb3cf; color:#ff4f93; padding:5px 20px; border-radius:50px; font-size:24px; font-weight:bold; border: 2px solid #ff4f93;">○ 2</span>
+                        <span style="background:#eee; color:#666; padding:5px 20px; border-radius:50px; font-size:24px; font-weight:bold;">▲ 5</span>
                     </div>
                 </div>
             </div>
 
-          # --- html_code2 の「的中期待度」部分を以下に差し替え ---
-
-            <!-- 的中期待度エリア -->
+            <!-- 2. 的中期待度 ＆ スタンプ -->
             <div class="mainbox" style="
                 border-color: #ff4f93; 
                 margin-bottom: 20px; 
@@ -426,9 +426,8 @@ html_code2 = f"""
                 display: flex; 
                 align-items: center; 
                 justify-content: space-between;
-                overflow: visible; /* スタンプを枠からはみ出させるために必須 */
+                overflow: visible; 
             ">
-                <!-- 左：数字 -->
                 <div style="text-align: left;">
                     <div style="font-size: 20px; font-weight: bold; color: #ff4f93; margin-bottom: 5px;">
                         🎯 的中期待度
@@ -438,26 +437,28 @@ html_code2 = f"""
                     </div>
                 </div>
 
-                <!-- 右：スタンプ表示エリア -->
                 <div style="position: relative; width: 140px; height: 100px;">
-                    {f'''
-                    <img src="{stamp_img_url}" style="
+                    {f'''<img src="{stamp_img}" style="
                         position: absolute;
                         top: -30px; 
                         right: -10px; 
-                        height: 130px; 
+                        height: 140px; 
                         transform: rotate(-15deg); 
                         filter: drop-shadow(3px 3px 2px rgba(0,0,0,0.1));
                         z-index: 10;
-                    ">
-                    ''' if stamp_img_url else ''}
+                    ">''' if stamp_img else ""}
                 </div>
             </div>
-            <div class="mainbox" style="border-color:#ff4f93;">
-                <div class="section-title">🌸 一果の買い目</div>
-                <div style="font-size:32px; font-weight:bold; color:#ff4f93; text-align:center; padding: 10px 0;">本命：{honmei_kaime}</div>
-                <div style="border-top:2px dashed #ffb3cf; margin:10px 0;"></div>
-                <div style="font-size:22px; text-align:center; color:#666; font-weight: bold;">押さえ：<br>{osae_kaime.replace('\\n', '<br>')}</div>
+
+            <!-- 3. 買い目 -->
+            <div class="mainbox" style="border-color:#ff4f93; padding: 20px; border-radius: 20px; border: 4px dashed #ffb3cf; background: #fffafb;">
+                <div style="font-size: 20px; font-weight: bold; color: #ff4f93; margin-bottom: 10px; text-align: center;">🌸 一果の買い目</div>
+                <div style="font-size:36px; font-weight:bold; color:#ff4f93; text-align:center; padding: 15px 0; background: #fff; border-radius: 15px; border: 2px solid #ffb3cf; margin-bottom: 15px;">
+                    本命：{honmei_kaime}
+                </div>
+                <div style="font-size:24px; text-align:center; color:#666; font-weight: bold; line-height: 1.6;">
+                    押さえ：<br>{osae_kaime.replace('\\n', '<br>')}
+                </div>
             </div>
         </div>
         {right_column_live_html}
