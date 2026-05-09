@@ -256,7 +256,24 @@ for i in range(1, 7):
         </div>
     </div>
     """
-
+# 展開ストーリー（予想）のHTML生成
+story_items_html = ""
+for i in range(1, 4):  # 1〜3番目の注目艇を表示
+    boat_name = f"{i}号艇" # または selected_boats[i-1] など
+    # 各艇の画像を取得（boat_srcs辞書から）
+    b_src = boat_srcs.get(boat_name, "")
+    # 各艇のコメントを取得
+    b_comment = boat_comments.get(boat_name, "展開解説がありません")
+    
+    story_items_html += f"""
+    <div style="display: flex; align-items: center; background: #f9f9f9; border-radius: 10px; padding: 8px; margin-bottom: 8px; border-left: 5px solid #ff4f93;">
+        <img src="{b_src}" style="width: 50px; height: auto; margin-right: 10px;">
+        <div style="flex: 1;">
+            <span style="font-weight: bold; color: #333; font-size: 14px;">{boat_name}：</span>
+            <span style="font-size: 14px; color: #555;">{b_comment}</span>
+        </div>
+    </div>
+    """
 
 
 # =========================================
