@@ -565,7 +565,7 @@ html_code2 = f"""
             ▲ {hantei_triangle}
         </span>
 
-    </div>
+    
 </div>
                 </div>
             </div>
