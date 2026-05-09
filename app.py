@@ -248,20 +248,33 @@ boat_colors = {
 }
 
 # グラフ部分のHTMLを生成するループ
+# グラフ部分のHTML生成（太さアップ ＆ 1号艇視認性アップ版）
 graph_items_html = ""
 for i in range(1, 7):
     name = f"{i}号艇"
     score = boat_scores[name]
     color = boat_colors[name]
     
+    # 1号艇（白）だけ枠線を付けて見やすくする
+    extra_style = "border: 1px solid #ccc;" if i == 1 else ""
+    
     graph_items_html += f"""
-    <div style="margin-bottom: 8px;">
-        <div style="display: flex; justify-content: space-between; font-size: 14px; font-weight: bold; margin-bottom: 2px;">
-            <span>{name}</span>
-            <span>{score}</span>
+    <div style="margin-bottom: 12px; font-family: 'Zen Maru Gothic', sans-serif;">
+        <div style="display: flex; justify-content: space-between; font-size: 16px; font-weight: 900; margin-bottom: 4px;">
+            <span style="color: #333;">{name}</span>
+            <span style="color: #ff4f93;">{score}</span>
         </div>
-        <div style="background: #f0f0f0; border-radius: 10px; height: 12px; overflow: hidden; border: 1px solid #ddd;">
-            <div style="background: {color}; width: {score}%; height: 100%; border-radius: 0 10px 10px 0;"></div>
+        <!-- 背景のグレー部分も少し太く -->
+        <div style="background: #efefef; border-radius: 15px; height: 24px; overflow: hidden; border: 1px solid #ddd;">
+            <!-- 評価バー本体：heightを24pxに。1号艇のみextra_styleが適用される -->
+            <div style="
+                background: {color}; 
+                width: {score}%; 
+                height: 100%; 
+                border-radius: 0 15px 15px 0;
+                {extra_style}
+                box-sizing: border-box;
+            "></div>
         </div>
     </div>
     """
