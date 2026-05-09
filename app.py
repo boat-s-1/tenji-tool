@@ -209,25 +209,13 @@ for i in range(1, 7):
 # 5. 各種HTML文字列作成
 # =========================================
 
-# --- 一果 前日 ---
-html_code = f"""
-<!DOCTYPE html>
-<html>
- <head><meta charset="UTF-8">{common_style}{download_logic}</head>
-  <body>
-   <div class="wrapper">{header_part}<div class="main"><div class="left">
-    <div class="mainbox" style="position: relative;">{stamp_html}
-     <div class="section-title">本命候補</div><div style="font-size:40px; font-weight:bold; color:#ff4f93; margin-left:10px;">{honmei}</div>
- <div style="display:flex; justify-content:space-between; border-bottom:3px dashed #ffd0e2; padding:10px 0;"><div style="font-size:24px; font-weight:bold;">イン逃げ期待度</div>
-<div style="font-size:40px; font-weight:bold; color:#ff4f93;">{nige_rate}%</div></div><div style="display:flex; justify-content:space-between; padding:10px 0;">
-<div style="font-size:24px; font-weight:bold;">場平均との差</div><div style="font-size:36px; font-weight:bold; color:#44aa55;">+{up_rate}%</div></div></div>
-<div class="mainbox"><div class="section-title">展開ストーリー (予想)</div>{story_html}</div><div class="mainbox"><div class="section-title">各艇評価指数</div>{score_html}</div></div>"""
+# =========================================
+# 🌸 一果ちゃん 前日版の組み立て（決定版）
+# =========================================
 
-# 右側カラム（キャラと吹き出し）の組み立て
-# 必ず f""" で始め、最後に """ で閉じるようにしてください。
+# 右側カラムの組み立て（キャラと吹き出し）
 right_column_html = f"""
 <div class="right" style="display: flex; flex-direction: column; align-items: center; width: 350px;">
-
     <!-- 1. キャラ画像 -->
     <img class="character-img" src="{character_src}" style="
         position: relative; 
@@ -236,7 +224,6 @@ right_column_html = f"""
         width: 100%;
         max-width: 320px;
     ">
-
     <!-- 2. 吹き出し（キャラの上に重なる設定） -->
     <div class="fukidashi" style="
         position: relative; 
@@ -249,51 +236,77 @@ right_column_html = f"""
         width: 90%;
         box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     ">
-        <!-- タイトル -->
         <div style="color: #ff4f93; font-weight: bold; font-size: 20px; margin-bottom: 8px; display: flex; align-items: center; justify-content: center;">
             🌸 一果のひとこと
         </div>
-        
-        <!-- コメント本文 -->
         <div style="font-size: 18px; line-height: 1.6; color: #333; text-align: left;">
             {comment}
         </div>
-        
-        <!-- 吹き出しのしっぽ（CSSで三角形を作成） -->
-        <div style="
-            position: absolute;
-            top: -18px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 0;
-            height: 0;
-            border-left: 15px solid transparent;
-            border-right: 15px solid transparent;
-            border-bottom: 15px solid #ff6ea8;
-        "></div>
+        <div style="position: absolute; top: -18px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-bottom: 15px solid #ff6ea8;"></div>
     </div>
-
     <!-- 3. 要チェックポイント -->
-    <div class="notice" style="
-        margin-top: 20px;
-        background: #fff3c4;
-        border: 4px dashed #ff6ea8;
-        border-radius: 20px;
-        padding: 15px;
-        width: 90%;
-        text-align: left;
-    ">
-        <div style="font-size: 18px; font-weight: bold; color: #ff4f93; text-align: center; border-bottom: 2px solid #ffb3cf; margin-bottom: 10px;">
-            📍 要チェックポイント
-        </div>
+    <div class="notice" style="margin-top: 20px; background: #fff3c4; border: 4px dashed #ff6ea8; border-radius: 20px; padding: 15px; width: 90%; text-align: left;">
+        <div style="font-size: 18px; font-weight: bold; color: #ff4f93; text-align: center; border-bottom: 2px solid #ffb3cf; margin-bottom: 10px;">📍 要チェックポイント</div>
         <div style="font-size: 16px; line-height: 1.8;">
             ・波乱指数：{stars} ({wave})<br>
             ・危険艇：{danger_boat}<br>
             ・注目艇：{attention_boats}
         </div>
     </div>
-
 </div>
+"""
+
+# 全体の組み立て（左側と右側を合体）
+html_code = f"""
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    {common_style}
+    {download_logic}
+</head>
+<body>
+    <div class="wrapper">
+        {header_part}
+        <div class="main">
+            <!-- 左側カラム -->
+            <div class="left">
+                <div class="mainbox" style="position: relative;">
+                    {stamp_html}
+                    <div class="section-title">本命候補</div>
+                    <div style="font-size:40px; font-weight:bold; color:#ff4f93; margin-left:10px;">{honmei}</div>
+                    <div style="display:flex; justify-content:space-between; border-bottom:3px dashed #ffd0e2; padding:10px 0;">
+                        <div style="font-size:24px; font-weight:bold;">イン逃げ期待度</div>
+                        <div style="font-size:40px; font-weight:bold; color:#ff4f93;">{nige_rate}%</div>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; padding:10px 0;">
+                        <div style="font-size:24px; font-weight:bold;">場平均との差</div>
+                        <div style="font-size:36px; font-weight:bold; color:#44aa55;">+{up_rate}%</div>
+                    </div>
+                </div>
+                <div class="mainbox">
+                    <div class="section-title">展開ストーリー (予想)</div>
+                    {story_html}
+                </div>
+                <div class="mainbox">
+                    <div class="section-title">各艇評価指数</div>
+                    {score_html}
+                </div>
+            </div>
+            
+            <!-- 右側カラム（上で作ったパーツを入れる） -->
+            {right_column_html}
+        </div>
+        
+        <div class="footer">
+            <img src="{footer_img_src}" class="footer-img">
+        </div>
+    </div>
+    <div style="text-align:center;">
+        <button class="download-btn" onclick="saveImage('.wrapper', 'ikka_zenjitsu.png')">画像を保存する</button>
+    </div>
+</body>
+</html>
 """
 
 # --- 一果 直前 ---
