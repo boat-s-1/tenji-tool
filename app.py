@@ -543,7 +543,7 @@ html_code2 = f"""
                 </div>
             </div>
 
-            <!-- 2. 的中期待度 ＆ スタンプ -->
+         <!-- 2. 的中期待度 ＆ スタンプ -->
             <div class="mainbox" style="
                 border-color: #ff4f93; 
                 margin-bottom: 20px; 
@@ -557,10 +557,20 @@ html_code2 = f"""
                 overflow: visible; 
             ">
                 <div style="text-align: left;">
-                    <div style="font-size: 20px; font-weight: bold; color: #ff4f93; margin-bottom: 5px;">
-                        🎯 的中期待度
+                    <!-- タイトル部分：塗りつぶし背景に修正 -->
+                    <div style="
+                        background: #ff4f93; 
+                        color: white; 
+                        display: inline-block; 
+                        padding: 2px 12px; 
+                        border-radius: 5px; 
+                        font-size: 18px; 
+                        font-weight: 900; 
+                        margin-bottom: 8px;
+                    ">
+                        的中期待度
                     </div>
-                    <div style="font-size: 70px; font-weight: 900; color: #ff4f93; line-height: 1;">
+                    <div style="font-size: 70px; font-weight: 900; color: #ff4f93; line-height: 1; margin-left: 5px;">
                         {hit_rate}<span style="font-size: 30px;">%</span>
                     </div>
                 </div>
