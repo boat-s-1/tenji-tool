@@ -225,6 +225,40 @@ for i in range(1, 7):
     </div>
     """
 
+
+
+
+# 艇番ごとの色を定義
+boat_colors = {
+    "1号艇": "#eeeeee",
+    "2号艇": "#333333",
+    "3号艇": "#ff4b4b",
+    "4号艇": "#007bff",
+    "5号艇": "#ffc107",
+    "6号艇": "#28a745"
+}
+
+# グラフ部分のHTMLを生成するループ
+graph_items_html = ""
+for i in range(1, 7):
+    name = f"{i}号艇"
+    score = boat_scores[name]
+    color = boat_colors[name]
+    
+    graph_items_html += f"""
+    <div style="margin-bottom: 8px;">
+        <div style="display: flex; justify-content: space-between; font-size: 14px; font-weight: bold; margin-bottom: 2px;">
+            <span>{name}</span>
+            <span>{score}</span>
+        </div>
+        <div style="background: #f0f0f0; border-radius: 10px; height: 12px; overflow: hidden; border: 1px solid #ddd;">
+            <div style="background: {color}; width: {score}%; height: 100%; border-radius: 0 10px 10px 0;"></div>
+        </div>
+    </div>
+    """
+
+
+
 # =========================================
 # 5. 各種HTML文字列作成
 # =========================================
@@ -372,36 +406,6 @@ right_column_live_html = f"""
     </div>
 </div>
 """
-
-
-# 艇番ごとの色を定義
-boat_colors = {
-    "1号艇": "#eeeeee",
-    "2号艇": "#333333",
-    "3号艇": "#ff4b4b",
-    "4号艇": "#007bff",
-    "5号艇": "#ffc107",
-    "6号艇": "#28a745"
-}
-
-# グラフ部分のHTMLを生成するループ
-graph_items_html = ""
-for i in range(1, 7):
-    name = f"{i}号艇"
-    score = boat_scores[name]
-    color = boat_colors[name]
-    
-    graph_items_html += f"""
-    <div style="margin-bottom: 8px;">
-        <div style="display: flex; justify-content: space-between; font-size: 14px; font-weight: bold; margin-bottom: 2px;">
-            <span>{name}</span>
-            <span>{score}</span>
-        </div>
-        <div style="background: #f0f0f0; border-radius: 10px; height: 12px; overflow: hidden; border: 1px solid #ddd;">
-            <div style="background: {color}; width: {score}%; height: 100%; border-radius: 0 10px 10px 0;"></div>
-        </div>
-    </div>
-    """
 
 
 
