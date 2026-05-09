@@ -42,6 +42,13 @@ boat_srcs = {
 
 footer_img_src = get_base64_img("1b1a684d-c8bb-45fb-a123-0ed1b73c5046.png")
 
+
+stamp_options = {
+           "なし": "",
+        "波乱注意": "085d5af5-0e82-44da-a883-e7a1ac808d51.png",
+        "鉄板": "79794320-58c8-4fd2-8815-174ca1b73ab3.png",
+        "見": "64f255c6-e9d6-427c-890f-f6cdb55695ee.png",
+}
 # =========================================
 # 2. ユーザー入力（サイドバー）
 # =========================================
@@ -98,30 +105,8 @@ up_boat = st.sidebar.selectbox("展示急上昇", ["なし"] + [f"{i}号艇" for
 jikkan_comment = st.sidebar.text_area("直前コメント", "展示は1号艇優勢！")
 honmei_kaime = st.sidebar.text_input("本命買い目", "1-2-3")
 osae_kaime = st.sidebar.text_area("押さえ買い目", "1-3-2\n1-2-5")
-# --- サイドバーの設定エリア ---
-with st.sidebar:
-    st.header("🎨 直前版スタンプ設定")
-    
-    # スタンプの選択肢（実際の画像URLをダブルクォーテーション内に入れてください）
-    # GitHubのrawデータURLや、一果ちゃんの素材サーバーのURLなど
-    stamp_dict = {
-        "なし": "",
-        "波乱注意": "085d5af5-0e82-44da-a883-e7a1ac808d51.png",
-        "鉄板": "79794320-58c8-4fd2-8815-174ca1b73ab3.png",
-        "見": "64f255c6-e9d6-427c-890f-f6cdb55695ee.png",
-    }
-    
-    # ユーザーがサイドバーで選択
-    selected_stamp = st.selectbox("スタンプを選択", list(stamp_dict.keys()), index=0)
-    
-    # HTMLに渡す変数にURLを代入
-    stamp_img_url = stamp_dict[selected_stamp]
-# サイドバーにセレクトボックスを表示
+
 selected_stamp_name = st.sidebar.selectbox("表示するスタンプ", list(stamp_options.keys()))
-
-# 選択されたURLを取得
-stamp_img = stamp_options[selected_stamp_name]
-
 
 
 # =========================================
