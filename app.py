@@ -330,7 +330,9 @@ html_code = f"""
 </html>
 """
 
-# --- 一果 直前版パーツ組み立て ---
+# --- 一果 直前版 (html_code2) ---
+
+# 右側パーツ（念のため再定義）
 right_column_live_html = f"""
 <div class="right" style="display: flex; flex-direction: column; align-items: center; width: 350px;">
     <img class="character-img" src="{character_src}" style="position: relative; z-index: 1; margin-bottom: 0; width: 100%; max-width: 320px;">
@@ -346,105 +348,63 @@ right_column_live_html = f"""
 </div>
 """
 
+# 直前用ロゴ
 target_logo_live = logo_live_src if 'logo_live_src' in locals() and logo_live_src else logo_src
 
 html_code2 = f"""
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="UTF-8">
-    {common_style}
-    {download_logic}
-    <style>
-        #target-paper {{
-            width: 1000px !important;
-            padding: 0 !important;
-            margin: 0 auto !important;
-            border: 6px dashed #ff6ea8 !important;
-            border-radius: 25px !important;
-            overflow: hidden !important;
-            box-sizing: border-box !important;
-            display: block !important;
-            background: #fffdf5;
-        }}
-        .header-full {{
-            position: relative;
-            width: 1000px !important;
-            height: 180px;
-            margin: 0 !important;
-            padding: 0 !important;
-            background: #fff;
-            overflow: hidden;
-        }}
-        .header-full img {{
-            position: absolute;
-            top: 0;
-            /* ロゴ左側の余白をカットするために左へスライド */
-            left: -55px !important; 
-            /* スライドした分、幅を広げて右側の隙間を埋める */
-            width: calc(100% + 65px) !important;
-            height: 100% !important;
-            object-fit: contain;
-            z-index: 1;
-        }}
-    </style>
-</head>
-<body style="margin:0; padding:0; background:transparent;">
-
-<div id="target-paper">
+<head><meta charset="UTF-8">{common_style}{download_logic}</head>
+<body>
+<div class="wrapper-live" style="width: 1000px; margin: auto; padding: 0 !important; border: 6px dashed #ff6ea8; border-radius: 25px; overflow: hidden; background: #fffdf5;">
     
     <!-- 1. LIVE帯 -->
-    <div style="background:#ff85b5; color:white; padding:15px; font-size:32px; font-weight:bold; text-align:center; margin:0;">
+    <div style="background:#ff85b5; color:white; padding:15px; font-size:32px; font-weight:bold; text-align:center;">
         🌸 展示終了！一果の最終決定 🌸
     </div>
 
-    <!-- 2. ヘッダー：文字位置をキャラの左側に調整 -->
-    <div class="header-full">
-        <img src="{target_logo_live}">
+    <!-- 2. ヘッダー（前日版の設定をそのまま移植） -->
+    <div class="header" style="position: relative; width: 1000px; height: 150px; border-bottom: 5px dashed #ff6ea8; background: #fff;">
+        <!-- ロゴ画像 -->
+        <img src="{target_logo_live}" style="position: absolute; top: 0; left: 0; width: 1000px; z-index: 1;">
         
-        <!-- rightの数値を大きくして文字を左へ寄せ、キャラ（指差し）とのバランスを取る -->
-        <div style="position: absolute; right: 130px; top: 25px; text-align: right; z-index: 2; font-family: 'Zen Maru Gothic', sans-serif; text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.95), -2px -2px 4px rgba(255, 255, 255, 0.95), 0 0 10px rgba(255, 255, 255, 0.8);">
-            <div style="font-size: 22px; font-weight: 800; color: #333; margin-bottom: 2px;">{race_date}</div>
-            <div style="display: flex; justify-content: flex-end; align-items: baseline; gap: 10px;">
-                <span style="font-size: 54px; font-weight: 900; color: #ff4f93;">{race_place}</span>
-                <span style="font-size: 44px; font-weight: 900; color: #333;">{race_no}</span>
+        <!-- 文字情報 -->
+        <div style="position: absolute; right: 30px; top: 20px; text-align: right; z-index: 2; font-family: 'Zen Maru Gothic', sans-serif;">
+            <div style="font-size: 24px; font-weight: 800; color: #333;">{race_date}</div>
+            <div style="display: flex; justify-content: flex-end; align-items: baseline; gap: 15px;">
+                <span style="font-size: 52px; font-weight: 900; color: #ff4f93;">{race_place}</span>
+                <span style="font-size: 46px; font-weight: 900; color: #333;">{race_no}</span>
             </div>
         </div>
     </div>
 
     <!-- 3. メイン -->
-    <div class="main" style="display: flex; gap: 20px; padding: 25px; box-sizing: border-box;">
+    <div class="main" style="display: flex; gap: 20px; padding: 20px;">
         <div class="left" style="width: 610px;">
-             <div class="mainbox" style="border-color:#ff4f93; margin-bottom: 20px; padding: 20px; border-radius: 20px; border: 4px dashed #ffb3cf; background: #fffafb;">
+             <div class="mainbox" style="border-color:#ff4f93;">
                 <div style="font-size:32px; font-weight:bold; color:#ff4f93;">展示評価：{tenji_rank}</div>
-                <div style="font-size:24px; margin: 10px 0;">タイム：{tenji_time} / 進入：{shinnyu}</div>
-                <div style="font-size:36px; font-weight:bold; color:#ff4f93; border-top: 2px dashed #ffb3cf; padding-top: 15px;">一果判定：{ikka_hantei}</div>
+                <div style="font-size:24px; margin: 5px 0;">タイム：{tenji_time} / 進入：{shinnyu}</div>
+                <div style="font-size:36px; font-weight:bold; color:#ff4f93; border-top: 2px dashed #ffb3cf; padding-top: 10px;">一果判定：{ikka_hantei}</div>
             </div>
-            <div class="mainbox" style="border-color:#ff4f93; text-align: center; margin-bottom: 20px; padding: 20px; border-radius: 20px; border: 4px dashed #ffb3cf; background: #fffafb;">
+            <div class="mainbox" style="border-color:#ff4f93; text-align: center;">
                 <div style="font-size:24px; font-weight:bold;">🎯 的中期待度</div>
-                <div style="font-size:80px; font-weight:bold; color:#ff4f93; line-height: 1;">{hit_rate}%</div>
+                <div style="font-size:72px; font-weight:bold; color:#ff4f93; line-height: 1;">{hit_rate}%</div>
             </div>
-            <div class="mainbox" style="border-color:#ff4f93; padding: 20px; border-radius: 20px; border: 4px dashed #ffb3cf; background: #fffafb;">
-                <div class="section-title" style="margin-bottom: 15px;">🌸 一果の買い目</div>
-                <div style="font-size:36px; font-weight:bold; color:#ff4f93; text-align:center; padding: 10px 0; background: #fff; border-radius: 10px; border: 2px solid #ffb3cf;">本命：{honmei_kaime}</div>
-                <div style="border-top:2px dashed #ffb3cf; margin:15px 0;"></div>
-                <div style="font-size:24px; text-align:center; color:#666; font-weight: bold; line-height: 1.6;">
-                    押さえ：<br>{osae_kaime.replace('\\n', '<br>')}
-                </div>
+            <div class="mainbox" style="border-color:#ff4f93;">
+                <div class="section-title">🌸 一果の買い目</div>
+                <div style="font-size:32px; font-weight:bold; color:#ff4f93; text-align:center; padding: 10px 0;">本命：{honmei_kaime}</div>
+                <div style="border-top:2px dashed #ffb3cf; margin:10px 0;"></div>
+                <div style="font-size:22px; text-align:center; color:#666; font-weight: bold;">押さえ：<br>{osae_kaime.replace('\\n', '<br>')}</div>
             </div>
         </div>
         {right_column_live_html}
     </div>
     
-    <div style="background:#ff4f93; color:white; text-align:center; padding:20px; font-size:26px; font-weight:bold;">
+    <div style="background:#ff4f93; color:white; text-align:center; padding:20px; font-size:24px; font-weight:bold;">
         🌸 一果の最終判断公開中 🌸
     </div>
 </div>
-
-<div style="text-align:center; margin-top: 20px;">
-    <button class="download-btn" onclick="saveImage('#target-paper', 'chokuzen.png')">画像を保存する</button>
-</div>
-
+<div style="text-align:center;"><button class="download-btn" onclick="saveImage('.wrapper-live', 'chokuzen.png')">画像を保存する</button></div>
 </body>
 </html>
 """
