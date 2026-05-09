@@ -98,7 +98,24 @@ up_boat = st.sidebar.selectbox("展示急上昇", ["なし"] + [f"{i}号艇" for
 jikkan_comment = st.sidebar.text_area("直前コメント", "展示は1号艇優勢！")
 honmei_kaime = st.sidebar.text_input("本命買い目", "1-2-3")
 osae_kaime = st.sidebar.text_area("押さえ買い目", "1-3-2\n1-2-5")
-hit_rate = st.sidebar.slider("的中期待度", 0, 100, 87)
+hit_rate = st.sidebar.slider("的中期待度", 0, 100, 87)st.sidebar.subheader("🎨 直前版スタンプ設定")
+
+# 選択肢を定義
+stamp_options = {
+    "なし": "",
+    "見": "64f255c6-e9d6-427c-890f-f6cdb55695ee.pngg", # 実際のURLに書き換えてください
+    "鉄板": "79794320-58c8-4fd2-8815-174ca1b73ab3.png",
+    "波乱": "085d5af5-0e82-44da-a883-e7a1ac808d51.png",
+}
+
+# サイドバーにセレクトボックスを表示
+selected_stamp_name = st.sidebar.selectbox("表示するスタンプ", list(stamp_options.keys()))
+
+# 選択されたURLを取得
+stamp_img = stamp_options[selected_stamp_name]
+
+
+
 # =========================================
 # 3. CSS/JavaScript (f-stringの競合回避)
 # =========================================
@@ -400,13 +417,41 @@ html_code2 = f"""
                 </div>
             </div>
 
-            <!-- 的中期待度ボックス -->
-            <div class="mainbox" style="border-color:#ff4f93; text-align: center; margin-bottom: 20px; padding: 25px; border-radius: 20px; border: 4px dashed #ffb3cf; background: linear-gradient(145deg, #fff, #fff0f5);">
-                <div style="font-size:24px; font-weight:bold; display: flex; align-items: center; justify-content: center; gap: 10px;">
-                    🎯 <span style="border-bottom: 3px solid #ff4f93;">的中期待度</span>
+           # 的中期待度エリアのHTML部分
+            <div class="mainbox" style="
+                border-color: #ff4f93; 
+                margin-bottom: 20px; 
+                padding: 15px 25px; 
+                border-radius: 20px; 
+                border: 4px dashed #ffb3cf; 
+                background: #fff;
+                display: flex; 
+                align-items: center; 
+                justify-content: space-between;
+                overflow: visible; /* スタンプを少しはみ出させるため */
+            ">
+                <div style="text-align: left;">
+                    <div style="font-size: 20px; font-weight: bold; color: #ff4f93; margin-bottom: 5px;">
+                        🎯 的中期待度
+                    </div>
+                    <div style="font-size: 70px; font-weight: 900; color: #ff4f93; line-height: 1;">
+                        {hit_rate}<span style="font-size: 30px;">%</span>
+                    </div>
                 </div>
-                <div style="font-size:95px; font-weight:900; color:#ff4f93; line-height: 1.1; margin-top: 10px; text-shadow: 2px 2px 0px rgba(255, 79, 147, 0.1);">
-                    {hit_rate}<span style="font-size: 40px;">%</span>
+
+                <!-- スタンプ表示エリア -->
+                <div style="position: relative; width: 140px; height: 100px;">
+                    {f'''
+                    <img src="{stamp_img}" style="
+                        position: absolute;
+                        top: -20px; 
+                        right: -10px; 
+                        height: 130px; 
+                        transform: rotate(-15deg); 
+                        filter: drop-shadow(3px 3px 2px rgba(0,0,0,0.1));
+                        z-index: 10;
+                    ">
+                    ''' if stamp_img else ''}
                 </div>
             </div>
             <div class="mainbox" style="border-color:#ff4f93;">
