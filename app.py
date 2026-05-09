@@ -127,7 +127,7 @@ jikkan_comment = st.sidebar.text_area("直前コメント", "展示は1号艇優
 
 # 💡 ここを追加：選択されたスタンプ名から、実際の画像データ（base64）を取得する
 
-selected_stamp_name = st.selectbox("表示するスタンプ", list(stamp_options.keys()))
+selected_stamp_name = st.sidebar.selectbox("表示するスタンプ", list(stamp_options.keys()))
 stamp_img = stamp_options[selected_stamp_name]
 st.sidebar.header("直前情報")
 # ↓この行を、html_code2 を作成するより「前」に必ず書く
