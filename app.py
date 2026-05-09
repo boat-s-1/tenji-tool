@@ -114,7 +114,8 @@ motor_eval = st.sidebar.text_area("機力チェック", "1号艇は出足型、3
 
 st.sidebar.header("直前情報")
 
-
+# --- 修正箇所：変数を定義する ---
+up_boat = st.sidebar.selectbox("展示急上昇", ["なし"] + [f"{i}号艇" for i in range(1, 7)], key="up_boat_select")
 
 # --- 修正版：サイドバー入力 ---
 
