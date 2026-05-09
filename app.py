@@ -210,10 +210,9 @@ for i in range(1, 7):
 # =========================================
 
 # =========================================
-# 🌸 一果ちゃん 前日版の組み立て（決定版）
+# 🌸 一果ちゃん 右側カラム（機力チェック追加版）
 # =========================================
 
-# 右側カラムの組み立て（キャラと吹き出し）
 right_column_html = f"""
 <div class="right" style="display: flex; flex-direction: column; align-items: center; width: 350px;">
     <!-- 1. キャラ画像 -->
@@ -224,7 +223,8 @@ right_column_html = f"""
         width: 100%;
         max-width: 320px;
     ">
-    <!-- 2. 吹き出し（キャラの上に重なる設定） -->
+    
+    <!-- 2. 吹き出し -->
     <div class="fukidashi" style="
         position: relative; 
         z-index: 2; 
@@ -244,6 +244,7 @@ right_column_html = f"""
         </div>
         <div style="position: absolute; top: -18px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-bottom: 15px solid #ff6ea8;"></div>
     </div>
+
     <!-- 3. 要チェックポイント -->
     <div class="notice" style="margin-top: 20px; background: #fff3c4; border: 4px dashed #ff6ea8; border-radius: 20px; padding: 15px; width: 90%; text-align: left;">
         <div style="font-size: 18px; font-weight: bold; color: #ff4f93; text-align: center; border-bottom: 2px solid #ffb3cf; margin-bottom: 10px;">📍 要チェックポイント</div>
@@ -251,6 +252,24 @@ right_column_html = f"""
             ・波乱指数：{stars} ({wave})<br>
             ・危険艇：{danger_boat}<br>
             ・注目艇：{attention_boats}
+        </div>
+    </div>
+
+    <!-- 4. 一果の機力チェック（ここを復活させました！） -->
+    <div class="motor-box" style="
+        margin-top: 20px; 
+        background: #f0f9ff; 
+        border: 3px solid #7ec2ff; 
+        border-radius: 15px; 
+        padding: 15px; 
+        width: 90%; 
+        text-align: left;
+    ">
+        <div style="font-size: 18px; font-weight: bold; color: #0077cc; border-bottom: 2px solid #b3d9ff; margin-bottom: 8px; text-align: center;">
+            ⚙️ 一果の機力チェック
+        </div>
+        <div style="font-weight: bold; font-size: 16px; line-height: 1.5; color: #333;">
+            {motor_eval}
         </div>
     </div>
 </div>
