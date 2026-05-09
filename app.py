@@ -227,7 +227,7 @@ html_code = f"""
 f"""
 <div class="right" style="display: flex; flex-direction: column; align-items: center;">
 
-    <!-- キャラの表示設定：z-indexを低くして吹き出しの下に回るようにする -->
+ 
     <img class="character-img" src="{character_src}" style="
         position: relative; 
         z-index: 1; 
