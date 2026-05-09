@@ -122,7 +122,7 @@ st.sidebar.header("直前情報")
 
 jikkan_comment = st.sidebar.text_area("直前コメント", "展示は1号艇優勢！")
 
- selected_stamp_name = st.selectbox("表示するスタンプ", list(stamp_options.keys()))
+
 
 
 # 💡 ここを追加：選択されたスタンプ名から、実際の画像データ（base64）を取得する
@@ -133,7 +133,7 @@ st.sidebar.header("直前情報")
 hit_rate = st.sidebar.slider("🎯 的中期待度 (%)", 0, 100, 80)
 
 tenji_rank = st.sidebar.selectbox("展示評価", ["S", "A", "B", "C"], key="live_tenji_rank")
-
+selected_stamp_name = st.selectbox("表示するスタンプ", list(stamp_options.keys()))
 # =========================================
 # 3. CSS/JavaScript (f-stringの競合回避)
 # =========================================
