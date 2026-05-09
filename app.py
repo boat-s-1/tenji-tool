@@ -540,7 +540,7 @@ html_code2 = f"""
                 <div style="background: #fff0f5; padding: 10px 20px; border-bottom: 2px dashed #ffb3cf; display: flex; justify-content: space-between; align-items: center;">
                     <span style="font-size: 28px; font-weight: bold; color: #ff4f93;">展示評価：<span style="font-size: 48px;">{tenji_rank}</span></span>
                     <div style="text-align: right; line-height: 1.3;">
-                        <span style="font-size: 16px; color: #666;">タイム：{tenji_time}</span><br>
+                        <span style="font-size: 16px; color: #666;">補正タイム：{tenji_time}</span><br>
                         <span style="font-size: 16px; color: #666;">進入：{shinnyu}</span>
                     </div>
                 </div>
