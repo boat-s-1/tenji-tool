@@ -536,10 +536,15 @@ html_code2 = f"""
                 <div style="padding: 20px; text-align: center;">
                     <div style="font-size: 20px; color: #ff4f93; font-weight: bold; margin-bottom: 12px;">🌸 一果の直前判定</div>
                     <div style="display: flex; justify-content: center; gap: 15px; align-items: center;">
-                        <span style="background:#ff4f93; color:white; padding:5px 20px; border-radius:50px; font-size:24px; font-weight:bold; box-shadow: 0 4px 0 #d63d7a;">◎ 1</span>
-                        <span style="background:#ffb3cf; color:#ff4f93; padding:5px 20px; border-radius:50px; font-size:24px; font-weight:bold; border: 2px solid #ff4f93;">○ 2</span>
-                        <span style="background:#eee; color:#666; padding:5px 20px; border-radius:50px; font-size:24px; font-weight:bold;">▲ 5</span>
-                    </div>
+    <!-- ◎ 本命 -->
+    <span style="background:#ff4f93; color:white; padding:5px 20px; border-radius:50px; font-size:24px; font-weight:bold; box-shadow: 0 4px 0 #d63d7a;">◎ 1</span>
+    
+    <!-- ○ 対抗：薄いピンクで塗りつぶし -->
+    <span style="background:#fff0f5; color:#ff4f93; padding:5px 20px; border-radius:50px; font-size:24px; font-weight:bold; border: 2px solid #ff4f93;">○ 2</span>
+    
+    <!-- ▲ 単穴：薄いグレーで塗りつぶし -->
+    <span style="background:#f5f5f5; color:#666; padding:5px 20px; border-radius:50px; font-size:24px; font-weight:bold; border: 2px solid #999;">▲ 5</span>
+</div>
                 </div>
             </div>
 
