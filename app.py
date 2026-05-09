@@ -544,7 +544,7 @@ html_code2 = f"""
                         <span style="font-size: 16px; color: #666;">進入：{shinnyu}</span>
                     </div>
                 </div>
-             # --- html_code2 内の「一果の直前判定」エリアを修正 ---
+        
 
 <div style="padding: 20px; text-align: center;">
     <div style="font-size: 20px; color: #ff4f93; font-weight: bold; margin-bottom: 12px;">🌸 一果の直前判定</div>
