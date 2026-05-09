@@ -595,7 +595,7 @@ html_code2 = f"""
                     本命：{honmei_kaime}
                 </div>
                 <div style="font-size:24px; text-align:center; color:#666; font-weight: bold; line-height: 1.6;">
-                    押さえ：<br>{osae_kaime.replace('\\n', '<br>')}
+                    押さえ：{osae_kaime.replace('\\n', '<br>')}
                 </div>
             </div>
         </div>
