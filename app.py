@@ -91,12 +91,12 @@ wave = st.sidebar.slider("波乱指数", 0, 100, 28)
 danger_boat = st.sidebar.selectbox("危険艇", ["なし"] + [f"{i}号艇" for i in range(1, 7)])
 
 with st.sidebar.expander("📌 一果直前"):
-       tenji_rank = st.selectbox("展示評価", ["S", "A", "B", "C"])
+       tenji_rank = st.selectbox("展示評価", ["S", "A", "B", "C"], key="live_tenji_rank")
        tenji_time = st.text_input("補正タイム", "6.71")
        shinnyu = st.text_input("進入予想", "123/456")
        honmei_kaime = st.text_input("本命買い目", "1-2-3")
        osae_kaime = st.text_area("押さえ買い目", "1-3-2\n1-2-5")
-      
+  
     
     # 艇番のリスト [1, 2, 3, 4, 5, 6]
 boat_numbers = [str(i) for i in range(1, 7)]
@@ -134,7 +134,7 @@ st.sidebar.header("直前情報")
 # ↓この行を、html_code2 を作成するより「前」に必ず書く
 hit_rate = st.sidebar.slider("🎯 的中期待度 (%)", 0, 100, 80)
 
-tenji_rank = st.sidebar.selectbox("展示評価", ["S", "A", "B", "C"], key="live_tenji_rank")
+
 
 # =========================================
 # 3. CSS/JavaScript (f-stringの競合回避)
