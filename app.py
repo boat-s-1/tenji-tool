@@ -256,7 +256,7 @@ for i in range(1, 7):
         </div>
     </div>
     """
-# --- 修正版：展開ストーリー（フォント改善＆自動改行対応） ---
+# --- 修正版：艇番をタイトル風に太字で強調 ---
 story_items_html = ""
 for boat_name in selected_boats:
     b_src = boat_srcs.get(boat_name, "")
@@ -266,25 +266,39 @@ for boat_name in selected_boats:
     story_items_html += f"""
     <div style="
         display: flex; 
-        align-items: flex-start; /* 上揃えにして長文に対応 */
+        align-items: flex-start; 
         background: #f9f9f9; 
         border-radius: 12px; 
-        padding: 10px; 
-        margin-bottom: 10px; 
-        border-left: 6px solid {b_color};
-        font-family: 'Zen Maru Gothic', sans-serif; /* 丸ゴシック適用 */
+        padding: 12px; 
+        margin-bottom: 12px; 
+        border-left: 8px solid {b_color};
+        font-family: 'Zen Maru Gothic', sans-serif;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
     ">
-        <!-- ボート画像（固定幅） -->
-        <div style="flex: 0 0 65px; text-align: center;">
-            <img src="{b_src}" style="width: 55px; height: auto;">
+        <!-- ボート画像 -->
+        <div style="flex: 0 0 70px; text-align: center; margin-top: 2px;">
+            <img src="{b_src}" style="width: 60px; height: auto;">
         </div>
         
-        <!-- テキストエリア（可変幅・自動改行） -->
-        <div style="flex: 1; margin-left: 10px; line-height: 1.4;">
-            <div style="font-weight: bold; color: #333; font-size: 15px; margin-bottom: 2px;">
+        <!-- テキストエリア -->
+        <div style="flex: 1; margin-left: 12px;">
+            <!-- タイトル風の艇番：ここを太字で強調 -->
+            <div style="
+                font-size: 18px; 
+                font-weight: 900; 
+                color: {b_color if b_name != '1号艇' else '#333'}; 
+                margin-bottom: 4px;
+                letter-spacing: 1px;
+            ">
                 {boat_name}
             </div>
-            <div style="font-size: 14px; color: #444; word-wrap: break-word;">
+            <!-- コメント：自動改行 -->
+            <div style="
+                font-size: 15px; 
+                color: #444; 
+                line-height: 1.5; 
+                word-wrap: break-word;
+            ">
                 {b_comment}
             </div>
         </div>
