@@ -96,7 +96,7 @@ with st.sidebar.expander("📌 一果直前"):
        shinnyu = st.text_input("進入予想", "123/456")
        honmei_kaime = st.text_input("本命買い目", "1-2-3")
        osae_kaime = st.text_area("押さえ買い目", "1-3-2\n1-2-5")
-  
+       up_boat = st.selectbox("展示急上昇", ["なし"] + [f"{i}号艇" for i in range(1, 7)], key="up_boat_select")
     
     # 艇番のリスト [1, 2, 3, 4, 5, 6]
 boat_numbers = [str(i) for i in range(1, 7)]
@@ -115,7 +115,7 @@ motor_eval = st.sidebar.text_area("機力チェック", "1号艇は出足型、3
 st.sidebar.header("直前情報")
 
 # --- 修正箇所：変数を定義する ---
-up_boat = st.sidebar.selectbox("展示急上昇", ["なし"] + [f"{i}号艇" for i in range(1, 7)], key="up_boat_select")
+
 
 # --- 修正版：サイドバー入力 ---
 
