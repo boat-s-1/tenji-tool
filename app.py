@@ -137,6 +137,9 @@ st.sidebar.header("直前情報")
 
 # --- サイドバー：キイナちゃん設定 ---
 with st.sidebar.expander("⚡ キイナの穴党設定"):
+    # ここを追加！
+    kiina_5atama_rate = st.slider("5アタマ期待度 (%)", 0, 100, 72)
+    
     chou_batsu = st.selectbox("超抜気配", ["★", "★★", "★★★", "★★★★", "★★★★★"], index=4)
     ana_target = st.text_input("穴ターゲット", "5号艇のまくり差し")
     keihou_msg = st.text_input("警報メッセージ", "波乱警報発令中！万舟のチャンス！")
