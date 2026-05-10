@@ -846,7 +846,7 @@ kiina_zenjitsu_html = f"""
     <div class="kiina-banner">
         ⚡ {keihou_msg} ⚡
     </div>
-</div>
+</div></div>
 """
 
 # --- [4] 最終的な kiina_html の組み立て ---
