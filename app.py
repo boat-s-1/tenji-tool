@@ -232,13 +232,16 @@ kiina_style = """
 
 /* 稲妻バナー（下部） */
 .kiina-banner {
-    background: #000;
-    color: #ffcc00;
-    padding: 15px;
+    background: #000000; /* 漆黒 */
+    color: #ffcc00;     /* 稲妻イエロー */
+    padding: 20px;
     text-align: center;
-    font-size: 30px;
+    font-size: 32px;    /* 文字を大きく */
     font-weight: 900;
     border-top: 4px solid #ffcc00;
+    margin-top: 10px;
+    width: 1000px;      /* 幅を固定 */
+    box-sizing: border-box;
 }
 </style>
 """
@@ -890,11 +893,11 @@ kiina_zenjitsu_html = f"""
         </div>
     </div>
 
-    <div class="kiina-banner">
+   <div class="kiina-banner">
         ⚡ {keihou_msg} ⚡
     </div>
-</div>
-"""
+
+</div> """
 # --- [4] 最終的な kiina_html の組み立て ---
 kiina_html = f"""
 <!DOCTYPE html>
