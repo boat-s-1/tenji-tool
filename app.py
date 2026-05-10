@@ -898,6 +898,7 @@ kiina_html = f"""
 
 # --- [5] キイナちゃん直前版の組み立て ---
 # --- [5] キイナちゃん直前版の組み立て（ヘッダー画像 ＆ レイアウト修正版） ---
+# --- [5] キイナちゃん直前版（タイトル左寄せ修正版） ---
 kiina_live_html = f"""
 <!DOCTYPE html>
 <html>
@@ -910,22 +911,9 @@ kiina_live_html = f"""
 <body>
 <div class="wrapper-kiina" style="width: 1000px; margin: auto; background: #fffdf5; border: 6px solid #ffcc00; border-radius: 15px; overflow: hidden; font-family: 'Zen Maru Gothic', sans-serif;">
     
-    <div style="background: linear-gradient(90deg, #ff9800, #ff5722); color: white; text-align: center; padding: 15px; font-size: 32px; font-weight: 900; letter-spacing: 2px; border-bottom: 4px solid #000;">
-        🌸 展示終了！キイナの最終決定 🌸
-    </div>
-
     <div style="position: relative; width: 1000px; height: 180px; overflow: hidden; border-bottom: 4px solid #ffcc00;">
         <img src="{kiina_header_live_img_src}" style="width: 1000px; height: auto; position: absolute; top: 0; left: 0; z-index: 1;">
-        
-        <div style="
-            position: absolute; 
-            right: 30px; 
-            top: 25px; 
-            text-align: right; 
-            z-index: 2; 
-            color: #fff; 
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
-        ">
+        <div style="position: absolute; right: 30px; top: 25px; text-align: right; z-index: 2; color: #fff; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">
             <div style="font-size: 22px; font-weight: 800;">{race_date}</div>
             <div style="display: flex; justify-content: flex-end; align-items: baseline; gap: 10px;">
                 <span style="font-size: 48px; font-weight: 900; color: #ffcc00;">{race_place}</span>
@@ -937,11 +925,12 @@ kiina_live_html = f"""
     <div class="main" style="display: flex; gap: 15px; padding: 20px; background: #fffdf5;">
         
         <div style="flex: 1.5; display: flex; flex-direction: column; gap: 15px;">
-            <div class="kiina-box" style="background:#fff; border:3px solid #ffcc00; border-radius:15px; padding: 15px; text-align: center;">
-                <div class="kiina-section-black" style="display: inline-block; font-size: 18px;">⚡ 展示評価 ＆ 進入</div>
-                <div style="display: flex; justify-content: center; align-items: center; gap: 20px; margin-top: 10px;">
-                    <div style="font-size: 60px; font-weight: 900; color: #e60000; line-height: 1;">{tenji_rank}</div>
-                    <div style="text-align: left; font-size: 16px; font-weight: bold; color: #333; line-height: 1.4;">
+            
+            <div class="kiina-box" style="background:#fff; border:3px solid #ffcc00; border-radius:15px; padding: 20px; text-align: left;">
+                <div class="kiina-section-black">⚡ 展示評価 ＆ 進入</div>
+                <div style="display: flex; align-items: center; gap: 30px; margin-top: 15px; padding-left: 20px;">
+                    <div style="font-size: 70px; font-weight: 900; color: #e60000; line-height: 1;">{tenji_rank}</div>
+                    <div style="text-align: left; font-size: 18px; font-weight: bold; color: #333;">
                         補正タイム：{tenji_time}<br>
                         進入予想：{shinnyu}
                     </div>
@@ -950,12 +939,12 @@ kiina_live_html = f"""
 
             {slit_box_html}
 
-            <div class="kiina-box" style="background: #000; border: 4px solid #ffcc00; border-radius:15px; padding: 20px; color: #fff; text-align: center;">
-                <div class="kiina-section-black" style="display: inline-block; background:#ffcc00; color:#000;">⚡ キイナの買い目</div>
-                <div style="font-size: 70px; font-weight: 900; color: #ffcc00; margin: 15px 0;">
+            <div class="kiina-box" style="background: #000; border: 4px solid #ffcc00; border-radius:15px; padding: 20px; color: #fff; text-align: left;">
+                <div class="kiina-section-black" style="background:#ffcc00; color:#000;">⚡ キイナの買い目</div>
+                <div style="font-size: 85px; font-weight: 900; color: #ffcc00; text-align: center; margin: 15px 0; letter-spacing: 5px;">
                     {honmei_kaime}
                 </div>
-                <div style="font-size: 24px; color: #fff; font-weight: bold; border-top: 1px dashed #555; padding-top: 10px;">
+                <div style="font-size: 24px; color: #fff; font-weight: bold; text-align: center; border-top: 1px dashed #555; padding-top: 10px;">
                     押さえ：{osae_kaime.replace('\\n', ' / ')}
                 </div>
             </div>
@@ -964,28 +953,27 @@ kiina_live_html = f"""
         <div style="flex: 1; text-align: center; display: flex; flex-direction: column; gap: 15px;">
             <div style="position: relative;">
                 <img src="{character_src}" style="width: 100%; transform: scale(1.1); position: relative; z-index: 1;">
-                <div class="fukidashi" style="background:#000; color:#ffcc00; border:4px solid #ffcc00; margin-top:-30px; position:relative; z-index:2; padding:15px; border-radius:20px;">
-                    <div class="kiina-section-black" style="width: 100%; box-sizing: border-box; text-align: center; margin-bottom: 10px; border: none; border-bottom: 2px solid #ffcc00; border-radius: 0;">⚡ キイナの直前談</div>
-                    <div style="font-weight:bold; font-size: 16px;">{jikkan_comment}</div>
+                <div class="fukidashi" style="background:#000; color:#ffcc00; border:4px solid #ffcc00; margin-top:-30px; position:relative; z-index:2; padding:15px; border-radius:20px; text-align: left;">
+                    <div class="kiina-section-black" style="width: 100%; box-sizing: border-box; border: none; border-bottom: 2px solid #ffcc00; border-radius: 0; margin-bottom: 10px;">⚡ キイナの直前談</div>
+                    <div style="font-weight:bold; font-size: 16px; padding-left: 5px;">{jikkan_comment}</div>
                     <div style="position: absolute; top: -15px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-bottom: 15px solid #ffcc00;"></div>
                 </div>
             </div>
             
             <div style="background:rgba(0,0,0,0.9); padding:15px; border: 2px solid #ffcc00; border-radius:15px; text-align: left;">
-                <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #ffcc00; padding-bottom: 5px; margin-bottom: 10px;">
-                    <div class="kiina-section-black" style="border: none; margin: 0;">🎯 的中期待度</div>
-                    <div style="font-size: 40px; font-weight: 900; color: #ffcc00;">{hit_rate}<span style="font-size: 20px;">%</span></div>
-                </div>
-                <div class="kiina-section-black" style="width: 100%; box-sizing: border-box; text-align: center; font-size: 16px;">⚡ 直前確認</div>
+                <div class="kiina-section-black" style="width: 100%; box-sizing: border-box; text-align: left;">⚡ 直前確認</div>
                 <div style="margin-top:10px;">{check_list_html}</div>
+                <div style="margin-top: 15px; border-top: 1px solid #ffcc00; padding-top: 10px; display: flex; justify-content: space-between; align-items: center;">
+                    <span style="color:#ffcc00; font-weight:bold;">🎯 的中期待度</span>
+                    <span style="font-size: 32px; font-weight: 900; color: #fff;">{hit_rate}%</span>
+                </div>
             </div>
         </div>
-    </div> <div style="background: #000; color: #ffcc00; padding: 20px; text-align: center; font-size: 24px; font-weight: 900; border-top: 4px solid #ffcc00; width: 1000px; box-sizing: border-box;">
-        ⚡ キイナの最終判断！高配当を掴み取れ！ ⚡
     </div>
-</div>
-<div style="text-align:center;">
-    <button class="download-btn" style="background:#ffcc00; color:#000;" onclick="saveImage('.wrapper-kiina', 'kiina_chokuzen.png')">画像を保存する</button>
+
+    <div style="background: #000; color: #ffcc00; padding: 20px; text-align: center; font-size: 26px; font-weight: 900; border-top: 4px solid #ffcc00; width: 1000px; box-sizing: border-box;">
+        ⚡ {keihou_msg} ⚡
+    </div>
 </div>
 </body>
 </html>
