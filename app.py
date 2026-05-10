@@ -16,6 +16,11 @@ def get_base64_img(path):
         pass
     return ""
 
+def get_stamp_base64(path):
+    with open(path, "rb") as f:
+        data = base64.b64encode(f.read()).decode("utf-8")
+    return f"data:image/png;base64,{data}"
+
 # --- 各種画像の読み込み ---
 logo_path = "名称未設定のデザイン (49).png"
 logo_src = get_base64_img(logo_path)
@@ -188,6 +193,17 @@ with st.sidebar.expander("⚡ 直前LIVE設定"):
     tenji_time = st.text_input("補正タイム", "6.71", key="kiina_live_time_final")
     shinnyu = st.text_input("進入予想", "123/456", key="kiina_live_shinnyu_final")
     diff_4 = st.text_input("4号艇との展示差", "-0.05", key="kiina_live_diff4_final")
+
+
+with st.sidebar.expander("⚡ キイナのLIVEスタンプ設定"):
+    # 💡 用意した画像のパスを指定してください
+    stamp_images = {
+        "なし": None,
+        "⚠️ イン信用しない": "84FD0651-C2E8-42EC-8FE5-91B3289511F4.png",
+    }
+    
+    selected_stamp_label = st.selectbox("スタンプを選択", list(stamp_images.keys()), index=0)
+    selected_stamp_path = stamp_images[selected_stamp_label]
 # =========================================
 # 3. CSS/JavaScript (f-stringの競合回避)
 # =========================================
@@ -885,6 +901,30 @@ kiina_zenjitsu_html = f"""
     </div>
 
 </div> """
+
+
+kiina_stamp_html = ""
+if selected_stamp_path:
+    # 画像を読み込んでBase64に変換
+    stamp_base64 = get_stamp_base64(selected_stamp_path)
+    
+    # 💡edited-image.pngの赤丸の位置（キャラの横・展示ボックスの上）に配置
+    kiina_stamp_html = f"""
+    <img src="{stamp_base64}" style="
+        position: absolute;
+        top: 210px; /* 位置調整 */
+        left: 480px; /* 位置調整 */
+        z-index: 100; /* 最前面に */
+        width: 180px; /* スタンプのサイズ */
+        height: auto;
+        transform: rotate(-10deg); /* 少し傾けてリアルさを出す */
+        pointer-events: none; /* 下の要素のクリックを邪魔しない */
+        filter: drop-shadow(3px 3px 2px rgba(0,0,0,0.3)); /* 影をつけて浮き立たせる */
+    ">
+    """
+
+
+    
 # --- [4] 最終的な kiina_html の組み立て ---
 kiina_html = f"""
 <!DOCTYPE html>
@@ -918,7 +958,7 @@ kiina_live_html = f"""
 </head>
 <body>
 <div class="wrapper-kiina" style="width: 1000px; margin: auto; background: #fffdf5; border: 6px solid #ffcc00; border-radius: 15px; overflow: hidden; font-family: 'Zen Maru Gothic', sans-serif;">
-    
+    {kiina_stamp_html}
     <div style="position: relative; width: 1000px; height: 180px; overflow: hidden; border-bottom: 4px solid #ffcc00;">
         <img src="{kiina_header_live_img_src}" style="width: 1000px; height: auto; position: absolute; top: 0; left: 0; z-index: 1;">
         <div style="position: absolute; right: 30px; top: 25px; text-align: right; z-index: 2; color: #fff; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">
