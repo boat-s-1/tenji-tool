@@ -934,7 +934,6 @@ kiina_live_html = f"""
         
         <div style="flex: 1.5; display: flex; flex-direction: column; gap: 15px;">
             
-            # --- 展示評価ボックス（タイトル左寄せ ＆ 3項目ボックス配置） ---
 <div class="kiina-box" style="background:#fff; border:3px solid #ffcc00; border-radius:15px; padding: 20px; text-align: left;">
     <div class="kiina-section-black">⚡ 展示評価 ＆ 進入</div>
     
