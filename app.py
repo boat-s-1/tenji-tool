@@ -1109,41 +1109,29 @@ if 'story_items_html' not in locals():
 
 hatsune_style = """
 <style>
-/* 全体の背景：淡いブルーのグラデーション */
+/* 全体の背景 */
 .wrapper-hatsune {
     width: 1000px;
     margin: auto;
     background: linear-gradient(180deg, #e0f2ff 0%, #f3e5f5 100%);
-    border: 4px solid #b39ddb;
+    border: 6px solid #ffb7c5;
     border-radius: 20px;
     overflow: hidden;
     font-family: 'Zen Maru Gothic', sans-serif;
     position: relative;
-    padding-bottom: 20px;
+    padding-bottom: 0px;
 }
 
-/* ヘッダー：キラキラ感 */
-.hatsune-header {
-    background: rgba(255, 255, 255, 0.6);
-    backdrop-filter: blur(5px);
-    border-bottom: 2px solid #b39ddb;
-    padding: 15px 30px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-/* ボックス：白ベースに薄い枠線 */
+/* ボックスデザイン */
 .hatsune-box {
-    background: rgba(255, 255, 255, 0.8);
+    background: rgba(255, 255, 255, 0.85);
     border: 2px solid #ce93d8;
     border-radius: 15px;
     padding: 12px;
-    margin-bottom: 12px;
     box-shadow: 2px 2px 8px rgba(179, 157, 219, 0.2);
 }
 
-/* タイトル：リボン風デザイン */
+/* リボンタイトル */
 .hatsune-title-ribbon {
     background: linear-gradient(90deg, #9fa8da, #ce93d8);
     color: #fff;
@@ -1153,19 +1141,29 @@ hatsune_style = """
     border-radius: 20px;
     display: inline-block;
     margin-bottom: 10px;
-    position: relative;
 }
 
-/* 女子戦データ用テーブル */
-.hatsune-data-table {
-    width: 100%;
-    font-size: 13px;
-    border-collapse: collapse;
+/* 🌸 追加：初音ちゃんの吹き出しデザイン */
+.fukidashi-hatsune {
+    background: #ffffff;
+    border: 3px solid #ffb7c5;
+    padding: 15px;
+    border-radius: 15px;
+    position: relative;
+    font-size: 14px;
+    font-weight: bold;
+    color: #5c6bc0;
+    text-align: left;
 }
-.hatsune-data-table td {
-    padding: 5px;
-    border-bottom: 1px dashed #ce93d8;
-    text-align: center;
+.fukidashi-hatsune::after {
+    content: "";
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-left: 12px solid transparent;
+    border-right: 12px solid transparent;
+    border-bottom: 12px solid #ffb7c5;
 }
 </style>
 """
@@ -1271,7 +1269,7 @@ hatsune_zenjitsu_html = f"""
 
 
 
-
+hatsune_live_html = hatsune_zenjitsu_html
 
 
 
