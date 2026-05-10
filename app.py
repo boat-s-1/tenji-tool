@@ -713,6 +713,57 @@ html_code2 = f"""
 </html>
 """
 # --- キイナちゃん 前日版の組み立て ---
+kiina_zenjitsu_html = f"""
+<div class="wrapper-kiina">
+    <div class="kiina-header">
+        ⚡ キイナの5アタマ速報 ⚡
+        <div style="font-size: 20px; color: #000; text-shadow: none;">{race_place} {race_no} / {race_date}</div>
+    </div>
+
+    <div class="main" style="display: flex; gap: 15px; padding: 20px; background: #fffde6;">
+        <div style="flex: 1.5;">
+            <div class="kiina-box" style="text-align: center;">
+                <div style="background:#000; color:#fff; display:inline-block; padding:5px 20px; border-radius:5px; margin-bottom:10px;">本命候補</div>
+                <div style="font-size: 80px; font-weight: 900; color: #000;">◎ 5号艇</div>
+                
+                <div style="display: flex; justify-content: space-around; margin-top: 15px; gap: 10px;">
+                    <div style="background:#fff; border:3px solid #000; padding:10px; border-radius:15px; flex:1;">
+                        <div style="font-size:16px; font-weight:900;">5アタマ期待度</div>
+                        <div style="font-size:55px; font-weight:900; color:#000;">72<span style="font-size:24px;">%</span></div>
+                    </div>
+                    <div style="background:#fff; border:3px solid #000; padding:10px; border-radius:15px; flex:1;">
+                        <div style="font-size:16px; font-weight:900;">波乱指数</div>
+                        <div style="font-size:55px; font-weight:900; color:#e60000;">{wave}</div>
+                    </div>
+                    <div style="background:#fff; border:3px solid #000; padding:10px; border-radius:15px; flex:1;">
+                        <div style="font-size:16px; font-weight:900;">超抜気配</div>
+                        <div style="font-size:32px; color:#ffcc00; margin-top:10px;">{chou_batsu}</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="kiina-box">
+                <div style="background:#ffcc00; color:#000; display:inline-block; padding:3px 15px; border-radius:5px; font-weight:bold; margin-bottom:10px;">展開ストーリー（予想）</div>
+                {story_items_html}
+            </div>
+        </div>
+
+        <div style="flex: 1; text-align: center;">
+            <img src="{character_src}" style="width: 100%; transform: scale(1.1);">
+            <div class="fukidashi" style="background:#000; color:#ffcc00; border:4px solid #ffcc00; margin-top: 10px;">
+                <div style="font-weight:bold; font-size:22px; border-bottom:1px solid #ffcc00; margin-bottom:10px;">⚡ キイナのひとこと</div>
+                インが弱けりゃ私の出番でしょ！高配当いただき！
+            </div>
+        </div>
+    </div>
+
+    <div class="kiina-banner">
+        ⚡ {keihou_msg} ⚡
+    </div>
+</div>
+"""
+
+
 kiina_html = f"""
 <!DOCTYPE html>
 <html>
