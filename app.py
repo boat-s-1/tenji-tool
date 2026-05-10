@@ -1256,12 +1256,32 @@ hatsune_zenjitsu_html = f"""
                 </div>
             </div>
 
-            <div class="hatsune-box" style="background: linear-gradient(135deg, #e8eaf6, #f3e5f5); border: 3px solid #5c6bc0; padding: 25px;">
-                <div class="hatsune-title-ribbon" style="background: #5c6bc0;">📋 初音の買い目（推奨）</div>
-                <div style="font-size: 75px; font-weight: 900; color: #283593; text-align: center; margin: 15px 0; letter-spacing: 5px;">
-                    {hatsune_kaime}
-                </div>
+           # --- [推奨買い目] を [ピックアップ選手] に変更 ---
+<div class="hatsune-box" style="background: linear-gradient(135deg, #f3e5f5, #e8eaf6); border: 3px solid #b39ddb; padding: 15px;">
+    <div class="hatsune-title-ribbon" style="background: #7e57c2;">👗 初音の注目ピックアップ 👗</div>
+    
+    <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 10px;">
+        <div style="display: flex; align-items: center; background: #fff; border-radius: 12px; padding: 10px; border: 1px solid #ce93d8;">
+            <div style="width: 60px; height: 60px; border-radius: 50%; overflow: hidden; border: 2px solid #ffb7c5; flex-shrink: 0;">
+                <img src="{player1_img_src}" style="width: 100%; height: 100%; object-fit: cover;">
             </div>
+            <div style="margin-left: 15px; text-align: left;">
+                <div style="font-size: 14px; font-weight: 900; color: #5c6bc0;">3号艇：期待のヴィーナス</div>
+                <div style="font-size: 12px; color: #444; line-height: 1.4;">「当地の捲り差しは一級品。スリット五分なら突き抜けまで！」</div>
+            </div>
+        </div>
+
+        <div style="display: flex; align-items: center; background: #fff; border-radius: 12px; padding: 10px; border: 1px solid #ce93d8;">
+            <div style="width: 60px; height: 60px; border-radius: 50%; overflow: hidden; border: 2px solid #ffb7c5; flex-shrink: 0;">
+                <img src="{player2_img_src}" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <div style="margin-left: 15px; text-align: left;">
+                <div style="font-size: 14px; font-weight: 900; color: #5c6bc0;">5号艇：激走の予感</div>
+                <div style="font-size: 12px; color: #444; line-height: 1.4;">「展開を突くのが本当に上手な選手。3着以内には必ず入れたい一車ね♡」</div>
+            </div>
+        </div>
+    </div>
+</div>
         </div>
 
         <div style="flex: 1; display: flex; flex-direction: column; gap: 15px;">
