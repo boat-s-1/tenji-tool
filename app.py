@@ -146,6 +146,11 @@ with st.sidebar.expander("⚡ キイナのスリット予想"):
     for i in range(1, 7):
         # 0がスリットラインぴったり、プラスが先行（のぞいている）状態
         slit_positions[f"{i}号艇"] = st.slider(f"{i}号艇 スリット", -50, 50, 0, step=5)
+
+with st.sidebar.expander("🎨 スリットのデザイン設定"):
+    slit_bg_color = st.color_picker("スリット全体の背景色", "#111111") # デフォルトは黒
+    lane_bg_color = st.color_picker("レーンの色", "#222222") # 少し明るい黒
+    line_color = st.color_picker("スリットラインの色", "#ffcc00") # 稲妻イエロー
 # =========================================
 # 3. CSS/JavaScript (f-stringの競合回避)
 # =========================================
@@ -723,6 +728,7 @@ html_code2 = f"""
 # =========================================
 
 # --- [1] 各艇のスリットパーツを生成 ---
+# --- [1] 各艇のスリットパーツを生成 ---
 slit_items_html = ""
 for i in range(1, 7):
     name = f"{i}号艇"
@@ -732,22 +738,23 @@ for i in range(1, 7):
     
     slit_items_html += f"""
     <div style="display: flex; align-items: center; margin-bottom: 5px; height: 35px; position: relative;">
-        <span style="width: 25px; font-weight: bold; font-size: 14px; color: #fff;">{i}</span>
-        <div style="flex: 1; height: 100%; position: relative;">
+        <span style="width: 25px; font-weight: bold; font-size: 14px; color: {line_color};">{i}</span>
+        <div style="flex: 1; height: 100%; position: relative; background: {lane_bg_color}; border-radius: 5px;">
             <img src="{b_src}" style="height: 30px; margin-left: {margin_left}px;">
         </div>
     </div>
     """
 
 # --- [2] スリットボックス全体を定義 ---
+# --- [2] スリットボックス全体を定義 ---
 slit_box_html = f"""
-<div class="kiina-box" style="background: #111; color: #fff; padding: 10px; position: relative; border: 2px solid #ffcc00; border-radius: 10px;">
-    <div style="background:#ffcc00; color:#000; display:inline-block; padding:2px 10px; border-radius:3px; font-weight:bold; font-size:14px; margin-bottom:10px;">スリット予想</div>
+<div class="kiina-box" style="background: {slit_bg_color}; color: #fff; padding: 10px; position: relative; border: 2px solid {line_color}; border-radius: 10px;">
+    <div style="background:{line_color}; color:#000; display:inline-block; padding:2px 10px; border-radius:3px; font-weight:bold; font-size:14px; margin-bottom:10px;">スリット予想</div>
     <div style="position: relative; padding-left: 10px;">
-        <div style="position: absolute; left: 110px; top: 0; bottom: 0; border-left: 2px dashed #ffcc00; z-index: 5;"></div>
+        <div style="position: absolute; left: 110px; top: 0; bottom: 0; border-left: 2px dashed {line_color}; z-index: 5;"></div>
         {slit_items_html}
     </div>
-    <div style="text-align: right; font-size: 10px; color: #ffcc00; margin-top: 5px;">
+    <div style="text-align: right; font-size: 10px; color: {line_color}; margin-top: 5px;">
         &larr; 遅れ | 先行 &rarr;
     </div>
 </div>
