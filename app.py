@@ -1084,9 +1084,10 @@ kiina_live_html = f"""
 # 6. メインタブ表示
 # =========================================
 
-main_tab1, main_tab2 = st.tabs([
+main_tab1, main_tab2, main_tab3 = st.tabs([
     "🌸 一果ちゃん",
     "⚡ キイナちゃん"
+    "👗 初音ちゃん"
 ])
 
 # --- 一果ちゃんタブ ---
@@ -1104,3 +1105,11 @@ with main_tab2:
         html(kiina_html, height=2600, scrolling=True)
     with sub_tab4:
         html(kiina_live_html, height=2600, scrolling=True)
+        
+# --- 初音ちゃんタブ ---
+with main_tab3:
+    sub_tab5, sub_tab6 = st.tabs(["👗 前日版", "👗 直前版"])
+    with sub_tab5:
+        html(hatsune_zenjitsu_html, height=2600, scrolling=True)
+    with sub_tab6:
+        html(hatsune_live_html, height=2600, scrolling=True)
