@@ -209,6 +209,16 @@ with st.sidebar.expander("⚡ キイナのLIVEスタンプ設定"):
     
     selected_stamp_label = st.selectbox("スタンプを選択", list(stamp_images.keys()), index=0)
     selected_stamp_path = stamp_images[selected_stamp_label]
+
+
+# --- サイドバー：初音ちゃん設定 ---
+with st.sidebar.expander("👗 初音の女子戦設定"):
+    hatsune_honmei = st.selectbox("本命ヴィーナス", [f"{i}号艇" for i in range(1, 7)], index=0, key="hatsune_honmei_key")
+    # 💡 ここで hatsune_rhythm を作ります
+    hatsune_rhythm = st.select_slider("近況リズム", options=["不調", "並", "好調", "絶好調", "神掛かり"], value="好調", key="hatsune_rhythm_key")
+    wall_rank = st.selectbox("壁信頼度", ["SS", "S", "A", "B", "C"], index=2, key="hatsune_wall_key")
+    hatsune_kaime = st.text_input("推奨買い目", "1-23-4", key="hatsune_kaime_key")
+    weight_memo = st.text_input("調整メモ", "チルト0.5", key="hatsune_weight_key")
 # =========================================
 # 3. CSS/JavaScript (f-stringの競合回避)
 # =========================================
@@ -1167,7 +1177,6 @@ hatsune_style = """
 }
 </style>
 """
-
 
 
 
