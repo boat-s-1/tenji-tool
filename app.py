@@ -1227,7 +1227,37 @@ hatsune_style = """
 </style>
 """
 
-
+save_button_js = f"""
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script>
+function saveImage() {{
+    const target = document.querySelector(".wrapper-hatsune");
+    html2canvas(target, {{
+        useCORS: true,
+        scale: 2, // 💡 画質を上げるために2倍で保存
+        backgroundColor: null
+    }}).then(canvas => {{
+        const link = document.createElement("a");
+        link.download = "hatsune_zenjitsu_{race_place}_{race_no}.png";
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+    }});
+}}
+</script>
+<div style="text-align: center; margin-top: 20px;">
+    <button onclick="saveImage()" style="
+        background: linear-gradient(90deg, #ffb7c5, #ce93d8);
+        color: white;
+        border: none;
+        padding: 12px 30px;
+        border-radius: 25px;
+        font-size: 18px;
+        font-weight: bold;
+        cursor: pointer;
+        box-shadow: 0 4px 15px rgba(179,157,219,0.4);
+    ">📸 画像として保存する</button>
+</div>
+"""
 
 
 
@@ -1357,9 +1387,11 @@ hatsune_zenjitsu_html = f"""
     </div>
 
 </div>
- <div style="text-align:center;">
-        <button class="download-btn" onclick="saveImage('.wrapper', 'ikka_zenjitsu.png')">画像を保存する</button>
-    </div>
+ # 組み立てたHTML + 保存ボタン
+full_hatsune_html = hatsune_style + hatsune_zenjitsu_html + save_button_js
+
+# 表示
+st.components.v1.html(full_hatsune_html, height=1500, scrolling=True)
 """
 
 
