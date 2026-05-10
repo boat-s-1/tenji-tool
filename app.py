@@ -1084,7 +1084,7 @@ kiina_live_html = f"""
 # 6. メインタブ表示
 # =========================================
 
-main_tab1, main_tab2, main_tab3 = st.tabs([
+main_tab1, main_tab2, main_tab3, = st.tabs([
     "🌸 一果ちゃん",
     "⚡ キイナちゃん"
     "👗 初音ちゃん"
