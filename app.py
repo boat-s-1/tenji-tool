@@ -913,7 +913,7 @@ if selected_stamp_path:
     <img src="{stamp_base64}" style="
         position: absolute;
         top: 170px; /* 位置調整 */
-        left: 420px; /* 位置調整 */
+        left: 480px; /* 位置調整 */
         z-index: 100; /* 最前面に */
         width: 250px; /* スタンプのサイズ */
         height: auto;
