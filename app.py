@@ -790,6 +790,24 @@ slit_box_html = f"""
 </div>
 """
 
+kiina_style = """
+<style>
+/* 黒背景に黄色文字のタイトル枠 */
+.kiina-section-black {
+    background: #000000;
+    color: #ffcc00;
+    font-size: 20px;
+    font-weight: 900;
+    padding: 5px 15px;
+    border-radius: 5px;
+    display: inline-block;
+    margin-bottom: 12px;
+    border: 1px solid #ffcc00; /* 枠線も入れるとより締まります */
+    letter-spacing: 1px;
+}
+</style>
+"""
+
 # --- [3] キイナちゃん前日版のメインHTMLを定義 ---
 kiina_zenjitsu_html = f"""
 <div class="wrapper-kiina">
@@ -828,7 +846,8 @@ kiina_zenjitsu_html = f"""
             {slit_box_html}
 
             <div class="kiina-box">
-                <div style="background:#ffcc00; color:#000; display:inline-block; padding:3px 15px; border-radius:5px; font-weight:bold; margin-bottom:10px;">展開ストーリー（予想）</div>
+               # 展開ストーリーのボックス内
+<div class="kiina-section-black">⚡ 展開ストーリー（予想）</div>
                 {story_items_html}
             </div>
         </div>
