@@ -49,6 +49,8 @@ stamp_options = {
     "鉄板": get_base64_img("79794320-58c8-4fd2-8815-174ca1b73ab3.png"),
     "見": get_base64_img("64f255c6-e9d6-427c-890f-f6cdb55695ee.png"),
 }
+
+kiina_header_img_src = get_base64_img("S__17752068.jpg")
 # =========================================
 # 2. ユーザー入力（サイドバー）
 # =========================================
@@ -715,9 +717,25 @@ html_code2 = f"""
 # --- キイナちゃん 前日版の組み立て ---
 kiina_zenjitsu_html = f"""
 <div class="wrapper-kiina">
-    <div class="kiina-header">
-        ⚡ キイナの5アタマ速報 ⚡
-        <div style="font-size: 20px; color: #000; text-shadow: none;">{race_place} {race_no} / {race_date}</div>
+    <div style="position: relative; width: 1000px; height: 180px; overflow: hidden; border-bottom: 4px solid #ffcc00;">
+        <img src="{kiina_header_img_src}" style="width: 1000px; height: auto; position: absolute; top: 0; left: 0; z-index: 1;">
+        
+        <div style="
+            position: absolute; 
+            right: 30px; 
+            top: 25px; 
+            text-align: right; 
+            z-index: 2; 
+            color: #fff; 
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            font-family: 'Zen Maru Gothic', sans-serif;
+        ">
+            <div style="font-size: 22px; font-weight: 800;">{race_date}</div>
+            <div style="display: flex; justify-content: flex-end; align-items: baseline; gap: 10px;">
+                <span style="font-size: 48px; font-weight: 900; color: #ffcc00;">{race_place}</span>
+                <span style="font-size: 42px; font-weight: 900;">{race_no}</span>
+            </div>
+        </div>
     </div>
 
     <div class="main" style="display: flex; gap: 15px; padding: 20px; background: #fffde6;">
