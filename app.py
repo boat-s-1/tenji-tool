@@ -1286,12 +1286,15 @@ hatsune_zenjitsu_html = f"""
             </div>
         </div>
     </div>
-            <div class="hatsune-box" style="text-align: left; min-height: 200px;">
-                <div class="hatsune-title-ribbon">✨ 展開ストーリー（予想） ✨</div>
-                <div style="font-size: 16px; line-height: 1.8; color: #444; padding: 10px;">
-                    {story_items_html}
-                </div>
-            </div>
+          <div class="hatsune-box" style="text-align: left; min-height: 180px; border: 2px solid #ce93d8; background: rgba(255, 255, 255, 0.9); padding: 15px;">
+    <div class="hatsune-title-ribbon" style="margin-bottom: 15px;">✨ 展開ストーリー（予想） ✨</div>
+    
+    <div style="border: 1.5px dashed #b39ddb; border-radius: 10px; padding: 12px; background: #fdfbff;">
+        <div style="font-size: 15px; line-height: 1.8; color: #444; font-weight: bold;">
+            {story_items_html}
+        </div>
+    </div>
+</div>
 
           
 
