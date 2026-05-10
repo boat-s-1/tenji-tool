@@ -1082,17 +1082,22 @@ kiina_live_html = f"""
 # =========================================
 # 初音
 # =========================================
-# --- 初音ちゃん用の変数定義（ここをHTMLの定義より上に置く） ---
 
-# もしサイドバーで作っていない場合は、ここで仮の値を入れます
+# --- 1. 画像の準備（HTMLより上で実行） ---
+# 初音ちゃんのメイン画像
+hatsune_character_src = get_base64_img("hatsune_main.png") # ファイル名は実際の保存名に合わせてください
+
+# 初音ちゃん前日版のヘッダー画像
+hatsune_header_img_src = get_base64_img("hatsune_header.png") 
+
+# --- 2. 変数の初期化（HTMLより上で実行） ---
+# サイドバーですでに作っている場合は、そちらが優先されます
 if 'hatsune_honmei' not in locals():
     hatsune_honmei = "1号艇"
 if 'wall_rank' not in locals():
     wall_rank = "A"
-if 'hatsune_rhythm' not in locals():
-    hatsune_rhythm = "好調"
 if 'hatsune_kaime' not in locals():
-    hatsune_kaime = "1-23-234"
+    hatsune_kaime = "1-23-4"
 if 'hatsune_stamp_html' not in locals():
     hatsune_stamp_html = ""
 if 'story_items_html' not in locals():
