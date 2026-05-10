@@ -199,7 +199,12 @@ with st.sidebar.expander("⚡ キイナのLIVEスタンプ設定"):
     # 💡 用意した画像のパスを指定してください
     stamp_images = {
         "なし": None,
-        "⚠️ イン信用しない": "84FD0651-C2E8-42EC-8FE5-91B3289511F4.png",
+        "イン信用しない": "84FD0651-C2E8-42EC-8FE5-91B3289511F4.png",
+         "展示次第": "806A77BA-B630-4FE7-ADB0-E4DA441911EE.png",
+         "モーター抜群": "F0A5A40E-D22C-4E2F-8566-F2F02DB1E9C4.png",
+         "オッズがつかない": "76B25214-54F2-4660-B54D-AA7AEAFB235D.png",
+        "荒れそうだけど": "A11D9588-C22C-4ADF-A0F6-AE8524349880.png",
+        "4コースが": "0340237A-88C8-4757-876B-AF8AB31C4C11.png",
     }
     
     selected_stamp_label = st.selectbox("スタンプを選択", list(stamp_images.keys()), index=0)
@@ -836,10 +841,30 @@ kiina_style = """
 </style>
 """
 
+# 前日版用のスタンプHTML生成
+kiina_zenjitsu_stamp_html = ""
+if selected_stamp_path:  # サイドバーで選ばれたパス
+    stamp_base64 = get_stamp_base64(selected_stamp_path)
+    
+    # 💡 前日版のレイアウトに合わせた位置調整
+    kiina_zenjitsu_stamp_html = f"""
+    <img src="{stamp_base64}" style="
+        position: absolute;
+        top: 200px;         /* 💡 本命候補ボックスの右上付近 */
+        left: 430px;        /* 💡 キャラクターの左肩あたりに重なるように */
+        z-index: 100;
+        width: 280px;       /* 💡 前日版は情報量が多いので、少し大きめに */
+        height: auto;
+        transform: rotate(-12deg); /* 💡 スタンプらしい角度 */
+        pointer-events: none;
+        filter: drop-shadow(4px 4px 3px rgba(0,0,0,0.4));
+    ">
+    """
+
 # --- [3] キイナちゃん前日版のメインHTMLを定義 ---
 kiina_zenjitsu_html = f"""
 <div class="wrapper-kiina" style="width: 1000px; margin: auto; background: #fffde6; border: 6px solid #ffcc00; border-radius: 15px; overflow: hidden; font-family: 'Zen Maru Gothic', sans-serif;">
-    
+    {kiina_zenjitsu_stamp_html}
     <div style="position: relative; width: 1000px; height: 180px; overflow: hidden; border-bottom: 4px solid #ffcc00;">
         <img src="{kiina_header_img_src}" style="width: 1000px; height: auto; position: absolute; top: 0; left: 0; z-index: 1;">
         <div style="position: absolute; right: 30px; top: 25px; text-align: right; z-index: 2; color: #fff; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">
