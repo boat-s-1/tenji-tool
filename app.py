@@ -57,6 +57,8 @@ stamp_options = {
 
 kiina_header_img_src = get_base64_img("S__17752068.jpg")
 kiina_header_live_img_src = get_base64_img("S__17752078.jpg")
+
+new_hatsune_header_src = get_base64_img("S__17760265.jpg")
 # =========================================
 # 2. ユーザー入力（サイドバー）
 # =========================================
@@ -1189,13 +1191,16 @@ hatsune_zenjitsu_html = f"""
     
     {hatsune_stamp_html}
 
-    <div style="position: relative; width: 1000px; height: 180px; overflow: hidden; border-bottom: 4px solid #ffb7c5;">
-        <img src="{hatsune_header_img_src}" style="width: 1000px; height: auto; position: absolute; top: 0; left: 0; z-index: 1;">
-        <div style="position: absolute; right: 30px; top: 30px; text-align: right; z-index: 2; color: #fff; text-shadow: 2px 2px 4px rgba(0,0,0,0.4);">
-            <div style="font-size: 22px; font-weight: 800;">{race_date}</div>
-            <div style="display: flex; justify-content: flex-end; align-items: baseline; gap: 10px;">
-                <span style="font-size: 48px; font-weight: 900; color: #fff;">{race_place}</span>
-                <span style="font-size: 42px; font-weight: 900; color: #fff3dd;">{race_no}</span>
+   # --- hatsune_zenjitsu_html のヘッダーエリア修正版 ---
+
+    <div style="position: relative; width: 1000px; height: 180px; overflow: hidden; border-bottom: 4px solid #ffb7c5; border-radius: 20px 20px 0 0;">
+        <img src="{new_hatsune_header_src}" style="width: 1000px; height: auto; position: absolute; top: 0; left: 0; z-index: 1;">
+        
+        <div style="position: absolute; right: 25px; bottom: 15px; text-align: right; z-index: 2; color: #fff; text-shadow: 2px 2px 5px rgba(126, 87, 194, 0.8);">
+            <div style="font-size: 20px; font-weight: 800;">{race_date}</div>
+            <div style="display: flex; justify-content: flex-end; align-items: baseline; gap: 8px;">
+                <span style="font-size: 42px; font-weight: 900; color: #fff;">{race_place}</span>
+                <span style="font-size: 38px; font-weight: 900; color: #ffe082;">{race_no}</span>
             </div>
         </div>
     </div>
