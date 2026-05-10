@@ -850,8 +850,8 @@ if selected_stamp_path:  # サイドバーで選ばれたパス
     kiina_zenjitsu_stamp_html = f"""
     <img src="{stamp_base64}" style="
         position: absolute;
-        top: 160px;         /* 💡 本命候補ボックスの右上付近 */
-        left: 430px;        /* 💡 キャラクターの左肩あたりに重なるように */
+        top: 150px;         /* 💡 本命候補ボックスの右上付近 */
+        left: 400px;        /* 💡 キャラクターの左肩あたりに重なるように */
         z-index: 100;
         width: 280px;       /* 💡 前日版は情報量が多いので、少し大きめに */
         height: auto;
