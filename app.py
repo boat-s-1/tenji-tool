@@ -1191,8 +1191,6 @@ hatsune_zenjitsu_html = f"""
     
     {hatsune_stamp_html}
 
-   # --- hatsune_zenjitsu_html のヘッダーエリア修正版 ---
-
     <div style="position: relative; width: 1000px; height: 180px; overflow: hidden; border-bottom: 4px solid #ffb7c5; border-radius: 20px 20px 0 0;">
         <img src="{new_hatsune_header_src}" style="width: 1000px; height: auto; position: absolute; top: 0; left: 0; z-index: 1;">
         
