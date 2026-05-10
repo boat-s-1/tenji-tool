@@ -841,7 +841,7 @@ kiina_zenjitsu_html = f"""
                 <div style="font-weight:bold; font-size:22px; border-bottom:1px solid #ffcc00; margin-bottom:10px;">⚡ キイナのひとこと</div>
                 インが弱けりゃ私の出番でしょ！高配当いただき！
             </div>
-        </div>
+       
 
     <div class="kiina-banner">
         ⚡ {keihou_msg} ⚡
