@@ -826,7 +826,7 @@ kiina_zenjitsu_html = f"""
         <div style="flex: 1.5;">
             <div class="kiina-box" style="text-align: center;">
            
-<div class="kiina-section-black">⚡ スリット予想</div>本命候補</div>
+<div class="kiina-section-black">⚡ 本命候補</div>
                 <div style="font-size: 80px; font-weight: 900; color: #000;">◎ 5号艇</div>
                 <div style="display: flex; justify-content: space-around; margin-top: 15px; gap: 10px;">
                     <div style="background:#fff; border:3px solid #000; padding:10px; border-radius:15px; flex:1;">
