@@ -842,10 +842,13 @@ kiina_zenjitsu_html = f"""
                 <div style="text-align: center;">
                     <div style="font-size: 80px; font-weight: 900; color: #000; margin: 10px 0;">◎ 5号艇</div>
                     <div style="display: flex; justify-content: space-around; gap: 10px;">
-                        <div style="background:#fff; border:3px solid #000; padding:10px; border-radius:15px; flex:1;">
-                            <div style="font-size:16px; font-weight:900;">5アタマ期待度</div>
-                            <div style="font-size:55px; font-weight:900; color:#000;">72<span style="font-size:24px;">%</span></div>
-                        </div>
+                       # kiina_zenjitsu_html の中の「本命候補ボックス」部分を修正
+<div style="background:#fff; border:3px solid #000; padding:10px; border-radius:15px; flex:1;">
+    <div style="font-size:16px; font-weight:900;">5アタマ期待度</div>
+    <div style="font-size:55px; font-weight:900; color:#000;">
+        {kiina_5atama_rate}<span style="font-size:24px;">%</span>
+    </div>
+</div>
                         <div style="background:#fff; border:3px solid #000; padding:10px; border-radius:15px; flex:1;">
                             <div style="font-size:16px; font-weight:900;">波乱指数</div>
                             <div style="font-size:55px; font-weight:900; color:#e60000;">{wave}</div>
