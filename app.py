@@ -180,6 +180,13 @@ check_list_html = ""
 for mark, label in check_items:
     color = "#ffcc00" if mark == "☑" else "#888" # チェック済みは黄色、未チェックはグレー
     check_list_html += f'<div style="color:{color}; font-size:18px; margin-bottom:5px; font-weight:bold;">{mark} {label}</div>'
+
+
+with st.sidebar.expander("⚡ 直前LIVE設定"):
+    tenji_rank = st.selectbox("展示評価", ["S", "A", "B", "C"], index=0)
+    tenji_time = st.text_input("補正タイム", "6.71")
+    shinnyu = st.text_input("進入予想", "123/456")
+    diff_4 = st.text_input("4号艇との展示差", "-0.05") # 新しく追加
 # =========================================
 # 3. CSS/JavaScript (f-stringの競合回避)
 # =========================================
@@ -926,16 +933,33 @@ kiina_live_html = f"""
         
         <div style="flex: 1.5; display: flex; flex-direction: column; gap: 15px;">
             
-            <div class="kiina-box" style="background:#fff; border:3px solid #ffcc00; border-radius:15px; padding: 20px; text-align: left;">
-                <div class="kiina-section-black">⚡ 展示評価 ＆ 進入</div>
-                <div style="display: flex; align-items: center; gap: 30px; margin-top: 15px; padding-left: 20px;">
-                    <div style="font-size: 70px; font-weight: 900; color: #e60000; line-height: 1;">{tenji_rank}</div>
-                    <div style="text-align: left; font-size: 18px; font-weight: bold; color: #333;">
-                        補正タイム：{tenji_time}<br>
-                        進入予想：{shinnyu}
-                    </div>
-                </div>
+            # --- 展示評価ボックス（タイトル左寄せ ＆ 3項目ボックス配置） ---
+<div class="kiina-box" style="background:#fff; border:3px solid #ffcc00; border-radius:15px; padding: 20px; text-align: left;">
+    <div class="kiina-section-black">⚡ 展示評価 ＆ 進入</div>
+    
+    <div style="display: flex; align-items: center; gap: 20px; margin-top: 15px;">
+        <div style="font-size: 80px; font-weight: 900; color: #e60000; line-height: 1; padding: 0 10px;">
+            {tenji_rank}
+        </div>
+
+        <div style="display: flex; gap: 10px; flex: 1;">
+            <div style="border: 2px solid #000; border-radius: 8px; padding: 10px; flex: 1; text-align: center; background: #fff;">
+                <div style="font-size: 12px; font-weight: bold; color: #666; margin-bottom: 5px;">補正タイム</div>
+                <div style="font-size: 24px; font-weight: 900; color: #000;">{tenji_time}</div>
             </div>
+
+            <div style="border: 2px solid #000; border-radius: 8px; padding: 10px; flex: 1; text-align: center; background: #fff;">
+                <div style="font-size: 12px; font-weight: bold; color: #666; margin-bottom: 5px;">進入予想</div>
+                <div style="font-size: 24px; font-weight: 900; color: #000;">{shinnyu}</div>
+            </div>
+
+            <div style="border: 2px solid #e60000; border-radius: 8px; padding: 10px; flex: 1; text-align: center; background: #fff;">
+                <div style="font-size: 11px; font-weight: bold; color: #e60000; margin-bottom: 5px;">4号艇展示差</div>
+                <div style="font-size: 22px; font-weight: 900; color: #e60000;">{diff_4}</div>
+            </div>
+        </div>
+    </div>
+</div>
 
             {slit_box_html}
 
