@@ -151,6 +151,31 @@ with st.sidebar.expander("🎨 スリットのデザイン設定"):
     slit_bg_color = st.color_picker("スリット全体の背景色", "#111111") # デフォルトは黒
     lane_bg_color = st.color_picker("レーンの色", "#222222") # 少し明るい黒
     line_color = st.color_picker("スリットラインの色", "#ffcc00") # 稲妻イエロー
+
+with st.sidebar.expander("⚡ 直前チェック項目"):
+    check_in = st.checkbox("インの足", value=True)
+    check_nobi = st.checkbox("4号艇の伸び", value=False)
+    check_keihai = st.checkbox("スタ展気配", value=True)
+    check_kaze = st.checkbox("風向き", value=False)
+    check_time = st.checkbox("展示タイム", value=True)
+
+# チェックの状態に合わせて表示する記号を切り替えるロジック
+def get_check_mark(is_checked):
+    return "☑" if is_checked else "☐"
+
+check_items = [
+    (get_check_mark(check_in), "インの足"),
+    (get_check_mark(check_nobi), "4号艇の伸び"),
+    (get_check_mark(check_keihai), "スタ展気配"),
+    (get_check_mark(check_kaze), "風向き"),
+    (get_check_mark(check_time), "展示タイム")
+]
+
+# HTMLパーツの生成
+check_list_html = ""
+for mark, label in check_items:
+    color = "#ffcc00" if mark == "☑" else "#888" # チェック済みは黄色、未チェックはグレー
+    check_list_html += f'<div style="color:{color}; font-size:18px; margin-bottom:5px; font-weight:bold;">{mark} {label}</div>'
 # =========================================
 # 3. CSS/JavaScript (f-stringの競合回避)
 # =========================================
@@ -744,8 +769,13 @@ for i in range(1, 7):
         </div>
     </div>
     """
+check_box_html = f"""
+<div class="kiina-box" style="background:rgba(0,0,0,0.8); border:1px solid #ffcc00; padding:10px; margin-top:10px; text-align:left;">
+    <div style="color:#ffcc00; font-size:14px; border-bottom:1px solid #ffcc00; margin-bottom:8px; font-weight:bold;">⚡ 直前チェック項目</div>
+    {check_list_html}
+</div>
+"""
 
-# --- [2] スリットボックス全体を定義 ---
 # --- [2] スリットボックス全体を定義 ---
 slit_box_html = f"""
 <div class="kiina-box" style="background: {slit_bg_color}; color: #fff; padding: 10px; position: relative; border: 2px solid {line_color}; border-radius: 10px;">
@@ -802,15 +832,16 @@ kiina_zenjitsu_html = f"""
                 {story_items_html}
             </div>
         </div>
-
-        <div style="flex: 1; text-align: center;">
+<div style="flex: 1; text-align: center;">
             <img src="{character_src}" style="width: 100%; transform: scale(1.1);">
+            
+            {check_box_html}
+
             <div class="fukidashi" style="background:#000; color:#ffcc00; border:4px solid #ffcc00; margin-top: 10px;">
                 <div style="font-weight:bold; font-size:22px; border-bottom:1px solid #ffcc00; margin-bottom:10px;">⚡ キイナのひとこと</div>
                 インが弱けりゃ私の出番でしょ！高配当いただき！
             </div>
         </div>
-    </div>
 
     <div class="kiina-banner">
         ⚡ {keihou_msg} ⚡
