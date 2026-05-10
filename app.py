@@ -1002,7 +1002,15 @@ kiina_live_html = f"""
     <div style="background: #000; color: #ffcc00; padding: 20px; text-align: center; font-size: 26px; font-weight: 900; border-top: 4px solid #ffcc00; width: 1000px; box-sizing: border-box;">
         ⚡ {keihou_msg} ⚡
     </div>
+
+</div> <div style="text-align:center; margin-top: 20px; margin-bottom: 50px;">
+    <button class="download-btn" 
+            style="background:#ffcc00; color:#000; font-weight:bold; padding:10px 30px; border-radius:5px; cursor:pointer;" 
+            onclick="saveImage('.wrapper-kiina', 'kiina_chokuzen.png')">
+        📸 直前版を画像として保存する
+    </button>
 </div>
+
 </body>
 </html>
 """
