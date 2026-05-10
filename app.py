@@ -934,28 +934,32 @@ kiina_live_html = f"""
         
         <div style="flex: 1.5; display: flex; flex-direction: column; gap: 15px;">
             
+# --- 展示評価ボックス（評価文字を特大に） ---
 <div class="kiina-box" style="background:#fff; border:3px solid #ffcc00; border-radius:15px; padding: 20px; text-align: left;">
-    <div class="kiina-section-black">⚡ 展示評価 ＆ 進入</div>
+    <div class="kiina-section-black" style="display: inline-block;">⚡ 展示評価 ＆ 進入</div>
     
-    <div style="display: flex; align-items: center; gap: 20px; margin-top: 15px;">
-        <div style="font-size: 80px; font-weight: 900; color: #e60000; line-height: 1; padding: 0 10px;">
-            {tenji_rank}
+    <div style="display: flex; align-items: center; gap: 25px; margin-top: 15px;">
+        <div style="flex: 0 0 100px; text-align: center;">
+            <span style="font-size: 110px; font-weight: 900; color: #e60000; line-height: 0.8; font-family: 'Arial Black', sans-serif;">
+                {tenji_rank}
+            </span>
+            <div style="font-size: 14px; font-weight: bold; color: #666; margin-top: 5px;">評価</div>
         </div>
 
-        <div style="display: flex; gap: 10px; flex: 1;">
-            <div style="border: 2px solid #000; border-radius: 8px; padding: 10px; flex: 1; text-align: center; background: #fff;">
+        <div style="display: flex; gap: 12px; flex: 1;">
+            <div style="border: 2px solid #000; border-radius: 8px; padding: 10px; flex: 1; text-align: center;">
                 <div style="font-size: 12px; font-weight: bold; color: #666; margin-bottom: 5px;">補正タイム</div>
-                <div style="font-size: 24px; font-weight: 900; color: #000;">{tenji_time}</div>
+                <div style="font-size: 28px; font-weight: 900; color: #000;">{tenji_time}</div>
             </div>
 
-            <div style="border: 2px solid #000; border-radius: 8px; padding: 10px; flex: 1; text-align: center; background: #fff;">
+            <div style="border: 2px solid #000; border-radius: 8px; padding: 10px; flex: 1; text-align: center;">
                 <div style="font-size: 12px; font-weight: bold; color: #666; margin-bottom: 5px;">進入予想</div>
-                <div style="font-size: 24px; font-weight: 900; color: #000;">{shinnyu}</div>
+                <div style="font-size: 28px; font-weight: 900; color: #000;">{shinnyu}</div>
             </div>
 
-            <div style="border: 2px solid #e60000; border-radius: 8px; padding: 10px; flex: 1; text-align: center; background: #fff;">
+            <div style="border: 3px solid #e60000; border-radius: 8px; padding: 10px; flex: 1; text-align: center; background: #fff5f5;">
                 <div style="font-size: 11px; font-weight: bold; color: #e60000; margin-bottom: 5px;">4号艇展示差</div>
-                <div style="font-size: 22px; font-weight: 900; color: #e60000;">{diff_4}</div>
+                <div style="font-size: 26px; font-weight: 900; color: #e60000;">{diff_4}</div>
             </div>
         </div>
     </div>
