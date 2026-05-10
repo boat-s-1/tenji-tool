@@ -804,7 +804,7 @@ slit_box_html = f"""
         &larr; 遅れ | 先行 &rarr;
     </div>
 </div>
-"""
+
 
         <div style="flex: 1; text-align: center;">
             <img src="{character_src}" style="width: 100%; transform: scale(1.1);">
