@@ -1356,6 +1356,11 @@ hatsune_zenjitsu_html = f"""
         🌸 Venus Statistics - 初音の女子戦分析 🌸
     </div>
 </div>
+# 組み立てたHTML + 保存ボタン
+full_hatsune_html = hatsune_style + hatsune_zenjitsu_html + save_button_js
+
+# 表示
+st.components.v1.html(full_hatsune_html, height=1500, scrolling=True)
 """
 
 
