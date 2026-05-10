@@ -64,7 +64,7 @@ with st.sidebar.expander("📌 レース基本情報"):
  
 
 
-with st.sidebar.expander("📌 一果画像"):
+with st.sidebar.expander("📌 画像"):
     uploaded_character = st.file_uploader("キャラ画像", type=["png", "jpg", "jpeg"])
     uploaded_bg = st.file_uploader("背景画像", type=["png", "jpg", "jpeg"])
 
@@ -141,7 +141,11 @@ with st.sidebar.expander("⚡ キイナの穴党設定"):
     ana_target = st.text_input("穴ターゲット", "5号艇のまくり差し")
     keihou_msg = st.text_input("警報メッセージ", "波乱警報発令中！万舟のチャンス！")
 
-
+with st.sidebar.expander("⚡ キイナのスリット予想"):
+    slit_positions = {}
+    for i in range(1, 7):
+        # 0がスリットラインぴったり、プラスが先行（のぞいている）状態
+        slit_positions[f"{i}号艇"] = st.slider(f"{i}号艇 スリット", -50, 50, 0, step=5)
 # =========================================
 # 3. CSS/JavaScript (f-stringの競合回避)
 # =========================================
@@ -715,6 +719,27 @@ html_code2 = f"""
 </html>
 """
 # --- キイナちゃん 前日版の組み立て ---
+
+slit_items_html = ""
+for i in range(1, 7):
+    name = f"{i}号艇"
+    offset = slit_positions[name]  # スライダーの値
+    b_src = boat_srcs.get(name, "")
+    
+    # offsetの値によって、右にどれだけずらすかを計算
+    # スリットラインを右から100pxの位置に設定すると想定
+    margin_left = 50 + offset 
+    
+    slit_items_html += f"""
+    <div style="display: flex; align-items: center; margin-bottom: 5px; height: 35px; position: relative;">
+        <span style="width: 25px; font-weight: bold; font-size: 14px;">{i}</span>
+        <div style="flex: 1; height: 100%; position: relative; background: rgba(255,255,255,0.1); border-radius: 5px;">
+            <img src="{b_src}" style="height: 30px; margin-left: {margin_left}px; transition: 0.3s;">
+        </div>
+    </div>
+    """
+
+
 kiina_zenjitsu_html = f"""
 <div class="wrapper-kiina">
     <div style="position: relative; width: 1000px; height: 180px; overflow: hidden; border-bottom: 4px solid #ffcc00;">
@@ -765,6 +790,23 @@ kiina_zenjitsu_html = f"""
                 {story_items_html}
             </div>
         </div>
+
+
+# --- kiina_live_html の中に組み込むパーツ ---
+slit_box_html = f"""
+<div class="kiina-box" style="background: #111; color: #fff; padding: 10px; position: relative;">
+    <div style="background:#ffcc00; color:#000; display:inline-block; padding:2px 10px; border-radius:3px; font-weight:bold; font-size:14px; margin-bottom:10px;">スリット予想</div>
+    
+    <div style="position: relative; padding-left: 10px;">
+        <div style="position: absolute; left: 110px; top: 0; bottom: 0; border-left: 2px dashed #ffcc00; z-index: 5;"></div>
+        
+        {slit_items_html}
+    </div>
+    
+    <div style="text-align: right; font-size: 10px; color: #ffcc00; margin-top: 5px;">← 遅れ | 先行 →</div>
+</div>
+"""
+
 
         <div style="flex: 1; text-align: center;">
             <img src="{character_src}" style="width: 100%; transform: scale(1.1);">
