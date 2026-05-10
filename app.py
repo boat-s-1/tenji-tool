@@ -912,7 +912,7 @@ if selected_stamp_path:
     kiina_stamp_html = f"""
     <img src="{stamp_base64}" style="
         position: absolute;
-        top: 170px; /* 位置調整 */
+        top: 200px; /* 位置調整 */
         left: 480px; /* 位置調整 */
         z-index: 100; /* 最前面に */
         width: 250px; /* スタンプのサイズ */
