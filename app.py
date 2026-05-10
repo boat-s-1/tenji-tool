@@ -1208,28 +1208,49 @@ hatsune_zenjitsu_html = f"""
     <div style="display: flex; gap: 20px; padding: 25px;">
         
         <div style="flex: 1.6; display: flex; flex-direction: column; gap: 15px;">
+    
+    <div class="hatsune-box" style="padding: 20px; border: 3px solid #b39ddb; background: rgba(255, 255, 255, 0.9);">
+        
+        <div style="text-align: left; margin-bottom: 20px;">
+            <div class="hatsune-title-ribbon">🦋 本命ヴィーナス候補 🦋</div>
+            <div style="display: flex; align-items: center; justify-content: center; gap: 30px; margin-top: 10px;">
+                <div style="font-size: 80px; font-weight: 900; color: #d81b60; line-height: 1;">◎ {hatsune_honmei}</div>
+                
+                <div style="border: 2px solid #ffb7c5; border-radius: 12px; padding: 10px 20px; background: #fff;">
+                    <div style="font-size: 12px; color: #666; font-weight: bold; margin-bottom: 3px;">女子戦リズム</div>
+                    <div style="font-size: 28px; font-weight: 900; color: #ff69b4;">{hatsune_rhythm}</div>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: left;">
+            <div style="color: #5c6bc0; font-size: 14px; font-weight: 900; margin-bottom: 10px; display: flex; align-items: center; gap: 5px;">
+                <span style="color:#b39ddb;">◆</span> 初音の女子戦AI指数 <span style="color:#b39ddb;">◆</span>
+            </div>
             
-            <div class="hatsune-box" style="text-align: left; padding: 20px;">
-                <div class="hatsune-title-ribbon">🦋 本命ヴィーナス候補 🦋</div>
-                <div style="display: flex; align-items: center; justify-content: center; gap: 40px; margin: 15px 0;">
-                    <div style="font-size: 85px; font-weight: 900; color: #d81b60; text-shadow: 2px 2px 0px #fff;">◎ {hatsune_honmei}</div>
-                    <div style="background: #fdf2f4; border: 2px solid #ffb7c5; border-radius: 15px; padding: 15px; text-align: center; min-width: 120px;">
-                        <div style="font-size: 14px; color: #666; font-weight: bold;">女子戦リズム</div>
-                       
-                    </div>
+            <div style="display: flex; gap: 10px; justify-content: space-between;">
+                <div style="flex: 1; border: 1.5px solid #ce93d8; border-radius: 10px; padding: 8px; text-align: center; background: #fff;">
+                    <div style="font-size: 10px; color: #7e57c2; margin-bottom: 4px; font-weight: bold;">壁信頼度</div>
+                    <div style="font-size: 24px; font-weight: 900; color: #5c6bc0;">{wall_rank}</div>
+                </div>
+
+                <div style="flex: 1; border: 1.5px solid #ce93d8; border-radius: 10px; padding: 8px; text-align: center; background: #fff;">
+                    <div style="font-size: 10px; color: #7e57c2; margin-bottom: 4px; font-weight: bold;">当地相性</div>
+                    <div style="font-size: 24px; font-weight: 900; color: #5c6bc0;">88%</div>
+                </div>
+
+                <div style="flex: 1; border: 1.5px solid #ce93d8; border-radius: 10px; padding: 8px; text-align: center; background: #fff;">
+                    <div style="font-size: 10px; color: #7e57c2; margin-bottom: 4px; font-weight: bold;">ST安定度</div>
+                    <div style="font-size: 24px; font-weight: 900; color: #5c6bc0;">92%</div>
+                </div>
+
+                <div style="flex: 1; border: 2px solid #ffb7c5; border-radius: 10px; padding: 8px; text-align: center; background: #fdf2f4;">
+                    <div style="font-size: 10px; color: #d81b60; margin-bottom: 4px; font-weight: bold;">総合評価</div>
+                    <div style="font-size: 24px; font-weight: 900; color: #ff69b4;">S</div>
                 </div>
             </div>
-
-            <div class="hatsune-box" style="text-align: left;">
-                <div class="hatsune-title-ribbon">🔷 初音の女子戦AI指数 🔷</div>
-                <div style="display: flex; justify-content: space-around; padding: 15px 0;">
-                    <div style="text-align:center;"><div style="font-size:12px; color:#666;">壁信頼度</div><div style="font-size:32px; font-weight:900; color:#5c6bc0;">{wall_rank}</div></div>
-                    <div style="text-align:center;"><div style="font-size:12px; color:#666;">当地相性</div><div style="font-size:32px; font-weight:900; color:#5c6bc0;">88%</div></div>
-                    <div style="text-align:center;"><div style="font-size:12px; color:#666;">ST安定度</div><div style="font-size:32px; font-weight:900; color:#5c6bc0;">92%</div></div>
-                    <div style="text-align:center;"><div style="font-size:12px; color:#ba68c8;">総合評価</div><div style="font-size:32px; font-weight:900; color:#ba68c8;">S</div></div>
-                </div>
-            </div>
-
+        </div>
+    </div>
             <div class="hatsune-box" style="text-align: left; min-height: 200px;">
                 <div class="hatsune-title-ribbon">✨ 展開ストーリー（予想） ✨</div>
                 <div style="font-size: 16px; line-height: 1.8; color: #444; padding: 10px;">
