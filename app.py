@@ -183,11 +183,11 @@ for mark, label in check_items:
 
 
 with st.sidebar.expander("⚡ 直前LIVE設定"):
-    # 前日版と名前が被りそうなものに key="..." を追加します
-    tenji_rank = st.selectbox("展示評価", ["S", "A", "B", "C"], index=0, key="live_tenji_rank")
-    tenji_time = st.text_input("補正タイム", "6.71", key="live_tenji_time")
-    shinnyu = st.text_input("進入予想", "123/456", key="live_shinnyu")
-    diff_4 = st.text_input("4号艇との展示差", "-0.05", key="live_diff_4")
+    # キー名の後ろに _v2 や _unique など、絶対に被らない文字を足します
+    tenji_rank = st.selectbox("展示評価", ["S", "A", "B", "C"], index=0, key="kiina_live_rank_final")
+    tenji_time = st.text_input("補正タイム", "6.71", key="kiina_live_time_final")
+    shinnyu = st.text_input("進入予想", "123/456", key="kiina_live_shinnyu_final")
+    diff_4 = st.text_input("4号艇との展示差", "-0.05", key="kiina_live_diff4_final")
 # =========================================
 # 3. CSS/JavaScript (f-stringの競合回避)
 # =========================================
