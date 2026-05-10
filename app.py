@@ -1301,7 +1301,7 @@ hatsune_zenjitsu_html = f"""
         <div style="display: flex; flex-direction: column; margin-top: 10px;">
             {pickup_html_list}  </div>
     </div>
-</div>
+</div></div>
 
         
             <div class="hatsune-box" style="text-align: left;">
