@@ -833,20 +833,34 @@ kiina_zenjitsu_html = f"""
             </div>
         </div>
 
-        <div style="flex: 1; text-align: center;">
-            <img src="{character_src}" style="width: 100%; transform: scale(1.1);">
+       <div style="flex: 1; text-align: center; display: flex; flex-direction: column;">
             
-            {check_box_html}
+            <div style="position: relative;">
+                <img src="{character_src}" style="width: 100%; transform: scale(1.1); position: relative; z-index: 1;">
+                
+                <div class="fukidashi" style="
+                    background: #000; 
+                    color: #ffcc00; 
+                    border: 4px solid #ffcc00; 
+                    margin-top: -30px; /* 画像に少し被らせる */
+                    position: relative; 
+                    z-index: 2;
+                    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+                ">
+                    <div style="font-weight:bold; font-size:22px; border-bottom:1px solid #ffcc00; margin-bottom:10px;">
+                        ⚡ キイナのひとこと
+                    </div>
+                    <div style="font-size: 18px; line-height: 1.4; font-weight: bold;">
+                        インが弱けりゃ私の出番でしょ！高配当いただき！
+                    </div>
+                    <div style="position: absolute; top: -15px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-bottom: 15px solid #ffcc00;"></div>
+                </div>
+            </div>
 
-            <div class="fukidashi" style="background:#000; color:#ffcc00; border:4px solid #ffcc00; margin-top: 10px;">
-                <div style="font-weight:bold; font-size:22px; border-bottom:1px solid #ffcc00; margin-bottom:10px;">⚡ キイナのひとこと</div>
-                インが弱けりゃ私の出番でしょ！高配当いただき！
+            <div style="margin-top: 15px;">
+                {check_box_html}
             </div>
         </div>
-    </div> <div class="kiina-banner">
-        ⚡ {keihou_msg} ⚡
-    </div>
-</div>
 """
 
 # --- [4] 最終的な kiina_html の組み立て ---
