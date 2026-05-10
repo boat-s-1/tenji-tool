@@ -1303,37 +1303,7 @@ hatsune_zenjitsu_html = f"""
     </div>
 </div>
 
-        <div style="display: flex; align-items: center; background: #fff; border-radius: 12px; padding: 10px; border: 1px solid #ce93d8;">
-            <div style="width: 60px; height: 60px; border-radius: 50%; overflow: hidden; border: 2px solid #ffb7c5; flex-shrink: 0;">
-                <img src="{player2_img_src}" style="width: 100%; height: 100%; object-fit: cover;">
-            </div>
-            <div style="margin-left: 15px; text-align: left;">
-                <div style="font-size: 14px; font-weight: 900; color: #5c6bc0;">5号艇：激走の予感</div>
-                <div style="font-size: 12px; color: #444; line-height: 1.4;">「展開を突くのが本当に上手な選手。3着以内には必ず入れたい一車ね♡」</div>
-            </div>
-        </div>
-    </div>
-</div>
-        </div>
-
-        <div style="flex: 1; display: flex; flex-direction: column; gap: 15px;">
-            <div style="position: relative;">
-                <img src="{hatsune_character_src}" style="width: 100%; transform: scale(1.1); position: relative; z-index: 1;">
-                <div class="fukidashi-hatsune" style="margin-top: -20px; position: relative; z-index: 2;">
-                    <div style="font-size: 16px; font-weight: 900; color: #5c6bc0; margin-bottom: 5px; border-bottom: 1px solid #ffb7c5;">👗 初音の女子戦コメ</div>
-                    「女子戦はリズムが大事。体重調整も仕上がってるこの子が主役よ♪」
-                </div>
-            </div>
-
-            <div class="hatsune-box" style="text-align: left;">
-                <div class="hatsune-title-ribbon" style="font-size: 12px;">📍 注目ヴィーナス</div>
-                <ul style="font-size: 14px; padding-left: 20px; color: #444; line-height: 2;">
-                    <li>2号艇：差しハンドル鋭い！</li>
-                    <li>4号艇：カドから展開作る！</li>
-                    <li>近況の女子戦リズム重視♡</li>
-                </ul>
-            </div>
-
+        
             <div class="hatsune-box" style="text-align: left;">
                 <div class="hatsune-title-ribbon" style="font-size: 12px;">📒 女子戦特化メモ</div>
                 <table style="width: 100%; font-size: 14px; border-collapse: collapse;">
