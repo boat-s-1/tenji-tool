@@ -719,7 +719,36 @@ html_code2 = f"""
 </html>
 """
 # --- キイナちゃん 前日版の組み立て ---
+slit_box_html = f"""
+<div class="kiina-box" style="background: #111; color: #fff; padding: 10px; position: relative; border: 2px solid #ffcc00; border-radius: 10px;">
+    <div style="background:#ffcc00; color:#000; display:inline-block; padding:2px 10px; border-radius:3px; font-weight:bold; font-size:14px; margin-bottom:10px;">スリット予想</div>
+    
+    <div style="position: relative; padding-left: 10px;">
+        <div style="position: absolute; left: 110px; top: 0; bottom: 0; border-left: 2px dashed #ffcc00; z-index: 5;"></div>
+        
+        {slit_items_html}
+    </div>
+    
+    <div style="text-align: right; font-size: 10px; color: #ffcc00; margin-top: 5px;">
+        &larr; 遅れ | 先行 &rarr;
+    </div>
+</div>
 
+
+        <div style="flex: 1; text-align: center;">
+            <img src="{character_src}" style="width: 100%; transform: scale(1.1);">
+            <div class="fukidashi" style="background:#000; color:#ffcc00; border:4px solid #ffcc00; margin-top: 10px;">
+                <div style="font-weight:bold; font-size:22px; border-bottom:1px solid #ffcc00; margin-bottom:10px;">⚡ キイナのひとこと</div>
+                インが弱けりゃ私の出番でしょ！高配当いただき！
+            </div>
+        </div>
+    </div>
+
+    <div class="kiina-banner">
+        ⚡ {keihou_msg} ⚡
+    </div>
+</div>
+"""
 slit_items_html = ""
 for i in range(1, 7):
     name = f"{i}号艇"
@@ -796,36 +825,7 @@ kiina_zenjitsu_html = f"""
 
 
 # --- kiina_live_html の中に組み込むパーツ ---
-slit_box_html = f"""
-<div class="kiina-box" style="background: #111; color: #fff; padding: 10px; position: relative; border: 2px solid #ffcc00; border-radius: 10px;">
-    <div style="background:#ffcc00; color:#000; display:inline-block; padding:2px 10px; border-radius:3px; font-weight:bold; font-size:14px; margin-bottom:10px;">スリット予想</div>
-    
-    <div style="position: relative; padding-left: 10px;">
-        <div style="position: absolute; left: 110px; top: 0; bottom: 0; border-left: 2px dashed #ffcc00; z-index: 5;"></div>
-        
-        {slit_items_html}
-    </div>
-    
-    <div style="text-align: right; font-size: 10px; color: #ffcc00; margin-top: 5px;">
-        &larr; 遅れ | 先行 &rarr;
-    </div>
-</div>
 
-
-        <div style="flex: 1; text-align: center;">
-            <img src="{character_src}" style="width: 100%; transform: scale(1.1);">
-            <div class="fukidashi" style="background:#000; color:#ffcc00; border:4px solid #ffcc00; margin-top: 10px;">
-                <div style="font-weight:bold; font-size:22px; border-bottom:1px solid #ffcc00; margin-bottom:10px;">⚡ キイナのひとこと</div>
-                インが弱けりゃ私の出番でしょ！高配当いただき！
-            </div>
-        </div>
-    </div>
-
-    <div class="kiina-banner">
-        ⚡ {keihou_msg} ⚡
-    </div>
-</div>
-"""
 
 
 kiina_html = f"""
