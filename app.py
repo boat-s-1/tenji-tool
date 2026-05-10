@@ -842,11 +842,11 @@ kiina_zenjitsu_html = f"""
                 インが弱けりゃ私の出番でしょ！高配当いただき！
             </div>
        
-
+</div>
     <div class="kiina-banner">
         ⚡ {keihou_msg} ⚡
     </div>
-</div></div></div></div>
+</div></div>
 """
 
 # --- [4] 最終的な kiina_html の組み立て ---
