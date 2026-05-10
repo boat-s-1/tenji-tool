@@ -1082,6 +1082,26 @@ kiina_live_html = f"""
 # =========================================
 # 初音
 # =========================================
+# --- 初音ちゃん用の変数定義（ここをHTMLの定義より上に置く） ---
+
+# もしサイドバーで作っていない場合は、ここで仮の値を入れます
+if 'hatsune_honmei' not in locals():
+    hatsune_honmei = "1号艇"
+if 'wall_rank' not in locals():
+    wall_rank = "A"
+if 'hatsune_rhythm' not in locals():
+    hatsune_rhythm = "好調"
+if 'hatsune_kaime' not in locals():
+    hatsune_kaime = "1-23-234"
+if 'hatsune_stamp_html' not in locals():
+    hatsune_stamp_html = ""
+if 'story_items_html' not in locals():
+    story_items_html = "<li>ここに展開ストーリーが入ります</li>"
+
+# --- この後に hatsune_zenjitsu_html = f"""...""" を書く ---
+
+
+
 hatsune_style = """
 <style>
 /* 全体の背景：淡いブルーのグラデーション */
