@@ -1201,7 +1201,7 @@ hatsune_zenjitsu_html = f"""
                     <div style="font-size: 85px; font-weight: 900; color: #d81b60; text-shadow: 2px 2px 0px #fff;">◎ {hatsune_honmei}</div>
                     <div style="background: #fdf2f4; border: 2px solid #ffb7c5; border-radius: 15px; padding: 15px; text-align: center; min-width: 120px;">
                         <div style="font-size: 14px; color: #666; font-weight: bold;">女子戦リズム</div>
-                        <div style="font-size: 32px; font-weight: 900; color: #ff69b4;">{hatsune_rhythm}</div>
+                       
                     </div>
                 </div>
             </div>
