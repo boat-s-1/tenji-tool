@@ -1145,6 +1145,31 @@ hatsune_style = """
 </style>
 """
 
+# --- 初音ちゃん用のスタンプ生成ロジック（HTMLより上に配置） ---
+hatsune_stamp_html = ""
+# もしサイドバーでスタンプが選ばれていたら画像を作成
+if selected_stamp_path:  # キイナちゃんと共通のパス変数を使っている場合
+    stamp_base64 = get_stamp_base64(selected_stamp_path)
+    
+    # 初音ちゃん前日版のレイアウトに合わせた位置
+    hatsune_stamp_html = f"""
+    <img src="{stamp_base64}" style="
+        position: absolute;
+        top: 180px;
+        left: 420px;
+        z-index: 100;
+        width: 250px;
+        height: auto;
+        transform: rotate(-10deg);
+        pointer-events: none;
+        filter: drop-shadow(4px 4px 3px rgba(179, 157, 219, 0.4));
+    ">
+    """
+
+
+
+
+
 
 hatsune_zenjitsu_html = f"""
 <div class="wrapper-hatsune">
