@@ -895,10 +895,89 @@ kiina_html = f"""
 </html>
 """
 
-# --- キイナ 直前 ---
+# --- [5] キイナちゃん直前版の組み立て ---
 kiina_live_html = f"""
-<!DOCTYPE html><html><head><meta charset="UTF-8">{common_style}{download_logic}</head>
-<body><div class="wrapper-kiina"><div style="background:linear-gradient(90deg, #ff9800, #ff5722); color:white; text-align:center; padding:18px; font-size:34px; font-weight:bold;">⚡ 展示終了！キイナの最終決断 ⚡</div><div style="padding:25px; display:flex; justify-content:space-between; align-items:center; background:#ffb300;"><div class="kiina-title" style="color:white;">⚡ キイナ最終決断</div><div style="font-size:24px; font-weight:bold; color:white; text-align:right;">{race_date}<br>{race_place}<br>{race_no}</div></div><div class="main"><div class="left"><div class="kiina-box"><div class="kiina-section">⚡ 最終判定</div><div style="font-size:72px; font-weight:bold; color:#ff9800; text-align:center; margin-top:20px;">◎5 ○2 ▲1</div><div style="margin-top:20px; font-size:26px; line-height:2; font-weight:bold;">展示気配は5号艇が抜群！<br>イン受け流して突き抜け期待！</div></div><div class="kiina-box"><div class="kiina-section">🎯 的中期待度</div><div style="font-size:110px; font-weight:bold; color:#ff5722; text-align:center;">{hit_rate}%</div></div><div class="kiina-box"><div class="kiina-section">⚡ キイナの買い目</div><div style="font-size:88px; font-weight:bold; color:#ff9800; text-align:center; margin-top:15px;">5-2-1</div><div style="text-align:center; font-size:28px; font-weight:bold; color:#ff9800; margin-top:25px; margin-bottom:10px;">押さえ</div><div class="buy-grid"><div class="buy-card">5-1-2</div><div class="buy-card">5-2-4</div><div class="buy-card">5-1-4</div><div class="buy-card">5-2-6</div></div></div></div><div class="right"><img class="character-img" src="{character_src}"><div class="warning-box">⚡ 万舟警報発令中 ⚡</div><div class="notice" style="background:#fff3cd; border-color:#ff9800;"><div style="font-size:24px; font-weight:bold; color:#ff9800; margin-bottom:10px;">⚡ 直前チェック</div><div style="font-size:20px; line-height:1.8;">・展示急上昇：{up_boat}<br>・危険艇：{danger_boat}<br>・波乱指数：{wave}</div></div><div class="fukidashi" style="border-color:#ffb300; background:#fffdf3;"><div style="font-size:24px; font-weight:bold; color:#ff9800; margin-bottom:10px;">⚡ キイナコメント</div><div style="font-size:22px; line-height:1.8; font-weight:bold;">今日はイン危険！ 5コース一撃あるよ！</div></div></div></div><div style="background:#ff5722; color:white; text-align:center; padding:25px; font-size:34px; font-weight:bold;">⚡ 超波乱モード突入 ⚡</div></div><div style="text-align:center;"><button class="download-btn" onclick="saveImage('.wrapper-kiina', 'kiina_chokuzen.png')">画像を保存する</button></div></body></html>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    {common_style}
+    {kiina_style}
+    {download_logic}
+</head>
+<body>
+<div class="wrapper-kiina" style="width: 1000px; margin: auto; background: #fffde6; border: 6px solid #ffcc00; border-radius: 15px; overflow: hidden;">
+    
+    <div style="background: linear-gradient(90deg, #ff9800, #ff5722); color: white; text-align: center; padding: 15px; font-size: 32px; font-weight: 900; letter-spacing: 2px;">
+        ⚡ 展示終了！キイナの最終決断 ⚡
+    </div>
+
+    <div style="background: #fff; border-bottom: 4px solid #ffcc00; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center;">
+        <div style="font-size: 40px; font-weight: 900; color: #000;">⚡ キイナ判定<span style="font-size: 24px; color: #666;">（最終）</span></div>
+        <div style="text-align: right; line-height: 1.2;">
+            <div style="font-size: 20px; font-weight: bold;">{race_date}</div>
+            <div style="font-size: 32px; font-weight: 900; color: #ffcc00;">{race_place} {race_no}</div>
+        </div>
+    </div>
+
+    <div class="main" style="display: flex; gap: 15px; padding: 20px; background: #fffde6;">
+        
+        <div style="flex: 1.5;">
+            <div class="kiina-box" style="background:#fff; border:3px solid #000; padding: 20px; text-align: center; margin-bottom: 15px;">
+                <div style="display: flex; justify-content: center; gap: 20px; align-items: center; font-size: 60px; font-weight: 900;">
+                    <span style="color: #e60000;">◎ {hantei_double}</span>
+                    <span style="color: #333;">○ {hantei_single}</span>
+                    <span style="color: #666; font-size: 45px;">▲ {hantei_triangle}</span>
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 15px; margin-bottom: 15px;">
+                <div class="kiina-box" style="flex: 1; background: #000; color: #ffcc00; text-align: center; padding: 15px; border: 3px solid #ffcc00;">
+                    <div style="font-size: 18px; font-weight: bold;">的中期待度</div>
+                    <div style="font-size: 72px; font-weight: 900; color: #fff; text-shadow: 0 0 10px #ffcc00;">{hit_rate}%</div>
+                </div>
+                <div class="kiina-box" style="flex: 1; background: #e60000; color: #fff; text-align: center; padding: 15px; border: 3px solid #000; display: flex; flex-direction: column; justify-content: center;">
+                    <div style="font-size: 24px; font-weight: 900;">⚡ 警報 ⚡</div>
+                    <div style="font-size: 36px; font-weight: 900;">万舟注意！</div>
+                </div>
+            </div>
+
+            <div class="kiina-box" style="background: #000; border: 4px solid #ffcc00; padding: 20px; color: #fff;">
+                <div class="kiina-section-black" style="background:#ffcc00; color:#000;">⚡ キイナの買い目</div>
+                <div style="font-size: 70px; font-weight: 900; color: #ffcc00; text-align: center; margin: 15px 0;">
+                    {honmei_kaime}
+                </div>
+                <div style="font-size: 24px; color: #fff; text-align: center; border-top: 1px dashed #555; padding-top: 10px;">
+                    押さえ：{osae_kaime.replace('\\n', ' / ')}
+                </div>
+            </div>
+        </div>
+
+        <div style="flex: 1; text-align: center;">
+            <div style="position: relative;">
+                <img src="{character_src}" style="width: 100%; transform: scale(1.1); position: relative; z-index: 1;">
+                <div class="fukidashi" style="background:#000; color:#ffcc00; border:4px solid #ffcc00; margin-top:-30px; position:relative; z-index:2; padding:15px; border-radius:20px;">
+                    <div style="border-bottom:2px solid #ffcc00; margin-bottom:10px; font-weight:bold;">⚡ キイナの直前談</div>
+                    <div style="font-weight:bold; font-size: 16px;">{jikkan_comment}</div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 15px; background:rgba(0,0,0,0.9); padding:15px; border: 2px solid #ffcc00; border-radius:15px; text-align: left;">
+                <div class="kiina-section-black" style="width: 100%; box-sizing: border-box; text-align: center;">⚡ 直前確認</div>
+                <div style="margin-top:10px;">{check_list_html}</div>
+            </div>
+        </div>
+    </div>
+
+    <div style="background: #000; color: #ffcc00; padding: 15px; text-align: center; font-size: 24px; font-weight: 900; border-top: 4px solid #ffcc00;">
+        ⚡ キイナの最終判断！高配当を掴み取れ！ ⚡
+    </div>
+</div>
+<div style="text-align:center;">
+    <button class="download-btn" style="background:#ffcc00; color:#000;" onclick="saveImage('.wrapper-kiina', 'kiina_chokuzen.png')">画像を保存する</button>
+</div>
+</body>
+</html>
 """
 
 # =========================================
