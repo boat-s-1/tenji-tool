@@ -1355,6 +1355,11 @@ hatsune_zenjitsu_html = f"""
     <div style="background: linear-gradient(90deg, #9fa8da, #ce93d8); color: #fff; padding: 20px; text-align: center; font-size: 24px; font-weight: 900; border-top: 4px solid #fff;">
         🌸 Venus Statistics - 初音の女子戦分析 🌸
     </div>
+    # 組み立てたHTML + 保存ボタン
+full_hatsune_html = hatsune_style + hatsune_zenjitsu_html + save_button_js
+
+# 表示
+st.components.v1.html(full_hatsune_html, height=1500, scrolling=True)
 </div>
 # 組み立てたHTML + 保存ボタン
 full_hatsune_html = hatsune_style + hatsune_zenjitsu_html + save_button_js
