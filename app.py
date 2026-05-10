@@ -1298,38 +1298,49 @@ hatsune_zenjitsu_html = f"""
             </div>
         </div>
 
-        <div style="flex: 1; display: flex; flex-direction: column; gap: 15px;">
-            
-            <div style="position: relative; width: 100%; text-align: center;">
-                <img src="{hatsune_character_src}" style="width: 100%; transform: scale(1.1); position: relative; z-index: 1;">
-                <div class="fukidashi-hatsune" style="margin-top: -25px; position: relative; z-index: 2; box-shadow: 0 4px 10px rgba(179,157,219,0.3);">
-                    <div style="font-size: 14px; font-weight: 900; color: #5c6bc0; margin-bottom: 5px; border-bottom: 2px solid #ffb7c5; display: inline-block;">
-                        👗 初音の女子戦コメ
-                    </div>
-                    <div style="font-size: 13px; line-height: 1.4;">
-                        「女子戦はリズムが大事。体重調整も仕上がってるこの子が主役よ♪」
-                    </div>
-                </div>
+       # --- [右カラム：キャラクター ＆ サイドデータ] の修正 ---
+<div style="flex: 1; display: flex; flex-direction: column; gap: 15px;">
+    
+    <div style="position: relative; width: 100%; text-align: center;">
+        <img src="{hatsune_character_src}" style="width: 110%; transform: translateX(-5%); position: relative; z-index: 1;">
+        
+        <div class="fukidashi-hatsune" style="margin-top: -30px; position: relative; z-index: 2; box-shadow: 0 4px 12px rgba(179,157,219,0.3);">
+            <div style="font-size: 14px; font-weight: 900; color: #5c6bc0; margin-bottom: 5px; border-bottom: 2px solid #ffb7c5; display: inline-block;">
+                👗 初音の女子戦コメ
             </div>
-
-            <div class="hatsune-box" style="text-align: left; border: 2px solid #ce93d8;">
-                <div class="hatsune-title-ribbon" style="font-size: 12px; margin-bottom: 10px;">📍 注目ヴィーナス</div>
-                <ul style="font-size: 13px; padding-left: 20px; color: #444; line-height: 1.8; margin: 0;">
-                    <li>2号艇：差しハンドル鋭い！</li>
-                    <li>4号艇：カドから展開作る！</li>
-                    <li>近況の女子戦リズム重視♡</li>
-                </ul>
-            </div>
-
-            <div class="hatsune-box" style="text-align: left; border: 2px solid #ce93d8;">
-                <div class="hatsune-title-ribbon" style="font-size: 12px; margin-bottom: 10px;">📒 女子戦特化メモ</div>
-                <table style="width: 100%; font-size: 13px; border-collapse: collapse;">
-                    <tr style="border-bottom: 1px dashed #ffb7c5;"><td style="padding: 6px 0;">イン1着率</td><td style="text-align:right; font-weight:bold;">42.5%</td></tr>
-                    <tr style="border-bottom: 1px dashed #ffb7c5;"><td style="padding: 6px 0;">波乱指数</td><td style="text-align:right; font-weight:bold; color:#ba68c8;">★★★☆☆</td></tr>
-                    <tr><td style="padding: 6px 0; font-size: 11px; color: #666;">調整メモ</td><td style="text-align:right; font-size:11px; color:#666;">{weight_memo}</td></tr>
-                </table>
+            <div style="font-size: 13px; line-height: 1.5;">
+                「女子戦はリズムが大事。体重調整も仕上がってるこの子が主役よ♪」
             </div>
         </div>
+    </div>
+
+    <div class="hatsune-box" style="text-align: left; border: 2px solid #ce93d8; background: rgba(255, 255, 255, 0.9);">
+        <div class="hatsune-title-ribbon" style="font-size: 12px; margin-bottom: 10px;">📍 注目ヴィーナス</div>
+        <ul style="font-size: 13px; padding-left: 20px; color: #444; line-height: 1.8; margin: 0;">
+            <li>2号艇：差しハンドル鋭い！</li>
+            <li>4号艇：カドから展開作る！</li>
+            <li>近況の女子戦リズム重視♡</li>
+        </ul>
+    </div>
+
+    <div class="hatsune-box" style="text-align: left; border: 2px solid #ce93d8; background: rgba(255, 255, 255, 0.9);">
+        <div class="hatsune-title-ribbon" style="font-size: 12px; margin-bottom: 10px;">📒 女子戦特化メモ</div>
+        <table style="width: 100%; font-size: 13px; border-collapse: collapse;">
+            <tr style="border-bottom: 1px dashed #ffb7c5;">
+                <td style="padding: 8px 0; color: #666;">イン1着率</td>
+                <td style="text-align:right; font-weight:bold; color: #d81b60;">42.5%</td>
+            </tr>
+            <tr style="border-bottom: 1px dashed #ffb7c5;">
+                <td style="padding: 8px 0; color: #666;">波乱指数</td>
+                <td style="text-align:right; font-weight:bold; color:#ba68c8;">★★★☆☆</td>
+            </tr>
+            <tr>
+                <td style="padding: 8px 0; font-size: 11px; color: #999;">調整メモ</td>
+                <td style="text-align:right; font-size:11px; color:#666;">{weight_memo}</td>
+            </tr>
+        </table>
+    </div>
+</div>
     </div>
 
     <div style="background: linear-gradient(90deg, #9fa8da, #ce93d8); color: #fff; padding: 20px; text-align: center; font-size: 24px; font-weight: 900; border-top: 4px solid #fff;">
