@@ -242,18 +242,17 @@ with st.sidebar.expander("👗 初音の女子戦・ピックアップ設定"):
             
         pickup_players.append({"name": p_name, "img": p_img_src, "comment": p_comment})
 with st.sidebar.expander("👗 初音の女子戦設定"):
-    # 📸 キャラ画像アップローダーを追加
+    # アップローダーの設置
     hatsune_upload_img = st.file_uploader("初音ちゃんの画像を差し替え", type=['png', 'jpg', 'jpeg'], key="hatsune_main_upload")
 
+    # 画像の優先順位付け（アップロード > デフォルト）
     if hatsune_upload_img:
-        # アップロードされた画像がある場合、Base64に変換
         import base64
         base64_img = base64.b64encode(hatsune_upload_img.getvalue()).decode()
         hatsune_character_src = f"data:image/png;base64,{base64_img}"
     else:
-        # 画像がない場合のデフォルト（既存のパス等）
-        hatsune_character_src = get_base64_img("hatsune_default.png")
-
+        # デフォルト画像（既存のパスやURLを指定）
+        hatsune_character_src = "https://your-default-image-url.png"
 
 
 # HTMLに埋め込むための文字列を生成
@@ -1310,20 +1309,19 @@ hatsune_zenjitsu_html = f"""
             </div>
         </div>
 
-       <div style="flex: 1; display: flex; flex-direction: column; gap: 15px;">
-    
-    <div style="position: relative; width: 100%; text-align: center; min-height: 450px;">
-        <img src="{hatsune_character_src}" style="width: 120%; transform: translateX(-8%); position: relative; z-index: 1; filter: drop-shadow(0 10px 15px rgba(179,157,219,0.4));">
-        
-        <div class="fukidashi-hatsune" style="margin-top: -40px; position: relative; z-index: 2; box-shadow: 0 4px 12px rgba(179,157,219,0.3); border: 3px solid #ffb7c5; background: #fff;">
-            <div style="font-size: 14px; font-weight: 900; color: #5c6bc0; margin-bottom: 5px; border-bottom: 2px solid #ffb7c5; display: inline-block;">
-                👗 初音の女子戦コメ
-            </div>
-            <div style="font-size: 13px; line-height: 1.5;">
-                「女子戦はリズムが大事。体重調整も仕上がってるこの子が主役よ♪」
+      <div style="flex: 1; display: flex; flex-direction: column; gap: 15px;">
+        <div style="position: relative; width: 100%; text-align: center; min-height: 450px;">
+            <img src="{hatsune_character_src}" style="width: 120%; transform: translateX(-8%); position: relative; z-index: 1; filter: drop-shadow(0 10px 15px rgba(179,157,219,0.4));">
+            
+            <div class="fukidashi-hatsune" style="margin-top: -40px; position: relative; z-index: 2; box-shadow: 0 4px 12px rgba(179,157,219,0.3); border: 3px solid #ffb7c5; background: #fff;">
+                <div style="font-size: 14px; font-weight: 900; color: #5c6bc0; margin-bottom: 5px; border-bottom: 2px solid #ffb7c5; display: inline-block;">
+                    👗 初音の女子戦コメ
+                </div>
+                <div style="font-size: 13px; line-height: 1.5;">
+                    「女子戦はリズムが大事。体重調整も仕上がってるこの子が主役よ♪」
+                </div>
             </div>
         </div>
-    </div>
 
             <div class="hatsune-box" style="text-align: left; border: 2px solid #ce93d8; background: rgba(255, 255, 255, 0.9);">
                 <div class="hatsune-title-ribbon" style="font-size: 12px; margin-bottom: 10px;">📍 注目ヴィーナス</div>
