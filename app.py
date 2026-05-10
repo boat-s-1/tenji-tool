@@ -799,11 +799,12 @@ slit_box_html = f"""
     
     <div style="position: relative; padding-left: 10px;">
         <div style="position: absolute; left: 110px; top: 0; bottom: 0; border-left: 2px dashed #ffcc00; z-index: 5;"></div>
+        
         {slit_items_html}
     </div>
     
     <div style="text-align: right; font-size: 10px; color: #ffcc00; margin-top: 5px;">
-        &larr; 遅れ <span>|</span> 先行 &rarr;
+        &larr; 遅れ | 先行 &rarr;
     </div>
 </div>
 """
