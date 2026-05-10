@@ -1176,94 +1176,94 @@ hatsune_style = """
 
 
 
+# --- [1] 初音ちゃん前日版（縦長フルレイアウト） ---
 hatsune_zenjitsu_html = f"""
-<div class="wrapper-hatsune">
+<div class="wrapper-hatsune" style="width: 1000px; min-height: 1300px; margin: auto; background: linear-gradient(180deg, #e0f2ff 0%, #f3e5f5 100%); border: 6px solid #ffb7c5; border-radius: 20px; overflow: hidden; position: relative;">
+    
+    {hatsune_stamp_html}
 
-
-    <div class="hatsune-header">
-        <div style="color: #5c6bc0; font-weight: 900; font-size: 28px;">
-            💎 初音ちゃんの女子戦新聞 <span style="font-size: 14px; font-weight: bold;">前日版</span>
-        </div>
-        <div style="text-align: right; color: #7e57c2;">
-            <div style="font-size: 14px; font-weight: bold;">{race_date}</div>
-            <div style="font-size: 24px; font-weight: 900;">{race_place} {race_no}</div>
+    <div style="position: relative; width: 1000px; height: 180px; overflow: hidden; border-bottom: 4px solid #ffb7c5;">
+        <img src="{hatsune_header_img_src}" style="width: 1000px; height: auto; position: absolute; top: 0; left: 0; z-index: 1;">
+        <div style="position: absolute; right: 30px; top: 30px; text-align: right; z-index: 2; color: #fff; text-shadow: 2px 2px 4px rgba(0,0,0,0.4);">
+            <div style="font-size: 22px; font-weight: 800;">{race_date}</div>
+            <div style="display: flex; justify-content: flex-end; align-items: baseline; gap: 10px;">
+                <span style="font-size: 48px; font-weight: 900; color: #fff;">{race_place}</span>
+                <span style="font-size: 42px; font-weight: 900; color: #fff3dd;">{race_no}</span>
+            </div>
         </div>
     </div>
 
-    <div style="display: flex; gap: 12px; padding: 15px;">
-        <div style="flex: 1.8;">
-            <div class="hatsune-box" style="text-align: left;">
-                <div class="hatsune-title-ribbon">🦋 本命候補 🦋</div>
-                <div style="display: flex; align-items: center; justify-content: center; gap: 40px;">
-                    <div style="font-size: 60px; font-weight: 900; color: #5c6bc0;">{hatsune_honmei}</div>
-                    <div style="text-align: center;">
-                        <div style="font-size: 12px; color: #9fa8da;">女子戦適性</div>
-                        <div style="font-size: 40px; font-weight: 900; color: #ba68c8;">{wall_rank}</div>
+    <div style="display: flex; gap: 20px; padding: 25px;">
+        
+        <div style="flex: 1.6; display: flex; flex-direction: column; gap: 15px;">
+            
+            <div class="hatsune-box" style="text-align: left; padding: 20px;">
+                <div class="hatsune-title-ribbon">🦋 本命ヴィーナス候補 🦋</div>
+                <div style="display: flex; align-items: center; justify-content: center; gap: 40px; margin: 15px 0;">
+                    <div style="font-size: 85px; font-weight: 900; color: #d81b60; text-shadow: 2px 2px 0px #fff;">◎ {hatsune_honmei}</div>
+                    <div style="background: #fdf2f4; border: 2px solid #ffb7c5; border-radius: 15px; padding: 15px; text-align: center; min-width: 120px;">
+                        <div style="font-size: 14px; color: #666; font-weight: bold;">女子戦リズム</div>
+                        <div style="font-size: 32px; font-weight: 900; color: #ff69b4;">{hatsune_rhythm}</div>
                     </div>
                 </div>
-                <div style="text-align: center; font-weight: bold; color: #5c6bc0; margin-top: 5px;">
-                    スタートとターンが安定！軸に最適な選手です♪
-                </div>
-            </div>
-
-            <div class="hatsune-box">
-                <div class="hatsune-title-ribbon">🔷 初音のAI分析指数 🔷</div>
-                <div style="display: flex; justify-content: space-around; padding: 10px 0;">
-                    <div><div style="font-size:10px;">イン信頼度</div><div style="font-size:22px; font-weight:900;">58%</div></div>
-                    <div><div style="font-size:10px;">スタート安定</div><div style="font-size:22px; font-weight:900;">92%</div></div>
-                    <div><div style="font-size:10px;">ターン指数</div><div style="font-size:22px; font-weight:900;">89%</div></div>
-                    <div style="color: #ba68c8;"><div style="font-size:10px;">総合評価</div><div style="font-size:22px; font-weight:900;">S</div></div>
-                </div>
             </div>
 
             <div class="hatsune-box" style="text-align: left;">
+                <div class="hatsune-title-ribbon">🔷 初音の女子戦AI指数 🔷</div>
+                <div style="display: flex; justify-content: space-around; padding: 15px 0;">
+                    <div style="text-align:center;"><div style="font-size:12px; color:#666;">壁信頼度</div><div style="font-size:32px; font-weight:900; color:#5c6bc0;">{wall_rank}</div></div>
+                    <div style="text-align:center;"><div style="font-size:12px; color:#666;">当地相性</div><div style="font-size:32px; font-weight:900; color:#5c6bc0;">88%</div></div>
+                    <div style="text-align:center;"><div style="font-size:12px; color:#666;">ST安定度</div><div style="font-size:32px; font-weight:900; color:#5c6bc0;">92%</div></div>
+                    <div style="text-align:center;"><div style="font-size:12px; color:#ba68c8;">総合評価</div><div style="font-size:32px; font-weight:900; color:#ba68c8;">S</div></div>
+                </div>
+            </div>
+
+            <div class="hatsune-box" style="text-align: left; min-height: 200px;">
                 <div class="hatsune-title-ribbon">✨ 展開ストーリー（予想） ✨</div>
-                <div style="font-size: 13px; line-height: 1.6;">
+                <div style="font-size: 16px; line-height: 1.8; color: #444; padding: 10px;">
                     {story_items_html}
                 </div>
             </div>
 
-            <div class="hatsune-box" style="background: linear-gradient(135deg, #e8eaf6, #f3e5f5); border: 2px solid #5c6bc0;">
+            <div class="hatsune-box" style="background: linear-gradient(135deg, #e8eaf6, #f3e5f5); border: 3px solid #5c6bc0; padding: 25px;">
                 <div class="hatsune-title-ribbon" style="background: #5c6bc0;">📋 初音の買い目（推奨）</div>
-                <div style="display: flex; align-items: center; justify-content: center; gap: 30px; margin-top: 10px;">
-                    <div style="font-size: 48px; font-weight: 900; color: #283593;">{hatsune_kaime}</div>
-                    <div style="font-size: 12px; background: #fff; padding: 5px 10px; border-radius: 10px; border: 1px solid #5c6bc0;">
-                        自信度：<span style="font-size: 24px; color: #ba68c8; font-weight: 900;">A</span>
-                    </div>
+                <div style="font-size: 75px; font-weight: 900; color: #283593; text-align: center; margin: 15px 0; letter-spacing: 5px;">
+                    {hatsune_kaime}
                 </div>
             </div>
         </div>
 
-        <div style="flex: 1;">
+        <div style="flex: 1; display: flex; flex-direction: column; gap: 15px;">
             <div style="position: relative;">
-                <img src="{hatsune_character_src}" style="width: 100%; transform: scale(1.05); filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1));">
-                <div style="background: #fff; border: 2px solid #b39ddb; border-radius: 15px; padding: 10px; margin-top: 10px; font-size: 13px; font-weight: bold; color: #5c6bc0; position: relative; z-index: 2;">
-                    「女子戦は心のレース♡ 選手の近況リズムを大事に読んでみてね♪」
+                <img src="{hatsune_character_src}" style="width: 100%; transform: scale(1.1); position: relative; z-index: 1;">
+                <div class="fukidashi-hatsune" style="margin-top: -20px; position: relative; z-index: 2;">
+                    <div style="font-size: 16px; font-weight: 900; color: #5c6bc0; margin-bottom: 5px; border-bottom: 1px solid #ffb7c5;">👗 初音の女子戦コメ</div>
+                    「女子戦はリズムが大事。体重調整も仕上がってるこの子が主役よ♪」
                 </div>
             </div>
 
-            <div class="hatsune-box" style="margin-top: 15px; text-align: left;">
-                <div class="hatsune-title-ribbon" style="font-size: 12px;">📍 初音の注目ポイント</div>
-                <ul style="font-size: 12px; padding-left: 20px; color: #444; line-height: 1.8;">
-                    <li>2号艇のSTとターンが安定！</li>
-                    <li>4カドの動きに要警戒！</li>
-                    <li>女子戦は冷静さとリズム重視♡</li>
+            <div class="hatsune-box" style="text-align: left;">
+                <div class="hatsune-title-ribbon" style="font-size: 12px;">📍 注目ヴィーナス</div>
+                <ul style="font-size: 14px; padding-left: 20px; color: #444; line-height: 2;">
+                    <li>2号艇：差しハンドル鋭い！</li>
+                    <li>4号艇：カドから展開作る！</li>
+                    <li>近況の女子戦リズム重視♡</li>
                 </ul>
             </div>
-            
+
             <div class="hatsune-box" style="text-align: left;">
-                <div class="hatsune-title-ribbon" style="font-size: 12px;">📒 女子戦データメモ</div>
-                <table class="hatsune-data-table">
-                    <tr><td>1着率（直近60走）</td><td>24.1%</td></tr>
-                    <tr><td>イン1着率（平均）</td><td>42.3%</td></tr>
-                    <tr><td>波乱指数</td><td>★★★☆☆</td></tr>
+                <div class="hatsune-title-ribbon" style="font-size: 12px;">📒 女子戦特化メモ</div>
+                <table style="width: 100%; font-size: 14px; border-collapse: collapse;">
+                    <tr style="border-bottom: 1px dashed #ffb7c5;"><td style="padding: 8px 0;">イン1着率</td><td style="text-align:right; font-weight:bold;">42.5%</td></tr>
+                    <tr style="border-bottom: 1px dashed #ffb7c5;"><td style="padding: 8px 0;">波乱指数</td><td style="text-align:right; font-weight:bold; color:#ba68c8;">★★★☆☆</td></tr>
+                    <tr><td style="padding: 8px 0;">調整メモ</td><td style="text-align:right; font-size:12px;">{weight_memo}</td></tr>
                 </table>
             </div>
         </div>
     </div>
 
-    <div style="background: linear-gradient(90deg, #9fa8da, #ce93d8); color: #fff; padding: 10px; text-align: center; font-size: 14px; font-weight: 900;">
-        ✨ データとAIで女子戦をもっと楽しく♡ by 初音 ✨
+    <div style="background: linear-gradient(90deg, #9fa8da, #ce93d8); color: #fff; padding: 20px; text-align: center; font-size: 24px; font-weight: 900; border-top: 4px solid #fff;">
+        🌸 Venus Statistics - 初音の女子戦分析 🌸
     </div>
 </div>
 """
