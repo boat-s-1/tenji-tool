@@ -795,7 +795,7 @@ kiina_zenjitsu_html = f"""
 <div class="wrapper-kiina">
     <div style="position: relative; width: 1000px; height: 180px; overflow: hidden; border-bottom: 4px solid #ffcc00;">
         <img src="{kiina_header_img_src}" style="width: 1000px; height: auto; position: absolute; top: 0; left: 0; z-index: 1;">
-        <div style="position: absolute; right: 30px; top: 25px; text-align: right; z-index: 2; color: #fff; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">
+        <div style="position: absolute; right: 30px; top: 25px; text-align: right; z-index: 2; color: #fff; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); font-family: 'Zen Maru Gothic', sans-serif;">
             <div style="font-size: 22px; font-weight: 800;">{race_date}</div>
             <div style="display: flex; justify-content: flex-end; align-items: baseline; gap: 10px;">
                 <span style="font-size: 48px; font-weight: 900; color: #ffcc00;">{race_place}</span>
@@ -832,7 +832,8 @@ kiina_zenjitsu_html = f"""
                 {story_items_html}
             </div>
         </div>
-<div style="flex: 1; text-align: center;">
+
+        <div style="flex: 1; text-align: center;">
             <img src="{character_src}" style="width: 100%; transform: scale(1.1);">
             
             {check_box_html}
@@ -841,12 +842,11 @@ kiina_zenjitsu_html = f"""
                 <div style="font-weight:bold; font-size:22px; border-bottom:1px solid #ffcc00; margin-bottom:10px;">⚡ キイナのひとこと</div>
                 インが弱けりゃ私の出番でしょ！高配当いただき！
             </div>
-       
-
-    <div class="kiina-banner">
+        </div>
+    </div> <div class="kiina-banner">
         ⚡ {keihou_msg} ⚡
-    </div></div>
-</div></div>
+    </div>
+</div>
 """
 
 # --- [4] 最終的な kiina_html の組み立て ---
