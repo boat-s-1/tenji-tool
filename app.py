@@ -778,7 +778,6 @@ check_box_html = f"""
 
 # --- [2] スリットボックス全体を定義 ---
 slit_box_html = f"""
-# slit_box_html のタイトル部分
 <div class="kiina-section-black">⚡ スリット予想</div><div class="kiina-box" style="background: {slit_bg_color}; color: #fff; padding: 10px; position: relative; border: 2px solid {line_color}; border-radius: 10px;">
     <div style="background:{line_color}; color:#000; display:inline-block; padding:2px 10px; border-radius:3px; font-weight:bold; font-size:14px; margin-bottom:10px;">スリット予想</div>
     <div style="position: relative; padding-left: 10px;">
@@ -826,7 +825,8 @@ kiina_zenjitsu_html = f"""
     <div class="main" style="display: flex; gap: 15px; padding: 20px; background: #fffde6;">
         <div style="flex: 1.5;">
             <div class="kiina-box" style="text-align: center;">
-                <div style="background:#000; color:#fff; display:inline-block; padding:5px 20px; border-radius:5px; margin-bottom:10px;">本命候補</div>
+           
+<div class="kiina-section-black">⚡ スリット予想</div>本命候補</div>
                 <div style="font-size: 80px; font-weight: 900; color: #000;">◎ 5号艇</div>
                 <div style="display: flex; justify-content: space-around; margin-top: 15px; gap: 10px;">
                     <div style="background:#fff; border:3px solid #000; padding:10px; border-radius:15px; flex:1;">
