@@ -1293,8 +1293,8 @@ hatsune_zenjitsu_html = f"""
                 </div>
             </div>
 
-           # --- [推奨買い目] を [ピックアップ選手] に変更 ---
-# --- hatsune_zenjitsu_html 内の修正箇所 ---
+          
+
 <div class="hatsune-box" style="background: linear-gradient(135deg, #f3e5f5, #e8eaf6); border: 3px solid #b39ddb; padding: 15px;">
     <div class="hatsune-box">
         <div class="hatsune-title-ribbon">👗 初音の注目ピックアップ 👗</div>
