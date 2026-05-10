@@ -816,15 +816,27 @@ kiina_style = """
 """
 
 # --- [3] キイナちゃん前日版のメインHTMLを定義 ---
+# --- [3] キイナちゃん前日版のメインHTML（全パーツ復旧版） ---
 kiina_zenjitsu_html = f"""
 <div class="wrapper-kiina">
+    <div style="position: relative; width: 1000px; height: 180px; overflow: hidden; border-bottom: 4px solid #ffcc00;">
+        <img src="{kiina_header_img_src}" style="width: 1000px; height: auto; position: absolute; top: 0; left: 0; z-index: 1;">
+        <div style="position: absolute; right: 30px; top: 25px; text-align: right; z-index: 2; color: #fff; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); font-family: 'Zen Maru Gothic', sans-serif;">
+            <div style="font-size: 22px; font-weight: 800;">{race_date}</div>
+            <div style="display: flex; justify-content: flex-end; align-items: baseline; gap: 10px;">
+                <span style="font-size: 48px; font-weight: 900; color: #ffcc00;">{race_place}</span>
+                <span style="font-size: 42px; font-weight: 900;">{race_no}</span>
+            </div>
+        </div>
+    </div>
+
     <div class="main" style="display: flex; gap: 15px; padding: 20px; background: #fffde6;">
+        
         <div style="flex: 1.5;">
             <div class="kiina-box" style="text-align: left; padding: 20px;">
                 <div class="kiina-section-black">⚡ 本命候補</div>
-                
-                <div style="text-align: center;"> <div style="font-size: 80px; font-weight: 900; color: #000; margin: 10px 0;">◎ 5号艇</div>
-                    
+                <div style="text-align: center;">
+                    <div style="font-size: 80px; font-weight: 900; color: #000; margin: 10px 0;">◎ 5号艇</div>
                     <div style="display: flex; justify-content: space-around; gap: 10px;">
                         <div style="background:#fff; border:3px solid #000; padding:10px; border-radius:15px; flex:1;">
                             <div style="font-size:16px; font-weight:900;">5アタマ期待度</div>
@@ -850,10 +862,30 @@ kiina_zenjitsu_html = f"""
             </div>
         </div>
 
+        <div style="flex: 1; text-align: center; display: flex; flex-direction: column;">
+            <div style="position: relative;">
+                <img src="{character_src}" style="width: 100%; transform: scale(1.1); position: relative; z-index: 1;">
+                <div class="fukidashi" style="background: #000; color: #ffcc00; border: 4px solid #ffcc00; margin-top: -30px; position: relative; z-index: 2; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
+                    <div class="kiina-section-black" style="margin-bottom: 10px; border: none; border-bottom: 2px solid #ffcc00; border-radius: 0;">⚡ キイナのひとこと</div>
+                    <div style="font-size: 18px; line-height: 1.4; font-weight: bold;">
+                        インが弱けりゃ私の出番でしょ！高配当いただき！
+                    </div>
+                    <div style="position: absolute; top: -15px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-bottom: 15px solid #ffcc00;"></div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 15px;">
+                <div class="kiina-box" style="background:rgba(0,0,0,0.9); padding:15px; border: 2px solid #ffcc00; text-align: left;">
+                    <div class="kiina-section-black" style="width: 100%; text-align: center;">⚡ 直前チェック項目</div>
+                    {check_list_html}
+                </div>
+            </div>
         </div>
+    </div> <div class="kiina-banner">
+        ⚡ {keihou_msg} ⚡
+    </div>
 </div>
 """
-
 # --- [4] 最終的な kiina_html の組み立て ---
 kiina_html = f"""
 <!DOCTYPE html>
