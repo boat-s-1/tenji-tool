@@ -723,18 +723,15 @@ html_code2 = f"""
 slit_items_html = ""
 for i in range(1, 7):
     name = f"{i}号艇"
-    offset = slit_positions[name]  # スライダーの値
+    offset = slit_positions[name]
     b_src = boat_srcs.get(name, "")
-    
-    # offsetの値によって、右にどれだけずらすかを計算
-    # スリットラインを右から100pxの位置に設定すると想定
     margin_left = 50 + offset 
     
     slit_items_html += f"""
     <div style="display: flex; align-items: center; margin-bottom: 5px; height: 35px; position: relative;">
-        <span style="width: 25px; font-weight: bold; font-size: 14px;">{i}</span>
-        <div style="flex: 1; height: 100%; position: relative; background: rgba(255,255,255,0.1); border-radius: 5px;">
-            <img src="{b_src}" style="height: 30px; margin-left: {margin_left}px; transition: 0.3s;">
+        <span style="width: 25px; font-weight: bold; font-size: 14px; color: #fff;">{i}</span>
+        <div style="flex: 1; height: 100%; position: relative;">
+            <img src="{b_src}" style="height: 30px; margin-left: {margin_left}px;">
         </div>
     </div>
     """
@@ -789,12 +786,12 @@ kiina_zenjitsu_html = f"""
                 <div style="background:#ffcc00; color:#000; display:inline-block; padding:3px 15px; border-radius:5px; font-weight:bold; margin-bottom:10px;">展開ストーリー（予想）</div>
                 {story_items_html}
             </div>
-        </div>
+        </div>"""
 
 
 # --- kiina_live_html の中に組み込むパーツ ---
 slit_box_html = f"""
-<div class="kiina-box" style="background: #111; color: #fff; padding: 10px; position: relative;">
+<div class="kiina-box" style="background: #111; color: #fff; padding: 10px; position: relative; border: 2px solid #ffcc00; border-radius: 10px;">
     <div style="background:#ffcc00; color:#000; display:inline-block; padding:2px 10px; border-radius:3px; font-weight:bold; font-size:14px; margin-bottom:10px;">スリット予想</div>
     
     <div style="position: relative; padding-left: 10px;">
