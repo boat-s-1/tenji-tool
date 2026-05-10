@@ -1340,7 +1340,6 @@ hatsune_zenjitsu_html = f"""
             </tr>
         </table>
     </div>
-</div>
     </div>
 
     <div style="background: linear-gradient(90deg, #9fa8da, #ce93d8); color: #fff; padding: 20px; text-align: center; font-size: 24px; font-weight: 900; border-top: 4px solid #fff;">
