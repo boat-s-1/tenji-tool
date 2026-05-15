@@ -1140,36 +1140,15 @@ kiina_live_html = f"""
 </html>
 """
 # =========================================
-# 初音
+# 👗 初音ちゃんセクション（前日版・直前版 完全統合）
 # =========================================
-# --- 1. 画像の準備（HTMLより上で実行） ---
-# 初音ちゃんのメイン画像
-hatsune_character_src = get_base64_img("hatsune_main.png") # ファイル名は実際の保存名に合わせてください
 
-# 初音ちゃん前日版のヘッダー画像
-hatsune_header_img_src = get_base64_img("hatsune_header.png") 
-
-# --- 2. 変数の初期化（HTMLより上で実行） ---
-# サイドバーですでに作っている場合は、そちらが優先されます
-if 'hatsune_honmei' not in locals():
-    hatsune_honmei = "1号艇"
-if 'wall_rank' not in locals():
-    wall_rank = "A"
-if 'hatsune_kaime' not in locals():
-    hatsune_kaime = "1-23-4"
-if 'hatsune_stamp_html' not in locals():
-    hatsune_stamp_html = ""
-if 'story_items_html' not in locals():
-    story_items_html = "<li>ここに展開ストーリーが入ります</li>"
-
-# --- この後に hatsune_zenjitsu_html = f"""...""" を書く ---
-
-
-
+# --- 1. 専用スタイルの定義 ---
 hatsune_style = """
 <style>
-/* 全体の背景 */
-.wrapper-hatsune {
+@import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700;900&display=swap');
+
+.wrapper-hatsune-zenjitsu, .wrapper-hatsune-live {
     width: 1000px;
     margin: auto;
     background: linear-gradient(180deg, #e0f2ff 0%, #f3e5f5 100%);
@@ -1178,31 +1157,28 @@ hatsune_style = """
     overflow: hidden;
     font-family: 'Zen Maru Gothic', sans-serif;
     position: relative;
-    padding-bottom: 0px;
+    box-shadow: 0 0 25px rgba(206, 147, 216, 0.3);
 }
 
-/* ボックスデザイン */
 .hatsune-box {
-    background: rgba(255, 255, 255, 0.85);
+    background: rgba(255, 255, 255, 0.9);
     border: 2px solid #ce93d8;
     border-radius: 15px;
-    padding: 12px;
+    padding: 15px;
     box-shadow: 2px 2px 8px rgba(179, 157, 219, 0.2);
 }
 
-/* リボンタイトル */
 .hatsune-title-ribbon {
     background: linear-gradient(90deg, #9fa8da, #ce93d8);
     color: #fff;
     font-size: 16px;
     font-weight: 900;
-    padding: 4px 20px;
+    padding: 6px 20px;
     border-radius: 20px;
     display: inline-block;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
 }
 
-/* 🌸 追加：初音ちゃんの吹き出しデザイン */
 .fukidashi-hatsune {
     background: #ffffff;
     border: 3px solid #ffb7c5;
@@ -1213,6 +1189,7 @@ hatsune_style = """
     font-weight: bold;
     color: #5c6bc0;
     text-align: left;
+    box-shadow: 0 4px 12px rgba(179,157,219,0.3);
 }
 .fukidashi-hatsune::after {
     content: "";
@@ -1227,50 +1204,11 @@ hatsune_style = """
 </style>
 """
 
-save_button_js = f"""
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-<script>
-function saveImage() {{
-    const target = document.querySelector(".wrapper-hatsune");
-    html2canvas(target, {{
-        useCORS: true,
-        scale: 2, // 💡 画質を上げるために2倍で保存
-        backgroundColor: null
-    }}).then(canvas => {{
-        const link = document.createElement("a");
-        link.download = "hatsune_zenjitsu_{race_place}_{race_no}.png";
-        link.href = canvas.toDataURL("image/png");
-        link.click();
-    }});
-}}
-</script>
-<div style="text-align: center; margin-top: 20px;">
-    <button onclick="saveImage()" style="
-        background: linear-gradient(90deg, #ffb7c5, #ce93d8);
-        color: white;
-        border: none;
-        padding: 12px 30px;
-        border-radius: 25px;
-        font-size: 18px;
-        font-weight: bold;
-        cursor: pointer;
-        box-shadow: 0 4px 15px rgba(179,157,219,0.4);
-    ">📸 画像として保存する</button>
-</div>
-"""
-
-
-
-
-# --- [1] 初音ちゃん前日版（縦長フルレイアウト） ---
-# --- [1] 初音ちゃん前日版（縦長・完全修正版） ---
-# --- [1] 初音ちゃん前日版（縦長・右カラムキャラ配置 確定版） ---
-hatsune_zenjitsu_html = f"""
-<div class="wrapper-hatsune" style="width: 1000px; min-height: 1300px; margin: auto; background: linear-gradient(180deg, #e0f2ff 0%, #f3e5f5 100%); border: 6px solid #ffb7c5; border-radius: 20px; overflow: hidden; position: relative;">
-    
-    {hatsune_stamp_html}
-
-    <div style="position: relative; width: 1000px; height: 180px; overflow: hidden; border-bottom: 4px solid #ffb7c5; border-radius: 20px 20px 0 0;">
+# --- 2. 【前日版】HTML組み立て ---
+hatsune_zenjitsu_body = f"""
+<div class="wrapper-hatsune-zenjitsu">
+    <!-- ヘッダー -->
+    <div style="position: relative; width: 1000px; height: 180px; overflow: hidden; border-bottom: 4px solid #ffb7c5;">
         <img src="{new_hatsune_header_src}" style="width: 1000px; height: auto; position: absolute; top: 0; left: 0; z-index: 1;">
         <div style="position: absolute; right: 25px; bottom: 15px; text-align: right; z-index: 2; color: #fff; text-shadow: 2px 2px 5px rgba(126, 87, 194, 0.8);">
             <div style="font-size: 20px; font-weight: 800;">{race_date}</div>
@@ -1281,79 +1219,77 @@ hatsune_zenjitsu_html = f"""
         </div>
     </div>
 
-    <div style="display: flex; gap: 20px; padding: 25px; align-items: flex-start;">
-        
-        <div style="flex: 1.6; display: flex; flex-direction: column; gap: 15px;">
-            
-            <div class="hatsune-box" style="padding: 20px; border: 3px solid #b39ddb; background: rgba(255, 255, 255, 0.9);">
-                <div style="text-align: left; margin-bottom: 20px;">
-                    <div class="hatsune-title-ribbon">🦋 本命ヴィーナス候補 🦋</div>
-                    <div style="display: flex; align-items: center; justify-content: center; gap: 30px; margin-top: 10px;">
-                        <div style="font-size: 80px; font-weight: 900; color: #d81b60; line-height: 1;">◎ {hatsune_honmei}</div>
-                        <div style="border: 2px solid #ffb7c5; border-radius: 12px; padding: 10px 20px; background: #fff;">
-                            <div style="font-size: 12px; color: #666; font-weight: bold; margin-bottom: 3px;">女子戦リズム</div>
-                            <div style="font-size: 28px; font-weight: 900; color: #ff69b4;">{hatsune_rhythm}</div>
-                        </div>
+    <!-- メインコンテンツ -->
+    <div class="main" style="display: flex; gap: 20px; padding: 25px; align-items: flex-start; background: transparent;">
+        <!-- 左カラム -->
+        <div style="width: 610px; display: flex; flex-direction: column; gap: 15px;">
+            <!-- 本命候補ボックス -->
+            <div class="hatsune-box">
+                <div class="hatsune-title-ribbon">🦋 本命ヴィーナス候補 🦋</div>
+                <div style="display: flex; align-items: center; justify-content: center; gap: 30px; margin-top: 10px;">
+                    <div style="font-size: 70px; font-weight: 900; color: #d81b60; line-height: 1;">◎ {hatsune_honmei}</div>
+                    <div style="border: 2px solid #ffb7c5; border-radius: 12px; padding: 10px 20px; background: #fff; text-align: center;">
+                        <div style="font-size: 12px; color: #666; font-weight: bold; margin-bottom: 3px;">女子戦リズム</div>
+                        <div style="font-size: 24px; font-weight: 900; color: #ff69b4;">{hatsune_rhythm}</div>
                     </div>
                 </div>
-
-                <div style="text-align: left;">
-                    <div style="color: #5c6bc0; font-size: 14px; font-weight: 900; margin-bottom: 10px; display: flex; align-items: center; gap: 5px;">
-                        <span style="color:#b39ddb;">◆</span> 初音の女子戦AI指数 <span style="color:#b39ddb;">◆</span>
-                    </div>
+                
+                <!-- 各種指数 -->
+                <div style="margin-top: 20px; text-align: left;">
+                    <div style="color: #5c6bc0; font-size: 14px; font-weight: 900; margin-bottom: 10px;">◆ 初音の女子戦AI指数 ◆</div>
                     <div style="display: flex; gap: 10px; justify-content: space-between;">
                         <div style="flex: 1; border: 1.5px solid #ce93d8; border-radius: 10px; padding: 8px; text-align: center; background: #fff;">
                             <div style="font-size: 10px; color: #7e57c2; margin-bottom: 4px; font-weight: bold;">壁信頼度</div>
-                            <div style="font-size: 24px; font-weight: 900; color: #5c6bc0;">{wall_rank}</div>
+                            <div style="font-size: 22px; font-weight: 900; color: #5c6bc0;">{wall_rank}</div>
                         </div>
                         <div style="flex: 1; border: 1.5px solid #ce93d8; border-radius: 10px; padding: 8px; text-align: center; background: #fff;">
                             <div style="font-size: 10px; color: #7e57c2; margin-bottom: 4px; font-weight: bold;">当地相性</div>
-                            <div style="font-size: 24px; font-weight: 900; color: #5c6bc0;">88%</div>
+                            <div style="font-size: 22px; font-weight: 900; color: #5c6bc0;">88%</div>
                         </div>
                         <div style="flex: 1; border: 1.5px solid #ce93d8; border-radius: 10px; padding: 8px; text-align: center; background: #fff;">
                             <div style="font-size: 10px; color: #7e57c2; margin-bottom: 4px; font-weight: bold;">ST安定度</div>
-                            <div style="font-size: 24px; font-weight: 900; color: #5c6bc0;">92%</div>
+                            <div style="font-size: 22px; font-weight: 900; color: #5c6bc0;">92%</div>
                         </div>
                         <div style="flex: 1; border: 2px solid #ffb7c5; border-radius: 10px; padding: 8px; text-align: center; background: #fdf2f4;">
                             <div style="font-size: 10px; color: #d81b60; margin-bottom: 4px; font-weight: bold;">総合評価</div>
-                            <div style="font-size: 24px; font-weight: 900; color: #ff69b4;">S</div>
+                            <div style="font-size: 22px; font-weight: 900; color: #ff69b4;">S</div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="hatsune-box" style="text-align: left; min-height: 180px; border: 2px solid #ce93d8; background: rgba(255, 255, 255, 0.9); padding: 15px;">
-                <div class="hatsune-title-ribbon" style="margin-bottom: 15px;">✨ 展開ストーリー（予想） ✨</div>
-                <div style="border: 1.5px dashed #b39ddb; border-radius: 10px; padding: 12px; background: #fdfbff;">
-                    <div style="font-size: 15px; line-height: 1.8; color: #444; font-weight: bold;">
-                        {story_items_html}
-                    </div>
+            <!-- 展開ストーリー -->
+            <div class="hatsune-box">
+                <div class="hatsune-title-ribbon">✨ 展開ストーリー（予想） ✨</div>
+                <div style="border: 1.5px dashed #b39ddb; border-radius: 10px; padding: 15px; background: #fdfbff; text-align: left;">
+                    {story_items_html}
                 </div>
             </div>
 
-            <div class="hatsune-box" style="background: linear-gradient(135deg, #f3e5f5, #e8eaf6); border: 3px solid #b39ddb; padding: 15px;">
+            <!-- ピックアップ選手 -->
+            <div class="hatsune-box" style="background: linear-gradient(135deg, #f3e5f5, #e8eaf6);">
                 <div class="hatsune-title-ribbon" style="background: #7e57c2;">👗 初音の注目ピックアップ 👗</div>
-                <div style="display: flex; flex-direction: column; margin-top: 10px;">
+                <div style="display: flex; flex-direction: column; gap: 5px;">
                     {pickup_html_list}
                 </div>
             </div>
         </div>
 
-      <div style="flex: 1; display: flex; flex-direction: column; gap: 15px;">
-        <div style="position: relative; width: 100%; text-align: center; min-height: 450px;">
-            <img src="{hatsune_character_src}" style="width: 120%; transform: translateX(-8%); position: relative; z-index: 1; filter: drop-shadow(0 10px 15px rgba(179,157,219,0.4));">
-            
-            <div class="fukidashi-hatsune" style="margin-top: -40px; position: relative; z-index: 2; box-shadow: 0 4px 12px rgba(179,157,219,0.3); border: 3px solid #ffb7c5; background: #fff;">
-                <div style="font-size: 14px; font-weight: 900; color: #5c6bc0; margin-bottom: 5px; border-bottom: 2px solid #ffb7c5; display: inline-block;">
-                    👗 初音の女子戦コメ
-                </div>
-                <div style="font-size: 13px; line-height: 1.5;">
-                    「女子戦はリズムが大事。体重調整も仕上がってるこの子が主役よ♪」
+        <!-- 右カラム -->
+        <div style="width: 340px; display: flex; flex-direction: column; gap: 15px; text-align: center;">
+            <div style="position: relative; width: 100%;">
+                <img src="{hatsune_character_src}" style="width: 100%; max-width: 300px; filter: drop-shadow(0 8px 12px rgba(179,157,219,0.4));">
+                <div class="fukidashi-hatsune" style="margin-top: -30px;">
+                    <div style="font-size: 14px; font-weight: 900; color: #5c6bc0; margin-bottom: 5px; border-bottom: 2px solid #ffb7c5; display: inline-block;">
+                        👗 初音の女子戦コメ
+                    </div>
+                    <div style="font-size: 13px; line-height: 1.5;">
+                        「女子戦はリズムが大事。体重調整も仕上がってるこの子が主役よ♪」
+                    </div>
                 </div>
             </div>
-        </div>
 
-            <div class="hatsune-box" style="text-align: left; border: 2px solid #ce93d8; background: rgba(255, 255, 255, 0.9);">
+            <div class="hatsune-box" style="text-align: left;">
                 <div class="hatsune-title-ribbon" style="font-size: 12px; margin-bottom: 10px;">📍 注目ヴィーナス</div>
                 <ul style="font-size: 13px; padding-left: 20px; color: #444; line-height: 1.8; margin: 0;">
                     <li>2号艇：差しハンドル鋭い！</li>
@@ -1362,7 +1298,7 @@ hatsune_zenjitsu_html = f"""
                 </ul>
             </div>
 
-            <div class="hatsune-box" style="text-align: left; border: 2px solid #ce93d8; background: rgba(255, 255, 255, 0.9);">
+            <div class="hatsune-box" style="text-align: left;">
                 <div class="hatsune-title-ribbon" style="font-size: 12px; margin-bottom: 10px;">📒 女子戦特化メモ</div>
                 <table style="width: 100%; font-size: 13px; border-collapse: collapse;">
                     <tr style="border-bottom: 1px dashed #ffb7c5;">
@@ -1382,20 +1318,157 @@ hatsune_zenjitsu_html = f"""
         </div>
     </div>
 
-    <div style="background: linear-gradient(90deg, #9fa8da, #ce93d8); color: #fff; padding: 20px; text-align: center; font-size: 24px; font-weight: 900; border-top: 4px solid #fff;">
+    <!-- フッター -->
+    <div style="background: linear-gradient(90deg, #9fa8da, #ce93d8); color: #fff; padding: 15px; text-align: center; font-size: 20px; font-weight: 900; border-top: 4px solid #fff;">
         🌸 Venus Statistics - 初音の女子戦分析 🌸
     </div>
-
 </div>
- # 組み立てたHTML + 保存ボタン
-full_hatsune_html = hatsune_style + hatsune_zenjitsu_html + save_button_js
-
-# 表示
-st.components.v1.html(full_hatsune_html, height=1500, scrolling=True)
 """
 
+# --- 3. 【直前版】HTML組み立て ---
+hatsune_live_body = f"""
+<div class="wrapper-hatsune-live">
+    <!-- LIVE帯 -->
+    <div style="background:#ce93d8; color:white; padding:12px; font-size:28px; font-weight:bold; text-align:center; letter-spacing: 2px;">
+        👗 展示終了！初音のヴィーナスLIVE判定 👗
+    </div>
 
-hatsune_live_html = hatsune_zenjitsu_html
+    <!-- ヘッダー -->
+    <div style="position: relative; width: 1000px; height: 180px; overflow: hidden; border-bottom: 4px solid #ffb7c5;">
+        <img src="{new_hatsune_header_src}" style="width: 1000px; height: auto; position: absolute; top: 0; left: 0; z-index: 1;">
+        <div style="position: absolute; right: 25px; bottom: 15px; text-align: right; z-index: 2; color: #fff; text-shadow: 2px 2px 5px rgba(126, 87, 194, 0.8);">
+            <div style="font-size: 20px; font-weight: 800;">{race_date}</div>
+            <div style="display: flex; justify-content: flex-end; align-items: baseline; gap: 8px;">
+                <span style="font-size: 42px; font-weight: 900; color: #fff;">{race_place}</span>
+                <span style="font-size: 38px; font-weight: 900; color: #ffe082;">{race_no}</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- メインコンテンツ -->
+    <div class="main" style="display: flex; gap: 20px; padding: 25px; align-items: flex-start; background: transparent;">
+        <!-- 左カラム -->
+        <div style="width: 610px; display: flex; flex-direction: column; gap: 15px;">
+            <!-- 展示評価 & 直前判定 -->
+            <div class="hatsune-box">
+                <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px dashed #ce93d8; padding-bottom: 10px; margin-bottom: 15px;">
+                    <span style="font-size: 24px; font-weight: bold; color: #7e57c2;">展示評価：<span style="font-size: 38px; color: #d81b60;">{tenji_rank}</span></span>
+                    <div style="text-align: right; font-size: 14px; color: #555; line-height: 1.4;">
+                        <span>補正タイム：{tenji_time}</span><br>
+                        <span>進入予想：{shinnyu}</span>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; padding: 5px 0;">
+                    <div style="font-size: 16px; color: #7e57c2; font-weight: bold; margin-bottom: 10px;">👗 初音の最終決断シルシ</div>
+                    <div style="display: flex; justify-content: center; gap: 12px;">
+                        <span style="background:#d81b60; color:white; padding:6px 18px; border-radius:50px; font-size:20px; font-weight:bold; box-shadow: 0 3px 0 #b0124a;">
+                            ◎ {hantei_double}
+                        </span>
+                        <span style="background:#f3e5f5; color:#7e57c2; padding:6px 18px; border-radius:50px; font-size:20px; font-weight:bold; border: 2px solid #ce93d8;">
+                            ○ {hantei_single}
+                        </span>
+                        <span style="background:#f5f5f5; color:#666; padding:6px 18px; border-radius:50px; font-size:20px; font-weight:bold; border: 2px solid #999;">
+                            ▲ {hantei_triangle}
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 的中期待度 -->
+            <div class="hatsune-box" style="display: flex; justify-content: space-between; align-items: center; padding: 15px 25px;">
+                <div>
+                    <div class="hatsune-title-ribbon" style="margin-bottom: 5px;">的中期待度</div>
+                    <div style="font-size: 55px; font-weight: 900; color: #d81b60; line-height: 1; margin-top: 5px;">
+                        {hit_rate}<span style="font-size: 24px;">%</span>
+                    </div>
+                </div>
+                <div style="font-size: 14px; color: #7e57c2; font-weight: bold; text-align: right;">
+                    女子戦特化型<br>直前LIVEシステム
+                </div>
+            </div>
+
+            <!-- 最終買い目 -->
+            <div class="hatsune-box" style="background: #fffdfd; border: 2px solid #ffb7c5;">
+                <div style="font-size: 18px; font-weight: bold; color: #d81b60; margin-bottom: 12px; text-align: center;">👗 推奨フォーカス</div>
+                <div style="font-size:32px; font-weight:bold; color:#d81b60; text-align:center; padding: 12px 0; background: #fff; border-radius: 12px; border: 2px solid #ffb7c5; margin-bottom: 12px; box-shadow: 0 2px 6px rgba(216,27,96,0.1);">
+                    本命：{honmei_kaime}
+                </div>
+                <div style="font-size:20px; text-align:center; color:#5c6bc0; font-weight: bold; line-height: 1.5; background: #fdfcff; padding: 10px; border-radius: 8px;">
+                    押さえ：{osae_kaime.replace('\\n', ' / ')}
+                </div>
+            </div>
+        </div>
+
+        <!-- 右カラム -->
+        <div style="width: 340px; display: flex; flex-direction: column; gap: 15px; text-align: center;">
+            <div style="position: relative; width: 100%;">
+                <img src="{hatsune_character_src}" style="width: 100%; max-width: 300px; filter: drop-shadow(0 8px 12px rgba(179,157,219,0.4));">
+                <div class="fukidashi-hatsune" style="margin-top: -30px;">
+                    <div class="hatsune-title-ribbon" style="font-size: 12px; margin-bottom: 8px; background: #7e57c2;">👗 直前リアルタイム談</div>
+                    <div style="font-size: 13px; line-height: 1.5;">{jikkan_comment}</div>
+                </div>
+            </div>
+
+            <div class="hatsune-box" style="text-align: left; background: #fdfbff;">
+                <div class="hatsune-title-ribbon" style="font-size: 12px; margin-bottom: 10px; background: #5c6bc0;">⚡ 展示気配メモ</div>
+                <div style="font-size: 14px; font-weight: bold; color: #444; line-height: 1.6;">
+                    {motor_eval}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- フッター -->
+    <div style="background: linear-gradient(90deg, #9fa8da, #ce93d8); color: #fff; padding: 15px; text-align: center; font-size: 20px; font-weight: 900; border-top: 4px solid #fff;">
+        👗 初音の最終ヴィーナスジャッジLIVE 👗
+    </div>
+</div>
+"""
+
+# --- 4. JavaScriptを含む完全なHTMLの生成関数 ---
+def generate_hatsune_html(body_content, target_class, filename):
+    return f"""
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        {hatsune_style}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+        <script>
+        function saveHatsuneImage() {{
+            const target = document.querySelector('{target_class}');
+            html2canvas(target, {{
+                useCORS: true,
+                scale: 2,
+                backgroundColor: "#ffffff"
+            }}).then(canvas => {{
+                const link = document.createElement('a');
+                link.download = '{filename}';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            }});
+        }}
+        </script>
+        <style>
+        .download-btn-hatsune {{
+            display: block; width: 240px; margin: 20px auto; padding: 12px;
+            background: linear-gradient(90deg, #ffb7c5, #ce93d8); color: white;
+            border: none; border-radius: 50px; font-size: 16px; font-weight: bold;
+            cursor: pointer; box-shadow: 0 4px 12px rgba(179,157,219,0.4); transition: 0.2s;
+        }}
+        .download-btn-hatsune:hover {{ opacity: 0.9; transform: translateY(-1px); }}
+        </style>
+    </head>
+    <body style="background: transparent; padding: 10px; margin: 0;">
+        {body_content}
+        <button class="download-btn-hatsune" onclick="saveHatsuneImage()">📸 画像として保存する</button>
+    </body>
+    </html>
+    """
+
+hatsune_zenjitsu_final_html = generate_hatsune_html(hatsune_zenjitsu_body, '.wrapper-hatsune-zenjitsu', f'hatsune_zenjitsu_{race_place}_{race_no}.png')
+hatsune_live_final_html = generate_hatsune_html(hatsune_live_body, '.wrapper-hatsune-live', f'hatsune_live_{race_place}_{race_no}.png')
 
 
 
@@ -1431,6 +1504,6 @@ with main_tab2:
 with main_tab3:
     sub_tab5, sub_tab6 = st.tabs(["👗 前日版", "👗 直前版"])
     with sub_tab5:
-        html(hatsune_zenjitsu_html, height=2600, scrolling=True)
+        html(hatsune_zenjitsu_final_html, height=1500, scrolling=True)
     with sub_tab6:
-        html(hatsune_live_html, height=2600, scrolling=True)
+        html(hatsune_live_final_html, height=1200, scrolling=True)
