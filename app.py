@@ -254,7 +254,9 @@ with st.sidebar.expander("👗 初音の女子戦設定"):
         # デフォルト画像（既存のパスやURLを指定）
         hatsune_character_src = "https://your-default-image-url.png"
 
+selected_hatsune_stamp_label = st.selectbox("初音のスタンプ", ["なし"] + list(stamp_dict.keys()), index=0, key="hatsune_stamp_select")
 
+    
 # HTMLに埋め込むための文字列を生成
 pickup_html_list = ""
 for p in pickup_players:
@@ -967,16 +969,17 @@ kiina_zenjitsu_html = f"""
             </div>
         </div>
 
-        <div style="flex: 1; text-align: center;">
-            <div style="position: relative;">
-                <img src="{character_src}" style="width: 100%; transform: scale(1.1); position: relative; z-index: 1;">
-                <div class="fukidashi" style="background:#000; color:#ffcc00; border:4px solid #ffcc00; margin-top:-30px; position:relative; z-index:2; padding:15px; border-radius:20px;">
+        <div style="width: 340px; flex-shrink: 0; text-align: center; display: flex; flex-direction: column; align-items: center;">
+            <div style="position: relative; width: 100%;">
+                <img src="{character_src}" style="width: 100%; max-width: 280px; height: auto; position: relative; z-index: 1;">
+                
+                <div class="fukidashi" style="background:#000; color:#ffcc00; border:4px solid #ffcc00; margin-top:-40px; position:relative; z-index:2; padding:15px; border-radius:20px; text-align: left; width: 90%; box-sizing: border-box;">
                     <div style="border-bottom:2px solid #ffcc00; margin-bottom:10px; font-weight:bold;">⚡ キイナのひとこと</div>
-                    <div style="font-weight:bold;">インが弱けりゃ私の出番でしょ！高配当いただき！</div>
+                    <div style="font-weight:bold; font-size: 15px; line-height: 1.4;">インが弱けりゃ私の出番でしょ！高配当いただき！</div>
                 </div>
             </div>
             
-            <div style="margin-top: 15px; background:rgba(0,0,0,0.9); padding:15px; border: 2px solid #ffcc00; border-radius:15px; text-align: left;">
+            <div style="margin-top: 15px; background:rgba(0,0,0,0.9); padding:15px; border: 2px solid #ffcc00; border-radius:15px; text-align: left; width: 90%; box-sizing: border-box;">
                 <div class="kiina-section-black" style="width: 100%; box-sizing: border-box; text-align: center;">⚡ 直前チェック項目</div>
                 <div style="margin-top:10px;">{check_list_html}</div>
             </div>
