@@ -1404,24 +1404,23 @@ hatsune_live_body = f"""
         </div>
 
         <!-- 右カラム -->
-        <div style="width: 340px; display: flex; flex-direction: column; gap: 15px; text-align: center;">
+     <div style="width: 340px; flex-shrink: 0; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 15px;">
             <div style="position: relative; width: 100%;">
-                <img src="{hatsune_character_src}" style="width: 100%; max-width: 300px; filter: drop-shadow(0 8px 12px rgba(179,157,219,0.4));">
-                <div class="fukidashi-hatsune" style="margin-top: -30px;">
+                <img src="{character_src}" style="width: 100%; max-width: 280px; height: auto; position: relative; z-index: 1; filter: drop-shadow(0 8px 12px rgba(179,157,219,0.4));">
+                
+                <div class="fukidashi-hatsune" style="margin-top: -40px; position: relative; z-index: 2; width: 90%; box-sizing: border-box;">
                     <div class="hatsune-title-ribbon" style="font-size: 12px; margin-bottom: 8px; background: #7e57c2;">👗 直前リアルタイム談</div>
-                    <div style="font-size: 13px; line-height: 1.5;">{jikkan_comment}</div>
+                    <div style="font-size: 13px; line-height: 1.5; color: #444;">{jikkan_comment}</div>
                 </div>
             </div>
-
-            <div class="hatsune-box" style="text-align: left; background: #fdfbff;">
+            
+            <div class="hatsune-box" style="text-align: left; background: #fdfbff; width: 90%; box-sizing: border-box;">
                 <div class="hatsune-title-ribbon" style="font-size: 12px; margin-bottom: 10px; background: #5c6bc0;">⚡ 展示気配メモ</div>
                 <div style="font-size: 14px; font-weight: bold; color: #444; line-height: 1.6;">
                     {motor_eval}
                 </div>
             </div>
         </div>
-    </div>
-
     <!-- フッター -->
     <div style="background: linear-gradient(90deg, #9fa8da, #ce93d8); color: #fff; padding: 15px; text-align: center; font-size: 20px; font-weight: 900; border-top: 4px solid #fff;">
         👗 初音の最終ヴィーナスジャッジLIVE 👗
