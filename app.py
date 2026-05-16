@@ -1279,20 +1279,21 @@ hatsune_zenjitsu_body = f"""
         </div>
 
         <!-- 右カラム -->
-        <div style="width: 340px; display: flex; flex-direction: column; gap: 15px; text-align: center;">
+<div style="width: 340px; flex-shrink: 0; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 15px;">
             <div style="position: relative; width: 100%;">
-                <img src="{hatsune_character_src}" style="width: 100%; max-width: 300px; filter: drop-shadow(0 8px 12px rgba(179,157,219,0.4));">
-                <div class="fukidashi-hatsune" style="margin-top: -30px;">
+                <img src="{character_src}" style="width: 100%; max-width: 280px; height: auto; position: relative; z-index: 1; filter: drop-shadow(0 8px 12px rgba(179,157,219,0.4));">
+                
+                <div class="fukidashi-hatsune" style="margin-top: -40px; position: relative; z-index: 2; width: 90%; box-sizing: border-box;">
                     <div style="font-size: 14px; font-weight: 900; color: #5c6bc0; margin-bottom: 5px; border-bottom: 2px solid #ffb7c5; display: inline-block;">
                         👗 初音の女子戦コメ
                     </div>
-                    <div style="font-size: 13px; line-height: 1.5;">
+                    <div style="font-size: 13px; line-height: 1.5; color: #444;">
                         「女子戦はリズムが大事。体重調整も仕上がってるこの子が主役よ♪」
                     </div>
                 </div>
             </div>
 
-            <div class="hatsune-box" style="text-align: left;">
+            <div class="hatsune-box" style="text-align: left; width: 90%; box-sizing: border-box;">
                 <div class="hatsune-title-ribbon" style="font-size: 12px; margin-bottom: 10px;">📍 注目ヴィーナス</div>
                 <ul style="font-size: 13px; padding-left: 20px; color: #444; line-height: 1.8; margin: 0;">
                     <li>2号艇：差しハンドル鋭い！</li>
@@ -1301,7 +1302,7 @@ hatsune_zenjitsu_body = f"""
                 </ul>
             </div>
 
-            <div class="hatsune-box" style="text-align: left;">
+            <div class="hatsune-box" style="text-align: left; width: 90%; box-sizing: border-box;">
                 <div class="hatsune-title-ribbon" style="font-size: 12px; margin-bottom: 10px;">📒 女子戦特化メモ</div>
                 <table style="width: 100%; font-size: 13px; border-collapse: collapse;">
                     <tr style="border-bottom: 1px dashed #ffb7c5;">
@@ -1319,7 +1320,6 @@ hatsune_zenjitsu_body = f"""
                 </table>
             </div>
         </div>
-    </div>
 
     <!-- フッター -->
     <div style="background: linear-gradient(90deg, #9fa8da, #ce93d8); color: #fff; padding: 15px; text-align: center; font-size: 20px; font-weight: 900; border-top: 4px solid #fff;">
