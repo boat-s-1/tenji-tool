@@ -1034,7 +1034,7 @@ kiina_html = f"""
 
 # --- [5] キイナちゃん直前版の組み立て ---
 # --- [5] キイナちゃん直前版の組み立て（ヘッダー画像 ＆ レイアウト修正版） ---
-# --- [5] キイナちゃん直前版（タイトル左寄せ修正版） ---
+# --- [5] キイナちゃん直前版（キャラクター画像サイズ修正版） ---
 kiina_live_html = f"""
 <!DOCTYPE html>
 <html>
@@ -1061,37 +1061,35 @@ kiina_live_html = f"""
     <div class="main" style="display: flex; gap: 15px; padding: 20px; background: #fffdf5;">
         
         <div style="flex: 1.5; display: flex; flex-direction: column; gap: 15px;">
-            
+            <div class="kiina-box" style="background:#fff; border:3px solid #ffcc00; border-radius:15px; padding: 20px; text-align: left;">
+                <div class="kiina-section-black" style="display: inline-block;">⚡ 展示評価 ＆ 進入</div>
+                
+                <div style="display: flex; align-items: center; gap: 25px; margin-top: 15px;">
+                    <div style="flex: 0 0 100px; text-align: center;">
+                        <span style="font-size: 110px; font-weight: 900; color: #e60000; line-height: 0.8; font-family: 'Arial Black', sans-serif;">
+                            {tenji_rank}
+                        </span>
+                        <div style="font-size: 14px; font-weight: bold; color: #666; margin-top: 5px;">評価</div>
+                    </div>
 
-<div class="kiina-box" style="background:#fff; border:3px solid #ffcc00; border-radius:15px; padding: 20px; text-align: left;">
-    <div class="kiina-section-black" style="display: inline-block;">⚡ 展示評価 ＆ 進入</div>
-    
-    <div style="display: flex; align-items: center; gap: 25px; margin-top: 15px;">
-        <div style="flex: 0 0 100px; text-align: center;">
-            <span style="font-size: 110px; font-weight: 900; color: #e60000; line-height: 0.8; font-family: 'Arial Black', sans-serif;">
-                {tenji_rank}
-            </span>
-            <div style="font-size: 14px; font-weight: bold; color: #666; margin-top: 5px;">評価</div>
-        </div>
+                    <div style="display: flex; gap: 12px; flex: 1;">
+                        <div style="border: 2px solid #000; border-radius: 8px; padding: 10px; flex: 1; text-align: center;">
+                            <div style="font-size: 12px; font-weight: bold; color: #666; margin-bottom: 5px;">補正タイム</div>
+                            <div style="font-size: 28px; font-weight: 900; color: #000;">{tenji_time}</div>
+                        </div>
 
-        <div style="display: flex; gap: 12px; flex: 1;">
-            <div style="border: 2px solid #000; border-radius: 8px; padding: 10px; flex: 1; text-align: center;">
-                <div style="font-size: 12px; font-weight: bold; color: #666; margin-bottom: 5px;">補正タイム</div>
-                <div style="font-size: 28px; font-weight: 900; color: #000;">{tenji_time}</div>
+                        <div style="border: 2px solid #000; border-radius: 8px; padding: 10px; flex: 1; text-align: center;">
+                            <div style="font-size: 12px; font-weight: bold; color: #666; margin-bottom: 5px;">進入予想</div>
+                            <div style="font-size: 28px; font-weight: 900; color: #000;">{shinnyu}</div>
+                        </div>
+
+                        <div style="border: 3px solid #e60000; border-radius: 8px; padding: 10px; flex: 1; text-align: center; background: #fff5f5;">
+                            <div style="font-size: 11px; font-weight: bold; color: #e60000; margin-bottom: 5px;">4号艇展示差</div>
+                            <div style="font-size: 26px; font-weight: 900; color: #e60000;">{diff_4}</div>
+                        </div>
+                    </div>
+                </div>
             </div>
-
-            <div style="border: 2px solid #000; border-radius: 8px; padding: 10px; flex: 1; text-align: center;">
-                <div style="font-size: 12px; font-weight: bold; color: #666; margin-bottom: 5px;">進入予想</div>
-                <div style="font-size: 28px; font-weight: 900; color: #000;">{shinnyu}</div>
-            </div>
-
-            <div style="border: 3px solid #e60000; border-radius: 8px; padding: 10px; flex: 1; text-align: center; background: #fff5f5;">
-                <div style="font-size: 11px; font-weight: bold; color: #e60000; margin-bottom: 5px;">4号艇展示差</div>
-                <div style="font-size: 26px; font-weight: 900; color: #e60000;">{diff_4}</div>
-            </div>
-        </div>
-    </div>
-</div>
 
             {slit_box_html}
 
@@ -1106,18 +1104,19 @@ kiina_live_html = f"""
             </div>
         </div>
 
-        <div style="flex: 1; text-align: center; display: flex; flex-direction: column; gap: 15px;">
-            <div style="position: relative;">
-                <img src="{character_src}" style="width: 100%; transform: scale(1.1); position: relative; z-index: 1;">
-                <div class="fukidashi" style="background:#000; color:#ffcc00; border:4px solid #ffcc00; margin-top:-30px; position:relative; z-index:2; padding:15px; border-radius:20px; text-align: left;">
-                    <div class="kiina-section-black" style="width: 100%; box-sizing: border-box; border: none; border-bottom: 2px solid #ffcc00; border-radius: 0; margin-bottom: 10px;">⚡ キイナの直前談</div>
-                    <div style="font-weight:bold; font-size: 16px; padding-left: 5px;">{jikkan_comment}</div>
+        <div style="width: 340px; flex-shrink: 0; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 15px;">
+            <div style="position: relative; width: 100%;">
+                <img src="{character_src}" style="width: 100%; max-width: 280px; height: auto; position: relative; z-index: 1;">
+                
+                <div class="fukidashi" style="background:#000; color:#ffcc00; border:4px solid #ffcc00; margin-top:-40px; position:relative; z-index:2; padding:15px; border-radius:20px; text-align: left; width: 90%; box-sizing: border-box;">
+                    <div class="kiina-section-black" style="width: 100%; box-sizing: border-box; border: none; border-bottom: 2px solid #ffcc00; border-radius: 0; margin-bottom: 10px; padding-left: 0;">⚡ キイナの直前談</div>
+                    <div style="font-weight:bold; font-size: 15px; line-height: 1.4;">{jikkan_comment}</div>
                     <div style="position: absolute; top: -15px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-bottom: 15px solid #ffcc00;"></div>
                 </div>
             </div>
             
-            <div style="background:rgba(0,0,0,0.9); padding:15px; border: 2px solid #ffcc00; border-radius:15px; text-align: left;">
-                <div class="kiina-section-black" style="width: 100%; box-sizing: border-box; text-align: left;">⚡ 直前確認</div>
+            <div style="background:rgba(0,0,0,0.9); padding:15px; border: 2px solid #ffcc00; border-radius:15px; text-align: left; width: 90%; box-sizing: border-box;">
+                <div class="kiina-section-black" style="width: 100%; box-sizing: border-box; text-align: center;">⚡ 直前確認</div>
                 <div style="margin-top:10px;">{check_list_html}</div>
                 <div style="margin-top: 15px; border-top: 1px solid #ffcc00; padding-top: 10px; display: flex; justify-content: space-between; align-items: center;">
                     <span style="color:#ffcc00; font-weight:bold;">🎯 的中期待度</span>
@@ -1125,13 +1124,14 @@ kiina_live_html = f"""
                 </div>
             </div>
         </div>
-    </div>
+        </div>
 
     <div style="background: #000; color: #ffcc00; padding: 20px; text-align: center; font-size: 26px; font-weight: 900; border-top: 4px solid #ffcc00; width: 1000px; box-sizing: border-box;">
         ⚡ {keihou_msg} ⚡
     </div>
 
-</div> <div style="text-align:center; margin-top: 20px; margin-bottom: 50px;">
+</div> 
+<div style="text-align:center; margin-top: 20px; margin-bottom: 50px;">
     <button class="download-btn" 
             style="background:#ffcc00; color:#000; font-weight:bold; padding:10px 30px; border-radius:5px; cursor:pointer;" 
             onclick="saveImage('.wrapper-kiina', 'kiina_chokuzen.png')">
