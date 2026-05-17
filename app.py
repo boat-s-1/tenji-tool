@@ -1346,43 +1346,71 @@ hatsune_live_body = f"""
     </div>
 
     <!-- メインコンテンツ -->
-    <div class="main" style="display: flex; gap: 20px; padding: 25px; align-items: flex-start; background: transparent;">
-        <!-- 左カラム -->
-        <div style="width: 610px; display: flex; flex-direction: column; gap: 15px;">
-            <!-- 展示評価 & 直前判定 -->
+<div class="main" style="display: flex; gap: 20px; padding: 25px; align-items: flex-start; background: transparent; width: 1000px; box-sizing: border-box;">
+        
+        <div style="width: 610px; flex-shrink: 0; display: flex; flex-direction: column; gap: 15px;">
             <div class="hatsune-box">
-                <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px dashed #ce93d8; padding-bottom: 10px; margin-bottom: 15px;">
-                    <span style="font-size: 24px; font-weight: bold; color: #7e57c2;">展示評価：<span style="font-size: 38px; color: #d81b60;">{tenji_rank}</span></span>
-                    <div style="text-align: right; font-size: 14px; color: #555; line-height: 1.4;">
-                        <span>補正タイム：{tenji_time}</span><br>
-                        <span>進入予想：{shinnyu}</span>
+                <div class="hatsune-title-ribbon" style="background: #7e57c2;">💖 展示評価 ＆ 進入 💖</div>
+                <div style="display: flex; align-items: center; justify-content: center; gap: 30px; margin-top: 15px;">
+                    <div style="font-size: 80px; font-weight: 900; color: #ba68c8; line-height: 1; font-family: 'Arial Black', sans-serif;">
+                        {tenji_rank}
                     </div>
-                </div>
-                
-                <div style="text-align: center; padding: 5px 0;">
-                    <div style="font-size: 16px; color: #7e57c2; font-weight: bold; margin-bottom: 10px;">👗 初音の最終決断シルシ</div>
-                    <div style="display: flex; justify-content: center; gap: 12px;">
-                        <span style="background:#d81b60; color:white; padding:6px 18px; border-radius:50px; font-size:20px; font-weight:bold; box-shadow: 0 3px 0 #b0124a;">
-                            ◎ {hantei_double}
-                        </span>
-                        <span style="background:#f3e5f5; color:#7e57c2; padding:6px 18px; border-radius:50px; font-size:20px; font-weight:bold; border: 2px solid #ce93d8;">
-                            ○ {hantei_single}
-                        </span>
-                        <span style="background:#f5f5f5; color:#666; padding:6px 18px; border-radius:50px; font-size:20px; font-weight:bold; border: 2px solid #999;">
-                            ▲ {hantei_triangle}
-                        </span>
+                    <div style="display: flex; flex-direction: column; gap: 8px; flex: 1;">
+                        <div style="border: 1.5px solid #b39ddb; border-radius: 8px; padding: 6px 12px; background: #fff; display: flex; justify-content: space-between;">
+                            <span style="font-size: 12px; color: #666; font-weight: bold;">補正タイム</span>
+                            <span style="font-size: 16px; font-weight: 900; color: #444;">{tenji_time}</span>
+                        </div>
+                        <div style="border: 1.5px solid #b39ddb; border-radius: 8px; padding: 6px 12px; background: #fff; display: flex; justify-content: space-between;">
+                            <span style="font-size: 12px; color: #666; font-weight: bold;">進入予想</span>
+                            <span style="font-size: 16px; font-weight: 900; color: #444;">{shinnyu}</span>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- 的中期待度 -->
-            <div class="hatsune-box" style="display: flex; justify-content: space-between; align-items: center; padding: 15px 25px;">
-                <div>
-                    <div class="hatsune-title-ribbon" style="margin-bottom: 5px;">的中期待度</div>
-                    <div style="font-size: 55px; font-weight: 900; color: #d81b60; line-height: 1; margin-top: 5px;">
-                        {hit_rate}<span style="font-size: 24px;">%</span>
+            {slit_box_html}
+
+            <div class="hatsune-box" style="background: linear-gradient(135deg, #fff5f8, #fdf2f4); border: 3px solid #ffb7c5;">
+                <div class="hatsune-title-ribbon" style="background: #d81b60;">💋 初音のヴィーナスアイ（買い目） 💋</div>
+                <div style="font-size: 75px; font-weight: 900; color: #d81b60; text-align: center; margin: 15px 0; letter-spacing: 3px; line-height: 1;">
+                    {honmei_kaime}
+                </div>
+                <div style="font-size: 20px; color: #5c6bc0; font-weight: bold; text-align: center; border-top: 1px dashed #ffb7c5; padding-top: 10px; margin-top: 10px;">
+                    押さえ：{osae_kaime.replace('\\n', ' / ')}
+                </div>
+            </div>
+        </div>
+
+        <div style="width: 340px; flex-shrink: 0; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 15px;">
+            <div style="position: relative; width: 100%; display: flex; flex-direction: column; align-items: center;">
+                <img src="{character_src}" style="width: 100%; max-width: 280px; height: auto; position: relative; z-index: 1; filter: drop-shadow(0 8px 12px rgba(179,157,219,0.4));">
+                
+                <div class="fukidashi-hatsune" style="margin-top: -40px; position: relative; z-index: 2; width: 95%; box-sizing: border-box;">
+                    <div class="hatsune-title-ribbon" style="font-size: 12px; margin-bottom: 8px; background: #7e57c2; width: auto; display: inline-block; padding: 3px 15px;">
+                        👗 直前リアルタイム談
+                    </div>
+                    <div style="font-size: 13px; line-height: 1.5; color: #444; text-align: left;">
+                        {jikkan_comment}
                     </div>
                 </div>
+            </div>
+            
+            <div class="hatsune-box" style="text-align: left; background: #fdfbff; width: 95%; box-sizing: border-box;">
+                <div class="hatsune-title-ribbon" style="font-size: 12px; margin-bottom: 10px; background: #5c6bc0;">
+                    ⚡ 展示気配メモ
+                </div>
+                <div style="font-size: 14px; font-weight: bold; color: #444; line-height: 1.6;">
+                    {motor_eval}
+                </div>
+                
+                <div style="margin-top: 15px; border-top: 1px dashed #ce93d8; padding-top: 10px; display: flex; justify-content: space-between; align-items: center;">
+                    <span style="color:#7e57c2; font-weight:bold; font-size: 13px;">🎯 的中期待度</span>
+                    <span style="font-size: 28px; font-weight: 900; color: #d81b60;">{hit_rate}%</span>
+                </div>
+            </div>
+        </div>
+        
+    </div>
                 <div style="font-size: 14px; color: #7e57c2; font-weight: bold; text-align: right;">
                     女子戦特化型<br>直前LIVEシステム
                 </div>
