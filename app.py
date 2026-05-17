@@ -1410,7 +1410,7 @@ hatsune_live_body = f"""
             </div>
         </div>
         
-    </div>
+    
                 <div style="font-size: 14px; color: #7e57c2; font-weight: bold; text-align: right;">
                     女子戦特化型<br>直前LIVEシステム
                 </div>
