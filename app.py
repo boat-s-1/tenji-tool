@@ -58,7 +58,8 @@ stamp_options = {
 kiina_header_img_src = get_base64_img("S__17752068.jpg")
 kiina_header_live_img_src = get_base64_img("S__17752078.jpg")
 
-new_hatsune_header_src = get_base64_img("S__17760265.jpg")
+new_hatsune_header_src = get_base64_img("S__18178051_0.jpg")
+live_hatsune_header_src = get_base64_img("S__18178052_0.jpg")
 # =========================================
 # 2. ユーザー入力（サイドバー）
 # =========================================
@@ -1211,11 +1212,11 @@ hatsune_style = """
 hatsune_zenjitsu_body = f"""
 <div class="wrapper-hatsune-zenjitsu">
     <!-- ヘッダー -->
-    <div style="position: relative; width: 1000px; height: 180px; overflow: hidden; border-bottom: 4px solid #ffb7c5;">
+    <div style="position: relative; width: 1000px; height: 180px; overflow{new_hatsune_header_src}: hidden; border-bottom: 4px solid #ffb7c5;">
         <img src="{new_hatsune_header_src}" style="width: 1000px; height: auto; position: absolute; top: 0; left: 0; z-index: 1;">
         <div style="position: absolute; right: 25px; bottom: 15px; text-align: right; z-index: 2; color: #fff; text-shadow: 2px 2px 5px rgba(126, 87, 194, 0.8);">
             <div style="font-size: 20px; font-weight: 800;">{race_date}</div>
-            <div style="display: flex; justify-content: flex-end; align-items: baseline; gap: 8px;">
+            <div style="display: flex; justify-content: flex-end; a{new_hatsune_header_src}lign-items: baseline; gap: 8px;">
                 <span style="font-size: 42px; font-weight: 900; color: #fff;">{race_place}</span>
                 <span style="font-size: 38px; font-weight: 900; color: #ffe082;">{race_no}</span>
             </div>
@@ -1335,7 +1336,7 @@ hatsune_live_body = f"""
 
     <!-- ヘッダー -->
     <div style="position: relative; width: 1000px; height: 180px; overflow: hidden; border-bottom: 4px solid #ffb7c5;">
-        <img src="{new_hatsune_header_src}" style="width: 1000px; height: auto; position: absolute; top: 0; left: 0; z-index: 1;">
+        <img src="{live_hatsune_header_src}" style="width: 1000px; height: auto; position: absolute; top: 0; left: 0; z-index: 1;">
         <div style="position: absolute; right: 25px; bottom: 15px; text-align: right; z-index: 2; color: #fff; text-shadow: 2px 2px 5px rgba(126, 87, 194, 0.8);">
             <div style="font-size: 20px; font-weight: 800;">{race_date}</div>
             <div style="display: flex; justify-content: flex-end; align-items: baseline; gap: 8px;">
