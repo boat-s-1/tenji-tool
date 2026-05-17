@@ -1417,23 +1417,9 @@ hatsune_live_body = f"""
             </div>
 
             <!-- 最終買い目 -->
-            <div class="hatsune-box" style="background: #fffdfd; border: 2px solid #ffb7c5;">
-                <div style="font-size: 18px; font-weight: bold; color: #d81b60; margin-bottom: 12px; text-align: center;">👗 推奨フォーカス</div>
-                <div style="font-size:32px; font-weight:bold; color:#d81b60; text-align:center; padding: 12px 0; background: #fff; border-radius: 12px; border: 2px solid #ffb7c5; margin-bottom: 12px; box-shadow: 0 2px 6px rgba(216,27,96,0.1);">
-                    本命：{honmei_kaime}
-                </div>
-                <div style="font-size:20px; text-align:center; color:#5c6bc0; font-weight: bold; line-height: 1.5; background: #fdfcff; padding: 10px; border-radius: 8px;">
-                    押さえ：{osae_kaime.replace('\\n', ' / ')}
-                </div>
-            </div>
+           
         </div>
 
-        <!-- 右カラム -->
-    
-    <!-- フッター -->
-    <div style="background: linear-gradient(90deg, #9fa8da, #ce93d8); color: #fff; padding: 15px; text-align: center; font-size: 20px; font-weight: 900; border-top: 4px solid #fff;">
-        👗 初音の最終ヴィーナスジャッジLIVE 👗
-    </div>
 </div>
 """
 
