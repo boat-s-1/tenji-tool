@@ -37,9 +37,9 @@ stamp_dict = {
 }
 
 boat_srcs = {
-    "1号艇": get_base64_img("IMG_4170.png"),
-    "2号艇": get_base64_img("IMG_4172.png"),
-    "3号艇": get_base64_img("IMG_4171.png"),
+    "1号艇": get_base64_img("9090142A-8DC0-475F-9518-A4D9218D9D44.png"),
+    "2号艇": get_base64_img("0EDEF6B0-E300-443D-BE83-B6343AA48853.png"),
+    "3号艇": get_base64_img("40494128-D801-4F5A-A22B-8C2E57C607D5.png"),
     "4号艇": get_base64_img("55e7bfa3-f032-45f8-ab82-0cd34799feb2.png"),
     "5号艇": get_base64_img("3e82f55c-1d03-46ce-a11f-9050f242877d.png"),
     "6号艇": get_base64_img("c81ee8e5-46b3-4526-bfee-3d6efdd0801b.png"),
