@@ -62,7 +62,7 @@ new_hatsune_header_src = get_base64_img("S__18178051_0.jpg")
 live_hatsune_header_src = get_base64_img("S__18178052_0.jpg")
 
 # 12R新聞専用のロゴを新しく定義する場合
-logo_grade_path = "Gemini_Generated_Image_n2sipsn2sipsn2si.png" # 実際のファイル名
+logo_grade_path = "S__18513925.jpg" # 実際のファイル名
 logo_grade_src = get_base64_img(logo_grade_path)
 # =========================================
 # 2. ユーザー入力（サイドバー）
