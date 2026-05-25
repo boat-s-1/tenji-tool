@@ -1473,7 +1473,7 @@ hatsune_live_final_html = generate_hatsune_html(hatsune_live_body, '.wrapper-hat
 
 
 # =========================================
-# 🏆 グレードレース特別紙（前日版・完全版）
+# 🏆 グレードレース特別紙（前日版・完成版）
 # =========================================
 
 st.sidebar.header("🏆 グレードレース12R設定")
@@ -1518,7 +1518,6 @@ for r in range(1, 13):
 
     with st.sidebar.expander(f"🏁 {r}R 予想入力"):
 
-        # ← NEW
         race_grade = st.text_input(
             f"{r}R グレード表示",
             "グレードレース",
@@ -1634,10 +1633,9 @@ body{
 }
 
 .main-pick{
-    grid-column:span 2;
-    min-height:360px;
     background:#fff5f8;
     border:4px solid #ff4f93;
+    box-shadow:0 0 18px rgba(255,79,147,0.35);
 }
 
 .race-header-title{
@@ -1658,7 +1656,7 @@ body{
 }
 
 .main-pick .race-number{
-    font-size:48px;
+    font-size:34px;
 }
 
 .grade-text{
@@ -1812,7 +1810,7 @@ for r in range(1, 13):
 
     main_class = ""
 
-    # 優勝戦だけ大型表示
+    # 12Rだけ強調
     if r == 12:
         main_class = "main-pick"
 
