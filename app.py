@@ -1473,7 +1473,7 @@ hatsune_live_final_html = generate_hatsune_html(hatsune_live_body, '.wrapper-hat
 
 
 # =========================================
-# 🏆 グレードレース特別紙（完全強化版）
+# 🏆 グレードレース特別紙（前日版・完全版）
 # =========================================
 
 st.sidebar.header("🏆 グレードレース12R設定")
@@ -1559,20 +1559,8 @@ for r in range(1, 13):
 
         race_memo = st.text_input(
             f"{r}R 短評",
-            "イン信頼度高。展示気配抜群。",
+            "イン信頼度高。前付け注意。",
             key=f"g_memo_{r}"
-        )
-
-        tenji = st.selectbox(
-            f"{r}R 展示評価",
-            ["◎", "○", "△", "×"],
-            key=f"g_tenji_{r}"
-        )
-
-        st_rank = st.selectbox(
-            f"{r}R ST気配",
-            ["S", "A", "B", "C"],
-            key=f"g_st_{r}"
         )
 
         haran = st.selectbox(
@@ -1596,8 +1584,6 @@ for r in range(1, 13):
             "main": main_kaime,
             "sub": sub_kaime,
             "memo": race_memo,
-            "tenji": tenji,
-            "st": st_rank,
             "haran": haran,
             "deadline": deadline
         }
@@ -1610,12 +1596,12 @@ grade_style = """
 <style>
 
 body{
-    background:#f3f3f3;
+    background:#ececec;
     font-family:sans-serif;
 }
 
 .paper-wrapper{
-    width:1000px;
+    width:1300px;
     margin:auto;
     background:#fffdf7;
     border:5px solid #222;
@@ -1625,7 +1611,7 @@ body{
 
 .race-grid{
     display:grid;
-    grid-template-columns:repeat(3, 1fr);
+    grid-template-columns:repeat(4, 1fr);
     gap:14px;
     margin-top:18px;
 }
@@ -1641,6 +1627,7 @@ body{
 
 .main-pick{
     grid-column:span 2;
+    min-height:360px;
     background:#fff5f8;
     border:4px solid #ff4f93;
 }
@@ -1660,6 +1647,10 @@ body{
     font-weight:900;
     color:#ff4f93;
     line-height:1;
+}
+
+.main-pick .race-number{
+    font-size:48px;
 }
 
 .rank-badge{
@@ -1708,7 +1699,7 @@ body{
     font-weight:900;
 }
 
-.mini-status{
+.race-info{
     margin-top:8px;
     background:#f5f5f5;
     border-radius:6px;
@@ -1807,6 +1798,7 @@ for r in range(1, 13):
 
     main_class = ""
 
+    # 優勝戦だけ大型表示
     if r == 12:
         main_class = "main-pick"
 
@@ -1864,14 +1856,12 @@ for r in range(1, 13):
 
         </div>
 
-        <div class="mini-status">
-            展示:{r_data['tenji']}　
-            ST:{r_data['st']}　
-            波乱:{r_data['haran']}
+        <div class="race-info">
+            波乱度：{r_data['haran']}
         </div>
 
         <div class="memo-area">
-            <strong>【短評】</strong>
+            <strong>【前日短評】</strong>
             {r_data['memo']}
         </div>
 
@@ -1888,6 +1878,7 @@ for r in range(1, 13):
         </div>
 
     </div>
+
     """
 
 # =========================================
@@ -1935,7 +1926,7 @@ grade_newspaper_html = f"""
                 font-size:12px;
                 font-weight:bold;
             ">
-                全12R完全攻略版
+                前日版・全12R完全攻略
             </div>
 
             <h1 style="
