@@ -1923,7 +1923,7 @@ grade_newspaper_html = f"""
         position: relative;
     ">
         <div style="flex: 0 0 auto; width: 680px;">
-            <img src="{logo_src}" style="width: 100%; height: auto; display: block;" alt="三姫頂上決戦新聞">
+            <img src="{logo_grade_src}" style="width: 100%; height: auto; display: block;" alt="三姫頂上決戦新聞">
         </div>
 
         <div style="
