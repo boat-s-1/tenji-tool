@@ -1473,13 +1473,146 @@ hatsune_live_final_html = generate_hatsune_html(hatsune_live_body, '.wrapper-hat
 
 
 # =========================================
-# 6. メインタブ表示
+# 🏆 【新規追加】グレードレース特別紙（12レース一挙掲載版）ロジック
 # =========================================
 
-main_tab1, main_tab2, main_tab3= st.tabs([
+st.sidebar.header("🏆 グレードレース12R設定")
+with st.sidebar.expander("📰 12R新聞 共通情報"):
+    grade_title = st.text_input("Gタイトル", "G1 全日本王者決定戦", key="g_title")
+    grade_date = st.text_input("G開催日", race_date, key="g_date")  # 基本情報の日付と連動
+    grade_place = st.text_input("G開催場", race_place, key="g_place") # 基本情報のレース場と連動
+
+# 12レース分のデータを格納する辞書
+all_races_data = {}
+
+# サイドバーに12レース分の入力欄をコンパクトに生成
+for r in range(1, 13):
+    with st.sidebar.expander(f"🏁 12R新聞: {r}R の予想入力"):
+        ichika_mark = st.selectbox(f"{r}R 一果の印", ["◎", "○", "▲", "△", "×", "―"], index=0, key=f"g_i_m_{r}")
+        hatsune_mark = st.selectbox(f"{r}R 初音の印", ["◎", "○", "▲", "△", "×", "―"], index=1, key=f"g_h_m_{r}")
+        kiina_mark = st.selectbox(f"{r}R キイナの印", ["◎", "○", "▲", "△", "×", "―"], index=2, key=f"g_k_m_{r}")
+        final_kaime = st.text_input(f"{r}R 推奨買い目", "1-2-3", key=f"g_kaime_{r}")
+        race_memo = st.text_input(f"{r}R レース短評", "イン信頼度：高", key=f"g_memo_{r}")
+        
+        all_races_data[r] = {
+            "ichika": ichika_mark,
+            "hatsune": hatsune_mark,
+            "kiina": kiina_mark,
+            "kaime": final_kaime,
+            "memo": race_memo
+        }
+
+# 12R新聞用の専用CSSスタイル
+grade_style = """
+<style>
+.paper-wrapper {
+    width: 1000px; margin: auto; background: #fffdf9; border: 4px solid #333; padding: 20px; box-sizing: border-box;
+}
+.race-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 15px;
+}
+.race-box {
+    border: 2px solid #333; background: white; padding: 10px; box-sizing: border-box; border-radius: 8px;
+}
+.race-header-title {
+    background: #333; color: white; font-size: 16px; font-weight: bold; padding: 3px 8px; display: flex; justify-content: space-between; border-radius: 4px;
+}
+.prediction-matrix {
+    display: flex; justify-content: space-around; margin: 8px 0; border-bottom: 1px dashed #ccc; padding-bottom: 5px;
+}
+.predict-chara { text-align: center; font-size: 13px; }
+.chara-mark { font-size: 20px; font-weight: 900; margin-top: 2px; }
+.kaime-area {
+    background: #ffeef4; border: 1px solid #ffb3cf; padding: 5px; border-radius: 6px; font-size: 15px; font-weight: bold; text-align: center; color: #cc1155; margin-top: 8px;
+}
+.memo-area { font-size: 12px; color: #444; margin-top: 6px; line-height: 1.4; text-align: left; }
+</style>
+"""
+
+# 12レース分のHTMLボックスを自動生成ループ
+races_html_content = ""
+for r in range(1, 13):
+    r_data = all_races_data[r]
+    races_html_content += f"""
+    <div class="race-box">
+        <div class="race-header-title">
+            <span>🏁 {r}R</span>
+            <span style="font-size:11px; font-weight:normal;">グレードレース</span>
+        </div>
+        <div class="prediction-matrix">
+            <div class="predict-chara">
+                <div style="font-weight:bold; color:#ff4f93;">一果</div>
+                <div class="chara-mark" style="color:#ff4f93;">{r_data['ichika']}</div>
+            </div>
+            <div class="predict-chara">
+                <div style="font-weight:bold; color:#ce93d8;">初音</div>
+                <div class="chara-mark" style="color:#ce93d8;">{r_data['hatsune']}</div>
+            </div>
+            <div class="predict-chara">
+                <div style="font-weight:bold; color:#ff9800;">キイナ</div>
+                <div class="chara-mark" style="color:#ff9800;">{r_data['kiina']}</div>
+            </div>
+        </div>
+        <div class="memo-area">
+            <strong>【短評】</strong>{r_data['memo']}
+        </div>
+        <div class="kaime-area">
+            🎯 {r_data['kaime']}
+        </div>
+    </div>
+    """
+
+# 新聞紙面全体の組み立て
+grade_newspaper_html = f"""
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    {common_style}
+    {grade_style}
+    {download_logic}
+</head>
+<body>
+    <div class="paper-wrapper">
+        <div style="border-bottom: 4px double #333; padding-bottom: 10px; display: flex; justify-content: space-between; align-items: flex-end;">
+            <div style="text-align: left;">
+                <span style="font-size: 12px; background: #ff4f93; color: white; padding: 2px 8px; font-weight: bold; border-radius: 4px; vertical-align: middle;">特別紙面</span>
+                <h1 style="display:inline; margin-left:10px; font-size: 34px; font-weight:900; color: #333;">三者三様・グレードレース特別専門紙</h1>
+            </div>
+            <div style="text-align: right; font-weight: bold; font-size: 14px; line-height: 1.4;">
+                開催場：<span style="font-size:24px; color:#ff4f93; font-weight:900;">{grade_place}</span><br>
+                <span style="color:#666;">{grade_title}</span><br>
+                発行日：{grade_date}
+            </div>
+        </div>
+
+        <div class="race-grid">
+            {races_html_content}
+        </div>
+        
+        <div style="margin-top: 20px; border-top: 2px solid #333; padding-top: 12px; text-align: center; font-size: 13px; color: #555; font-weight: bold;">
+            🌸 一果（本命データ）・初音（女子戦リズム）・キイナ（大穴党）の3人が全12レースの頂点を徹底プロデュース！
+        </div>
+    </div>
+
+    <div style="text-align:center; margin-top: 20px;">
+        <button class="download-btn" style="background:#333; color:#fff;" onclick="saveImage('.paper-wrapper', 'grade_race_12r.png')">
+            📸 12R特別専門紙を画像として保存
+        </button>
+    </div>
+</body>
+</html>
+"""
+
+# =========================================
+# 6. メインタブ表示（タブ4つに拡張）
+# =========================================
+
+main_tab1, main_tab2, main_tab3, main_tab4 = st.tabs([
     "🌸 一果ちゃん",
     "⚡ キイナちゃん",
     "👗 初音ちゃん",
+    "🏆 グレード特別紙(12R)"
 ])
 
 # --- 一果ちゃんタブ ---
@@ -1505,3 +1638,8 @@ with main_tab3:
         html(hatsune_zenjitsu_final_html, height=1500, scrolling=True)
     with sub_tab6:
         html(hatsune_live_final_html, height=1200, scrolling=True)
+
+# --- 🏆 新規追加：グレード特別紙タブ ---
+with main_tab4:
+    st.markdown("### 🏆 3人合同・グレードレース12R一挙掲載特別専門紙")
+    html(grade_newspaper_html, height=2000, scrolling=True)
