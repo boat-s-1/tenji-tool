@@ -1473,135 +1473,586 @@ hatsune_live_final_html = generate_hatsune_html(hatsune_live_body, '.wrapper-hat
 
 
 # =========================================
-# 🏆 【新規追加】グレードレース特別紙（12レース一挙掲載版）ロジック
+# 🏆 グレードレース特別紙（完全強化版）
 # =========================================
 
 st.sidebar.header("🏆 グレードレース12R設定")
-with st.sidebar.expander("📰 12R新聞 共通情報"):
-    grade_title = st.text_input("Gタイトル", "G1 全日本王者決定戦", key="g_title")
-    grade_date = st.text_input("G開催日", race_date, key="g_date")  # 基本情報の日付と連動
-    grade_place = st.text_input("G開催場", race_place, key="g_place") # 基本情報のレース場と連動
 
-# 12レース分のデータを格納する辞書
+with st.sidebar.expander("📰 12R新聞 共通情報"):
+
+    grade_title = st.text_input(
+        "Gタイトル",
+        "G1 全日本王者決定戦",
+        key="g_title"
+    )
+
+    grade_date = st.text_input(
+        "G開催日",
+        race_date,
+        key="g_date"
+    )
+
+    grade_place = st.text_input(
+        "G開催場",
+        race_place,
+        key="g_place"
+    )
+
+    grade_hit = st.text_input(
+        "実績表示",
+        "的中率72%｜万舟4本",
+        key="g_hit"
+    )
+
+# =========================================
+# データ格納
+# =========================================
+
 all_races_data = {}
 
-# サイドバーに12レース分の入力欄をコンパクトに生成
+# =========================================
+# 12R入力欄
+# =========================================
+
 for r in range(1, 13):
-    with st.sidebar.expander(f"🏁 12R新聞: {r}R の予想入力"):
-        ichika_mark = st.selectbox(f"{r}R 一果の印", ["◎", "○", "▲", "△", "×", "―"], index=0, key=f"g_i_m_{r}")
-        hatsune_mark = st.selectbox(f"{r}R 初音の印", ["◎", "○", "▲", "△", "×", "―"], index=1, key=f"g_h_m_{r}")
-        kiina_mark = st.selectbox(f"{r}R キイナの印", ["◎", "○", "▲", "△", "×", "―"], index=2, key=f"g_k_m_{r}")
-        final_kaime = st.text_input(f"{r}R 推奨買い目", "1-2-3", key=f"g_kaime_{r}")
-        race_memo = st.text_input(f"{r}R レース短評", "イン信頼度：高", key=f"g_memo_{r}")
-        
+
+    with st.sidebar.expander(f"🏁 {r}R 予想入力"):
+
+        race_rank = st.selectbox(
+            f"{r}R 注目度",
+            ["🔥鉄板", "🎯本線", "💣波乱", "⚠荒れ注意"],
+            key=f"g_rank_{r}"
+        )
+
+        ichika_mark = st.selectbox(
+            f"{r}R 一果",
+            ["◎", "○", "▲", "△", "×", "―"],
+            index=0,
+            key=f"g_i_m_{r}"
+        )
+
+        hatsune_mark = st.selectbox(
+            f"{r}R 初音",
+            ["◎", "○", "▲", "△", "×", "―"],
+            index=1,
+            key=f"g_h_m_{r}"
+        )
+
+        kiina_mark = st.selectbox(
+            f"{r}R キイナ",
+            ["◎", "○", "▲", "△", "×", "―"],
+            index=2,
+            key=f"g_k_m_{r}"
+        )
+
+        main_kaime = st.text_input(
+            f"{r}R 本線",
+            "1-2-3",
+            key=f"g_main_{r}"
+        )
+
+        sub_kaime = st.text_input(
+            f"{r}R 抑え",
+            "1-3-2 / 1-2-4",
+            key=f"g_sub_{r}"
+        )
+
+        race_memo = st.text_input(
+            f"{r}R 短評",
+            "イン信頼度高。展示気配抜群。",
+            key=f"g_memo_{r}"
+        )
+
+        tenji = st.selectbox(
+            f"{r}R 展示評価",
+            ["◎", "○", "△", "×"],
+            key=f"g_tenji_{r}"
+        )
+
+        st_rank = st.selectbox(
+            f"{r}R ST気配",
+            ["S", "A", "B", "C"],
+            key=f"g_st_{r}"
+        )
+
+        haran = st.selectbox(
+            f"{r}R 波乱度",
+            ["★", "★★", "★★★"],
+            index=1,
+            key=f"g_haran_{r}"
+        )
+
+        deadline = st.text_input(
+            f"{r}R 締切",
+            "14:32",
+            key=f"g_dead_{r}"
+        )
+
         all_races_data[r] = {
+            "rank": race_rank,
             "ichika": ichika_mark,
             "hatsune": hatsune_mark,
             "kiina": kiina_mark,
-            "kaime": final_kaime,
-            "memo": race_memo
+            "main": main_kaime,
+            "sub": sub_kaime,
+            "memo": race_memo,
+            "tenji": tenji,
+            "st": st_rank,
+            "haran": haran,
+            "deadline": deadline
         }
 
-# 12R新聞用の専用CSSスタイル
+# =========================================
+# CSS
+# =========================================
+
 grade_style = """
 <style>
-.paper-wrapper {
-    width: 1000px; margin: auto; background: #fffdf9; border: 4px solid #333; padding: 20px; box-sizing: border-box;
+
+body{
+    background:#f3f3f3;
+    font-family:sans-serif;
 }
-.race-grid {
-    display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 15px;
+
+.paper-wrapper{
+    width:1000px;
+    margin:auto;
+    background:#fffdf7;
+    border:5px solid #222;
+    padding:20px;
+    box-sizing:border-box;
 }
-.race-box {
-    border: 2px solid #333; background: white; padding: 10px; box-sizing: border-box; border-radius: 8px;
+
+.race-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:14px;
+    margin-top:18px;
 }
-.race-header-title {
-    background: #333; color: white; font-size: 16px; font-weight: bold; padding: 3px 8px; display: flex; justify-content: space-between; border-radius: 4px;
+
+.race-box{
+    border:2px solid #333;
+    background:white;
+    border-radius:10px;
+    padding:10px;
+    box-sizing:border-box;
+    position:relative;
 }
-.prediction-matrix {
-    display: flex; justify-content: space-around; margin: 8px 0; border-bottom: 1px dashed #ccc; padding-bottom: 5px;
+
+.main-pick{
+    grid-column:span 2;
+    background:#fff5f8;
+    border:4px solid #ff4f93;
 }
-.predict-chara { text-align: center; font-size: 13px; }
-.chara-mark { font-size: 20px; font-weight: 900; margin-top: 2px; }
-.kaime-area {
-    background: #ffeef4; border: 1px solid #ffb3cf; padding: 5px; border-radius: 6px; font-size: 15px; font-weight: bold; text-align: center; color: #cc1155; margin-top: 8px;
+
+.race-header-title{
+    background:#222;
+    color:white;
+    padding:6px 8px;
+    border-radius:6px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
 }
-.memo-area { font-size: 12px; color: #444; margin-top: 6px; line-height: 1.4; text-align: left; }
+
+.race-number{
+    font-size:30px;
+    font-weight:900;
+    color:#ff4f93;
+    line-height:1;
+}
+
+.rank-badge{
+    margin-top:8px;
+    padding:5px;
+    border-radius:6px;
+    font-size:12px;
+    font-weight:bold;
+    text-align:center;
+}
+
+.hot{
+    background:#ffebee;
+    color:#d50000;
+}
+
+.normal{
+    background:#e8f5e9;
+    color:#2e7d32;
+}
+
+.wave{
+    background:#fff3e0;
+    color:#ef6c00;
+}
+
+.danger{
+    background:#eceff1;
+    color:#455a64;
+}
+
+.prediction-matrix{
+    display:flex;
+    justify-content:space-around;
+    margin-top:10px;
+    border-bottom:1px dashed #ccc;
+    padding-bottom:8px;
+}
+
+.predict-chara{
+    text-align:center;
+}
+
+.chara-mark{
+    font-size:24px;
+    font-weight:900;
+}
+
+.mini-status{
+    margin-top:8px;
+    background:#f5f5f5;
+    border-radius:6px;
+    padding:5px;
+    font-size:11px;
+    color:#444;
+    text-align:center;
+    font-weight:bold;
+}
+
+.memo-area{
+    margin-top:8px;
+    font-size:12px;
+    line-height:1.5;
+    color:#444;
+    min-height:48px;
+}
+
+.ticket-main{
+    margin-top:8px;
+    background:#ffeef4;
+    border:1px solid #ffb3cf;
+    color:#cc1155;
+    padding:7px;
+    border-radius:6px;
+    text-align:center;
+    font-size:16px;
+    font-weight:900;
+}
+
+.ticket-sub{
+    margin-top:5px;
+    background:#f8f8f8;
+    border:1px solid #ddd;
+    padding:5px;
+    border-radius:6px;
+    text-align:center;
+    font-size:12px;
+    color:#555;
+}
+
+.deadline{
+    margin-top:7px;
+    text-align:right;
+    font-size:11px;
+    color:#666;
+    font-weight:bold;
+}
+
+.chara-role-area{
+    display:flex;
+    justify-content:space-between;
+    margin-top:25px;
+    gap:10px;
+}
+
+.role-card{
+    flex:1;
+    background:#fafafa;
+    border:2px solid #ddd;
+    border-radius:10px;
+    padding:10px;
+    text-align:center;
+    font-weight:bold;
+}
+
+.role-desc{
+    margin-top:5px;
+    font-size:12px;
+    color:#666;
+}
+
 </style>
 """
 
-# 12レース分のHTMLボックスを自動生成ループ
+# =========================================
+# HTML生成
+# =========================================
+
 races_html_content = ""
+
 for r in range(1, 13):
+
     r_data = all_races_data[r]
+
+    rank_class = "normal"
+
+    if r_data["rank"] == "🔥鉄板":
+        rank_class = "hot"
+
+    elif r_data["rank"] == "💣波乱":
+        rank_class = "wave"
+
+    elif r_data["rank"] == "⚠荒れ注意":
+        rank_class = "danger"
+
+    main_class = ""
+
+    if r == 12:
+        main_class = "main-pick"
+
     races_html_content += f"""
-    <div class="race-box">
+
+    <div class="race-box {main_class}">
+
         <div class="race-header-title">
-            <span>🏁 {r}R</span>
-            <span style="font-size:11px; font-weight:normal;">グレードレース</span>
+
+            <div class="race-number">
+                {r}R
+            </div>
+
+            <div>
+                グレードレース
+            </div>
+
         </div>
+
+        <div class="rank-badge {rank_class}">
+            {r_data['rank']}
+        </div>
+
         <div class="prediction-matrix">
+
             <div class="predict-chara">
-                <div style="font-weight:bold; color:#ff4f93;">一果</div>
-                <div class="chara-mark" style="color:#ff4f93;">{r_data['ichika']}</div>
+                <div style="font-weight:bold; color:#ff4f93;">
+                    一果
+                </div>
+
+                <div class="chara-mark" style="color:#ff4f93;">
+                    {r_data['ichika']}
+                </div>
             </div>
+
             <div class="predict-chara">
-                <div style="font-weight:bold; color:#ce93d8;">初音</div>
-                <div class="chara-mark" style="color:#ce93d8;">{r_data['hatsune']}</div>
+                <div style="font-weight:bold; color:#ce93d8;">
+                    初音
+                </div>
+
+                <div class="chara-mark" style="color:#ce93d8;">
+                    {r_data['hatsune']}
+                </div>
             </div>
+
             <div class="predict-chara">
-                <div style="font-weight:bold; color:#ff9800;">キイナ</div>
-                <div class="chara-mark" style="color:#ff9800;">{r_data['kiina']}</div>
+                <div style="font-weight:bold; color:#ff9800;">
+                    キイナ
+                </div>
+
+                <div class="chara-mark" style="color:#ff9800;">
+                    {r_data['kiina']}
+                </div>
             </div>
+
         </div>
+
+        <div class="mini-status">
+            展示:{r_data['tenji']}　
+            ST:{r_data['st']}　
+            波乱:{r_data['haran']}
+        </div>
+
         <div class="memo-area">
-            <strong>【短評】</strong>{r_data['memo']}
+            <strong>【短評】</strong>
+            {r_data['memo']}
         </div>
-        <div class="kaime-area">
-            🎯 {r_data['kaime']}
+
+        <div class="ticket-main">
+            🎯 本線：{r_data['main']}
         </div>
+
+        <div class="ticket-sub">
+            抑え：{r_data['sub']}
+        </div>
+
+        <div class="deadline">
+            ⏰ 締切 {r_data['deadline']}
+        </div>
+
     </div>
     """
 
-# 新聞紙面全体の組み立て
+# =========================================
+# HTML全体
+# =========================================
+
 grade_newspaper_html = f"""
+
 <!DOCTYPE html>
+
 <html>
+
 <head>
-    <meta charset="UTF-8">
-    {common_style}
-    {grade_style}
-    {download_logic}
+
+<meta charset="UTF-8">
+
+{common_style}
+
+{grade_style}
+
+{download_logic}
+
 </head>
+
 <body>
-    <div class="paper-wrapper">
-        <div style="border-bottom: 4px double #333; padding-bottom: 10px; display: flex; justify-content: space-between; align-items: flex-end;">
-            <div style="text-align: left;">
-                <span style="font-size: 12px; background: #ff4f93; color: white; padding: 2px 8px; font-weight: bold; border-radius: 4px; vertical-align: middle;">特別紙面</span>
-                <h1 style="display:inline; margin-left:10px; font-size: 34px; font-weight:900; color: #333;">三者三様・グレードレース特別専門紙</h1>
+
+<div class="paper-wrapper">
+
+    <div style="
+        border-bottom:4px double #333;
+        padding-bottom:12px;
+        display:flex;
+        justify-content:space-between;
+        align-items:flex-end;
+    ">
+
+        <div>
+
+            <div style="
+                background:#ff4f93;
+                color:white;
+                display:inline-block;
+                padding:4px 10px;
+                border-radius:5px;
+                font-size:12px;
+                font-weight:bold;
+            ">
+                全12R完全攻略版
             </div>
-            <div style="text-align: right; font-weight: bold; font-size: 14px; line-height: 1.4;">
-                開催場：<span style="font-size:24px; color:#ff4f93; font-weight:900;">{grade_place}</span><br>
-                <span style="color:#666;">{grade_title}</span><br>
-                発行日：{grade_date}
+
+            <h1 style="
+                margin-top:10px;
+                font-size:38px;
+                line-height:1.2;
+                font-weight:900;
+                color:#222;
+            ">
+                三姫頂上決戦新聞
+            </h1>
+
+            <div style="
+                margin-top:5px;
+                color:#666;
+                font-size:14px;
+                font-weight:bold;
+            ">
+                GIRLS BOAT PRESS
+            </div>
+
+        </div>
+
+        <div style="
+            text-align:right;
+            font-size:14px;
+            font-weight:bold;
+            line-height:1.6;
+        ">
+
+            開催場：
+            <span style="
+                font-size:28px;
+                color:#ff4f93;
+                font-weight:900;
+            ">
+                {grade_place}
+            </span>
+
+            <br>
+
+            {grade_title}
+
+            <br>
+
+            発行日：{grade_date}
+
+            <br>
+
+            <span style="
+                color:#d50000;
+            ">
+                {grade_hit}
+            </span>
+
+        </div>
+
+    </div>
+
+    <div class="race-grid">
+
+        {races_html_content}
+
+    </div>
+
+    <div class="chara-role-area">
+
+        <div class="role-card">
+            💖 一果
+            <div class="role-desc">
+                本命特化・イン戦重視
             </div>
         </div>
 
-        <div class="race-grid">
-            {races_html_content}
+        <div class="role-card">
+            🎧 初音
+            <div class="role-desc">
+                女子戦リズム解析
+            </div>
         </div>
-        
-        <div style="margin-top: 20px; border-top: 2px solid #333; padding-top: 12px; text-align: center; font-size: 13px; color: #555; font-weight: bold;">
-            🌸 一果（本命データ）・初音（女子戦リズム）・キイナ（大穴党）の3人が全12レースの頂点を徹底プロデュース！
+
+        <div class="role-card">
+            ⚡ キイナ
+            <div class="role-desc">
+                超抜穴狙い担当
+            </div>
         </div>
+
     </div>
 
-    <div style="text-align:center; margin-top: 20px;">
-        <button class="download-btn" style="background:#333; color:#fff;" onclick="saveImage('.paper-wrapper', 'grade_race_12r.png')">
-            📸 12R特別専門紙を画像として保存
-        </button>
-    </div>
+</div>
+
+<div style="text-align:center; margin-top:20px;">
+
+    <button
+        class="download-btn"
+        style="
+            background:#222;
+            color:white;
+            font-size:16px;
+            padding:12px 24px;
+            border:none;
+            border-radius:8px;
+            font-weight:bold;
+            cursor:pointer;
+        "
+        onclick="saveImage('.paper-wrapper', 'grade_race_12r.png')"
+    >
+        📸 12R特別専門紙を画像として保存
+    </button>
+
+</div>
+
 </body>
+
 </html>
+
 """
 
 # =========================================
