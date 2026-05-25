@@ -1919,59 +1919,70 @@ grade_newspaper_html = f"""
         padding-bottom: 12px;
         display: flex;
         justify-content: space-between;
-        align-items: center; /* 画像の高さに合わせて中央揃え */
+        align-items: stretch; /* 💡 高さをロゴ画像と揃える */
         position: relative;
     ">
-        <div style="flex: 0 0 auto; max-width: 650px;">
-            <img src="{logo_grade_src}" style="width: 100%; height: auto; display: block;" alt="三姫頂上決戦新聞">
-            </div>
+        <div style="flex: 0 0 auto; width: 680px;">
+            <img src="{logo_src}" style="width: 100%; height: auto; display: block;" alt="三姫頂上決戦新聞">
+        </div>
 
         <div style="
+            flex: 1;
             text-align: right;
-            font-size: 14px;
-            font-weight: bold;
-            line-height: 1.6;
-            padding-right: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; /* 💡 上下に綺麗に振り分け */
+            padding: 5px 15px 5px 0;
+            font-family: 'Zen Maru Gothic', sans-serif;
         ">
-            <span style="
-                background: #ff4f93;
-                color: white;
-                padding: 3px 8px;
-                border-radius: 4px;
-                font-size: 12px;
-                font-weight: bold;
-                vertical-align: middle;
-            ">
-                前日版・全12R完全攻略
-            </span>
-            <br style="margin-bottom: 5px;">
+            <div>
+                <span style="
+                    background: #ff4f93;
+                    color: white;
+                    padding: 4px 10px;
+                    border-radius: 4px;
+                    font-size: 14px;
+                    font-weight: 900;
+                ">
+                    前日版・全12R完全攻略
+                </span>
+            </div>
             
-            開催場：
-            <span style="
-                font-size: 32px;
-                color: #ff4f93;
-                font-weight: 900;
-                font-family: 'Zen Maru Gothic', sans-serif;
-            ">
-                {grade_place}
-            </span>
-            <br>
-            <span style="font-size: 16px; color: #222;">{grade_title}</span>
-            <br>
-            発行日：{grade_date}
-            <br>
-            <span style="
-                color: #d50000;
-                background: #fff0f0;
-                padding: 2px 6px;
-                border-radius: 4px;
-                font-size: 13px;
-                border: 1px solid #ffcdd2;
-                display: inline-block;
-                margin-top: 4px;
-            ">
-                {grade_hit}
-            </span>
+            <div style="line-height: 1.1; margin: 8px 0;">
+                <span style="font-size: 18px; font-weight: bold; color: #444;">開催場：</span>
+                <span style="
+                    font-size: 54px; /* 💡 開催場をさらに巨大化 */
+                    color: #ff4f93;
+                    font-weight: 900;
+                    letter-spacing: 2px;
+                ">
+                    {grade_place}
+                </span>
+            </div>
+
+            <div style="font-size: 20px; font-weight: 900; color: #222; letter-spacing: 0.5px;">
+                {grade_title}
+            </div>
+
+            <div style="font-size: 15px; font-weight: bold; color: #555; margin-top: 2px;">
+                📅 発行日：{grade_date}
+            </div>
+
+            <div style="margin-top: 6px;">
+                <span style="
+                    color: #d50000;
+                    background: #ffebee;
+                    padding: 4px 12px;
+                    border-radius: 6px;
+                    font-size: 15px;
+                    font-weight: 900;
+                    border: 2px solid #ffcdd2;
+                    display: inline-block;
+                    box-shadow: 2px 2px 0px rgba(213,0,0,0.1);
+                ">
+                    🏆 {grade_hit}
+                </span>
+            </div>
         </div>
     </div>
 
