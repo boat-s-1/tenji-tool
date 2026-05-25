@@ -60,6 +60,10 @@ kiina_header_live_img_src = get_base64_img("S__17752078.jpg")
 
 new_hatsune_header_src = get_base64_img("S__18178051_0.jpg")
 live_hatsune_header_src = get_base64_img("S__18178052_0.jpg")
+
+# 12R新聞専用のロゴを新しく定義する場合
+logo_grade_path = "Gemini_Generated_Image_n2sipsn2sipsn2si.png" # 実際のファイル名
+logo_grade_src = get_base64_img(logo_grade_path)
 # =========================================
 # 2. ユーザー入力（サイドバー）
 # =========================================
@@ -1894,168 +1898,127 @@ for r in range(1, 13):
     """
 
 # =========================================
-# HTML全体
+# HTML全体（ヘッダー画像組み込み版）
 # =========================================
 
 grade_newspaper_html = f"""
-
 <!DOCTYPE html>
-
 <html>
-
 <head>
-
 <meta charset="UTF-8">
-
 {common_style}
-
 {grade_style}
-
 {download_logic}
-
 </head>
-
 <body>
 
 <div class="paper-wrapper">
 
     <div style="
-        border-bottom:4px double #333;
-        padding-bottom:12px;
-        display:flex;
-        justify-content:space-between;
-        align-items:flex-end;
+        border-bottom: 4px double #333;
+        padding-bottom: 12px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center; /* 画像の高さに合わせて中央揃え */
+        position: relative;
     ">
-
-        <div>
-
-            <div style="
-                background:#ff4f93;
-                color:white;
-                display:inline-block;
-                padding:4px 10px;
-                border-radius:5px;
-                font-size:12px;
-                font-weight:bold;
-            ">
-                前日版・全12R完全攻略
+        <div style="flex: 0 0 auto; max-width: 650px;">
+            <img src="{logo_grade_src}" style="width: 100%; height: auto; display: block;" alt="三姫頂上決戦新聞">
             </div>
-
-            <h1 style="
-                margin-top:10px;
-                font-size:38px;
-                line-height:1.2;
-                font-weight:900;
-                color:#222;
-            ">
-                三姫頂上決戦新聞
-            </h1>
-
-            <div style="
-                margin-top:5px;
-                color:#666;
-                font-size:14px;
-                font-weight:bold;
-            ">
-                GIRLS BOAT PRESS
-            </div>
-
-        </div>
 
         <div style="
-            text-align:right;
-            font-size:14px;
-            font-weight:bold;
-            line-height:1.6;
+            text-align: right;
+            font-size: 14px;
+            font-weight: bold;
+            line-height: 1.6;
+            padding-right: 10px;
         ">
-
+            <span style="
+                background: #ff4f93;
+                color: white;
+                padding: 3px 8px;
+                border-radius: 4px;
+                font-size: 12px;
+                font-weight: bold;
+                vertical-align: middle;
+            ">
+                前日版・全12R完全攻略
+            </span>
+            <br style="margin-bottom: 5px;">
+            
             開催場：
             <span style="
-                font-size:28px;
-                color:#ff4f93;
-                font-weight:900;
+                font-size: 32px;
+                color: #ff4f93;
+                font-weight: 900;
+                font-family: 'Zen Maru Gothic', sans-serif;
             ">
                 {grade_place}
             </span>
-
             <br>
-
-            {grade_title}
-
+            <span style="font-size: 16px; color: #222;">{grade_title}</span>
             <br>
-
             発行日：{grade_date}
-
             <br>
-
             <span style="
-                color:#d50000;
+                color: #d50000;
+                background: #fff0f0;
+                padding: 2px 6px;
+                border-radius: 4px;
+                font-size: 13px;
+                border: 1px solid #ffcdd2;
+                display: inline-block;
+                margin-top: 4px;
             ">
                 {grade_hit}
             </span>
-
         </div>
-
     </div>
 
     <div class="race-grid">
-
         {races_html_content}
-
     </div>
 
     <div class="chara-role-area">
-
-        <div class="role-card">
+        <div class="role-card" style="border-top: 4px solid #ff4f93;">
             💖 一果
-            <div class="role-desc">
-                本命特化・イン戦重視
-            </div>
+            <div class="role-desc">本命特化・イン戦重視</div>
         </div>
-
-        <div class="role-card">
+        <div class="role-card" style="border-top: 4px solid #ce93d8;">
             🎧 初音
-            <div class="role-desc">
-                女子戦リズム解析
-            </div>
+            <div class="role-desc">女子戦リズム解析</div>
         </div>
-
-        <div class="role-card">
+        <div class="role-card" style="border-top: 4px solid #ff9800;">
             ⚡ キイナ
-            <div class="role-desc">
-                超抜穴狙い担当
-            </div>
+            <div class="role-desc">超抜穴狙い担当</div>
         </div>
-
     </div>
 
 </div>
 
-<div style="text-align:center; margin-top:20px;">
-
+<div style="text-align:center; margin-top:20px; margin-bottom: 4px;">
     <button
         class="download-btn"
         style="
             background:#222;
             color:white;
             font-size:16px;
-            padding:12px 24px;
+            padding:14px 32px;
             border:none;
-            border-radius:8px;
+            border-radius:50px;
             font-weight:bold;
             cursor:pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transition: 0.2s;
         "
         onclick="saveImage('.paper-wrapper', 'grade_race_12r.png')"
     >
         📸 12R特別専門紙を画像として保存
     </button>
-
 </div>
 
 </body>
-
 </html>
-
 """
 
 # =========================================
