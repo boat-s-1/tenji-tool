@@ -1518,6 +1518,13 @@ for r in range(1, 13):
 
     with st.sidebar.expander(f"🏁 {r}R 予想入力"):
 
+        # ← NEW
+        race_grade = st.text_input(
+            f"{r}R グレード表示",
+            "グレードレース",
+            key=f"g_grade_{r}"
+        )
+
         race_rank = st.selectbox(
             f"{r}R 注目度",
             ["🔥鉄板", "🎯本線", "💣波乱", "⚠荒れ注意"],
@@ -1577,6 +1584,7 @@ for r in range(1, 13):
         )
 
         all_races_data[r] = {
+            "grade": race_grade,
             "rank": race_rank,
             "ichika": ichika_mark,
             "hatsune": hatsune_mark,
@@ -1651,6 +1659,12 @@ body{
 
 .main-pick .race-number{
     font-size:48px;
+}
+
+.grade-text{
+    font-size:13px;
+    font-weight:bold;
+    color:white;
 }
 
 .rank-badge{
@@ -1812,8 +1826,8 @@ for r in range(1, 13):
                 {r}R
             </div>
 
-            <div>
-                グレードレース
+            <div class="grade-text">
+                {r_data['grade']}
             </div>
 
         </div>
