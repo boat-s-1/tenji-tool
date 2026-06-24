@@ -2271,15 +2271,46 @@ body {{
     <div class="sns-rate">{sns_rate}%</div>
 
     <div class="mark-area">
-        <div class="turn-mark"></div>
+        <div class="mark-area">
+    <svg viewBox="0 0 900 320" style="width:100%; height:100%;">
 
-        <div class="boat boat1">1</div>
-        <div class="boat boat2">2</div>
-        <div class="boat boat3">3</div>
+        <!-- 水面 -->
+        <rect x="0" y="0" width="900" height="320" fill="#00627f"/>
 
-        <div class="arrow arrow1"></div>
-        <div class="arrow arrow2"></div>
-        <div class="arrow arrow3"></div>
+        <!-- ターンマーク -->
+        <circle cx="650" cy="155" r="28" fill="white" stroke="white" stroke-width="4"/>
+        <path d="M650 127 L678 155 L650 183 L622 155 Z" fill="#e60000"/>
+
+        <!-- 1号艇：流される -->
+        <path d="M290 110 C420 105, 560 125, 750 70"
+              stroke="white" stroke-width="14" fill="none"
+              stroke-linecap="round" opacity="0.9"/>
+        <polygon points="750,70 720,58 727,88" fill="white"/>
+
+        <!-- 2号艇：絞る -->
+        <path d="M310 165 C430 155, 520 140, 610 125"
+              stroke="#111" stroke-width="14" fill="none"
+              stroke-linecap="round"/>
+        <polygon points="610,125 580,112 586,142" fill="#111"/>
+
+        <!-- 3号艇：差し -->
+        <path d="M280 235 C410 210, 500 175, 610 160"
+              stroke="#e60000" stroke-width="16" fill="none"
+              stroke-linecap="round"/>
+        <polygon points="610,160 580,145 585,177" fill="#e60000"/>
+
+        <!-- 艇 -->
+        <ellipse cx="250" cy="110" rx="55" ry="28" fill="white" stroke="white" stroke-width="4"/>
+        <text x="250" y="124" text-anchor="middle" font-size="42" font-weight="900" fill="black">1</text>
+
+        <ellipse cx="260" cy="165" rx="55" ry="28" fill="#111" stroke="white" stroke-width="4"/>
+        <text x="260" y="179" text-anchor="middle" font-size="42" font-weight="900" fill="white">2</text>
+
+        <ellipse cx="240" cy="235" rx="55" ry="28" fill="#e60000" stroke="white" stroke-width="4"/>
+        <text x="240" y="249" text-anchor="middle" font-size="42" font-weight="900" fill="white">3</text>
+
+    </svg>
+</div>
     </div>
 
     <div class="steps">
