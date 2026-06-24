@@ -262,33 +262,19 @@ with st.sidebar.expander("👗 初音の女子戦設定"):
         hatsune_character_src = "https://your-default-image-url.png"
 
 selected_hatsune_stamp_label = st.selectbox("初音のスタンプ", ["なし"] + list(stamp_dict.keys()), index=0, key="hatsune_stamp_select")
-
-with st.sidebar.expander("✨ SNSステッカー"):
-
-    sticker_type = st.selectbox(
-        "種類",
-        [
-            "鉄板",
-            "危険",
-            "本命",
-            "穴警報",
-            "超抜",
-            "展示激アツ",
-            "ヴィーナス",
-            "絶好調",
-            "女子戦注意"
-        ]
+with st.sidebar.expander("✨ BOAT STRIKEステッカー"):
+    bs_sticker_type = st.selectbox(
+        "ステッカー種類",
+        ["鉄板", "危険", "超抜", "5アタマ", "ヴィーナス"]
     )
 
-    sticker_value = st.text_input(
-        "数値・評価",
-        "92%"
-    )
+    bs_place = st.text_input("ステッカー用 レース場", race_place)
+    bs_race_no = st.text_input("ステッカー用 レース番号", race_no)
+    bs_value = st.text_input("数値・評価", "92%")
+    bs_boat = st.text_input("対象艇", "1号艇")
+    bs_kaime = st.text_input("本線買い目", "1-2-3")
 
-    sticker_boat = st.text_input(
-        "対象",
-        "1号艇"
-    )
+
 
     
 # HTMLに埋め込むための文字列を生成
@@ -592,61 +578,181 @@ def get_font(size):
     return ImageFont.load_default()
 
 
-def create_sticker():
+# =========================================
+# BOAT STRIKE SNSステッカー完成版
+# =========================================
 
-    img = Image.new(
-        "RGBA",
-        (1080,1080),
-        (0,0,0,255)
-    )
+def get_font(size):
+    font_candidates = [
+        "fonts/NotoSansJP-Bold.ttf",
+        "/usr/share/fonts/opentype/noto/NotoSansCJK-Bold.ttc",
+        "/usr/share/fonts/truetype/noto/NotoSansCJK-Bold.ttc",
+        "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
+    ]
 
+    for font_path in font_candidates:
+        try:
+            return ImageFont.truetype(font_path, size)
+        except:
+            pass
+
+    return ImageFont.load_default()
+
+
+def create_boatstrike_sticker(
+    sticker_type="鉄板",
+    place="丸亀",
+    race_no="1R",
+    value="92%",
+    boat="1号艇",
+    kaime="1-2-3"
+):
+    W, H = 1080, 1080
+
+    designs = {
+        "鉄板": {
+            "emoji": "🔥",
+            "title": "鉄板",
+            "label": "イン逃げ信頼度",
+            "main": "#ffcc00",
+            "bg": "#090909",
+            "accent": "#ffffff"
+        },
+        "危険": {
+            "emoji": "🚨",
+            "title": "危険",
+            "label": "イン逃げ成功率",
+            "main": "#e60000",
+            "bg": "#150000",
+            "accent": "#ffcc00"
+        },
+        "超抜": {
+            "emoji": "⚡",
+            "title": "超抜",
+            "label": "展示評価",
+            "main": "#ffcc00",
+            "bg": "#080808",
+            "accent": "#ffffff"
+        },
+        "5アタマ": {
+            "emoji": "⚡",
+            "title": "5アタマ",
+            "label": "穴期待度",
+            "main": "#ffcc00",
+            "bg": "#111100",
+            "accent": "#ffffff"
+        },
+        "ヴィーナス": {
+            "emoji": "👑",
+            "title": "ヴィーナス",
+            "label": "女子戦本命",
+            "main": "#ce93d8",
+            "bg": "#130018",
+            "accent": "#ffffff"
+        },
+    }
+
+    d = designs.get(sticker_type, designs["鉄板"])
+
+    img = Image.new("RGBA", (W, H), d["bg"])
     draw = ImageDraw.Draw(img)
 
-    def get_font(size):
+    title_font = get_font(125)
+    label_font = get_font(58)
+    value_font = get_font(245)
+    boat_font = get_font(90)
+    kaime_font = get_font(86)
+    logo_font = get_font(46)
+    small_font = get_font(42)
 
-        font_list = [
-            "/usr/share/fonts/opentype/noto/NotoSansCJK-Bold.ttc",
-            "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
-        ]
+    # 背景装飾
+    draw.ellipse((620, -120, 1250, 520), fill=(255, 255, 255, 18))
+    draw.ellipse((-220, 650, 420, 1250), fill=(255, 255, 255, 12))
 
-        for f in font_list:
-            try:
-                return ImageFont.truetype(f,size)
-            except:
-                pass
-
-        return ImageFont.load_default()
-
-    title_font = get_font(120)
-    value_font = get_font(260)
-    sub_font = get_font(70)
-
+    # 外枠
     draw.rounded_rectangle(
-        (20,20,1060,1060),
-        radius=50,
-        outline="#ffcc00",
-        width=10
+        (30, 30, 1050, 1050),
+        radius=60,
+        outline=d["main"],
+        width=16
     )
 
+    draw.rounded_rectangle(
+        (65, 65, 1015, 1015),
+        radius=45,
+        outline=d["main"],
+        width=4
+    )
+
+    # レース情報
+    draw.rounded_rectangle(
+        (650, 90, 990, 175),
+        radius=25,
+        fill=d["main"]
+    )
     draw.text(
-        (80,100),
-        sticker_type,
-        fill="#ffcc00",
+        (685, 108),
+        f"{place} {race_no}",
+        fill="#000000",
+        font=small_font
+    )
+
+    # タイトル
+    draw.text(
+        (80, 95),
+        f'{d["emoji"]} {d["title"]}',
+        fill=d["main"],
         font=title_font
     )
 
+    # ラベル
     draw.text(
-        (80,350),
-        sticker_value,
-        fill="white",
+        (90, 280),
+        d["label"],
+        fill=d["accent"],
+        font=label_font
+    )
+
+    # 数値
+    draw.text(
+        (90, 350),
+        value,
+        fill=d["main"],
         font=value_font
     )
 
+    # 対象艇
+    draw.rounded_rectangle(
+        (90, 685, 990, 820),
+        radius=35,
+        fill=d["main"]
+    )
     draw.text(
-        (80,700),
-        sticker_boat,
-        fill="#ffcc00",
-        font=sub_font
+        (145, 705),
+        f"◎ {boat}",
+        fill="#000000",
+        font=boat_font
+    )
+
+    # 買い目
+    draw.rounded_rectangle(
+        (90, 850, 990, 945),
+        radius=28,
+        fill="#ffffff"
+    )
+    draw.text(
+        (145, 850),
+        f"本線 {kaime}",
+        fill="#000000",
+        font=kaime_font
+    )
+
+    # ロゴ
+    draw.text(
+        (90, 975),
+        "BOAT STRIKE",
+        fill="#ffffff",
+        font=logo_font
     )
 
     return img
@@ -2640,20 +2746,25 @@ with main_tab5:
     )
 
 with main_tab6:
+    st.markdown("### ✨ BOAT STRIKE SNSステッカー")
 
-    img = create_sticker()
-
-    st.image(
-        img,
-        use_container_width=True
+    img = create_boatstrike_sticker(
+        sticker_type=bs_sticker_type,
+        place=bs_place,
+        race_no=bs_race_no,
+        value=bs_value,
+        boat=bs_boat,
+        kaime=bs_kaime
     )
 
+    st.image(img, use_container_width=True)
+
     buf = BytesIO()
-    img.save(buf,format="PNG")
+    img.save(buf, format="PNG")
 
     st.download_button(
-        "📸 ダウンロード",
-        buf.getvalue(),
-        "sticker.png",
-        "image/png"
+        "📸 ステッカーをダウンロード",
+        data=buf.getvalue(),
+        file_name=f"boatstrike_{bs_sticker_type}.png",
+        mime="image/png"
     )
