@@ -478,14 +478,14 @@ def create_frame_sticker(
     memo_text="本線勝負！"
 ):
     frame_files = {
-        "鉄板": "frames/teppan.png",
-        "危険": "frames/kiken.png",
-        "ヴィーナス": "frames/venus.png",
-        "5アタマ": "frames/five_atama.png",
-        "プレミア": "frames/premium.png",
+        "鉄板": "frames/teppan.jpg",
+        "危険": "frames/kiken.jpg",
+        "ヴィーナス": "frames/venus.jpg",
+        "5アタマ": "frames/five_atama.jpg",
+        "プレミア": "frames/premium.jpg",
     }
 
-    frame_path = frame_files.get(frame_type, "frames/teppan.png")
+    frame_path = frame_files.get(frame_type, "frames/teppan.jpg")
 
     img = Image.open(frame_path).convert("RGBA")
     img = img.resize((1080, 1080))
