@@ -404,6 +404,28 @@ function saveImage(targetClass, fileName) {
 </script>
 """
 
+
+# =========================================
+# 📱 SNS画像ツール 入力
+# =========================================
+
+st.sidebar.header("📱 SNS画像ツール設定")
+
+with st.sidebar.expander("🚨 SNS画像 基本情報"):
+    sns_mode = st.selectbox("画像タイプ", ["危険", "鉄板"])
+    sns_place = st.text_input("SNS用 レース場", race_place)
+    sns_race_no = st.text_input("SNS用 レース番号", race_no)
+    sns_deadline = st.text_input("SNS用 締切", "15:24")
+
+    sns_rate = st.slider("成功率 / 信頼度", 0, 100, 28)
+    sns_main = st.text_input("本線予想", "3-2-5")
+
+with st.sidebar.expander("🚤 1マーク展開"):
+    sns_step1 = st.text_input("展開①", "1号艇は流される")
+    sns_step2 = st.text_input("展開②", "2号艇が絞って攻める")
+    sns_step3 = st.text_input("展開③", "3号艇が差して決着へ")
+    sns_axis = st.selectbox("軸選手", [f"{i}号艇" for i in range(1, 7)], index=2)
+
 # =========================================
 # 4. パーツ組み立て
 # =========================================
@@ -2031,16 +2053,280 @@ grade_newspaper_html = f"""
 </body>
 </html>
 """
+# =========================================
+# 📱 SNS画像 HTML
+# =========================================
+
+sns_theme = {
+    "危険": {
+        "main": "#e60000",
+        "sub": "#ffcc00",
+        "title": "🚨 危険",
+        "label": "イン逃げ成功率",
+        "message": "波乱の可能性高い！",
+        "bg": "#050505"
+    },
+    "鉄板": {
+        "main": "#ffcc00",
+        "sub": "#ffffff",
+        "title": "🔥 鉄板！",
+        "label": "イン逃げ信頼度",
+        "message": f"軸選手は {sns_axis}！",
+        "bg": "#080808"
+    }
+}
+
+theme = sns_theme[sns_mode]
+
+sns_html = f"""
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+{download_logic}
+<style>
+body {{
+    margin: 0;
+    padding: 20px;
+    background: #111;
+    font-family: Arial, sans-serif;
+}}
+
+.sns-wrapper {{
+    width: 1080px;
+    height: 1080px;
+    margin: auto;
+    background:
+        radial-gradient(circle at 70% 45%, rgba(0,120,200,0.55), transparent 35%),
+        linear-gradient(180deg, #000 0%, {theme["bg"]} 100%);
+    color: white;
+    position: relative;
+    overflow: hidden;
+    box-sizing: border-box;
+    padding: 55px;
+    border: 8px solid {theme["main"]};
+}}
+
+.sns-title {{
+    font-size: 120px;
+    font-weight: 900;
+    color: {theme["main"]};
+    line-height: 1;
+    text-shadow: 4px 4px 0 #000;
+}}
+
+.sns-race {{
+    position: absolute;
+    top: 60px;
+    right: 55px;
+    font-size: 54px;
+    font-weight: 900;
+    text-align: right;
+}}
+
+.sns-rate-label {{
+    margin-top: 45px;
+    font-size: 42px;
+    font-weight: 900;
+}}
+
+.sns-rate {{
+    font-size: 190px;
+    font-weight: 900;
+    color: {theme["main"]};
+    line-height: 1;
+    text-shadow: 5px 5px 0 #000;
+}}
+
+.mark-area {{
+    position: absolute;
+    left: 55px;
+    right: 55px;
+    top: 480px;
+    height: 330px;
+    background: linear-gradient(135deg, #006d9c, #00364d);
+    border: 4px solid white;
+    border-radius: 24px;
+    overflow: hidden;
+}}
+
+.turn-mark {{
+    position: absolute;
+    right: 260px;
+    top: 125px;
+    width: 70px;
+    height: 70px;
+    background: repeating-conic-gradient(red 0deg 30deg, white 30deg 60deg);
+    border-radius: 50%;
+    border: 4px solid white;
+}}
+
+.boat {{
+    position: absolute;
+    width: 86px;
+    height: 48px;
+    border-radius: 50% 50% 45% 45%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 38px;
+    font-weight: 900;
+    border: 4px solid white;
+    box-shadow: 0 0 12px rgba(0,0,0,0.7);
+}}
+
+.boat1 {{ background: white; color: black; left: 270px; top: 70px; }}
+.boat2 {{ background: #111; color: white; left: 360px; top: 145px; }}
+.boat3 {{ background: #e60000; color: white; left: 300px; top: 225px; }}
+
+.arrow {{
+    position: absolute;
+    height: 12px;
+    border-radius: 20px;
+    transform-origin: left center;
+}}
+
+.arrow1 {{
+    background: white;
+    width: 330px;
+    left: 350px;
+    top: 92px;
+    transform: rotate(8deg);
+    opacity: 0.9;
+}}
+
+.arrow2 {{
+    background: black;
+    width: 340px;
+    left: 440px;
+    top: 168px;
+    transform: rotate(-18deg);
+}}
+
+.arrow3 {{
+    background: red;
+    width: 330px;
+    left: 380px;
+    top: 245px;
+    transform: rotate(-28deg);
+}}
+
+.arrow::after {{
+    content: "";
+    position: absolute;
+    right: -18px;
+    top: -10px;
+    border-left: 25px solid currentColor;
+    border-top: 16px solid transparent;
+    border-bottom: 16px solid transparent;
+}}
+
+.arrow1 {{ color: white; }}
+.arrow2 {{ color: black; }}
+.arrow3 {{ color: red; }}
+
+.steps {{
+    position: absolute;
+    left: 55px;
+    top: 830px;
+    font-size: 34px;
+    font-weight: 900;
+    line-height: 1.6;
+}}
+
+.result {{
+    position: absolute;
+    right: 55px;
+    bottom: 55px;
+    background: white;
+    color: black;
+    padding: 20px 35px;
+    border-radius: 18px;
+    font-size: 86px;
+    font-weight: 900;
+}}
+
+.message {{
+    position: absolute;
+    left: 55px;
+    bottom: 55px;
+    font-size: 44px;
+    font-weight: 900;
+    color: {theme["sub"]};
+}}
+</style>
+</head>
+
+<body>
+<div class="sns-wrapper">
+
+    <div class="sns-title">{theme["title"]}</div>
+
+    <div class="sns-race">
+        {sns_place} {sns_race_no}<br>
+        <span style="font-size:30px;">締切 {sns_deadline}</span>
+    </div>
+
+    <div class="sns-rate-label">{theme["label"]}</div>
+    <div class="sns-rate">{sns_rate}%</div>
+
+    <div class="mark-area">
+        <div class="turn-mark"></div>
+
+        <div class="boat boat1">1</div>
+        <div class="boat boat2">2</div>
+        <div class="boat boat3">3</div>
+
+        <div class="arrow arrow1"></div>
+        <div class="arrow arrow2"></div>
+        <div class="arrow arrow3"></div>
+    </div>
+
+    <div class="steps">
+        ① {sns_step1}<br>
+        ② {sns_step2}<br>
+        ③ {sns_step3}
+    </div>
+
+    <div class="message">{theme["message"]}</div>
+    <div class="result">{sns_main}</div>
+
+</div>
+
+<div style="text-align:center; margin-top:25px;">
+    <button
+        onclick="saveImage('.sns-wrapper', 'sns_boatstrike.png')"
+        style="
+            background:{theme["main"]};
+            color:white;
+            font-size:24px;
+            font-weight:bold;
+            padding:18px 42px;
+            border:none;
+            border-radius:50px;
+            cursor:pointer;
+        "
+    >
+        📸 SNS画像を保存
+    </button>
+</div>
+
+</body>
+</html>
+"""
+
+
 
 # =========================================
 # 6. メインタブ表示（タブ4つに拡張）
 # =========================================
 
-main_tab1, main_tab2, main_tab3, main_tab4 = st.tabs([
+main_tab1, main_tab2, main_tab3, main_tab4, main_tab5 = st.tabs([
     "🌸 一果ちゃん",
     "⚡ キイナちゃん",
     "👗 初音ちゃん",
-    "🏆 グレード特別紙(12R)"
+    "🏆 グレード特別紙(12R)",
+    "📱 SNS画像"
 ])
 
 # --- 一果ちゃんタブ ---
@@ -2071,3 +2357,7 @@ with main_tab3:
 with main_tab4:
     st.markdown("### 🏆 3人合同・グレードレース12R一挙掲載特別専門紙")
     html(grade_newspaper_html, height=2000, scrolling=True)
+
+with main_tab5:
+    st.markdown("### 📱 SNS用画像")
+    html(sns_html, height=1400, scrolling=True)
