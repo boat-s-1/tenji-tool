@@ -2,6 +2,8 @@ import streamlit as st
 from streamlit.components.v1 import html
 import base64
 import os
+from PIL import Image, ImageDraw, ImageFont
+from io import BytesIO
 
 # =========================================
 # 1. 画像読み込み・Base64変換関数
@@ -404,6 +406,100 @@ function saveImage(targetClass, fileName) {
 </script>
 """
 
+
+def create_sns_mark_image(
+    mode="危険",
+    place="丸亀",
+    race_no="1R",
+    deadline="15:24",
+    rate=28,
+    main="3-2-5",
+    step1="1号艇は流される",
+    step2="2号艇が絞って攻める",
+    step3="3号艇が差して決着へ"
+):
+    W, H = 1080, 1080
+
+    img = Image.new("RGB", (W, H), "#050505")
+    draw = ImageDraw.Draw(img)
+
+    try:
+        font_big = ImageFont.truetype("DejaVuSans-Bold.ttf", 120)
+        font_rate = ImageFont.truetype("DejaVuSans-Bold.ttf", 170)
+        font_mid = ImageFont.truetype("DejaVuSans-Bold.ttf", 52)
+        font_small = ImageFont.truetype("DejaVuSans-Bold.ttf", 38)
+    except:
+        font_big = font_rate = font_mid = font_small = ImageFont.load_default()
+
+    if mode == "危険":
+        main_color = "#e60000"
+        title = "危険"
+        label = "イン逃げ成功率"
+        msg = "波乱の可能性高い！"
+    else:
+        main_color = "#ffcc00"
+        title = "鉄板！"
+        label = "イン逃げ信頼度"
+        msg = "軸選手は1号艇！"
+
+    # 外枠
+    draw.rectangle((0, 0, W-1, H-1), outline=main_color, width=10)
+
+    # タイトル
+    draw.text((70, 60), title, fill=main_color, font=font_big)
+
+    # レース情報
+    draw.text((760, 80), f"{place} {race_no}", fill="white", font=font_mid)
+    draw.text((800, 165), f"締切 {deadline}", fill="white", font=font_small)
+
+    # 成功率
+    draw.text((70, 250), label, fill="white", font=font_mid)
+    draw.text((70, 315), f"{rate}%", fill=main_color, font=font_rate)
+
+    # 水面エリア
+    water = (70, 520, 1010, 820)
+    draw.rounded_rectangle(water, radius=30, fill="#006b83", outline="white", width=5)
+
+    # ターンマーク
+    cx, cy = 720, 665
+    draw.ellipse((cx-32, cy-32, cx+32, cy+32), fill="white")
+    draw.polygon([(cx, cy-32), (cx+32, cy), (cx, cy+32), (cx-32, cy)], fill="#e60000")
+
+    # 軌道ライン
+    # 1号艇 外へ流れる
+    draw.line([(260, 610), (430, 610), (600, 590), (820, 550)], fill="white", width=16)
+    draw.polygon([(820, 550), (790, 535), (798, 570)], fill="white")
+
+    # 2号艇 絞る
+    draw.line([(260, 675), (430, 660), (570, 630), (690, 600)], fill="black", width=16)
+    draw.polygon([(690, 600), (655, 588), (665, 622)], fill="black")
+
+    # 3号艇 差し
+    draw.line([(260, 750), (430, 705), (570, 665), (720, 645)], fill="#e60000", width=18)
+    draw.polygon([(720, 645), (685, 628), (692, 665)], fill="#e60000")
+
+    # 艇マーク
+    def boat(x, y, num, color, text_color):
+        draw.ellipse((x-55, y-28, x+55, y+28), fill=color, outline="white", width=4)
+        draw.text((x-13, y-26), str(num), fill=text_color, font=font_small)
+
+    boat(245, 610, 1, "white", "black")
+    boat(245, 675, 2, "#111111", "white")
+    boat(245, 750, 3, "#e60000", "white")
+
+    # 展開文
+    draw.text((70, 845), f"① {step1}", fill="white", font=font_small)
+    draw.text((70, 895), f"② {step2}", fill="white", font=font_small)
+    draw.text((70, 945), f"③ {step3}", fill="white", font=font_small)
+
+    # 買い目
+    draw.rounded_rectangle((700, 860, 1010, 1010), radius=22, fill="white")
+    draw.text((735, 895), main, fill="black", font=font_big)
+
+    # メッセージ
+    draw.text((70, 1000), msg, fill="#ffcc00", font=font_small)
+
+    return img
 
 # =========================================
 # 📱 SNS画像ツール 入力
@@ -2448,5 +2544,27 @@ with main_tab4:
     html(grade_newspaper_html, height=2000, scrolling=True)
 
 with main_tab5:
-    st.markdown("### 📱 SNS用画像")
-    html(sns_html, height=1400, scrolling=True)
+    st.markdown("### 📱 SNS用 1マーク画像")
+
+    img = create_sns_mark_image(
+        mode=sns_mode,
+        place=sns_place,
+        race_no=sns_race_no,
+        deadline=sns_deadline,
+        rate=sns_rate,
+        main=sns_main,
+        step1=sns_step1,
+        step2=sns_step2,
+        step3=sns_step3
+    )
+
+    st.image(img, use_container_width=True)
+
+    buf = BytesIO()
+    img.save(buf, format="PNG")
+    st.download_button(
+        label="📸 SNS画像をダウンロード",
+        data=buf.getvalue(),
+        file_name="sns_boatstrike.png",
+        mime="image/png"
+    )
