@@ -262,18 +262,19 @@ with st.sidebar.expander("👗 初音の女子戦設定"):
         hatsune_character_src = "https://your-default-image-url.png"
 
 selected_hatsune_stamp_label = st.selectbox("初音のスタンプ", ["なし"] + list(stamp_dict.keys()), index=0, key="hatsune_stamp_select")
-with st.sidebar.expander("✨ BOAT STRIKEステッカー"):
-    bs_sticker_type = st.selectbox(
-        "ステッカー種類",
-        ["鉄板", "危険", "超抜", "5アタマ", "ヴィーナス"]
+with st.sidebar.expander("✨ 速報ステッカー"):
+    frame_type = st.selectbox(
+        "フレーム種類",
+        ["鉄板", "危険", "ヴィーナス", "5アタマ", "プレミア"]
     )
 
-    bs_place = st.text_input("ステッカー用 レース場", race_place)
-    bs_race_no = st.text_input("ステッカー用 レース番号", race_no)
-    bs_value = st.text_input("数値・評価", "92%")
-    bs_boat = st.text_input("対象艇", "1号艇")
-    bs_kaime = st.text_input("本線買い目", "1-2-3")
+    sticker_place = st.text_input("レース場", race_place)
+    sticker_race = st.text_input("レース番号", race_no)
 
+    main_text = st.text_input("メイン表示", "92%")
+    sub_text = st.text_input("サブ表示", "信頼度")
+    kaime_text = st.text_input("買い目", "1-2-3")
+    memo_text = st.text_input("一言", "本線勝負！")
 
 
     
@@ -419,6 +420,118 @@ function saveImage(targetClass, fileName) {
 </script>
 """
 
+
+
+def get_font(size):
+    font_list = [
+        "fonts/NotoSansJP-Bold.ttf",
+        "/usr/share/fonts/opentype/noto/NotoSansCJK-Bold.ttc",
+        "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
+    ]
+
+    for f in font_list:
+        try:
+            return ImageFont.truetype(f, size)
+        except:
+            pass
+
+    return ImageFont.load_default()
+
+
+def create_frame_sticker(
+    frame_type="鉄板",
+    place="丸亀",
+    race="1R",
+    main_text="92%",
+    sub_text="信頼度",
+    kaime_text="1-2-3",
+    memo_text="本線勝負！"
+):
+    frame_files = {
+        "鉄板": "frames/teppan.png",
+        "危険": "frames/kiken.png",
+        "ヴィーナス": "frames/venus.png",
+        "5アタマ": "frames/five_atama.png",
+        "プレミア": "frames/premium.png",
+    }
+
+    frame_path = frame_files.get(frame_type, "frames/teppan.png")
+
+    img = Image.open(frame_path).convert("RGBA")
+    img = img.resize((1080, 1080))
+
+    draw = ImageDraw.Draw(img)
+
+    font_main = get_font(190)
+    font_sub = get_font(70)
+    font_kaime = get_font(95)
+    font_small = get_font(48)
+
+    if frame_type == "危険":
+        main_color = "#e60000"
+        sub_color = "#111111"
+    elif frame_type == "5アタマ":
+        main_color = "#ffcc00"
+        sub_color = "#111111"
+    elif frame_type == "ヴィーナス":
+        main_color = "#b24cff"
+        sub_color = "#5a247a"
+    elif frame_type == "プレミア":
+        main_color = "#d4af37"
+        sub_color = "#111111"
+    else:
+        main_color = "#ff4f93"
+        sub_color = "#111111"
+
+    # レース場・R
+    draw.text(
+        (85, 315),
+        f"{place} {race}",
+        fill=sub_color,
+        font=font_small
+    )
+
+    # サブ表示
+    draw.text(
+        (90, 390),
+        sub_text,
+        fill=sub_color,
+        font=font_sub
+    )
+
+    # メイン表示
+    draw.text(
+        (90, 470),
+        main_text,
+        fill=main_color,
+        font=font_main
+    )
+
+    # 買い目ボックス
+    draw.rounded_rectangle(
+        (90, 705, 620, 825),
+        radius=30,
+        fill="#ffffff",
+        outline=main_color,
+        width=6
+    )
+
+    draw.text(
+        (125, 710),
+        kaime_text,
+        fill="#111111",
+        font=font_kaime
+    )
+
+    # 一言
+    draw.text(
+        (95, 855),
+        memo_text,
+        fill=main_color,
+        font=font_sub
+    )
+
+    return img
 
 def create_sns_mark_image(
     mode="危険",
@@ -2746,15 +2859,16 @@ with main_tab5:
     )
 
 with main_tab6:
-    st.markdown("### ✨ BOAT STRIKE SNSステッカー")
+    st.markdown("### ✨ 速報ステッカー生成")
 
-    img = create_boatstrike_sticker(
-        sticker_type=bs_sticker_type,
-        place=bs_place,
-        race_no=bs_race_no,
-        value=bs_value,
-        boat=bs_boat,
-        kaime=bs_kaime
+    img = create_frame_sticker(
+        frame_type=frame_type,
+        place=sticker_place,
+        race=sticker_race,
+        main_text=main_text,
+        sub_text=sub_text,
+        kaime_text=kaime_text,
+        memo_text=memo_text
     )
 
     st.image(img, use_container_width=True)
@@ -2765,6 +2879,6 @@ with main_tab6:
     st.download_button(
         "📸 ステッカーをダウンロード",
         data=buf.getvalue(),
-        file_name=f"boatstrike_{bs_sticker_type}.png",
+        file_name=f"boatstrike_{frame_type}.png",
         mime="image/png"
     )
