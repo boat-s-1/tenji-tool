@@ -263,6 +263,33 @@ with st.sidebar.expander("👗 初音の女子戦設定"):
 
 selected_hatsune_stamp_label = st.selectbox("初音のスタンプ", ["なし"] + list(stamp_dict.keys()), index=0, key="hatsune_stamp_select")
 
+with st.sidebar.expander("✨ SNSステッカー"):
+
+    sticker_type = st.selectbox(
+        "種類",
+        [
+            "鉄板",
+            "危険",
+            "本命",
+            "穴警報",
+            "超抜",
+            "展示激アツ",
+            "ヴィーナス",
+            "絶好調",
+            "女子戦注意"
+        ]
+    )
+
+    sticker_value = st.text_input(
+        "数値・評価",
+        "92%"
+    )
+
+    sticker_boat = st.text_input(
+        "対象",
+        "1号艇"
+    )
+
     
 # HTMLに埋め込むための文字列を生成
 pickup_html_list = ""
@@ -581,7 +608,51 @@ turn_mark_svg = """
 </svg>
 """
 
+def create_sticker():
 
+    img = Image.new(
+        "RGBA",
+        (1080,1080),
+        (0,0,0,255)
+    )
+
+    draw = ImageDraw.Draw(img)
+
+    FONT="/usr/share/fonts/opentype/noto/NotoSansCJK-Bold.ttc"
+
+    title_font = ImageFont.truetype(FONT,120)
+    value_font = ImageFont.truetype(FONT,260)
+    sub_font = ImageFont.truetype(FONT,70)
+
+    draw.rounded_rectangle(
+        (20,20,1060,1060),
+        radius=50,
+        outline="#ffcc00",
+        width=10
+    )
+
+    draw.text(
+        (80,100),
+        sticker_type,
+        fill="#ffcc00",
+        font=title_font
+    )
+
+    draw.text(
+        (80,350),
+        sticker_value,
+        fill="white",
+        font=value_font
+    )
+
+    draw.text(
+        (80,700),
+        sticker_boat,
+        fill="#ffcc00",
+        font=sub_font
+    )
+
+    return img
 
 # =========================================
 # 4. パーツ組み立て
@@ -2508,14 +2579,14 @@ body {{
 # 6. メインタブ表示（タブ4つに拡張）
 # =========================================
 
-main_tab1, main_tab2, main_tab3, main_tab4, main_tab5 = st.tabs([
-    "🌸 一果ちゃん",
-    "⚡ キイナちゃん",
-    "👗 初音ちゃん",
-    "🏆 グレード特別紙(12R)",
-    "📱 SNS画像"
+main_tab1,main_tab2,main_tab3,main_tab4,main_tab5,main_tab6 = st.tabs([
+    "🌸 一果",
+    "⚡ キイナ",
+    "👗 初音",
+    "🏆 グレード",
+    "📱 SNS画像",
+    "✨ ステッカー"
 ])
-
 # --- 一果ちゃんタブ ---
 with main_tab1:
     sub_tab1, sub_tab2 = st.tabs(["📰 前日版", "🌸 直前版"])
@@ -2569,4 +2640,23 @@ with main_tab5:
         data=buf.getvalue(),
         file_name="sns_boatstrike.png",
         mime="image/png"
+    )
+
+with main_tab6:
+
+    img = create_sticker()
+
+    st.image(
+        img,
+        use_container_width=True
+    )
+
+    buf = BytesIO()
+    img.save(buf,format="PNG")
+
+    st.download_button(
+        "📸 ダウンロード",
+        buf.getvalue(),
+        "sticker.png",
+        "image/png"
     )
