@@ -263,18 +263,48 @@ with st.sidebar.expander("👗 初音の女子戦設定"):
 
 selected_hatsune_stamp_label = st.selectbox("初音のスタンプ", ["なし"] + list(stamp_dict.keys()), index=0, key="hatsune_stamp_select")
 with st.sidebar.expander("✨ 速報ステッカー"):
+
     frame_type = st.selectbox(
         "フレーム種類",
-        ["鉄板", "危険", "ヴィーナス", "5アタマ", "プレミア"]
+        ["鉄板","危険","ヴィーナス","5アタマ","プレミア"],
+        key="frame_type_key"
     )
 
-    sticker_place = st.text_input("レース場", race_place)
-    sticker_race = st.text_input("レース番号", race_no)
+    sticker_place = st.text_input(
+        "ステッカー用レース場",
+        race_place,
+        key="sticker_place_key"
+    )
 
-    main_text = st.text_input("メイン表示", "92%")
-    sub_text = st.text_input("サブ表示", "信頼度")
-    kaime_text = st.text_input("買い目", "1-2-3")
-    memo_text = st.text_input("一言", "本線勝負！")
+    sticker_race = st.text_input(
+        "ステッカー用レース番号",
+        race_no,
+        key="sticker_race_key"
+    )
+
+    main_text = st.text_input(
+        "メイン表示",
+        "92%",
+        key="main_text_key"
+    )
+
+    sub_text = st.text_input(
+        "サブ表示",
+        "信頼度",
+        key="sub_text_key"
+    )
+
+    kaime_text = st.text_input(
+        "買い目",
+        "1-2-3",
+        key="kaime_text_key"
+    )
+
+    memo_text = st.text_input(
+        "一言コメント",
+        "本線勝負！",
+        key="memo_text_key"
+    )
 
 
     
