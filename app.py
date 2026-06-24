@@ -450,16 +450,17 @@ def create_sns_mark_image(
     img = Image.new("RGB", (W, H), "#050505")
     draw = ImageDraw.Draw(img)
 
-    try:
-        FONT_PATH = "/usr/share/fonts/opentype/noto/NotoSansCJK-Bold.ttc"
+FONT_PATH = "/usr/share/fonts/opentype/noto/NotoSansCJK-Bold.ttc"
 
-font_big = ImageFont.truetype(FONT_PATH, 120)
-font_rate = ImageFont.truetype(FONT_PATH, 170)
-font_mid = ImageFont.truetype(FONT_PATH, 52)
-font_small = ImageFont.truetype(FONT_PATH, 38)
-    except:
-        font_big = font_rate = font_mid = font_small = ImageFont.load_default()
+try:
+    title_font = ImageFont.truetype(FONT_PATH, 120)
+    value_font = ImageFont.truetype(FONT_PATH, 260)
+    sub_font = ImageFont.truetype(FONT_PATH, 70)
 
+except:
+    title_font = ImageFont.load_default()
+    value_font = ImageFont.load_default()
+    sub_font = ImageFont.load_default()
     if mode == "危険":
         main_color = "#e60000"
         title = "危険"
