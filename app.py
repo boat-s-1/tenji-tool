@@ -582,12 +582,17 @@ def create_sticker():
 
     draw = ImageDraw.Draw(img)
 
+   try:
     FONT="/usr/share/fonts/opentype/noto/NotoSansCJK-Bold.ttc"
 
     title_font = ImageFont.truetype(FONT,120)
     value_font = ImageFont.truetype(FONT,260)
     sub_font = ImageFont.truetype(FONT,70)
 
+except:
+    title_font = ImageFont.load_default()
+    value_font = ImageFont.load_default()
+    sub_font = ImageFont.load_default()
     draw.rounded_rectangle(
         (20,20,1060,1060),
         radius=50,
