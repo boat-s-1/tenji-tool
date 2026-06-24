@@ -426,6 +426,65 @@ with st.sidebar.expander("🚤 1マーク展開"):
     sns_step3 = st.text_input("展開③", "3号艇が差して決着へ")
     sns_axis = st.selectbox("軸選手", [f"{i}号艇" for i in range(1, 7)], index=2)
 
+turn_mark_svg = """
+<svg viewBox="0 0 900 320"
+     style="width:100%;height:100%;">
+
+<rect width="900" height="320" fill="#00627f"/>
+
+<!-- ターンマーク -->
+<circle cx="650" cy="160" r="35"
+        fill="white" stroke="white"/>
+
+<!-- 1号艇 -->
+<ellipse cx="250" cy="100"
+         rx="55" ry="28"
+         fill="white"/>
+
+<text x="250" y="115"
+      text-anchor="middle"
+      font-size="40"
+      font-weight="bold">1</text>
+
+<!-- 2号艇 -->
+<ellipse cx="360" cy="160"
+         rx="55" ry="28"
+         fill="#111"/>
+
+<text x="360" y="175"
+      text-anchor="middle"
+      font-size="40"
+      font-weight="bold"
+      fill="white">2</text>
+
+<!-- 3号艇 -->
+<ellipse cx="250" cy="240"
+         rx="55" ry="28"
+         fill="#e60000"/>
+
+<text x="250" y="255"
+      text-anchor="middle"
+      font-size="40"
+      font-weight="bold"
+      fill="white">3</text>
+
+<!-- 2号艇まくり -->
+<path d="M410 160 C520 130 620 110 760 70"
+      stroke="black"
+      stroke-width="14"
+      fill="none"/>
+
+<!-- 3号艇差し -->
+<path d="M300 240 C420 200 540 160 640 140"
+      stroke="red"
+      stroke-width="14"
+      fill="none"/>
+
+</svg>
+"""
+
+
+
 # =========================================
 # 4. パーツ組み立て
 # =========================================
@@ -2271,7 +2330,6 @@ body {{
     <div class="sns-rate">{sns_rate}%</div>
 
     <div class="mark-area">
-        <div class="mark-area">
     <svg viewBox="0 0 900 320" style="width:100%; height:100%;">
 
         <!-- 水面 -->
@@ -2310,7 +2368,7 @@ body {{
         <text x="240" y="249" text-anchor="middle" font-size="42" font-weight="900" fill="white">3</text>
 
     </svg>
-</div>
+
     </div>
 
     <div class="steps">
