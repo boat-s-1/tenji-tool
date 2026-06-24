@@ -572,53 +572,170 @@ turn_mark_svg = """
 </svg>
 """
 
-def create_sticker():
+# =========================================
+# ✨ SNSステッカー生成 完全版
+# =========================================
 
-    img = Image.new(
-        "RGBA",
-        (1080,1080),
-        (0,0,0,255)
-    )
+def get_font(size):
+    font_candidates = [
+        "/usr/share/fonts/opentype/noto/NotoSansCJK-Bold.ttc",
+        "/usr/share/fonts/truetype/noto/NotoSansCJK-Bold.ttc",
+        "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
+    ]
 
+    for font_path in font_candidates:
+        try:
+            return ImageFont.truetype(font_path, size)
+        except:
+            pass
+
+    return ImageFont.load_default()
+
+
+def create_sticker(
+    sticker_type="鉄板",
+    sticker_value="92%",
+    sticker_boat="1号艇"
+):
+    img = Image.new("RGBA", (1080, 1080), (0, 0, 0, 255))
     draw = ImageDraw.Draw(img)
 
-   try:
-    FONT="/usr/share/fonts/opentype/noto/NotoSansCJK-Bold.ttc"
+    title_font = get_font(130)
+    value_font = get_font(260)
+    sub_font = get_font(90)
+    small_font = get_font(55)
 
-    title_font = ImageFont.truetype(FONT,120)
-    value_font = ImageFont.truetype(FONT,260)
-    sub_font = ImageFont.truetype(FONT,70)
+    designs = {
+        "鉄板": {
+            "emoji": "🔥",
+            "main": "#ffcc00",
+            "sub": "#ffffff",
+            "label": "イン逃げ信頼度",
+            "bg": "#090909"
+        },
+        "危険": {
+            "emoji": "🚨",
+            "main": "#e60000",
+            "sub": "#ffcc00",
+            "label": "イン逃げ成功率",
+            "bg": "#120000"
+        },
+        "本命": {
+            "emoji": "🌸",
+            "main": "#ff4f93",
+            "sub": "#ffffff",
+            "label": "勝負レース",
+            "bg": "#16000c"
+        },
+        "穴警報": {
+            "emoji": "⚡",
+            "main": "#ffcc00",
+            "sub": "#ffffff",
+            "label": "5アタマ期待度",
+            "bg": "#080808"
+        },
+        "超抜": {
+            "emoji": "⚡",
+            "main": "#ffcc00",
+            "sub": "#ffffff",
+            "label": "節イチ級",
+            "bg": "#080808"
+        },
+        "展示激アツ": {
+            "emoji": "⚡",
+            "main": "#ff9900",
+            "sub": "#ffffff",
+            "label": "展示評価",
+            "bg": "#100800"
+        },
+        "ヴィーナス": {
+            "emoji": "👑",
+            "main": "#ce93d8",
+            "sub": "#ffffff",
+            "label": "女子戦本命",
+            "bg": "#100018"
+        },
+        "絶好調": {
+            "emoji": "💖",
+            "main": "#ff69b4",
+            "sub": "#ffffff",
+            "label": "近況リズム",
+            "bg": "#180010"
+        },
+        "女子戦注意": {
+            "emoji": "🎀",
+            "main": "#ff9ecb",
+            "sub": "#ffffff",
+            "label": "波乱指数",
+            "bg": "#140010"
+        },
+    }
 
-except:
-    title_font = ImageFont.load_default()
-    value_font = ImageFont.load_default()
-    sub_font = ImageFont.load_default()
+    d = designs.get(sticker_type, designs["鉄板"])
+
+    # 背景
+    draw.rectangle((0, 0, 1080, 1080), fill=d["bg"])
+
+    # 外枠
     draw.rounded_rectangle(
-        (20,20,1060,1060),
-        radius=50,
-        outline="#ffcc00",
-        width=10
+        (30, 30, 1050, 1050),
+        radius=60,
+        outline=d["main"],
+        width=14
     )
 
+    # 内側の薄い枠
+    draw.rounded_rectangle(
+        (60, 60, 1020, 1020),
+        radius=45,
+        outline=d["main"],
+        width=3
+    )
+
+    # タイトル
     draw.text(
-        (80,100),
-        sticker_type,
-        fill="#ffcc00",
+        (80, 90),
+        f'{d["emoji"]} {sticker_type}',
+        fill=d["main"],
         font=title_font
     )
 
+    # ラベル
     draw.text(
-        (80,350),
+        (90, 270),
+        d["label"],
+        fill=d["sub"],
+        font=small_font
+    )
+
+    # 数値・評価
+    draw.text(
+        (90, 360),
         sticker_value,
-        fill="white",
+        fill=d["main"],
         font=value_font
     )
 
+    # 対象艇
+    draw.rounded_rectangle(
+        (90, 760, 990, 930),
+        radius=35,
+        fill=d["main"]
+    )
+
     draw.text(
-        (80,700),
-        sticker_boat,
-        fill="#ffcc00",
+        (140, 795),
+        f"◎ {sticker_boat}",
+        fill="#000000",
         font=sub_font
+    )
+
+    # 下部ロゴ風テキスト
+    draw.text(
+        (90, 965),
+        "BOAT STRIKE",
+        fill="#ffffff",
+        font=small_font
     )
 
     return img
