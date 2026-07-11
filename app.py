@@ -66,138 +66,139 @@ live_hatsune_header_src = get_base64_img("S__18178052_0.jpg")
 # 12R新聞専用のロゴを新しく定義する場合
 logo_grade_path = "S__18513925.jpg" # 実際のファイル名
 logo_grade_src = get_base64_img(logo_grade_path)
-with input_tab:
-    # =========================================
-    # 2. ユーザー入力（サイドバー）
-    # =========================================
-    st.set_page_config(
-        page_title="BOAT STRIKE 新聞作成",
-        page_icon="🚤",
-        layout="centered",
-        initial_sidebar_state="collapsed",
-    )
+# =========================================
+# 2. ユーザー入力（サイドバー）
+# =========================================
+st.set_page_config(
+    page_title="BOAT STRIKE 新聞作成",
+    page_icon="🚤",
+    layout="centered",
+    initial_sidebar_state="collapsed",
+)
 
-    # スマホ管理画面用CSS
-    st.markdown(
-        """
-        <style>
-        .stApp {
-            background: #f6f7fb;
-        }
+# スマホ管理画面用CSS
+st.markdown(
+    """
+    <style>
+    .stApp {
+        background: #f6f7fb;
+    }
 
+    .block-container {
+        max-width: 760px;
+        padding-top: 0.8rem;
+        padding-left: 12px;
+        padding-right: 12px;
+        padding-bottom: 100px;
+    }
+
+    [data-testid="stSidebar"] {
+        display: none;
+    }
+
+    .stTextInput input,
+    .stNumberInput input,
+    .stDateInput input,
+    .stTextArea textarea,
+    div[data-baseweb="select"] > div {
+        min-height: 48px;
+        font-size: 16px !important;
+        border-radius: 12px !important;
+    }
+
+    .stTextArea textarea {
+        line-height: 1.55;
+    }
+
+    .stButton > button,
+    .stDownloadButton > button {
+        width: 100%;
+        min-height: 52px;
+        border-radius: 14px;
+        font-size: 16px;
+        font-weight: 900;
+    }
+
+    details {
+        background: #ffffff;
+        border: 1px solid #e7e8ee;
+        border-radius: 14px;
+        padding: 3px 8px;
+        margin-bottom: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.035);
+    }
+
+    button[data-baseweb="tab"] {
+        font-size: 15px;
+        font-weight: 900;
+    }
+
+    div[data-testid="stRadio"] label,
+    div[data-testid="stCheckbox"] label {
+        min-height: 42px;
+        align-items: center;
+    }
+
+    @media (max-width: 600px) {
         .block-container {
-            max-width: 760px;
-            padding-top: 0.8rem;
-            padding-left: 12px;
-            padding-right: 12px;
-            padding-bottom: 100px;
+            padding-top: 0.4rem;
+            padding-left: 9px;
+            padding-right: 9px;
         }
 
-        [data-testid="stSidebar"] {
-            display: none;
+        h1 {
+            font-size: 25px !important;
         }
 
-        .stTextInput input,
-        .stNumberInput input,
-        .stDateInput input,
-        .stTextArea textarea,
-        div[data-baseweb="select"] > div {
-            min-height: 48px;
-            font-size: 16px !important;
-            border-radius: 12px !important;
+        h2 {
+            font-size: 21px !important;
         }
 
-        .stTextArea textarea {
-            line-height: 1.55;
+        h3 {
+            font-size: 18px !important;
         }
 
-        .stButton > button,
-        .stDownloadButton > button {
-            width: 100%;
-            min-height: 52px;
-            border-radius: 14px;
-            font-size: 16px;
-            font-weight: 900;
+        [data-testid="column"] {
+            min-width: 0 !important;
         }
+    }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
 
-        details {
-            background: #ffffff;
-            border: 1px solid #e7e8ee;
-            border-radius: 14px;
-            padding: 3px 8px;
-            margin-bottom: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.035);
-        }
+st.title("🚤 BOAT STRIKE")
+st.caption("スマホ対応・新聞作成管理画面")
 
-        button[data-baseweb="tab"] {
-            font-size: 15px;
-            font-weight: 900;
-        }
-
-        div[data-testid="stRadio"] label,
-        div[data-testid="stCheckbox"] label {
-            min-height: 42px;
-            align-items: center;
-        }
-
-        @media (max-width: 600px) {
-            .block-container {
-                padding-top: 0.4rem;
-                padding-left: 9px;
-                padding-right: 9px;
-            }
-
-            h1 {
-                font-size: 25px !important;
-            }
-
-            h2 {
-                font-size: 21px !important;
-            }
-
-            h3 {
-                font-size: 18px !important;
-            }
-
-            [data-testid="column"] {
-                min-width: 0 !important;
-            }
-        }
-        </style>
-        """,
-        unsafe_allow_html=True,
-    )
-
-    st.title("🚤 BOAT STRIKE")
-    st.caption("スマホ対応・新聞作成管理画面")
-
-    st.markdown(
-        """
-        <div style="
-            background: linear-gradient(135deg, #111827, #30384a);
-            color: white;
-            border-radius: 18px;
-            padding: 18px;
-            margin-bottom: 14px;
-        ">
-            <div style="font-size:12px;color:#ffcc00;font-weight:900;">
-                BOAT STRIKE ADMIN
-            </div>
-            <div style="font-size:23px;font-weight:900;margin-top:4px;">
-                新聞をかんたん作成
-            </div>
-            <div style="font-size:14px;color:#d9dce5;margin-top:5px;">
-                「入力・設定」で編集し、「プレビュー・保存」で画像を確認します。
-            </div>
+st.markdown(
+    """
+    <div style="
+        background: linear-gradient(135deg, #111827, #30384a);
+        color: white;
+        border-radius: 18px;
+        padding: 18px;
+        margin-bottom: 14px;
+    ">
+        <div style="font-size:12px;color:#ffcc00;font-weight:900;">
+            BOAT STRIKE ADMIN
         </div>
-        """,
-        unsafe_allow_html=True,
-    )
+        <div style="font-size:23px;font-weight:900;margin-top:4px;">
+            新聞をかんたん作成
+        </div>
+        <div style="font-size:14px;color:#d9dce5;margin-top:5px;">
+            「入力・設定」で編集し、「プレビュー・保存」で画像を確認します。
+        </div>
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
 
-    input_tab, preview_tab = st.tabs([
-        "📝 入力・設定",
-        "🖼️ プレビュー・保存",
-    ])
+input_tab, preview_tab = st.tabs([
+    "📝 入力・設定",
+    "🖼️ プレビュー・保存",
+])
+
+with input_tab:
 
     with st.expander("📌 レース基本情報"):
         race_place = st.text_input("レース場", "丸亀")
