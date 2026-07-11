@@ -3,3 +3,7 @@ opencv-python-headless
 numpy
 streamlit-drawable-canvas
 html2image
+fastapi
+uvicorn[standard]
+playwright
+pydantic
